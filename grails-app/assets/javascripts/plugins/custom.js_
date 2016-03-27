@@ -1,0 +1,245 @@
+function renderDate4DataTables(timeIncluded) {
+  return function (data, type, row, meta) {
+    // If display or filter data is requested, format the date
+    return (data && (type === 'display' || type === 'filter')) ?
+      moment(data).format('YYYY/MM/DD' + (timeIncluded ? ' HH:mm:ss' : '')) :
+      data;
+  };
+}
+
+function renderCheck4DataTables(data, type, row, meta) {
+  return renderCheckBox(data);
+}
+
+function disableProcessing4DataTables(dataTableApi) {
+  dataTableApi._fnProcessingDisplay(false);
+}
+
+function transformServerResult4DataTables(dataTableApi) {
+  return function(response, status, jqXHR) {
+    // JSON response, 'success' status, 200 of jqXHR.status, 'OK' of jqXHR.statusText
+    alertMessage(response, jqXHR);
+    dataTableApi._fnAjaxUpdateDraw(response);
+  }
+}
+
+function transformServerError4DataTables(dataTableApi) {
+  // return function(jqXHR, status, message) {
+  //   // reply-code of jqXHR.status, major message or reply-message of jqXHR.statusText
+  //   var response = jqXHR.status == 0 && {
+  //     warning: message
+  //   } || {
+  //     errors: message
+  //   };
+  //   alertMessage(response, jqXHR);
+  //   disableProcessing4DataTables(dataTableApi);
+  //   renderAjaxButtons4DataTables(dataTableApi.DataTable());
+  // }
+  return transformServerError(function() {
+    disableProcessing4DataTables(dataTableApi);
+    renderAjaxButtons4DataTables(dataTableApi.DataTable());
+  });
+}
+
+function renderAjaxButtons4DataTables(dataTable, isInit) {
+  dataTable.buttons().enable();
+  var btnsContainer = $(dataTable.table().container());
+  var cancelBtn = btnsContainer.find('a:contains("取消")').hide();
+  var reloadBtn = btnsContainer.find('a:contains("重查")').show();
+
+  if (isInit) {
+    reloadBtn.on('click', function() {
+      cancelBtn.show();
+      $(this).hide();
+    });
+    cancelBtn.on('click', function() {
+      reloadBtn.show();
+      $(this).hide();
+    });
+  }
+}
+
+function addExternalButtons4Init(dataTable) {
+  var extButtons = {};
+  var extButtonSettings = dataTable.context[0] ? dataTable.context[0].oInit.extButtons : {};
+
+  if (! jQuery.isEmptyObject(extButtonSettings)) {
+    $.map(extButtonSettings, function(v, k) {
+      if (v == true) {
+        switch (k) {
+          case 'copy':
+            $.extend(true, extButtons, {text: '複製', extend: k});
+            break;
+          case 'csv':
+            $.extend(true, extButtons, {text: 'CSV', extend: k});
+            break;
+          case 'print':
+            $.extend(true, extButtons, {text: '列印', extend: k});
+            break;
+          case 'pdf':
+            $.extend(true, extButtons, {text: 'PDF', extend: k, orientation: 'landscape'});
+            break;
+        }
+      }
+    });
+  }
+  if (! jQuery.isEmptyObject(extButtons)) {
+    var btns = new $.fn.DataTable.Buttons(dataTable, {buttons: [extButtons]});
+    var btnsGrp = btns.dom.container[0];
+
+    for (var i = 0; i < btns.s.buttons.length; i++) {
+      btns.disable(i);
+    }
+
+    $(btnsGrp).addClass('pull-right');
+    $(dataTable.table().container()).find('.dt-buttons.btn-group').after(btnsGrp);
+  }
+}
+
+function addQueryButtons4Init(dataTableApi) {
+  var dataTable = dataTableApi.DataTable();
+
+  var btns = new $.fn.dataTable.Buttons(dataTable, {
+    buttons: [{
+      text: '重查',
+      action: function(evt, dt, node, conf) {
+        // $(evt.delegateTarget).hide();
+        dt.ajax.reload(dataTable.context[0].ajax.onReloadComplete); //dataTable.ajax.reload();
+      }
+    }]
+  });
+  $(dataTable.table().container()).prepend(btns.dom.container[0]);
+
+  btns = new $.fn.dataTable.Buttons(dataTable, {
+    buttons: [{
+      text: '取消',
+      action: function(evt, dt, node, conf) {
+        dt.context[0].jqXHR.abort(); // dataTable.context[0].jqXHR.abort();
+        disableProcessing4DataTables(dataTableApi);
+      }
+    }]
+  });
+  $(dataTable.table().container()).prepend(btns.dom.container[0]);
+
+  renderAjaxButtons4DataTables(dataTable, true);
+  var ajax = dataTable.context[0].ajax;
+
+  if (typeof ajax.success === 'undefined') {
+    ajax.success = transformServerResult4DataTables(dataTableApi);
+  }
+  if (typeof ajax.error === 'undefined') {
+    ajax.error = transformServerError4DataTables(dataTableApi);
+  }
+}
+
+function addSearchHighlight(dataTable) {
+  dataTable.on('draw', function() {
+    var body = $(dataTable.table().body());
+    body.unhighlight();
+    body.highlight(dataTable.search());
+  });
+}
+
+function createRemoveCellButtom(cellEle, dataKey, action) {
+  if (/null(\||)/.test(dataKey)) {
+    $(cellEle).addClass('disabled');
+    return;
+  }
+
+  cellEle.click(function() {
+    var theCell = this.parentNode.parentNode;
+    // var theRow = theCell.parentNode;
+    $(theCell).delay(500).trigger('click'); // un-toggle control detail
+
+    new BootstrapDialog({
+        type: BootstrapDialog.TYPE_WARNING,
+        title: action.title + ' (ID=' + dataKey + ')',
+        message: '是否確定 ?',
+        closable: true,
+        buttons: [{
+          label: '否',
+          cssClass: 'pull-left',
+          action: function (dialog) {
+            dialog.close();
+          }
+        }, {
+          label: '是',
+          action: function (dialog) {
+            dialog.getModalFooter().hide();
+            dialog.setMessage(requestAction4BootstrapDialog(action, dataKey, {'_method': 'DELETE'}));
+          }
+        }]
+    }).open();
+  });
+}
+
+function createModifyCellButtom(cellEle, dataKey, action) {
+  cellEle.click(function() {
+    var theCell = this.parentNode.parentNode;
+    // var theRow = theCell.parentNode;
+    $(theCell).delay(500).trigger('click'); // un-toggle control detail
+
+    BootstrapDialog.show({
+      title: action.title,
+      message: requestAction4BootstrapDialog(action, dataKey)
+    });
+  });
+}
+
+function renderDefaultAlterationCellWithId4DataTables(requestActions) {
+  return {
+    // visible: false,
+    // className: 'hidden',
+    orderable: false,
+    data: 'id',
+    render: function(data, type, full) {
+      return (requestActions.delete ? '<span><i class="fa fa-times"></i></span>&nbsp;' : '')
+            +'<span><i class="fa fa-pencil"></i></span>';
+    },
+    createdCell: function (cell, cellData, rowData, row, col) {
+      // userList == this.DataTable()
+      var serverActions = $.extend(true, {
+        edit: {
+          type: 'edit',
+          title: '編輯...',
+          selector: 'span i.fa-pencil',
+          key: 'id'
+        },
+        delete: (requestActions.delete ? {
+          type: 'delete',
+          title: '刪除...',
+          selector: 'span i.fa-times',
+          key: 'id'
+        } : null)
+      }, requestActions);
+
+      if (requestActions.delete) {
+        createRemoveCellButtom(
+          $(serverActions.delete.selector, cell),
+          rowData[serverActions.delete.key],
+          serverActions.delete
+        );
+      }
+      createModifyCellButtom(
+        $(serverActions.edit.selector, cell),
+        rowData[serverActions.edit.key],
+        serverActions.edit
+      );
+    }
+  };
+}
+
+function initialized4DataTables(dataTableApi, settings, response) {
+  $.fn.dataTable.ext.errMode = 'none';
+  var dataTable = dataTableApi.DataTable();
+  addExternalButtons4Init(dataTable);
+  addQueryButtons4Init(dataTableApi);
+  // addQueryHandlers4Init(dataTableApi);
+  addSearchHighlight(dataTable);
+
+  if (typeof response == 'undefined') {
+    dataTable.clear().draw();
+  } else {
+    alertMessage(response, dataTable.context[0].jqXHR);
+  }
+}

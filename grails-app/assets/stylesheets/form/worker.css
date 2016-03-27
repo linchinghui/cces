@@ -1,0 +1,6 @@
+/*
+*= require_self
+*/
+.content {
+	min-height: 520px !important;
+}

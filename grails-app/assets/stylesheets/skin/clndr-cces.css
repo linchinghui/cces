@@ -1,0 +1,113 @@
+
+.clndr .clndr-controls {
+    display: block;
+    display: inline-block;
+    width: 100%;
+    max-width: 198px;
+    margin-bottom: 3px;
+}
+
+.clndr .clndr-controls .week-previous,
+.clndr .clndr-controls .week-next {
+    float: left;
+    width: 32%;
+    cursor: pointer;
+    -webkit-user-select: none; /* Chrome/Safari */
+    -moz-user-select: none;    /* Firefox */
+    -ms-user-select: none;     /* IE10+ */
+}
+
+.clndr .clndr-controls .week-previous {
+    text-align: left;
+}
+
+.clndr .clndr-controls .week-next {
+    text-align: right;
+}
+
+.clndr .clndr-controls .week-previous:hover,
+.clndr .clndr-controls .week-next:hover {
+    background-color: #ddd;
+}
+
+.clndr .clndr-controls .week-current {
+    float: left;
+    width: 36%;
+    text-align: center;
+    cursor: pointer;
+}
+
+.clndr .clndr-controls .week-current:hover {
+    background-color: #ddd;
+}
+
+.clndr .clndr-grid .week-previous {
+    margin-right: 2px;
+}
+
+.clndr .clndr-grid .week-next {
+    margin-left: 2px;
+    margin-bottom: 15px;
+}
+
+.clndr .days-of-the-week {
+    text-align: center;
+    border: 1px solid black;
+    display: inline-block;
+}
+
+.clndr .days-of-the-week .header-day {
+    float: left;
+    width: 28px;
+    height: 24px;
+    border-bottom: 1px solid black;
+    background: #ccc;
+}
+
+.clndr .days-of-the-week .header-day:nth-child(1),
+.clndr .days-of-the-week .header-day:nth-child(7) {
+    background: #FF4545;
+}
+/*
+.clndr .days-of-the-week .calendar-dow-0,
+.clndr .days-of-the-week .calendar-dow-6 {
+    background: #FF4545;
+}
+*/
+.clndr .days-of-the-week .day {
+    float: left;
+    width: 28px;
+    height: 24px;
+    cursor: pointer;
+}
+
+.clndr .days-of-the-week .day.event {
+    background-color: #B4E09F;
+}
+
+.clndr .days-of-the-week .day.today {/*
+    -moz-text-decoration-style: wavy;
+    text-decoration: underline;*/
+    border-bottom: gray 2px solid;
+}
+
+.clndr .days-of-the-week .day.selected {
+    font-weight: bold;
+    text-shadow: 2px 1px 2px #bbb;
+}
+
+.clndr .days-of-the-week .day.inactive {
+    color: gray;
+}
+
+.clndr .days-of-the-week .empty,
+.clndr .days-of-the-week .adjacent-month {
+    float: left;
+    width: 25px;
+    height: 25px;
+    background: #ddd;
+}
+
+.clndr .days-of-the-week .day.inactive {
+    background-color: #aaa;
+}

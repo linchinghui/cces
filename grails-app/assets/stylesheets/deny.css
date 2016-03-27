@@ -1,0 +1,35 @@
+body {
+  background: #f9fee8;
+  margin: 0;
+  padding: 20px;
+  text-align: center;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 14px;
+  color: #666666;
+}
+
+.error-details {
+  margin: auto;
+  padding-top: 25px;
+}
+
+.error-details h1 {
+  margin: 20px 0 0;
+}
+
+.error-details p {
+  margin: 10px 0;
+  padding: 0;
+}
+
+@media screen and (max-width: 767px) {
+  img {
+    width: 440px;
+  }
+}
+
+@media screen and (max-width: 479px) {
+  img {
+    width: 280px;
+  }
+}

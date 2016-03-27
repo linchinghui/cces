@@ -1,0 +1,10 @@
+build/
+bin/
+.gradle/
+.asscache
+.classpath
+.project
+.settings/
+*.pdf
+*.pptx
+manifest.yml

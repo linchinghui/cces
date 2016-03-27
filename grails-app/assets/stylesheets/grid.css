@@ -1,0 +1,99 @@
+/*
+*= require plugins/datatables-all
+*= require_self
+*/
+/*
+.panel {
+  margin-bottom: 10px;
+}
+*/
+.row .nav-tabs {
+  padding-left: 5px;
+}
+
+.row .nav > li > a {
+  padding-top: 5px;
+  padding-bottom: 5px;
+}
+
+.box {
+  border-top: 0;
+  margin-bottom: 5px;
+}
+
+.box-body {
+  padding-top: 0px;
+}
+
+table.dataTable tbody td .fa-info,
+table.dataTable tbody td .fa-times,
+table.dataTable tbody td .fa-pencil {
+  display: inline;
+  cursor: pointer;
+  margin-right: 2px;
+  border-radius: 4px;
+  border: 3px solid white;
+  box-shadow: 0 0 3px #444;
+  background-color: white;
+}
+
+table.dataTable thead th:first-child.sorting_desc:after,
+table.dataTable thead th:first-child.sorting_asc:after {
+  visibility: hidden;
+}
+/*
+table.dataTable tbody td .fa-XXX:hover:before {
+  box-shadow: inset 1px 1px 1px rgba(75, 75, 75, 0.175), 1px 1px 5px rgba(200, 200, 200, 0.75);
+}
+*/
+table.dataTable tbody td .fa-info:hover:not(.disabled),
+table.dataTable tbody td .fa-times:hover:not(.disabled),
+table.dataTable tbody td .fa-pencil:hover:not(.disabled) {
+  box-shadow: 0 0 7px black;
+}
+
+table.dataTable tbody td .fa-times.disabled,
+table.dataTable tbody td .fa-pencil.disabled {
+  color: black;
+}
+
+table.dataTable tbody td .fa-times:not(.disabled) {
+  color: red;
+}
+
+table.dataTable tbody td .fa-pencil:not(.disabled) {
+  color: GoldenRod;
+}
+
+table.dataTable.dtr-inline.collapsed > tbody > tr > td:first-child,
+table.dataTable.dtr-inline.collapsed > tbody > tr > th:first-child {
+  padding: 7px 2px 0 31px;
+}
+
+div.dataTables_wrapper div.dataTables_paginate,
+div.dt-buttons.btn-group {
+  float: left;
+  text-align: left;
+}
+
+div.dataTables_wrapper div.dataTables_paginate ul.pagination {
+  margin-top: 0.5em;
+}
+
+div.dt-buttons.btn-group {
+  margin-right: 5px;
+  margin-bottom: 0.125em;
+}
+
+/*div.dt-buttons.btn-group:last-child {
+  margin-top: 2px;
+  margin-bottom: 2px;
+}*/
+
+@media screen and (max-width: 767px) {
+  div.dt-buttons.btn-group {
+    width: -webkit-max-content;
+    width: -moz-max-content;
+    width: max-content;
+  }
+}

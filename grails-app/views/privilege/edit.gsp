@@ -1,0 +1,1 @@
+<g:render template="edit" model="['privilege': privilege, 'type': 'U']"/>

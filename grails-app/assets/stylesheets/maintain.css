@@ -1,0 +1,65 @@
+html {
+  height: 100%;
+  -webkit-font-smoothing: antialiased;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  overflow-y: scroll
+}
+
+body {
+  height: 80%;
+  font-family: Arial, 'Helvetica Neue', Helvetica, sans-serif;
+  text-align: center;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: #3c5a76 url("./status_bg.png") no-repeat center
+}
+
+.wrapper {
+  height: 100%;
+}
+
+table {
+  height: 100%;
+  width: 100%;
+}
+
+table td {
+  text-align: center;
+  text-align: -moz-center;
+  text-align: -webkit-center;
+  vertical-align: middle;
+}
+
+
+/*
+.container {
+  padding: 0
+}
+*/
+
+h1 {
+  color: #fff;
+  font-size: 30px;
+  font-weight: bold;
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.68);
+  letter-spacing: -1px;
+  margin: 0
+}
+
+.sorry {
+  display: block;
+  color: #243748;
+  font-size: 18px;
+  line-height: 24px;
+  text-shadow: 0 1px 1px rgba(255, 255, 255, 0.33);
+  text-align: center
+}
+
+.sorry a {
+  color: #243748;
+  /*
+  text-decoration: underline;*/
+}

@@ -1,0 +1,1 @@
+<g:render template="edit" model="['matiral': matiral, 'type': 'C']"/>

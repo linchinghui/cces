@@ -1,0 +1,156 @@
+<!doctype html>
+<html lang="en" class="no-js">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+        <title>CCES - 登入</title>
+        <link rel="icon" href="/assets/favicon.ico">
+        <link rel="stylesheet" href="/assets/bootstrap.css?compile=false" />
+<link rel="stylesheet" href="/assets/bootstrap-dialog.css?compile=false" />
+<link rel="stylesheet" href="/assets/bootstrap-select.css?compile=false" />
+<link rel="stylesheet" href="/assets/datetime/bootstrap-datetimepicker.css?compile=false" />
+<link rel="stylesheet" href="/assets/datetime.css?compile=false" />
+<link rel="stylesheet" href="/assets/ionicons.css?compile=false" />
+<link rel="stylesheet" href="/assets/font-awesome.css?compile=false" />
+<link rel="stylesheet" href="/assets/application.css?compile=false" />
+
+        
+  <meta name="layout" content="model"/>
+  
+  <link rel="stylesheet" href="/assets/login.css?compile=false" />
+
+  
+  
+
+        <link rel="stylesheet" href="/assets/skin/AdminLTE-cces.css?compile=false" />
+<link rel="stylesheet" href="/assets/skin/_all-skins.css?compile=false" />
+<link rel="stylesheet" href="/assets/skin/almsaeedstudio.css?compile=false" />
+
+<!--[if lt IE 9]>
+        
+        
+<![endif]-->
+    </head>
+    <body class="hold-transition skin-blue sidebar-mini">
+        <div id="spinner" class="spinner" style="display:none;">Loading&hellip;</div>
+        
+  <div class="container" role="main">
+    <div class="col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2">
+      <h3><img src="/assets/cces_logo.png"/><span class="hidden-xs">&nbsp;工料成本估算系統</span></h3>
+    </div>
+
+    <div id="box-login" class="col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2">
+      <div class="panel panel-info">
+        <div class="panel-heading">
+          <div class="panel-title">請登入</div>
+
+        </div>
+        <div class="panel-body">
+          
+
+          <form name="form-signin" class="form-horizontal" role="form" action='/login' method='POST'>
+            
+            <div class="input-group">
+              <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+              <input id="username" class="form-control" name="username" value="" placeholder="Username" type="text">
+            </div>
+            <div class="input-group">
+              <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
+              <input id="password" class="form-control" name="password" placeholder="Password" type="password">
+            </div>
+            <div class="input-group">
+              <div class="checkbox">
+                <label>
+                  <input id="remember-me" name="remember-me" type="checkbox">記住我</input>
+                </label>
+              </div>
+            </div>
+            <div class="form-group">
+              <div class="col-sm-12 controls">
+                <button name="submit" type="submit" class="btn btn-success"><i class="glyphicon glyphicon-log-in"></i>&nbsp;&nbsp;登入</button>
+                
+              </div>
+            </div>
+
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <div id="box-signup" class="col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2">
+      <div class="panel panel-info">
+        <div class="panel-heading">
+          <div class="panel-title">帳號申請</div>
+          <div id="label-signin"><a href="#">我要登入</a></div>
+        </div>
+        <div class="panel-body">
+          <form name="form-signup" class="form-horizontal" role="form" action='/signup' method='POST'>
+            
+
+            <div class="form-group">
+              <label for="email" class="col-md-3 control-label">Email</label>
+              <div class="col-md-8">
+                <input class="form-control" name="email" placeholder="Email Address" type="text">
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="username" class="col-md-3 control-label">帳號</label>
+              <div class="col-md-8">
+                <input class="form-control" name="username" placeholder="Login Name" type="text">
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="password" class="col-md-3 control-label">密碼</label>
+              <div class="col-md-8">
+                <input class="form-control" name="password" placeholder="Password" type="password">
+              </div>
+            </div>
+            <div class="form-group">
+              <div class="col-md-offset-3 col-md-8 controls">
+                <button name="submit" type="submit" class="btn btn-info"><i class="glyphicon glyphicon-hand-right"></i>&nbsp;&nbsp;送出</button>
+              </div>
+            </div> 
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+        <script type="text/javascript" src="/assets/jquery-2.1.4.js?compile=false" ></script>
+<script type="text/javascript" src="/assets/plugins/js.cookie.js?compile=false" ></script>
+<script type="text/javascript" src="/assets/application.js?compile=false" ></script>
+<script type="text/javascript" src="/assets/bootstrap.js?compile=false" ></script>
+<script type="text/javascript" src="/assets/plugins/bootstrap-dialog.js?compile=false" ></script>
+<script type="text/javascript" src="/assets/plugins/bootstrap-select.js?compile=false" ></script>
+<script type="text/javascript" src="/assets/datetime/moment.js?compile=false" ></script>
+<script type="text/javascript" src="/assets/datetime/bootstrap-datetimepicker.js?compile=false" ></script>
+<script type="text/javascript" src="/assets/datetime.js?compile=false" ></script>
+<script type="text/javascript" src="/assets/plugins/jquery.highlight.js?compile=false" ></script>
+<script type="text/javascript" src="/assets/AdminLTE.js?compile=false" ></script>
+
+        <script type="text/javascript">
+$(function() {
+  $('input[name=username]').focus();
+
+  $('#label-signup a').click(function() {
+    $('#box-login').hide();
+    $('#box-signup').show();
+  });
+
+  $('#label-signin a').click(function() {
+    $('#box-signup').hide();
+    $('#box-login').show();
+  });
+
+  $('button[name="logout"]').click(function(){
+    $('form[name="form-signin"]').attr('action','/logout').submit();
+  });
+});
+</script>
+        <script type="text/javascript" src="/assets/iefix/ie10-viewport.js?compile=false" ></script>
+
+    </body>
+</html>

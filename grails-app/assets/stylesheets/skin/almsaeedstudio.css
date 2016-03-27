@@ -1,0 +1,30 @@
+/*
+*  require font-sourcesans
+*= require AdminLTE-cces
+*= require _all-skins
+*= require_self
+*/
+
+.main-header .logo .logo-lg {
+  padding-left: 44px;
+}
+
+.navbar-nav > .user-menu > .dropdown-menu > .user-footer {
+  background-color: #f0f0f0;
+}
+
+.skin-blue .sidebar-menu > li.header {
+  color: #b8c7ce;
+}
+
+.sidebar-menu .treeview-menu > li > a {
+  padding: 10px 5px 10px 25px;
+}
+
+.modal-content {
+  border-radius: 6px;
+}
+/*
+.alert {
+	margin-bottom: 0px;
+}*/
