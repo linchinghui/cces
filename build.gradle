@@ -72,6 +72,7 @@ dependencies {
 
     provided 'org.grails.plugins:hibernate'
     provided 'org.grails.plugins:cache'
+    provided 'org.grails.plugins:fields:2.1.2'
     provided 'org.hibernate:hibernate-ehcache'
 	provided 'net.sf.ehcache:ehcache:2.9.0'
     // provided 'org.grails.plugins:scaffolding'

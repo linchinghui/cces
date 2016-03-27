@@ -8,34 +8,7 @@ import org.springframework.security.web.authentication.session.SessionAuthentica
 
 @Transactional(readOnly = true)
 class AuthenticationService {
-/*
-    def getPrivilegeRoles(func) {
-		def roles = Privilege.where {
-			function == func
-		}.list()*.role*.type*.springSecurityRoleName()
 
-//		}.list()*.role*.type*.name().collect {
-//			it - DefaultRoleType.PREFIX
-//		}
-		(roles?.size() > 0) ? [(func.name): roles] : null
-	}
-	
-    def allPrivilegeRoles() {
-		Function.list().inject([:]) { result, func ->
-			def funcRoles = getPrivilegeRoles(func)
-			if (funcRoles) {
-				result << funcRoles
-			}
-			result
-		}
-    }
-
-    def allRegisteredRoles() {
-		Role.where {
-			code in DefaultRoleType.values()*.id
-		}.list()
-	}
-*/
 	def authenticationTrustResolver
 	def roleService
 

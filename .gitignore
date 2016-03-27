@@ -8,3 +8,4 @@ bin/
 *.pdf
 *.pptx
 manifest.yml
+notes/

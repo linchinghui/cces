@@ -60,8 +60,8 @@ function renderRolesField4DataTables (data, type, row, meta) {
   var htmlStr = '';
 
   $.each(roleMap, function (roleId, roleDesc) {
-    var rdrObj = $('<i class="fa fa-square-o"></i>')
-      .html('&nbsp;' + roleId + '&nbsp;<span class="hidden-xs">' + roleDesc + '</span>');
+    var rdrObj = $('<i class="fa fa-square-o"></i>') //;
+            .html('<span>&nbsp;' + roleId + '&nbsp;<span class="hidden-xs">' + roleDesc + '</span></span>');
 
     $.each(data, function (idx, clz) {
       if (roleId == clz['id']) {
@@ -69,7 +69,9 @@ function renderRolesField4DataTables (data, type, row, meta) {
       }
     });
 
-    htmlStr += (htmlStr.length > 0 ? '&nbsp;' : '') + rdrObj.clone().wrap('<span></span>').parent().html();
+    htmlStr += (htmlStr.length > 0 ? '&nbsp;&nbsp;' : '')
+            + rdrObj.clone().wrap('<span></span>').parent().html();
+            // + '&nbsp;' + roleId + '&nbsp;<span class="hidden-xs">' + roleDesc + '</span>';
   });
 
   return htmlStr;

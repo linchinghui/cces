@@ -10,8 +10,6 @@ class AAAInterceptor {
 
     boolean before() {
 
-// log.debug "request.getHeader('X-Requested-With'): ${request.getHeader('X-Requested-With')}"
-
         request['isAjax'] = request.getHeader('X-Requested-With') == 'XMLHttpRequest' &&
                             request.requestURI.startsWith("/$NAMESPACE_API/")
         if (request['isAjax']) {
@@ -34,22 +32,8 @@ class AAAInterceptor {
         }
 
 
-// log.debug "${request.requestURI}"
-// //println "request.getHeader('X-Requested-With'): ${request.getHeader('X-Requested-With')}"
-// //println "request.requestURI.startsWith('/NAMESPACE_API/'): ${request.requestURI.startsWith('/'+NAMESPACE_API+'/')}"
-log.debug "${request.method} params : ${params}"
-// //println "params?.id: ${params?.id}"
-// log.debug "request['isAjax']: ${request['isAjax']}"
-// log.debug "API: ${request.requestURI.startsWith('/api/')}"
-// log.debug "request.getHeader('callback'): ${request.getHeader('callback')}"
-log.debug "request.format: ${request.format}"
-// log.debug "params[format]: ${params['format']}"
-
-
-        // if (controllerName == 'privilege') {
-        //     println '=========================='
-        // }
-
+        log.debug "${request.method} params : ${params}"
+        log.debug "request.format: ${request.format}"
 
         true
     }
@@ -59,7 +43,7 @@ log.debug "request.format: ${request.format}"
             request.queryString == null) {
             session['SPRING_SECURITY_LAST_EXCEPTION'] = null
         }
-//log.debug "after : ${model} ${view} ${modelAndView}"
+
         true
     }
 
@@ -72,9 +56,6 @@ log.debug "request.format: ${request.format}"
             )
         }
 
-//Cache-Control:no-cache
-//Cache-Control:no-store
-
         // if (! response.isCommitted()) {
             if ((
                 ! request['isAjax'] && 
@@ -83,14 +64,11 @@ log.debug "request.format: ${request.format}"
             ) || (
                 ! request.isRequestedSessionIdValid())
             ) {
-// log.debug "response.status: ${response.status}"
-// log.debug "authentication: ${SecurityContextHolder.context.authentication}"
-// log.debug "isRequestedSessionIdValid(): ${request.isRequestedSessionIdValid()}"
+
                 // redirect(mapping: 'home', params: params)
                 // return
                 request.getSession(false)?.invalidate()
             }
         // }
-// log.debug "after view: ${model} ${view} ${modelAndView}\n"
     }
 }

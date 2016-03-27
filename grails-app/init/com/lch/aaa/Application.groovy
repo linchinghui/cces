@@ -73,38 +73,6 @@ class Application extends GrailsAutoConfiguration implements EnvironmentAware {
 		return config
 	}
 
-   //  public static load(GrailsAutoConfiguration application, org.springframework.core.env.Environment environment) {
-   //      if (! (application && environment)) {
-   //      	return
-   //      }
-
-   //      // DefaultResourceLocator resourceLocator = new DefaultResourceLocator()
-
-   //      // def applicationGroovy = application.getClass().classLoader.getResource('application.groovy')
-
-   //      // if (applicationGroovy) {
-   //      //     def applicationConfiguration = new ConfigSlurper(grails.util.Environment.current.name).parse(applicationGroovy)
-
-   //      //     for (String configLocation in applicationConfiguration.grails.config.locations) {
-   //      //         def configurationResource = resourceLocator.findResourceForURI(configLocation)
-                
-   //      //         if (configurationResource) {
-   //      //             def config = new ConfigSlurper(grails.util.Environment.current.name).parse(configurationResource.getURL())
-   //      //             environment.propertySources.addFirst(new MapPropertySource(configLocation, config))
-   //      //         }
-   //      //     }
-   //      // }
-
-   //      def resourceLocator = new DefaultResourceLocator()
-   //      def configLocation = System.properties['app.config.location'] ?: 'classpath:application.groovy'
-   //      def configResource = resourceLocator.findResourceForURI(configLocation)
-
-   //      if (configResource) {
-			// def config = new ConfigSlurper(grails.util.Environment.current.name).parse(configResource.getURL())
-			// environment.propertySources.addFirst(new MapPropertySource(configLocation, config))
-   //      }
-   //  }
-
 	@Override
 	void setEnvironment(org.springframework.core.env.Environment environment) {
 		def config = loadConfiguration('application.groovy')
