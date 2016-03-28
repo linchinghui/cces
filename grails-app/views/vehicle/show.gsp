@@ -35,6 +35,7 @@
                                     <f:display property="plateNo" label="車號" />
                                     <f:display property="brand" label="廠牌" />
                                     <f:display property="model" label="型號" />
+                                    <f:display property="inspectedDate" label="驗車日期" widget="date" />
                                     <f:display property="note" label="備註" />
                                 </f:with>
                             </fieldset>

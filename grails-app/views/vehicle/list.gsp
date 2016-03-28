@@ -40,6 +40,8 @@
                           <tr>
                             <th></th>
                             <th>車號</th>
+                            <th>驗車<span class="hidden-xs">日期</span></th>
+                            <th><span class="hidden-xs">定檢</span>期限</th>
                             <th>廠牌</th>
                             <th>型號</th>
                             <th>備註</th>
@@ -49,6 +51,8 @@
                           <tr>
                             <td></td>
                             <td>AB-123</td>
+                            <td></td>
+                            <td></td>
                             <td>SUPER</td>
                             <td>GTR</td>
                             <td></td>

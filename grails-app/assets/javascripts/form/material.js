@@ -94,16 +94,22 @@ function createDataTable() {
     },{ //2
       data: 'name'
     },{ //3
+      orderable: false,
       data: 'spec'
     },{ //4
+      orderable: false,
       data: 'unit'
     },{ //5
+      orderable: false,
       data: 'quantity'
     },{ //6
+      orderable: false,
       data: 'price'
     },{ //7
+      orderable: false,
       data: 'supplier'
     },{ //8
+      orderable: false,
       data: 'contactPhoneNo'
     },{ //9
       render: renderDate4DataTables(),

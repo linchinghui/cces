@@ -160,6 +160,7 @@ function createRemoveCellButtom(cellEle, dataKey, action) {
     $(theCell).delay(500).trigger('click'); // un-toggle control detail
 
     new BootstrapDialog({
+        size: BootstrapDialog.SIZE_SMALL,
         type: BootstrapDialog.TYPE_WARNING,
         title: action.title + ' (ID=' + dataKey + ')',
         message: '是否確定 ?',

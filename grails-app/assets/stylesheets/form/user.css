@@ -50,7 +50,8 @@ div.dataTables_info span.small {
 
 .bootstrap-select.btn-group .dropdown-menu.open {
   top: -0.75em;
-  left: 2.25em;
+  left: 2.5em;
+  border: dashed 1px;
 }
 
 .bootstrap-select.btn-group .dropdown-menu > li > a {

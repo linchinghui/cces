@@ -18,6 +18,12 @@
   margin-left: 200px;
 }
 */
+.required-indicator {
+  position: relative;
+  top: 3px;
+  float: left;
+  color: red;
+}
 
 .close {
   font-size: 20px;
