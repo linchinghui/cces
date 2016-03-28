@@ -43,7 +43,7 @@
                                     </g:else>
                                     <f:field property="empName" label="姓名" widget-placeholder="輸入中英文說明" />
                                     <f:field property="sex" label="姓別" />
-                                    <f:field property="employedDate" label="到職日" widget="date" />
+                                    <f:field property="employedDate" label="到職日" widget="date" value="${type=='C'?java.util.Calendar.instance:worker.employedDate}"/>
                                     <f:field property="resignedDate" label="離職日" widget="date" />
                                     <f:field property="avatarCopied" label="大頭照繳交日" widget="date" />
                                     <f:field property="idCardCopied" label="身分證影本繳交日" widget="date" />

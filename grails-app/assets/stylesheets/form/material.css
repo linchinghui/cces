@@ -1,3 +1,7 @@
 /*
 *= require_self
 */
+.registeredDate > input {
+	/*font-weight: bold;*/
+	color: blue;
+}

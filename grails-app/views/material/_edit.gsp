@@ -43,7 +43,7 @@
                                     <f:field property="price" label="價格" />
                                     <f:field property="supplier" label="供應商" />
                                     <f:field property="contactPhoneNo" label="電話" />
-                                    <f:field property="registeredDate" label="登錄日期" widget="date" />
+                                    <f:field property="registeredDate" label="登錄日期" widget="date" value="${type=='C'?java.util.Calendar.instance:material.registeredDate}"/>
                                 </f:with>
                             </fieldset>
                             <fieldset class="buttons">

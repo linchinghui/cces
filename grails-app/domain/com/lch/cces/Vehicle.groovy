@@ -1,6 +1,7 @@
 package com.lch.cces
 
 import grails.rest.Resource
+import org.grails.databinding.BindingFormat
 
 @Resource(uri = '/api/vehicles', superClass = VehicleController)
 class Vehicle {
@@ -9,6 +10,7 @@ class Vehicle {
 	String			plateNo			// 車號, alias of id
 	VehicleBrand	brand			// 廠牌
 	String			model			// 型號
+	@BindingFormat("yyyy/MM/dd'Z'")
 	Date			inspectedDate	// 驗車日期
 	String			note			// 備註
 

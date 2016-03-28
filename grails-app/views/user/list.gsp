@@ -6,8 +6,8 @@
     <head>
         <meta name="layout" content="main" />
         <title>CCES - ${pageTitle}</title>
-        <asset:stylesheet src="grid"/> <%--
-        <asset:stylesheet src="form/user"/> --%>
+        <asset:stylesheet src="grid"/>
+        <asset:stylesheet src="form/user"/>
     </head>
     <body>
       <div class="content-wrapper" role="main"> <%--

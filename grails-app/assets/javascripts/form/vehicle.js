@@ -2,6 +2,7 @@
 //= require_self
 
 var vehicleList;
+var nextMonthDate = moment().add(1,'months');
 
 function createTabs() {
   $('.content a[data-toggle="mtab"]').click(function (e) {
@@ -84,11 +85,29 @@ function createDataTable() {
     ,{ //1
       data: 'plateNo'
     },{ //2
+      render: renderDate4DataTables(),
+      data: 'inspectedDate'
+    },{ //3 : 定檢期限
+      orderable: false,
+      render: function(data, type, row, meta) {
+        var inspDate = moment(row.inspectedDate);
+        if (! inspDate.isValid()) {
+          return '';
+        }
+        var termDate = inspDate.add(13,'months');
+        return $('<span></span>')
+              .addClass('text-'+(nextMonthDate>=termDate ? 'danger' : 'muted'))
+              .html(termDate.format('YYYY/MM/DD'))
+              .wrap('<span></span>')
+              .parent()
+              .html();
+      }
+    },{ //4
       data: 'brand'
-    },{ //3
+    },{ //5
       orderable: false,
       data: 'model'
-    },{ //4
+    },{ //6
       orderable: false,
       data: 'note'
     }],

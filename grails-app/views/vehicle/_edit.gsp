@@ -38,6 +38,7 @@
                                     <f:field property="plateNo" label="車號" widget-placeholder="輸入中英文說明" />
                                     <f:field property="brand" label="廠牌" />
                                     <f:field property="model" label="型號" widget-placeholder="輸入中英文說明" />
+                                    <f:field property="inspectedDate" label="驗車日期" widget="date" />
                                     <f:field property="note" label="備註" />
                                 </f:with>
                             </fieldset>

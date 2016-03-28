@@ -22,8 +22,8 @@ class Material {
 		name			blank: false, nullable: false, maxSize: 20, unique: true
 		spec			blank: true, nullable: true, maxSize: 100
 		unit			blank: true, nullable: true, maxSize: 10
-		quantity		blank: false, nullable: false, size: 0..99999
-		price			blank: true, nullable: true, size: 0..999999
+		quantity		blank: false, nullable: false, size: 0..99999, min: 0
+		price			blank: true, nullable: true, size: 0..999999, min: BigDecimal.ZERO
 		supplier		blank: true, nullable: true, maxSize: 40
 		contactPhoneNo	blank: false, nullable: false, maxSize: 12
 		registeredDate	blank: false, nullable: false

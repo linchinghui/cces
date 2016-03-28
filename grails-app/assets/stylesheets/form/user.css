@@ -27,6 +27,11 @@ div.dataTables_info span.small {
   left: 0;
 }
 */
+
+#list-user tr td:nth-child(4) i.fa :nth-child(1) {
+  font-family: 'Source Sans Pro', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+}
+
 .bootstrap-select.btn-group button.dropdown-toggle {
   border-top-left-radius: 3px;
   border-bottom-left-radius: 3px;
@@ -45,15 +50,18 @@ div.dataTables_info span.small {
 
 .bootstrap-select.btn-group .dropdown-menu.open {
   top: -0.75em;
-  left: 2.25em;
+  left: 2.5em;
+  border: dashed 1px;
 }
 
 .bootstrap-select.btn-group .dropdown-menu > li > a {
+  display: inline-block;
   padding-right: 2px;
   padding-left: 8px;
 }
 
 .bootstrap-select.btn-group.show-tick .dropdown-menu li a span.text {
+  float: right;
   margin-right: 12px;
 }
 

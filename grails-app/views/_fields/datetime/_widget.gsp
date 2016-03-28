@@ -1,11 +1,12 @@
 <%@ page import="java.text.SimpleDateFormat" %>
+<g:set var="timeValue" value="${value?.time ? new SimpleDateFormat('YYYY/MM/dd\'T\'HH:mm:ss\'Z\'').format(value?.time) : null}"/>
 <div> <%--
 	<label for="${property}">${label}</label> --%>
 	<div class="col-xs-5 input-group date datetime ${property} disabled">
-		<input type="text" value="${value}" class="form-control" placeholder="YYYY/MM/DD hh:mm:ss" />
+		<input type="text" value="${timeValue}" class="form-control" placeholder="YYYY/MM/DD hh:mm:ss" />
 		<span class="input-group-addon"><i class="fa fa-calendar"></i></span>
 	</div>
-  <input type="hidden" id="${property}" name="${property}" value="${value?.time ? new SimpleDateFormat('YYYY/MM/dd\'T\'HH:mm:ss\'Z\'').format(value?.time) : null}"/>
+  <input type="hidden" id="${property}" name="${property}" value="${timeValue}"/>
 </div>
 <asset:script type='text/javascript'>
 $(function() {
