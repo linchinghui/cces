@@ -12,15 +12,19 @@ import org.springframework.core.io.ClassPathResource
 class BootStrap {
 	
     def init = { servletContext ->
-		initDb(servletContext)
-		registerMarshaller()
 
 		Environment.executeForCurrentEnvironment {
 			production {
-				// do something in production
+				initDb(servletContext)
+				registerMarshaller()
 			}
 			development {
+				initDb(servletContext)
+				registerMarshaller()
 				initForDevelopment(servletContext)
+			}
+			change {
+				// for nothing
 			}
 		}
 	}

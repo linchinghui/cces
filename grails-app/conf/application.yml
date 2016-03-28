@@ -104,7 +104,7 @@ environments:
             dialect: org.hibernate.dialect.MySQL5InnoDBDialect
             username: 'linchinghui'
             password: 'cces168'
-            # dbCreate: update
+            dbCreate: none
             url: 'jdbc:mysql://192.168.0.201:3306/cces?useUnicode=true&characterEncoding=UTF-8'
             properties:
                 jmxEnabled: true

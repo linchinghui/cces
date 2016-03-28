@@ -54,16 +54,15 @@ dependencyManagement {
 }
 
 dependencies {
-     // , {
-    //  [
-    //      'jcl-over-slf4j',
-    //      'jul-to-slf4j',
-    //      'log4j-over-slf4j'
-    //  ].each {
-    //      exclude module: it
-    //  }
-    // }
-    provided 'org.springframework.boot:spring-boot-starter-logging'
+    provided 'org.springframework.boot:spring-boot-starter-logging' , {
+            [
+                'jcl-over-slf4j',
+                'jul-to-slf4j',
+                'log4j-over-slf4j'
+            ].each {
+                exclude module: it
+            }
+        }
     provided 'org.springframework.boot:spring-boot-starter-actuator'
     provided 'org.springframework.boot:spring-boot-autoconfigure'
     provided 'org.springframework.boot:spring-boot-starter-tomcat'

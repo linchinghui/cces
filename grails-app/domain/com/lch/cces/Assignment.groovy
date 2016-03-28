@@ -26,8 +26,8 @@ class Assignment implements Serializable, Comparable<Assignment> {
 	static constraints = {
 		employee	blank: true, nullable: true
 		project		blank: false, nullable: false
-		year		blank: false, nullable: false
-		week		blank: false, nullable: false, min: 1, max: 53
+		year		blank: false, nullable: false, size: 4
+		week		blank: false, nullable: false, size: 2, range:1..53 // min: 1, max: 53
 		// d1			blank: true, nullable: true
 		// d2			blank: true, nullable: true
 		// d3			blank: true, nullable: true
