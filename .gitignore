@@ -9,5 +9,3 @@ bin/
 *.pptx
 manifest.yml
 notes/
-grails-app/migrations/
-grails-app/migrations/
