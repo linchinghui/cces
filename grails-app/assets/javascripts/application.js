@@ -12,7 +12,7 @@ if (typeof jQuery !== 'undefined') {
   jQuery.support.cors = true;
 
   jQuery.extend({
-    getQueryParameters: function(str) {
+    convertParamsFromQueryStr: function(str) {
       if (typeof str == 'undefined' || str == null) {
         return {};
       }
@@ -189,9 +189,9 @@ function transformServerError(callbackFn) {
     // reply-code of jqXHR.status, major message or reply-message of jqXHR.statusText
     alertMessage(
       jqXHR.status < 500 && { // jqXHR.status == 0 && {
-        warning: ( jqXHR.responseJSON.warning || jqXHR.responseText || message )
+        warning: ( jqXHR.responseJSON && jqXHR.responseJSON.warning || jqXHR.responseText || message )
       } || {
-        errors: ( jqXHR.responseJSON.errors || jqXHR.responseText || message )
+        errors: ( jqXHR.responseJSON && jqXHR.responseJSON.errors || jqXHR.responseText || message )
       },
       jqXHR);
 
@@ -263,7 +263,7 @@ function requestAction4BootstrapDialog(action, dataKey, params) {
 
     var theUrl = action.url.split('?');
     var actionUrl = theUrl[0] + ((typeof dataKey !== 'undefined' /*&& (dataKey.length > 0 || dataKey > 0)*/) ? ('/' + dataKey) : '');
-    var actionParams = $.getQueryParameters(theUrl.length > 1 ? theUrl[1] : null);
+    var actionParams = $.convertParamsFromQueryStr(theUrl.length > 1 ? theUrl[1] : null);
     $.extend(actionParams, {cb: Base64.encode(closeFn)}, params);
 
     return $('<div><span class="ajax-loader">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></div>')
@@ -298,5 +298,6 @@ function renderCheckBox4GrailsFieldContain(contain) {
 }
 
 function renderCheckBox(data) {
-  return (data ? '<i class="fa fa-check-square-o"></i>' : '<i class="fa fa-square-o"></i>');
+  return (data == true || data == 'true') ? '<i class="fa fa-check-square-o"></i>' :
+        (data == false || data == 'false') ? '<i class="fa fa-square-o"></i>' : data;
 }

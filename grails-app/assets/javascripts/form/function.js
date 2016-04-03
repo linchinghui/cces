@@ -3,14 +3,6 @@
 
 var functionList;
 
-// function renderDisplayHit4DataTables (settings, start, end, max, total, pre) {
-//   var rolesStr = $.map(roleMap, function (roleDesc, roleId) {
-//       return '<span>???</span>';
-//     }).join(',&nbsp;&nbsp;');
-
-//   return '<span class="pull-right small visible-xs">???</span>';
-// }
-
 function removeDataRequested (result) {
   functionList.ajax.reload(null, false);
 }

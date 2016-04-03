@@ -9,14 +9,16 @@
 function renderDate4DataTables(timeIncluded) {
   return function (data, type, row, meta) {
     // If display or filter data is requested, format the date
-    return (data && (type === 'display' || type === 'filter')) ?
+    return (data && (type == 'display' || type == 'filter')) ?
       moment(data).format('YYYY/MM/DD' + (timeIncluded ? ' HH:mm:ss' : '')) :
       data;
   };
 }
 
 function renderCheck4DataTables(data, type, row, meta) {
-  return renderCheckBox(data);
+  return ((data == true || data == false) && (type == 'display' || type == 'filter')) ?
+    renderCheckBox(data) :
+    data;
 }
 
 function disableProcessing4DataTables(dataTableApi) {

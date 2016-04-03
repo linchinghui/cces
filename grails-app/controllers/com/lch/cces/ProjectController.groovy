@@ -24,6 +24,8 @@ class ProjectController extends BaseController<Project> {
  //    }
 
 	def brief() {
+        log.debug "project brief: ${params}"
+
         def dataList = listAllResources(params)
 
         // ignore ajax or not

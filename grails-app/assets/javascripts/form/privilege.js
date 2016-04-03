@@ -71,6 +71,7 @@ function extendURL() {
 }
 
 function createDetailDataTable() {
+  var qryStr = extendURL();
   var dataCols = [ //0
       // renderAlterationCell4DataTables({
       //   edit: {
@@ -84,12 +85,12 @@ function createDetailDataTable() {
       // })
       renderDefaultAlterationCellWithId4DataTables({
         edit: {
-          url: '/privilege/edit'+extendURL(),
+          url: '/privilege/edit'+qryStr,
           callback: modifyDetailDataRequested
         }
         ,delete:  {
           title: '清除...',
-          url: '/privilege/delete'+extendURL(),
+          url: '/privilege/delete'+qryStr,
           callback: removeDetailDataRequested
         }
       })
