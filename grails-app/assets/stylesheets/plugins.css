@@ -15,6 +15,10 @@
     border-bottom-right-radius: 4px;
 }
 
+.combobox-container .typeahead {
+	border: 1px solid lightgray;
+}
+
 .input-group.date,
 .input-group.date.disabled {
   width: 11em;

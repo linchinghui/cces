@@ -9,3 +9,4 @@ bin/
 *.pptx
 manifest.yml
 notes/
+grails-app/assets/stylesheets/form copy/
