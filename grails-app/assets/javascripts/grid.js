@@ -6,6 +6,14 @@
 //= require plugins/datatables-all
 //= require_self
 
+function reloadDataTables(dt, arg) {
+  if ($.isFunction(arg)) {
+    dt.columns.adjust().ajax.reload(arg);
+  } else {
+    dt.columns.adjust().ajax.reload(null, arg && true);
+  }
+}
+
 function renderDate4DataTables(timeIncluded) {
   return function (data, type, row, meta) {
     // If display or filter data is requested, format the date
@@ -34,17 +42,6 @@ function transformServerResult4DataTables(dataTableApi) {
 }
 
 function transformServerError4DataTables(dataTableApi) {
-  // return function(jqXHR, status, message) {
-  //   // reply-code of jqXHR.status, major message or reply-message of jqXHR.statusText
-  //   var response = jqXHR.status == 0 && {
-  //     warning: message
-  //   } || {
-  //     errors: message
-  //   };
-  //   alertMessage(response, jqXHR);
-  //   disableProcessing4DataTables(dataTableApi);
-  //   renderAjaxButtons4DataTables(dataTableApi.DataTable());
-  // }
   return transformServerError(function() {
     disableProcessing4DataTables(dataTableApi);
     renderAjaxButtons4DataTables(dataTableApi.DataTable());
@@ -114,7 +111,11 @@ function addQueryButtons4Init(dataTableApi) {
       text: '重查',
       action: function(evt, dt, node, conf) {
         // $(evt.delegateTarget).hide();
-        dt.ajax.reload(dataTable.context[0].ajax.onReloadComplete); //dataTable.ajax.reload();
+        var ajaxConf = dataTable.context[0].ajax;
+        var cont = ajaxConf.onReloadClick ? ajaxConf.onReloadClick(evt) : true;
+        if (cont) {
+          reloadDataTables(dt, ajaxConf.onReloadClicked);
+        }
       }
     }]
   });
@@ -124,7 +125,7 @@ function addQueryButtons4Init(dataTableApi) {
     buttons: [{
       text: '取消',
       action: function(evt, dt, node, conf) {
-        dt.context[0].jqXHR.abort(); // dataTable.context[0].jqXHR.abort();
+        dt.context[0].jqXHR.abort && dt.context[0].jqXHR.abort(); // dataTable.context[0].jqXHR.abort();
         disableProcessing4DataTables(dataTableApi);
       }
     }]
@@ -134,10 +135,10 @@ function addQueryButtons4Init(dataTableApi) {
   renderAjaxButtons4DataTables(dataTable, true);
   var ajax = dataTable.context[0].ajax;
 
-  if (typeof ajax.success === 'undefined') {
+  if (ajax && typeof ajax.success === 'undefined') {
     ajax.success = transformServerResult4DataTables(dataTableApi);
   }
-  if (typeof ajax.error === 'undefined') {
+  if (ajax && typeof ajax.error === 'undefined') {
     ajax.error = transformServerError4DataTables(dataTableApi);
   }
 }
@@ -291,14 +292,13 @@ $.extend(true, $.fn.dataTable.defaults, {
     dataType: 'json',
     contentType: 'application/json; charset=utf-8',
     data: function(params, settings) {
-      return $.extend({}, {
+      return {
         draw: params.draw,
         max: params.length,
-        offset: params.start
-      }, {
+        offset: params.start,
         sort: (params.order ? settings.aoColumns[params.order[0].column].data : 'id'),
         order: (params.order ? params.order[0].dir : 'asc')
-      });
+      };
     }
   },
   drawCallback: function(settings) {

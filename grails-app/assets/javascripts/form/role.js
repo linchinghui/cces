@@ -26,17 +26,17 @@ function createDetailTab() {
 
 // <%-- //暫無刪除功能
 // function removeDataRequested (result) {
-//   roleList.ajax.reload(null, false);
+//   reloadDataTables(roleList);
 //   detailSec.empty();
 // }
 // --%>
 function modifyDataRequested (result, editForm) {
-  roleList.ajax.reload(null, false);
+  reloadDataTables(roleList);
   detailSec.empty();
 }
 // <%-- //暫無新增功能
 // function addDataRequested (result, editForm) {
-//   roleList.ajax.reload(null, false);
+//   reloadDataTables(roleList);
 //   detailSec.empty();
 // }
 
@@ -57,7 +57,7 @@ function createDataTable() {
     serverSide: true,
     deferRender: true,
     ajax: {
-      onReloadComplete: function() {
+      onReloadClicked: function() {
         detailSec.empty();
       },
       url: '/api/roles.json'

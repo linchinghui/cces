@@ -4,15 +4,15 @@
 var vehicleBrandList;
 
 function removeBrandDataRequested (result) {
-  vehicleBrandList.ajax.reload(null, false);
+  reloadDataTables(vehicleBrandList);
 }
 
 function modifyBrandDataRequested (result, editForm) {
-  vehicleBrandList.ajax.reload(null, false);
+  reloadDataTables(vehicleBrandList);
 }
 
 function addBrandDataRequested (result, editForm) {
-  vehicleBrandList.ajax.reload(null, false);
+  reloadDataTables(vehicleBrandList);
 }
 
 function addBrandDataRequest (evt, dt, node, config) {

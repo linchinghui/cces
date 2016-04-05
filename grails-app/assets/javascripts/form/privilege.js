@@ -4,15 +4,15 @@
 var privilegeList;
 
 function removeDetailDataRequested (result) {
-  privilegeList.ajax.reload(null, false);
+  reloadDataTables(privilegeList);
 }
 
 function modifyDetailDataRequested (result, editForm) {
-  privilegeList.ajax.reload(null, false);
+  reloadDataTables(privilegeList);
 }
 // <%-- //暫無新增功能
 // function addDetailDataRequested (result, editForm) {
-//   privilegeList.ajax.reload(null, false);
+//  reloadDataTables(privilegeList);
 // }
 
 // function addDetailDataRequest (evt, dt, node, config) {
@@ -66,12 +66,12 @@ function modifyDetailDataRequested (result, editForm) {
 // //   };
 // // }
 
-function extendURL() {
-  return serverParams.embedPage ? '?embed=true&roleId=' + serverParams.roleId : '';
-}
+// function extendURL() {
+//   return serverParams.embedPage ? '?embed=true&roleId=' + serverParams.roleId : '';
+// }
 
 function createDetailDataTable() {
-  var qryStr = extendURL();
+  var qryStr = serverParams.embedPage ? '?embed=true&roleId=' + serverParams.roleId : ''; // extendURL();
   var dataCols = [ //0
       // renderAlterationCell4DataTables({
       //   edit: {

@@ -4,15 +4,15 @@
 var workerList;
 
 function removeDataRequested (result) {
-  workerList.ajax.reload(null, false);
+  reloadDataTables(workerList);
 }
 
 function modifyDataRequested (result, editForm) {
-  workerList.ajax.reload(null, false);
+  reloadDataTables(workerList);
 }
 
 function addDataRequested (result, editForm) {
-  workerList.ajax.reload(null, false);
+  reloadDataTables(workerList);
 }
 
 function addDataRequest (evt, dt, node, config) {

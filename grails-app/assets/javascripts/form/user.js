@@ -78,15 +78,15 @@ function renderRolesField4DataTables (data, type, row, meta) {
 }
 
 function removeDataRequested (result) {
-  userList.ajax.reload(null, false);
+  reloadDataTables(userList);
 }
 
 function modifyDataRequested (result, editForm) {
-  userList.ajax.reload(null, false);
+  reloadDataTables(userList);
 }
 
 function addDataRequested (result, editForm) {
-  userList.ajax.reload(null, false);
+  reloadDataTables(userList);
 }
 
 function addDataRequest (evt, dt, node, config) {

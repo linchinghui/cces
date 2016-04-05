@@ -4,15 +4,15 @@
 var functionList;
 
 function removeDataRequested (result) {
-  functionList.ajax.reload(null, false);
+  reloadDataTables(functionList);
 }
 
 function modifyDataRequested (result, editForm) {
-  functionList.ajax.reload(null, false);
+  reloadDataTables(functionList);
 }
 // <%-- //暫無新增功能
 // function addDataRequested (result, editForm) {
-//   functionList.ajax.reload(null, false);
+//   reloadDataTables(functionList);
 // }
 
 // function addDataRequest (evt, dt, node, config) {

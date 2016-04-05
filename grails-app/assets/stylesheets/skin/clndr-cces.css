@@ -1,6 +1,5 @@
 
 .clndr .clndr-controls {
-    display: block;
     display: inline-block;
     width: 100%;
     max-width: 198px;
