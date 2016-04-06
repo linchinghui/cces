@@ -1,5 +1,4 @@
-<%@ page import="java.text.SimpleDateFormat" %>
-<g:set var="dateValue" value="${value?.time ? new SimpleDateFormat('YYYY/MM/dd\'Z\'').format(value?.time) : null}"/>
+<g:set var="dateValue" value="${value ? new java.text.SimpleDateFormat('YYYY/MM/dd\'Z\'').format(value) : null}"/>
 <div> <%--
   <label for="${property}">${label}</label> --%>
 	<div class="col-xs-5 input-group date ${property}">
