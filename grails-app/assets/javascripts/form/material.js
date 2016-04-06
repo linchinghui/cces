@@ -10,18 +10,6 @@ function createTabs() {
     var loadUrl = thisEle.attr('href');
 
     if (loadUrl.length > 0 && loadUrl !== '#') {
-      // $.ajax({
-      //   type: 'GET',
-      //   url: loadUrl,
-      //   error: function(jqXHR, status, error) {
-      //     $(thisEle.attr('data-target')).html(jqXHR.responseText);
-      //   },
-      //   success: function(response){
-      //     $(thisEle.attr('data-target')).html(response);
-      //     // thisEle.tab('show');
-      //     thisEle.attr('href','#');
-      //   }
-      // });
       $(thisEle.attr('data-target')).load(loadUrl, function (response, status, jqXHR) {
         if (jqXHR.status >= 400) {
           $(thisEle.attr('data-target')).html(jqXHR.responseText);

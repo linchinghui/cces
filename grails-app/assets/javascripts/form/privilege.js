@@ -10,79 +10,11 @@ function removeDetailDataRequested (result) {
 function modifyDetailDataRequested (result, editForm) {
   reloadDataTables(privilegeList);
 }
-// <%-- //暫無新增功能
-// function addDetailDataRequested (result, editForm) {
-//  reloadDataTables(privilegeList);
-// }
-
-// function addDetailDataRequest (evt, dt, node, config) {
-//   BootstrapDialog.show({
-//     title: '新增...',
-//     message: requestAction4BootstrapDialog({
-//       url: '/privilege/create',
-//       callback: addDetailDataRequested
-//     })
-//   });
-// }
-// --%>
-// // function renderAlterationCell4DataTables(requestActions) {
-// //   return {
-// //     orderable: false,
-// //     data: 'id',
-// //     render: function(data, type, full) {
-// //       return (requestActions.delete ? '<span><i class="fa fa-times"></i></span>&nbsp;' : '')
-// //             +'<span><i class="fa fa-pencil"></i></span>';
-// //     },
-// //     createdCell: function (cell, cellData, rowData, row, col) {
-// //       // userList == this.DataTable()
-// //       var serverActions = $.extend(true, {
-// //         edit: {
-// //           type: 'edit',
-// //           title: '編輯...',
-// //           selector: 'span i.fa-pencil',
-// //           key: 'id'
-// //         },
-// //         delete: (requestActions.delete ? {
-// //           type: 'delete',
-// //           title: '刪除...',
-// //           selector: 'span i.fa-times',
-// //           key: 'id'
-// //         } : null)
-// //       }, requestActions);
-
-// //       if (requestActions.delete) {
-// //         createRemoveCellButtom(
-// //           $(serverActions.delete.selector, cell),
-// //           rowData[serverActions.delete.key],
-// //           serverActions.delete
-// //         );
-// //       }
-// //       createModifyCellButtom(
-// //         $(serverActions.edit.selector, cell),
-// //         rowData[serverActions.edit.key],
-// //         serverActions.edit
-// //       );
-// //     }
-// //   };
-// // }
-
-// function extendURL() {
-//   return serverParams.embedPage ? '?embed=true&roleId=' + serverParams.roleId : '';
-// }
 
 function createDetailDataTable() {
-  var qryStr = serverParams.embedPage ? '?embed=true&roleId=' + serverParams.roleId : ''; // extendURL();
+  var qryStr = serverParams.embedPage ? '?embed=true&roleId=' + serverParams.roleId : '';
+
   var dataCols = [ //0
-      // renderAlterationCell4DataTables({
-      //   edit: {
-      //     url: '/privilege/edit',
-      //     callback: modifyDetailDataRequested
-      //   } <%-- //暫無刪除功能
-      //   ,delete:  {
-      //     url: '/privilege/delete',
-      //     callback: removeDetailDataRequested
-      //   } --%>
-      // })
       renderDefaultAlterationCellWithId4DataTables({
         edit: {
           url: '/privilege/edit'+qryStr,
@@ -152,7 +84,6 @@ function createDetailDataTable() {
         copy: true
       },
       buttons: [
-        //暫無新增功能
         //{text: '新增', action: addDetailDataRequest}
       ],
       columns: dataCols

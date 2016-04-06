@@ -5,11 +5,6 @@ var userList;
 var roleMap = {};
 
 function initializeRoleTypes() {
-  // $.ajax('/api/roles.json', {
-  //   cache: true,
-  //   success: transformServerResult4Roles(),
-  //   error: transformServerError4Roles()
-  // });
   chainAjaxCall( {
     url: '/api/roles.json',
     method: 'GET',
@@ -18,7 +13,7 @@ function initializeRoleTypes() {
 
   }).done(function (promise) {
     if (promise.rc == 1) {
-	  roleMap = {' ': '(無法取得[角色]名稱)'};
+      roleMap = {' ': '(無法取得[角色]名稱)'};
 
     } else {
       if (promise.data.length > 0) {
@@ -29,24 +24,6 @@ function initializeRoleTypes() {
     }
   });
 }
-
-// function transformServerError4Roles () {
-//   return transformServerError(function(message){
-//     roleMap = {' ': message};
-//   });
-// }
-
-// function transformServerResult4Roles () {
-//   return transformServerResult(function(response){
-//     if (response.length > 0) {
-//       roleMap = {};
-
-//       response.forEach(function(valuePair) {
-//         roleMap[valuePair.id] = valuePair.description;
-//       });
-//     }
-//   });
-// }
 
 function renderDisplayHit4DataTables (settings, start, end, max, total, pre) {
   var rolesStr = $.map(roleMap, function (roleDesc, roleId) {
@@ -119,8 +96,6 @@ function createDataTable() {
     },
     buttons: [
       {text: '新增', action: addDataRequest}
-      // ,{text: '修改', action: modifyDataRequest}
-      // ,{text: '刪除', action: removeDataRequest}
     ],
     columns: [ //0
       renderDefaultAlterationCellWithId4DataTables({
