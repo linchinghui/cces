@@ -22,7 +22,7 @@ class Privilege implements Serializable, Comparable<Privilege> {
 	}
 
 	static constraints = {
-		role		blank: true, nullable: true
+		role		blank: false, nullable: false
 		function	blank: false, nullable: false
 	}
 

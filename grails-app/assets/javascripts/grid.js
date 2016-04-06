@@ -38,6 +38,10 @@ function transformServerResult4DataTables(dataTableApi) {
     // JSON response, 'success' status, 200 of jqXHR.status, 'OK' of jqXHR.statusText
     alertMessage(response, jqXHR);
     dataTableApi._fnAjaxUpdateDraw(response);
+
+    if (dataTableApi.DataTable().context[0].ajax.onDone) {
+      dataTableApi.DataTable().context[0].ajax.onDone();
+    }
   }
 }
 
@@ -45,6 +49,10 @@ function transformServerError4DataTables(dataTableApi) {
   return transformServerError(function() {
     disableProcessing4DataTables(dataTableApi);
     renderAjaxButtons4DataTables(dataTableApi.DataTable());
+
+    if (dataTableApi.DataTable().context[0].ajax.onDone) {
+      dataTableApi.DataTable().context[0].ajax.onDone();
+    }
   });
 }
 
@@ -253,6 +261,9 @@ function initialized4DataTables(dataTableApi, settings, response) {
     dataTable.clear().draw();
   } else {
     alertMessage(response, dataTable.context[0].jqXHR);
+  }
+  if (settings.ajax.onDone) {
+    settings.ajax.onDone();
   }
 }
 

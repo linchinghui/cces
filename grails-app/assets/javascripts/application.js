@@ -262,7 +262,8 @@ function requestAction4BootstrapDialog(action, dataKey, params) {
     };
 
     var theUrl = action.url.split('?');
-    var actionUrl = theUrl[0] + ((typeof dataKey !== 'undefined' /*&& (dataKey.length > 0 || dataKey > 0)*/) ? ('/' + dataKey) : '');
+    // var actionUrl = theUrl[0] + ((typeof dataKey !== 'undefined' /*&& (dataKey.length > 0 || dataKey > 0)*/) ? ('/' + dataKey) : '');
+    var actionUrl = theUrl[0] + (dataKey ? ('/' + dataKey) : '');
     var actionParams = $.convertParamsFromQueryStr(theUrl.length > 1 ? theUrl[1] : null);
     $.extend(actionParams, {cb: Base64.encode(closeFn)}, params);
 
