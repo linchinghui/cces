@@ -38,14 +38,15 @@ class AssignmentController extends BaseController<Assignment> {
             if (params?.projectId)  { project.id  == params.projectId }
             if (params?.year) { year == (params.year as int) }
             if (params?.week) { week == (params.week as int) }
-            if (params?.d0) { d0 == params.d0 }
-            if (params?.d1) { d1 == params.d1 }
-            if (params?.d2) { d2 == params.d2 }
-            if (params?.d3) { d3 == params.d3 }
-            if (params?.d4) { d4 == params.d4 }
-            if (params?.d5) { d5 == params.d5 }
-            if (params?.d6) { d6 == params.d6 }
-
+            if (params._method != 'PUT') {
+                if (params?.d0) { d0 == params.d0 }
+                if (params?.d1) { d1 == params.d1 }
+                if (params?.d2) { d2 == params.d2 }
+                if (params?.d3) { d3 == params.d3 }
+                if (params?.d4) { d4 == params.d4 }
+                if (params?.d5) { d5 == params.d5 }
+                if (params?.d6) { d6 == params.d6 }
+            }
         }.list(params)
     }
 
@@ -75,6 +76,7 @@ class AssignmentController extends BaseController<Assignment> {
     }
 
     protected final Assignment createResource() {
+        resolveParameters(params)
         return createResource(params)
     }
 

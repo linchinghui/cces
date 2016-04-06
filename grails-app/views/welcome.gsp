@@ -52,12 +52,12 @@
                     </g:each>
                 </ul>
             </div>
-
-
-            <form method="post" action="/certification/upload" enctype="multipart/form-data">
-            <input type="file" id="file_input" name="file_input">
-            <input type="submit" value="Submit">
-            </form>
+<%--
+<form method="post" action="/certification/upload" enctype="multipart/form-data">
+<input type="file" id="file_input" name="file_input">
+<input type="submit" value="Submit">
+</form>
+--%>
         </div>
         </div>
     </body>
