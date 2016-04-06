@@ -31,7 +31,13 @@
                 <li class="active"><a href="#" data-target="#" data-toggle="tab"><big>${pageTitle}</big></a></li>
               </ul>
               <div class="box">
-                <div class="box-header"></div>
+                <div class="box-header"><%--
+                  <div class="projectContainer">
+                    <div class="assignProject form-control">
+                      <span class="text-center"><span class="ajax-loader">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></span>
+                    </div>
+                  </div>--%>
+                </div>
                 <div class="box-body">
                   <table id="list-assignment" class="table table-bordered table-hover">
                     <thead>

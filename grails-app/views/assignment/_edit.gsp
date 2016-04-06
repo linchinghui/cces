@@ -30,8 +30,21 @@
                             <fieldset class="form-group">
                                 <f:with bean="assignment">
                                     <f:display property="project" label="專案" />
-                                    <g:render template="week" bean="${assignment}"/>
-                                    <g:if test="${type=='C'}">
+                                <%--<g:render template="week" bean="${assignment}"/>--%>
+<%
+    def calendar = Calendar.instance
+    def today = calendar.time
+    calendar.setWeekDate(assignment.year, assignment.week, 1)
+    def firstDate = calendar.time
+    def lastDate = firstDate + 6
+    def sdf = new java.text.SimpleDateFormat('YYYY/MM/dd')
+    def day = ["日","一","二","三","四","五","六"]
+%>
+                                    <div class="input-group disabled">
+                                        <label>第<%=assignment.week%>週</label>
+                                        <input type="text" value="${sdf.format(firstDate)} ~ ${sdf.format(lastDate)}" class="form-control" disabled>
+                                    </div>
+                                    <g:if test="${type=='C' && today <= lastDate}">
                                         <f:field property="employee" label="員工" />
                                     </g:if>
                                     <g:else>
@@ -39,13 +52,14 @@
                                     </g:else>
                                     <div class="assignDay">
                                         <label>人力配置</label><br>
-                                        <f:field property="d0" label="日" />
-                                        <f:field property="d1" label="一" />
-                                        <f:field property="d2" label="二" />
-                                        <f:field property="d3" label="三" />
-                                        <f:field property="d4" label="四" />
-                                        <f:field property="d5" label="五" />
-                                        <f:field property="d6" label="六" />
+                                        <g:each var="i" in="${0..6}">
+                                            <g:if test="${firstDate + i < today}">
+                                                <f:display property="d${i}" label="${day[i]}" />
+                                            </g:if>
+                                            <g:else>
+                                                <f:field property="d${i}" label="${day[i]}" />
+                                            </g:else>
+                                        </g:each>
                                     </div>
                                 </f:with>
                             </fieldset>
