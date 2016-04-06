@@ -38,9 +38,7 @@
                       <tr>
                         <th></th>
                         <th>員工</th><%--
-                        <th>專案</th>
-                        <th>年</th>
-                        <th>週</th>--%>
+                        <th>專案</th>--%>
                         <th>日</th>
                         <th>一</th>
                         <th>二</th>
@@ -53,17 +51,15 @@
                     <tbody>
                       <tr>
                         <td></td>
-                        <td>T-123</td><%--
-                        <td>CCES</td>
-                        <th>2016</th>
-                        <th>1</th>--%>
-                        <th><i class="fa fa-square-o"></i></th>
-                        <th><i class="fa fa-square-o"></i></th>
-                        <th><i class="fa fa-square-o"></i></th>
-                        <th><i class="fa fa-square-o"></i></th>
-                        <th><i class="fa fa-square-o"></i></th>
-                        <th><i class="fa fa-square-o"></i></th>
-                        <th><i class="fa fa-square-o"></i></th>
+                        <td></td><%--
+                        <td></td>--%>
+                        <td><i class="fa fa-square-o"></i></td>
+                        <td><i class="fa fa-square-o"></i></td>
+                        <td><i class="fa fa-square-o"></i></td>
+                        <td><i class="fa fa-square-o"></i></td>
+                        <td><i class="fa fa-square-o"></i></td>
+                        <td><i class="fa fa-square-o"></i></td>
+                        <td><i class="fa fa-square-o"></i></td>
                       </tr>
                     </tbody>
                   </table>
@@ -77,33 +73,15 @@
 var server = {
   pageTitle: '${pageTitle}',
   calendarTemplate: '<g:resource dir="static/assignment" file="calendar.tmpl" />',
-  year: '${params?.year}',
-  week: '${params?.week}',
+  year: ${params?.year?:'null'},
+  week: ${params?.week?:'null'},
   project: '${params?.project}'
 };
 
 $(function() {
   <g:render template="/layouts/client-message" bean="${assignment}"/>
-
-  setupArrowKeys();
-  initializeAssignment();
-  loadAssignments();
-  createDataTable();
-
-
-    // detailSec
-    //   .html('<div class="text-center"><span class="ajax-loader">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></div>')
-    //   .load('<g:resource dir="static/assignment" file="calendar.tmpl" />', null,
-    //     function(response, status, jqXHR) {
-    //       if (jqXHR.status >= 400) {
-    //         detailSec.empty();
-    //         alertError({}, jqXHR);
-
-    //       } else {
-
-    //       }
-    //     });
-
+  initializeSelectFields();
+  initializeAssignments();
 });
 </asset:script>
     </body>

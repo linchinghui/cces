@@ -4,15 +4,15 @@
 var privilegeList;
 
 function removeDetailDataRequested (result) {
-  privilegeList.ajax.reload(null, false);
+  reloadDataTables(privilegeList);
 }
 
 function modifyDetailDataRequested (result, editForm) {
-  privilegeList.ajax.reload(null, false);
+  reloadDataTables(privilegeList);
 }
 // <%-- //暫無新增功能
 // function addDetailDataRequested (result, editForm) {
-//   privilegeList.ajax.reload(null, false);
+//  reloadDataTables(privilegeList);
 // }
 
 // function addDetailDataRequest (evt, dt, node, config) {
@@ -66,11 +66,12 @@ function modifyDetailDataRequested (result, editForm) {
 // //   };
 // // }
 
-function extendURL() {
-  return serverParams.embedPage ? '?embed=true&roleId=' + serverParams.roleId : '';
-}
+// function extendURL() {
+//   return serverParams.embedPage ? '?embed=true&roleId=' + serverParams.roleId : '';
+// }
 
 function createDetailDataTable() {
+  var qryStr = serverParams.embedPage ? '?embed=true&roleId=' + serverParams.roleId : ''; // extendURL();
   var dataCols = [ //0
       // renderAlterationCell4DataTables({
       //   edit: {
@@ -84,12 +85,12 @@ function createDetailDataTable() {
       // })
       renderDefaultAlterationCellWithId4DataTables({
         edit: {
-          url: '/privilege/edit'+extendURL(),
+          url: '/privilege/edit'+qryStr,
           callback: modifyDetailDataRequested
         }
         ,delete:  {
           title: '清除...',
-          url: '/privilege/delete'+extendURL(),
+          url: '/privilege/delete'+qryStr,
           callback: removeDetailDataRequested
         }
       })

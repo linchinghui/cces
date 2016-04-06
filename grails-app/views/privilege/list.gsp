@@ -10,7 +10,7 @@
         <asset:stylesheet src="grid"/> <%--
         <asset:stylesheet src="form/privilege"/> --%>
 <g:if test="${! embedPage}">
-        <asset:javascript src="list"/>
+        <asset:javascript src="grid"/>
 </g:if>
     </head>
     <body>
@@ -46,9 +46,9 @@
                         <td>Test Role</td>
 </g:if>
                         <td>Test Function</td>
-                        <td>true</td>
-                        <td>false</td>
-                        <td>false</td>
+                        <td><i class="fa fa-check-square-o"></i></td>
+                        <td><i class="fa fa-square-o"></i></td>
+                        <td><i class="fa fa-square-o"></i></td>
                       </tr>
                     </tbody>
                   </table>

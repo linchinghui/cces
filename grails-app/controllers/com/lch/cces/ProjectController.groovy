@@ -11,19 +11,9 @@ class ProjectController extends BaseController<Project> {
         super(Project)
     }
 
-	// def index(Integer max) {
-	// 	def specActionName = request.getHeader('X-CCES-ACTION')
-
-	// 	if (specActionName) {
-	// 		// ignore parameter max
-	// 		this.&"${specActionName}"?.call()
-
-	// 	} else {
-	// 		super.index(max)
-	// 	}
- //    }
-
 	def brief() {
+        log.debug "project brief: ${params}"
+
         def dataList = listAllResources(params)
 
         // ignore ajax or not

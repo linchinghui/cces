@@ -10,7 +10,7 @@
         <asset:stylesheet src="grid"/> <%--
         <asset:stylesheet src="form/materialCategory"/> --%>
 <g:if test="${! embedPage}">
-        <asset:javascript src="list"/>
+        <asset:javascript src="grid"/>
 </g:if>
     </head>
     <body>

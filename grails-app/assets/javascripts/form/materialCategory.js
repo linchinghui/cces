@@ -4,15 +4,15 @@
 var materialCategoryList;
 
 function removeCatDataRequested (result) {
-  materialCategoryList.ajax.reload(null, false);
+  reloadDataTables(materialCategoryList);
 }
 
 function modifyCatDataRequested (result, editForm) {
-  materialCategoryList.ajax.reload(null, false);
+  reloadDataTables(materialCategoryList);
 }
 
 function addCatDataRequested (result, editForm) {
-  materialCategoryList.ajax.reload(null, false);
+  reloadDataTables(materialCategoryList);
 }
 
 function addCatDataRequest (evt, dt, node, config) {

@@ -24,15 +24,15 @@ function initializeConstrctTypes() {
 }
 
 function removeDataRequested (result) {
-  projectList.ajax.reload(null, false);
+  reloadDataTables(projectList);
 }
 
 function modifyDataRequested (result, editForm) {
-  projectList.ajax.reload(null, false);
+  reloadDataTables(projectList);
 }
 
 function addDataRequested (result, editForm) {
-  projectList.ajax.reload(null, false);
+  reloadDataTables(projectList);
 }
 
 function addDataRequest (evt, dt, node, config) {

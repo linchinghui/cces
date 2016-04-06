@@ -84,12 +84,12 @@ class PrivilegeController extends BaseController<Privilege> {
         resolveParameters(params)
         def props = params
 
-        if (params?.roleId != null) {
+        if (params?.roleId) {
             props.role = Role.get(params.roleId)
             props.remove('roleId')
         }
 
-        if (params?.functionId != null) {
+        if (params?.functionId) {
             props.function = Function.get(params.functionId)
             props.remove('functionId')
         }

@@ -3,24 +3,16 @@
 
 var functionList;
 
-// function renderDisplayHit4DataTables (settings, start, end, max, total, pre) {
-//   var rolesStr = $.map(roleMap, function (roleDesc, roleId) {
-//       return '<span>???</span>';
-//     }).join(',&nbsp;&nbsp;');
-
-//   return '<span class="pull-right small visible-xs">???</span>';
-// }
-
 function removeDataRequested (result) {
-  functionList.ajax.reload(null, false);
+  reloadDataTables(functionList);
 }
 
 function modifyDataRequested (result, editForm) {
-  functionList.ajax.reload(null, false);
+  reloadDataTables(functionList);
 }
 // <%-- //暫無新增功能
 // function addDataRequested (result, editForm) {
-//   functionList.ajax.reload(null, false);
+//   reloadDataTables(functionList);
 // }
 
 // function addDataRequest (evt, dt, node, config) {

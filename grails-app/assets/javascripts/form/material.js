@@ -38,15 +38,15 @@ function createTabs() {
 }
 
 function removeDataRequested (result) {
-  materialList.ajax.reload(null, false);
+  reloadDataTables(materialList);
 }
 
 function modifyDataRequested (result, editForm) {
-  materialList.ajax.reload(null, false);
+  reloadDataTables(materialList);
 }
 
 function addDataRequested (result, editForm) {
-  materialList.ajax.reload(null, false);
+  reloadDataTables(materialList);
 }
 
 function addDataRequest (evt, dt, node, config) {

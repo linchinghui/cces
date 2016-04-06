@@ -31,15 +31,15 @@ function createTabs() {
 }
 
 function removeDataRequested (result) {
-  vehicleList.ajax.reload(null, false);
+  reloadDataTables(vehicleList);
 }
 
 function modifyDataRequested (result, editForm) {
-  vehicleList.ajax.reload(null, false);
+  reloadDataTables(vehicleList);
 }
 
 function addDataRequested (result, editForm) {
-  vehicleList.ajax.reload(null, false);
+  reloadDataTables(vehicleList);
 }
 
 function addDataRequest (evt, dt, node, config) {
