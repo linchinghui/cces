@@ -24,3 +24,12 @@
     margin: 30px auto;
 }
 */
+.assignDay .input-group {
+    display: inline-block;
+    margin: 0 8px;
+}
+#list-assignment_info {
+    padding: 5px;
+    border: 1px dashed gray;
+    border-radius: 4px;
+}
