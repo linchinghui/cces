@@ -28,6 +28,9 @@
     display: inline-block;
     margin: 0 8px;
 }
+.assignDay .input-group.unchecked {
+    color: #ccc;
+}
 #list-assignment_info {
     padding: 5px;
     border: 1px dashed gray;

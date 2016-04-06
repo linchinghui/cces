@@ -25,7 +25,7 @@ function getLastParameters() {
       format: 'json'
     }
 
-  if (lastDateAssigned) {
+  if (lastDateAssigned && lastDate >= moment().transform('YYYY-MM-DD 00:00:00.000')) {
     qryParams['d' + lastDate.day()] = true;
   }
 
