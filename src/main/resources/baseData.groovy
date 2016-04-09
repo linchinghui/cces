@@ -10,6 +10,7 @@ base.functionList = [
 	[name: 'function', description: '作業項目'],
 //	[name: 'dbconsole', description: '資料庫主控台'], // icon:'fa fa-database'
 //	[name: 'console', description: '系統主控台'], // icon:'fa fa-laptop'
+	[name: 'announcement', description: '告示', aided: true],
 	[name: 'material', description: '材料表'],
 	[name: 'materialCategory', description: '材料類型'],
 	[name: 'privilege', description: '作業權限'],
