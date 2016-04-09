@@ -141,7 +141,7 @@ abstract class BaseController<T> extends RestfulController<T> {
 
     def boolean persistResource(instance, transactionStatus) {
         def isOK = false
-        def errorMessage = null
+        def errorMessage = ''
 
         try {
             // instance.save flush: true
@@ -151,6 +151,16 @@ abstract class BaseController<T> extends RestfulController<T> {
         } catch (org.springframework.dao.DuplicateKeyException dke) {
             errorMessage = '資料重複'
 
+        } catch (grails.validation.ValidationException ve) {
+            if (instance.errors.allErrors == instance.errors.fieldErrors) {
+                instance.errors.fieldErrors.each {
+                    errorMessage += message(code: it.code, args: it.arguments)
+                }
+
+            } else {
+                errorMessage = instance.errors.allErrors
+            }
+            
         } catch (e) {
             errorMessage = e.message
         }

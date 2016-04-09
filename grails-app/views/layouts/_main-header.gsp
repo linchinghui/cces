@@ -91,7 +91,7 @@
                         <a id="changePassword" href="${PAGE_PASSWORD}" class="btn btn-default">變更密碼</a>
                       </div>
                       <div class="pull-right">
-                        <a href="${PAGE_LOGOUT}" class="btn btn-default">登出</a>
+                        <a id="logout" href="${PAGE_LOGOUT}" class="btn btn-default">登出</a>
                       </div>
 </g:if>
 <g:else>
@@ -113,6 +113,11 @@
       </header>
 <asset:script type='text/javascript'><%-- deferred JS here --%>
 $(function() {
+  $('#logout').click(function(e) {
+    e.preventDefault();
+    $('<form>', {method: 'POST', action: e.target.href}).appendTo(document.body).submit();
+  });
+
   $('#changePassword').click(function(e) {
     e.preventDefault();
     window.location.href = e.target.href + '?${PARAMETER_TARGET_URL}=' + decodeURI(window.location.pathname);
