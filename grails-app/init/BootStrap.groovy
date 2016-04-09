@@ -125,7 +125,8 @@ class BootStrap {
 			if (! Function.exists(func.name)) {
 				new Function(
 					name: func.name,
-					description: func.description
+					description: func.description,
+					aided: func.aided ?: false
 				).save(flush: true)
 
 				// log.info "create Function: ${func.name}"
