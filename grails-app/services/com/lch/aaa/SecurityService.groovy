@@ -55,6 +55,8 @@ class SecurityService implements UserDetailsService, PersistentTokenRepository {
 	@Override
 	@Transactional
 	public void createNewToken(PersistentRememberMeToken token) {
+		log.info "create user-logins: ${token.username}-${token.series}"
+
 		new PersistentLogins(
 			username: token.username,
 			series: token.series,
@@ -62,7 +64,6 @@ class SecurityService implements UserDetailsService, PersistentTokenRepository {
 			date: token.date
 		).save(flush: true)
 
-		// XXX: not necessary any more?
 		removeUserTokensExceptSeries token.username, token.series
 	}
 
@@ -103,14 +104,16 @@ class SecurityService implements UserDetailsService, PersistentTokenRepository {
 	}
 
 	@Override
-	//@Transactional
+	@Transactional
 	public void removeUserTokens(String userName) {
 		removeUserTokensExceptSeries userName, null
 	}
 
-	//@Override
-	@Transactional
+	// @Override
+	// @Transactional
 	protected void removeUserTokensExceptSeries(String userName, String seriesId) {
+        log.debug "remove user-logins: $userName${seriesId ? ', except ['+seriesId+']': ''}"
+
 		def persistentLogins = PersistentLogins.where {
 			username == userName
 
