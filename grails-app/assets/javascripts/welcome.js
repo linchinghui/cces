@@ -4,6 +4,7 @@
 var announcementList;
 function createDataTable() {
   announcementList = $('#list-announcement').DataTable({
+    autoWidth: false,
     processing: true,
     serverSide: true,
     deferRender: true,
@@ -29,6 +30,7 @@ function createDataTable() {
 	  orderable: false,
       data: 'id',
     },{ //1
+      width: '28%',
       render: renderDate4DataTables(true),
       data: 'announcedDate'
     },{ //2
