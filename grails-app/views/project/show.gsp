@@ -39,8 +39,8 @@
                                     <f:display property="constructNo" label="序號" />
                                     <f:display property="constructPlace" label="工程地點" />
                                     <f:display property="constructType" label="施作方式" />
-                                    <f:display property="durationBegin" label="期程-開始" widget="date" />
-                                    <f:display property="durationEnd" label="期程-結束" widget="date" />
+                                    <f:display property="durationBegin" label="期程-開始" wrapper="date" />
+                                    <f:display property="durationEnd" label="期程-結束" wrapper="date" />
                                     <f:display property="contact" label="合約 | 委外編號" />
                                     <f:display property="customer" label="甲方" />
                                     <f:display property="contactPerson" label="聯絡人" />

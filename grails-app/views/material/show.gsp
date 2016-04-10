@@ -41,7 +41,7 @@
                                     <f:display property="price" label="價格" />
                                     <f:display property="supplier" label="供應商" />
                                     <f:display property="contactPhoneNo" label="電話" />
-                                    <f:display property="registeredDate" label="登錄日期" widget="date" />
+                                    <f:display property="registeredDate" label="登錄日期" wrapper="date" />
                                 </f:with>
                             </fieldset>
                         </g:if>

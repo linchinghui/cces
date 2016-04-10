@@ -36,13 +36,13 @@
                             <fieldset class="form-group">
                                 <f:with bean="announcement">
                                     <f:field property="description" label="告示內容" />
-                                    <f:field property="announcedDate" label="公告日期" widget="date" />
+                                    <f:field property="announcedDate" label="公告日期" widget="datetime" />
                                     <f:field property="revokedDate" label="撤榜日期" widget="date" />
                                     <g:if test="${type=='C'}">
                                         <f:field property="createdDate" label="建立日期" widget="date" value="${java.util.Calendar.instance}" required="false"/>
                                     </g:if>
                                     <g:else>
-                                        <f:display property="createdDate" label="建立日期" widget="date" />
+                                        <f:display property="createdDate" label="建立日期" wrapper="date" />
                                     </g:else>
                                 </f:with>
                             </fieldset>

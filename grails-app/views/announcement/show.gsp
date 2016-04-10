@@ -35,9 +35,9 @@
                             <fieldset class="form-group">
                                 <f:with bean="announcement">
                                     <f:display property="description" label="告示內容" />
-                                    <f:display property="announcedDate" label="公告日期" widget="date" />
-                                    <f:display property="revokedDate" label="撤榜日期" widget="date" /><%--
-                                    <f:display property="createdDate" label="建立日期" widget="date" />--%>
+                                    <f:display property="announcedDate" label="公告日期" wrapper="datetime" />
+                                    <f:display property="revokedDate" label="撤榜日期" wrapper="date" /><%--
+                                    <f:display property="createdDate" label="建立日期" wrapper="date" />--%>
                                 </f:with>
                             </fieldset>
                         </g:if>

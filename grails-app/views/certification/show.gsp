@@ -34,10 +34,10 @@
                             <fieldset class="form-group">
                                 <f:with bean="certification">
                                     <f:display property="title" label="證照" />
-                                    <f:display property="examDate" label="考取年月" widget="date" />
-                                    <f:display property="expiryDate" label="有效年月" widget="date" />
-                                    <f:display property="reExamDate" label="回訓日期" widget="date" />
-                                    <f:display property="copied" label="證照影本繳交日" widget="date" />
+                                    <f:display property="examDate" label="考取年月" wrapper="date" />
+                                    <f:display property="expiryDate" label="有效年月" wrapper="date" />
+                                    <f:display property="reExamDate" label="回訓日期" wrapper="date" />
+                                    <f:display property="copied" label="證照影本繳交日" wrapper="date" />
                                 </f:with>
                             </fieldset>
                         </g:if>

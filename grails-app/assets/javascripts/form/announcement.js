@@ -56,18 +56,20 @@ function createDataTable() {
         }
       })
     ,{ //1
+      orderable: false,
       data: 'description'
     },{ //2
-      render: renderDate4DataTables(),
+      render: renderDate4DataTables(true),
       data: 'announcedDate'
     },{ //3
       render: renderDate4DataTables(),
       data: 'revokedDate'
     },{ //4
+      orderable: false,
       render: renderDate4DataTables(),
       data: 'createdDate'
     }],
-    order: [[1,'asc']] // prev: 'aaSorting'
+    order: [[2,'desc']] // prev: 'aaSorting'
 
   }).buttons().disable();
 }

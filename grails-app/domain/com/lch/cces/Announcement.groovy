@@ -5,7 +5,8 @@ import org.grails.databinding.BindingFormat
 
 @Resource(uri = '/api/announcements', superClass = AnnouncementController)
 class Announcement {
-	@BindingFormat("yyyy/MM/dd'Z'")
+	// @BindingFormat("yyyy/MM/dd'Z'")
+	@BindingFormat("yyyy/MM/dd'T'HH:mm:ss'Z'")
 	Date	announcedDate	// 公告日期
 	@BindingFormat("yyyy/MM/dd'Z'")
 	Date	revokedDate		// 撤榜日期

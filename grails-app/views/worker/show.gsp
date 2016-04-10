@@ -37,14 +37,14 @@
                                     <f:display property="empNo" label="員工編號" />
                                     <f:display property="empName" label="姓名" />
                                     <f:display property="sex" label="性別" />
-                                    <f:display property="employedDate" label="到職日" widget="date" />
-                                    <f:display property="resignedDate" label="離職日" widget="date" />
-                                    <f:display property="avatarCopied" label="大頭照繳交日" widget="date" />
-                                    <f:display property="idCardCopied" label="身分證影本繳交日" widget="date" />
-                                    <f:display property="nhiIcCardCopied" label="健保卡影本繳交日" widget="date" />
-                                    <f:display property="diplomaCopied" label="畢業證書影本繳交日" widget="date" />
-                                    <f:display property="oorCopied" label="退伍令影本繳交日" widget="date" />
-                                    <f:display property="gdlCopied" label="駕照影本繳交日" widget="date" />
+                                    <f:display property="employedDate" label="到職日" wrapper="date" />
+                                    <f:display property="resignedDate" label="離職日" wrapper="date" />
+                                    <f:display property="avatarCopied" label="大頭照繳交日" wrapper="date" />
+                                    <f:display property="idCardCopied" label="身分證影本繳交日" wrapper="date" />
+                                    <f:display property="nhiIcCardCopied" label="健保卡影本繳交日" wrapper="date" />
+                                    <f:display property="diplomaCopied" label="畢業證書影本繳交日" wrapper="date" />
+                                    <f:display property="oorCopied" label="退伍令影本繳交日" wrapper="date" />
+                                    <f:display property="gdlCopied" label="駕照影本繳交日" wrapper="date" />
                                 </f:with>
                             </fieldset>
                         </g:if>
