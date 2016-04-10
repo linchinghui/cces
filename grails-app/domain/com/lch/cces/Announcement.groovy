@@ -40,9 +40,12 @@ class Announcement {
 		if (revokedDate == null) {
 			revokedDate = announcedDate + 7
 		}
+		// revokedDate.clearTime()
+
 		if (createdDate == null) {
 			createdDate = new Date()
 		}
+		createdDate.clearTime()
 	}
 
 	public String toString() {

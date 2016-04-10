@@ -8,6 +8,9 @@ function createDataTable() {
     serverSide: true,
     deferRender: true,
     ajax: {
+      headers: {
+        'X-CCES-ACTION': 'upToDate'
+      },
       url: '/api/announcements.json'
     },
 
@@ -26,13 +29,13 @@ function createDataTable() {
 	  orderable: false,
       data: 'id',
     },{ //1
-      render: renderDate4DataTables(),
+      render: renderDate4DataTables(true),
       data: 'announcedDate'
     },{ //2
       orderable: false,
       data: 'description'
     }],
-    order: [[1,'asc']] // prev: 'aaSorting'
+    order: [[1,'desc']] // prev: 'aaSorting'
 
   }).buttons().disable();
 }
