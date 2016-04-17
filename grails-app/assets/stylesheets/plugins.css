@@ -5,6 +5,7 @@
 *= require plugins/bootstrap-datetimepicker
 *= require_self
 */
+
 .combobox-container .form-control {
   border-top-left-radius: 4px;
   border-bottom-left-radius: 4px;
@@ -22,6 +23,7 @@
 .combobox-container .glyphicon-remove {
 	font-size: 0.7em;
 }
+
 .input-group.date,
 .input-group.date.disabled {
   width: 11em;
