@@ -45,7 +45,7 @@ class Assignment implements Serializable, Comparable<Assignment> {
 	// }
 
 	public String toString() {
-		"${employee?.id}-${project?.id}:${year}.${week}(${d0?'S':'_'}${d1?'M':'_'}${d2?'T':'_'}${d3?'W':'_'}${d4?'T':'_'}${d5?'F':'_'}${d6?'S':'_'})"
+		"${employee?.id}:${project?.id}:${year}.${week}(${d0?'S':'_'}${d1?'M':'_'}${d2?'T':'_'}${d3?'W':'_'}${d4?'T':'_'}${d5?'F':'_'}${d6?'S':'_'})"
 	}
 
 	public int compareTo(def other) {
