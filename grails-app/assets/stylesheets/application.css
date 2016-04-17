@@ -12,71 +12,64 @@
   text-indent: 10px;
   color: white;
 }
-
+.ajax-loader {
+  background: url('ajax-loader-small.gif') 100% 50% no-repeat;
+}
 /*
 .nav, div.scaffold-create, div.scaffold-list {
   margin-left: 200px;
 }
 */
+.nav-tabs > li > a {
+  border-color: #d0d0d0;
+  background-color: #e6e6e6;
+}
+
 .required-indicator {
   position: relative;
   top: 3px;
   float: left;
   color: red;
 }
-
 .close {
   font-size: 20px;
   opacity: .3;
 }
-
 .fa.fa-product-hunt {
   font-size: 1.125em;
 }
-
 .highlight {
   background-color: yellow;
-}
-
-.ajax-loader {
-  background: url('ajax-loader-small.gif') 100% 50% no-repeat;
 }
 
 .bootstrap-dialog ul {
   padding-left: 18px;
 }
-
 /*
 .bootstrap-select.btn-group button.dropdown-toggle {
   border-top-left-radius: 3px;
   border-bottom-left-radius: 3px;
 }
-
 .bootstrap-select.btn-group,
 .bootstrap-select.btn-group .dropdown-menu li {
   display: inline-block;
 }
-
 .bootstrap-select.btn-group .dropdown-menu {
   width: -webkit-max-content;
   width: -moz-max-content;
   width: max-content;
 }
-
 .bootstrap-select.btn-group .dropdown-menu.open {
   top: -0.75em;
   left: 2.25em;
 }
-
 .bootstrap-select.btn-group .dropdown-menu > li > a {
   padding-right: 2px;
   padding-left: 8px;
 }
-
 .bootstrap-select.btn-group.show-tick .dropdown-menu li a span.text {
   margin-right: 12px;
 }
-
 .bootstrap-select.btn-group.show-tick .dropdown-menu li.selected a span.check-mark {
   position: inherit;
   margin-right: 3px;
@@ -95,7 +88,6 @@
   padding: 0;
   background-color: inherit;
 }
-
 .modal .wrapper, .modal .container {
   border-radius: 5px;
 }
@@ -103,24 +95,17 @@
 .panel {
   margin-bottom: 0; 
 }
-
-.modal .panel {
-  margin-bottom: 0;
-}
-
-.modal .panel .panel-body {
-  padding-top: 0;
-  padding-bottom: 0;
-}
-
-.modal .panel input[type=checkbox] {
+.panel input[type=checkbox] {
   opacity: 0;
   position: absolute;
   z-index: 12;
   left: 0;
 }
 
-.nav-tabs > li > a {
-    border-color: #d0d0d0;
-    background-color: #e6e6e6;
+.modal .panel {
+  margin-bottom: 0;
+}
+.modal .panel .panel-body {
+  padding-top: 0;
+  padding-bottom: 0;
 }

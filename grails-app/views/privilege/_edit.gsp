@@ -5,7 +5,7 @@
 </g:if>
 <g:else>
     <g:set var="modalPage" value="${true}" scope="request"/> <%--
-    <g:set var="deferredScript" value="list" scope="request"/> --%>
+    <g:set var="deferredScript" value="???" scope="request"/> --%>
 </g:else>
 <g:set var="functionService" bean="functionService"/>
 <g:set var="pageTitle" value="${functionService.get('privilege')?.description + '-設定'}"/>
@@ -19,8 +19,14 @@
     </head>
     <body>
         <div class="container" role="main">
-            <div class="panel panel-info">
-                <div class="panel-body">
+            <div class="panel panel-info"><g:if test="${modalPage}">
+                <div class="panel-heading">
+                    <div class="panel-title">${pageTitle}</div>
+                </div></g:if>
+                <div class="panel-body"> <%--
+                    <section class="content-header">
+                        <g:render template="/layouts/server-message" bean="${privilege}"/>
+                    </section> --%>
                     <section class="content">
                         <g:form resource="${privilege}" method="${submitMehtod}" role="form" class="form-horizontal" name="privilegeForm">
                         <g:if test="${privilege}">
@@ -28,10 +34,12 @@
                               <input name='${_csrf?.parameterName}' type='hidden' value='${_csrf?.token}'/>
                             </g:if>
                             <fieldset class="form-group">
-                                <f:with bean="privilege">
+                                <f:with bean="privilege"><%--
                                     <g:if test="${type=='C'}">
-                                        <f:display property="role" label="作業角色" />
                                     </g:if>
+                                    <g:else>
+                                    </g:else>--%>
+                                    <f:display property="role" label="作業角色" />
                                     <f:display property="function" label="作業項目" />
                                     <f:field property="canRead" label="可讀" />
                                     <f:field property="canWrite" label="可寫" />

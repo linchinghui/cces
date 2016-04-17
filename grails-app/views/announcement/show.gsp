@@ -5,7 +5,7 @@
 </g:if>
 <g:else>
     <g:set var="modalPage" value="${true}" scope="request"/> <%--
-    <g:set var="deferredScript" value="list" scope="request"/> --%>
+    <g:set var="deferredScript" value="???" scope="request"/> --%>
 </g:else>
 <g:set var="functionService" bean="functionService"/>
 <g:set var="pageTitle" value="${functionService.get('announcement')?.description}"/>
@@ -22,10 +22,10 @@
                 <div class="panel-heading">
                     <div class="panel-title">${pageTitle}</div>
                 </div></g:if>
-                <div class="panel-body">
+                <div class="panel-body"> <%--
                     <section class="content-header">
                         <g:render template="/layouts/server-message" bean="${announcement}"/>
-                    </section>
+                    </section> --%>
                     <section class="content">
                         <g:form resource="${announcement}" role="form" class="form-horizontal" name="announcementForm">
                         <g:if test="${announcement}">
@@ -35,9 +35,9 @@
                             <fieldset class="form-group">
                                 <f:with bean="announcement">
                                     <f:display property="description" label="告示內容" />
-                                    <f:display property="announcedDate" label="公告日期" widget="date" />
-                                    <f:display property="revokedDate" label="撤榜日期" widget="date" /><%--
-                                    <f:display property="createdDate" label="建立日期" widget="date" />--%>
+                                    <f:display property="announcedDate" label="公告日期" wrapper="datetime" />
+                                    <f:display property="revokedDate" label="撤榜日期" wrapper="date" /><%--
+                                    <f:display property="createdDate" label="建立日期" wrapper="date" />--%>
                                 </f:with>
                             </fieldset>
                         </g:if>

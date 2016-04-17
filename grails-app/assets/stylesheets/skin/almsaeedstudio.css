@@ -9,6 +9,9 @@
   padding-left: 44px;
 }
 
+.navbar-nav > .user-menu > .dropdown-menu {
+  border-bottom: 2px solid #ddd;
+}
 .navbar-nav > .user-menu > .dropdown-menu > .user-footer {
   background-color: #f0f0f0;
 }

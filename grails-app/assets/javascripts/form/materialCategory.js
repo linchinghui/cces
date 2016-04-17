@@ -58,6 +58,7 @@ function createCatDataTable() {
     ,{ //1
       data: 'code'
     },{ //2
+      orderable: false,
       data: 'description'
     }],
     order: [[1,'asc']] // prev: 'aaSorting'

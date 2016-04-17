@@ -12,18 +12,6 @@ class PrivilegeController extends BaseController<Privilege> {
 		super(Privilege)
 	}
 
-    protected final Privilege queryForResource(Serializable id) {
-        listAllPrivileges(params)[0]
-    }
-
-    protected final Privilege saveResource(Privilege privilege) {
-        return privilegeService.save(privilege)
-    }
-
-    protected final deleteResource(Privilege privilege) {
-        privilegeService.delete(privilege)
-    }
-
     private void resolveParameters(params) {
         if (params?.embed == 'true') { // list all
             params.remove('max')
@@ -33,17 +21,13 @@ class PrivilegeController extends BaseController<Privilege> {
 
         if (compIds?.size() >= 1) {
             if (compIds[0] != 'null') {
-                if (params?.roleId == null) {
-                    params['roleId'] = compIds[0]
-                }
+                if (params?.roleId == null) { params['roleId'] = compIds[0] }
 
             } else {
                 params.remove('id') // to identify 'CREATE'
             }
 
-            if (compIds?.size() >= 2) {
-                params['functionId'] = compIds[1]
-            }
+            if (compIds?.size() >= 2) { params['functionId'] = compIds[1] }
         }
     }
 
@@ -79,6 +63,10 @@ class PrivilegeController extends BaseController<Privilege> {
 
         /*return*/ privileges
     }
+    
+    protected final Privilege queryForResource(Serializable id) {
+        listAllPrivileges(params)[0]
+    }
 
     protected final Privilege createResource(Map params) {
         resolveParameters(params)
@@ -88,7 +76,6 @@ class PrivilegeController extends BaseController<Privilege> {
             props.role = Role.get(params.roleId)
             props.remove('roleId')
         }
-
         if (params?.functionId) {
             props.function = Function.get(params.functionId)
             props.remove('functionId')
@@ -111,6 +98,14 @@ class PrivilegeController extends BaseController<Privilege> {
         } else {
             redirect action: 'create', params: params
         }
+    }
+
+    protected final Privilege saveResource(Privilege privilege) {
+        return privilegeService.save(privilege)
+    }
+
+    protected final deleteResource(Privilege privilege) {
+        privilegeService.delete(privilege)
     }
 
 }

@@ -50,12 +50,12 @@ class AssignmentController extends BaseController<Assignment> {
         }.list(params)
     }
 
-    protected final Assignment queryForResource(Serializable id) {
-        listAllAssignments(params)[0]
-    }
-
     protected final List<Assignment> listAllResources(Map params) {
         listAllAssignments(params)
+    }
+
+    protected final Assignment queryForResource(Serializable id) {
+        listAllAssignments(params)[0]
     }
 
     protected final Assignment createResource(Map params) {

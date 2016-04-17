@@ -11,7 +11,6 @@
         <asset:stylesheet src="form/role"/> --%>
     </head>
     <body>
-<g:if test="${! embedPage}">
       <div class="content-wrapper" role="main">
         <section class="content">
           <div class="row">
@@ -19,7 +18,6 @@
               <ul class="nav nav-tabs">
                 <li class="active"><a href="#" data-target="#" data-toggle="tab"><big>${pageTitle}</big></a></li>
               </ul>
-</g:if>
               <div class="box">
                 <div class="box-header"></div>
                 <div class="box-body">
@@ -42,13 +40,11 @@
                 </div>
               </div>
               <div class="detail"></div>
-<g:if test="${! embedPage}">
             </div>
           </div>
         </section>
       </div>
-</g:if>
-      <asset:script type='text/javascript'><%-- deferred JS here --%>
+<asset:script type='text/javascript'><%-- deferred JS here --%>
 var server = {
   detailLink: '${g.createLink([controller:"privilege", action:"index"])}'
 };
@@ -58,6 +54,6 @@ $(function() {
   createDetailTab();
   createDataTable();
 });
-      </asset:script>
+</asset:script>
     </body>
 </html>

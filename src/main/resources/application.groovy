@@ -22,7 +22,7 @@ aaa.menuGroups = [
 		[controller: 'project', icon: 'fa fa-list-ol'],
 		[controller: 'assignment', icon: 'fa fa-calendar-check-o'],
 		[controller: 'task', icon: 'fa fa-gavel'],
-		[controller: 'sptask', icon: 'fa fa-building-o']
+		[controller: 'spTask', icon: 'fa fa-building-o']
 	]],
 	[group: 'report', description:'統計報表', icon:'fa fa-bar-chart', items: [
 	]]

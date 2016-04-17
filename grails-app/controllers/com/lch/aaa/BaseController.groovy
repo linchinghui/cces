@@ -114,7 +114,6 @@ abstract class BaseController<T> extends RestfulController<T> {
 
         if (instance.hasErrors()) {
             isOK = false
-//println instance.errors
             transactionStatus.setRollbackOnly()
             // original:
             // respond instance.errors, view:'create' // STATUS CODE 422
@@ -127,10 +126,9 @@ abstract class BaseController<T> extends RestfulController<T> {
 
             } else { // 配合 JS
                 if (request.getHeader('callback')) {
-// println "validate error / callback"
                     render ( instance.errors as JSON )
+
                 } else {
-// println "validate error / render"
                     render view: (actionName == 'save' ? 'create' : 'edit'), model: [ (resourceName): instance ]
                 }
             }
@@ -176,7 +174,6 @@ abstract class BaseController<T> extends RestfulController<T> {
 
             } else { // 配合 JS
                 if (request.getHeader('callback')) {
-// println "validate error / callback"
                     render ( [errors: errorMessage] as JSON )
 
                 } else {
@@ -221,7 +218,7 @@ abstract class BaseController<T> extends RestfulController<T> {
     }
 
     def create() {
-//Thread.currentThread().sleep(1000)
+// Thread.currentThread().sleep(1000)
         if(handleReadOnly()) {
             return
         }
@@ -251,8 +248,7 @@ abstract class BaseController<T> extends RestfulController<T> {
     }
 
     def edit() {
-//println '--- super edit()'
-//Thread.currentThread().sleep(1000)
+// Thread.currentThread().sleep(1000)
 // response.status = 501
 // return
         if(handleReadOnly()) {
@@ -272,8 +268,6 @@ abstract class BaseController<T> extends RestfulController<T> {
 
    @Transactional
    def update() {
-// println "params?.action: ${params?.action}"
-// println "actionName: ${actionName}"
 // response.status = 501
 // return
         if(handleReadOnly()) {
@@ -299,19 +293,16 @@ abstract class BaseController<T> extends RestfulController<T> {
 
     @Transactional
     def delete() {
-// println "check read-only"
         if(handleReadOnly()) {
             return
         }
 
         T instance = queryForResource(params?.id)
         if (instance == null) {
-// println "not found"
             transactionStatus.setRollbackOnly()
             notFound()
             return
         }
-// println "begin delete"
 
         def isDEL = false
         def errorMessage = null
@@ -343,11 +334,8 @@ abstract class BaseController<T> extends RestfulController<T> {
             return
         }
 
-
-// println 'before render'
         // 配合 JS
         if (params?.cb) {
-// println "delete callback"
             render template: getDeletPage(),
                 model: [callback: params.cb, result: [id: params.id, status: NO_CONTENT.value(), message: '已刪除']]
         } else {
@@ -355,13 +343,11 @@ abstract class BaseController<T> extends RestfulController<T> {
                 render status: NO_CONTENT // NO CONTENT STATUS CODE
 
             } else {
-// println "delete redirect-to show"
                 flash.message = '已刪除'
                 redirect controller: resourceName, action: 'show', id: instance.id
             }
 //             request.withFormat {
 //                 form multipartForm {
-// println "delete redirecto show"
 //                     // flash.message = message(code: 'default.deleted.message', args: [message(code: "${resourceClassName}.label".toString(), default: resourceClassName), instance.id])
 //                     // redirect action: 'index', method: 'GET'
 //                     flash.message = '已刪除'
@@ -378,35 +364,29 @@ abstract class BaseController<T> extends RestfulController<T> {
 // log.debug "params[format]: ${params['format']}"
 
         if (isAjax()) {
-// println "is ajax"
         // if (params?.format || request.format != 'all') {
             render status: NOT_FOUND
 
         } else { // 配合 JS
-// println 'render not found'
             // def theMessage = message(code: 'default.not.found.message', default: '資料不存在',
             //     args: [ message(code: "${resourceName}.label", default: resourceName), params.id ])
             def theMessage = '資料不存在'
 
             if (request.getHeader('callback') || params?.cb) {
                 if (actionName == 'delete') {
-// println 'render delete page'
                     flash.errors = theMessage
                     render template: getDeletPage(),
                         model: [callback: params.cb, result: [id: params.id, status: NOT_FOUND.value(), message: theMessage]]
                 } else {
-// println 'render message'
                     response.status = NOT_FOUND.value()
                     render theMessage
                 }
 
             } else {
                 if (actionName == 'show') {
-// println 'set flash message'
                     flash.errors = theMessage
 
                 } else {
-// println 'redirec to show page'
                     flash.errors = theMessage
                     // redirect action: 'index', method: 'GET'
                     redirect controller: resourceName, action: 'show', id: params?.id
@@ -419,19 +399,16 @@ abstract class BaseController<T> extends RestfulController<T> {
 //             form multipartForm {
 //                 // 配合 JS
 //                 if (request.getHeader('callback') || params?.cb) {
-// println 'not found: callback'
 //                     response.status = NOT_FOUND.value()
 //                     render '資料不存在'
 
 //                 } else {
-// println 'not found: rediect to show'
 //                     flash.message = message(code: 'default.not.found.message', args: [message(code: '${propertyName}.label', default: '${className}'), params.id])
 //                     // redirect action: 'index', method: 'GET'
 //                     redirect controller: resourceName, action: 'show', id: params?.id
 //                 }
 //             }
 //             '*'{
-// println "not found: ${request.format}"
 //                 render status: NOT_FOUND
 //             }
 //         }

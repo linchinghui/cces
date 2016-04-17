@@ -33,7 +33,7 @@ class Privilege implements Serializable, Comparable<Privilege> {
 	// }
 
 	public String toString() {
-		"${role?.id}-${function?.name}(${canRead?'r':''}${canWrite?'w':''}${canDelete?'d':''})"
+		"${role?.id}:${function?.name}(${canRead?'r':''}${canWrite?'w':''}${canDelete?'d':''})"
 	}
 
 	public int compareTo(def other) {

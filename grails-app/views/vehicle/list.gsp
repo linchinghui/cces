@@ -79,12 +79,12 @@
           </div>
         </section>
       </div>
-      <asset:script type='text/javascript'><%-- deferred JS here --%>
+<asset:script type='text/javascript'><%-- deferred JS here --%>
 $(function() {
   <g:render template="/layouts/client-message" bean="${vehicle}"/>
   createTabs();
   createDataTable();
 });
-      </asset:script>
+</asset:script>
     </body>
 </html>

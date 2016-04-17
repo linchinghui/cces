@@ -3,7 +3,8 @@
     <g:set var="selfStyle" value="${true}" scope="request"/>
 </g:if>
 <g:else>
-    <g:set var="modalPage" value="${true}" scope="request"/>
+    <g:set var="modalPage" value="${true}" scope="request"/> <%--
+    <g:set var="deferredScript" value="???" scope="request"/> --%>
 </g:else>
 <g:set var="functionService" bean="functionService"/>
 <g:set var="pageTitle" value="${functionService.get('vehicle')?.description}"/>
@@ -20,10 +21,10 @@
                 <div class="panel-heading">
                     <div class="panel-title">${pageTitle}</div>
                 </div></g:if>
-                <div class="panel-body">
+                <div class="panel-body"> <%--
                     <section class="content-header">
                         <g:render template="/layouts/server-message" bean="${vehicle}"/>
-                    </section>
+                    </section> --%>
                     <section class="content">
                         <g:form resource="${vehicle}" role="form" class="form-horizontal" name="vehicleForm">
                         <g:if test="${vehicle}">
@@ -35,7 +36,7 @@
                                     <f:display property="plateNo" label="車號" />
                                     <f:display property="brand" label="廠牌" />
                                     <f:display property="model" label="型號" />
-                                    <f:display property="inspectedDate" label="驗車日期" widget="date" />
+                                    <f:display property="inspectedDate" label="驗車日期" wrapper="date" />
                                     <f:display property="note" label="備註" />
                                 </f:with>
                             </fieldset>

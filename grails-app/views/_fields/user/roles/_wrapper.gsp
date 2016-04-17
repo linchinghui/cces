@@ -19,7 +19,7 @@ $(function() {
     iconBase: 'fa',
     tickIcon: 'fa-check-square-o pull-left',
     template: {
-      caret: '> '
+      caret: ' + '
     },
     title: '',
     selectedTextFormat: 'static',

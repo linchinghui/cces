@@ -14,10 +14,7 @@
 </g:if>
     </head>
     <body>
-<g:if test="${! embedPage}">
-      <div class="content-wrapper" role="main">
-        <section class="content">
-</g:if>
+<g:if test="${embedPage}">
           <div class="row">
             <div class="col-xs-12">
               <ul class="nav nav-tabs">
@@ -30,9 +27,6 @@
                     <thead>
                       <tr>
                         <th></th>
-<g:if test="${! embedPage}">
-                        <th><span class="hidden-xs">作業</span>角色</th>
-</g:if>
                         <th>作業<span class="hidden-xs">項目</span></th>
                         <th><span class="hidden-xs">可</span>讀</th>
                         <th><span class="hidden-xs">可</span>寫</th>
@@ -42,9 +36,6 @@
                     <tbody>
                       <tr>
                         <td></td>
-<g:if test="${! embedPage}">
-                        <td>Test Role</td>
-</g:if>
                         <td>Test Function</td>
                         <td><i class="fa fa-check-square-o"></i></td>
                         <td><i class="fa fa-square-o"></i></td>
@@ -56,19 +47,56 @@
               </div>
             </div>
           </div>
-<g:if test="${! embedPage}">
+</g:if>
+<g:else>
+      <div class="content-wrapper" role="main">
+        <section class="content">
+          <div class="row">
+            <div class="col-xs-12">
+              <ul class="nav nav-tabs">
+                <li class="active"><a href="#" data-target="#" data-toggle="tab"><big>${pageTitle}</big></a></li>
+              </ul>
+              <div class="box">
+                <div class="box-header"></div>
+                <div class="box-body">
+                  <table id="list-privilege" class="table table-bordered table-hover">
+                    <thead>
+                      <tr>
+                        <th></th>
+                        <th><span class="hidden-xs">作業</span>角色</th>
+                        <th>作業<span class="hidden-xs">項目</span></th>
+                        <th><span class="hidden-xs">可</span>讀</th>
+                        <th><span class="hidden-xs">可</span>寫</th>
+                        <th><span class="hidden-xs">可</span>刪</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td></td>
+                        <td>Test Role</td>
+                        <td>Test Function</td>
+                        <td><i class="fa fa-check-square-o"></i></td>
+                        <td><i class="fa fa-square-o"></i></td>
+                        <td><i class="fa fa-square-o"></i></td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
         </section>
       </div>
-</g:if>
-      <asset:script type='text/javascript'><%-- deferred JS here --%>
+</g:else>
+<asset:script type='text/javascript'><%-- deferred JS here --%>
 var serverParams = {
-  embedPage: ${embedPage},
+  embed: ${embedPage},
   roleId: '${params?.roleId}'
 };
 
 $(function() {
   createDetailDataTable();
 });
-      </asset:script>
+</asset:script>
     </body>
 </html>

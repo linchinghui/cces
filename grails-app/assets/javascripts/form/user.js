@@ -1,4 +1,5 @@
 //= require ../grid
+//* require ../plugins/bootstrap-select
 //= require_self
 
 var userList;

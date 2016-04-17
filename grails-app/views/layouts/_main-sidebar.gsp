@@ -7,7 +7,6 @@ def config = Holders.grailsApplication.config
 def groupName = params?.group ? new String(params?.group?.decodeBase64()) : null
 %>
 <g:set var="functionService" bean="functionService"/>
-
 <aside class="main-sidebar">
   <section class="sidebar"><%--
     <form action="#" method="get" class="sidebar-form">
@@ -18,7 +17,6 @@ def groupName = params?.group ? new String(params?.group?.decodeBase64()) : null
         </span>
       </div>
     </form>--%>
-
     <ul class="sidebar-menu">
       <li class="header"><big>主選單</big></li>
       <g:each var="menuGroup" in="${config?.aaa?.menuGroups}">

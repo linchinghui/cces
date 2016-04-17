@@ -70,12 +70,13 @@ class SecurityConfigurer extends WebSecurityConfigurerAdapter {
 		return super.authenticationManagerBean()
 	}
 
-	// @Override
-	// public void configure(WebSecurity web) throws Exception {
+	@Override
+	public void configure(WebSecurity web) throws Exception {
 	// 	// already including  "/js/**", "/css/**", "/images/**" by default in Grails
 	// 	// web.ignoring().antMatchers("/favicon.ico", "/assets/**", "/**/*\\.{(js|css|gif|jpg|jpeg|png)}")
 	// 	// web.ignoring().antMatchers("/assets/**/*\\.(css|png)")
-	// }
+		web.ignoring().antMatchers('/api/announcements*')
+	}
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
