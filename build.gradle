@@ -6,7 +6,7 @@ buildscript {
         mavenLocal()
         maven { url 'https://repo.grails.org/grails/core' }
     }
-    dependencies {        
+    dependencies {
         classpath "org.grails:grails-gradle-plugin:$grailsVersion"
         classpath 'com.bertramlabs.plugins:asset-pipeline-gradle:2.5.0'
 		classpath 'org.grails.plugins:hibernate:4.3.10.7'
@@ -55,14 +55,14 @@ dependencyManagement {
 
 dependencies {
     provided 'org.springframework.boot:spring-boot-starter-logging' , {
-            [
-                'jcl-over-slf4j',
-                'jul-to-slf4j',
-                'log4j-over-slf4j'
-            ].each {
-                exclude module: it
-            }
+        [
+            'jcl-over-slf4j',
+            'jul-to-slf4j',
+            'log4j-over-slf4j'
+        ].each {
+            exclude module: it
         }
+    }
     provided 'org.springframework.boot:spring-boot-starter-actuator'
     provided 'org.springframework.boot:spring-boot-autoconfigure'
     provided 'org.springframework.boot:spring-boot-starter-tomcat'
@@ -78,50 +78,49 @@ dependencies {
     // compile 'org.springframework.boot:spring-security-csrf-token-filter'
     // compile 'commons-beanutils:commons-beanutils:1.9.2'
     // // compile 'commons-beanutils:commons-beanutils'
-    provided 'org.springframework.boot:spring-boot-starter-security' // , { // starter-v1.2.8 with security-v3.2.9
-//      [   // common:
-//          'aopalliance',
-//          'commons-logging',
-//          'fest-assert',
-//          'hsqldb',
-//          // TEST: 
-//          'jcl-over-slf4j',
-//          'junit',
-//          'logback-classic',
-//          'mockito-core',
-//          'powermock-api-mockito',
-//          'powermock-api-support',
-//          'powermock-core',
-//          'powermock-module-junit4',
-//          'powermock-module-junit4-common',
-//          'powermock-reflect',
-//          'spring-beans',
-//          'spring-context',
-//          'spring-core',
-//          'spring-expression',
-//          'spring-jdbc',
-//          'spring-test',
-//          'spring-tx',
-//          // -core:
-//          'aspectjrt',
-//          'commons-collections',
-//          'ehcache-core',
-//          'jsr250-api',
-//          'spring-aop',
-//          // -web:
-//          'commons-codec',
-//          'groovy-all',
-//          'javax.servlet-api',
-//          'spock-core',
-//          'spock-spring',
-// //           'spring-security-core',
-//          'spring-web',
-//          'spring-webmvc'
-//      ].each {
-//          exclude module: it
-//      }
-//  }
-
+    provided 'org.springframework.boot:spring-boot-starter-security' , { // starter-v1.2.8 with security-v3.2.9
+        [   // common:
+            'aopalliance',
+            'commons-logging',
+            'fest-assert',
+            'hsqldb',
+            // TEST: 
+            'jcl-over-slf4j',
+            'junit',
+            'logback-classic',
+            'mockito-core',
+            'powermock-api-mockito',
+            'powermock-api-support',
+            'powermock-core',
+            'powermock-module-junit4',
+            'powermock-module-junit4-common',
+            'powermock-reflect',
+            'spring-beans',
+            'spring-context',
+            'spring-core',
+            'spring-expression',
+            'spring-jdbc',
+            'spring-test',
+            'spring-tx',
+            // -core:
+            'aspectjrt',
+            'commons-collections',
+            'ehcache-core',
+            'jsr250-api',
+            'spring-aop',
+            // -web:
+            'commons-codec',
+            'groovy-all',
+            'javax.servlet-api',
+            'spock-core',
+            'spock-spring',
+            // 'spring-security-core',
+            'spring-web',
+            'spring-webmvc'
+        ].each {
+            exclude module: it
+        }
+    }
 
 //  compile('org.grails:gorm-hibernate4-spring-boot:1.1.0.RELEASE') {
 //      exclude module: 'spring-boot-cli'

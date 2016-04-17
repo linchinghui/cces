@@ -19,7 +19,8 @@ base.functionList = [
 	[name: 'user', description: '帳號/角色'], // '使用者'
 	[name: 'vehicle', description: '車輛資料'],
 	[name: 'vehicleBrand', description: '車輛廠牌'],
+	[name: 'vehicleMilage', description: '用車', aided: true],
 	[name: 'worker', description: '人員資料'],
 	[name: 'task', description: '一般作業登錄'],
-	[name: 'sptask', description: '園區作業登錄']
+	[name: 'spTask', description: '園區作業登錄']
 ]
