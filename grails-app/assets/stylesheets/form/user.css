@@ -35,10 +35,12 @@ div.dataTables_info span.small {
 .bootstrap-select.btn-group button.dropdown-toggle {
   border-top-left-radius: 3px;
   border-bottom-left-radius: 3px;
+  cursor: pointer;
 }
 
 .bootstrap-select.btn-group,
 .bootstrap-select.btn-group .dropdown-menu li {
+  margin-left: 5px;
   display: inline-block;
 }
 
