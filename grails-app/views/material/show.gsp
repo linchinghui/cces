@@ -4,7 +4,7 @@
 </g:if>
 <g:else>
     <g:set var="modalPage" value="${true}" scope="request"/> <%--
-    <g:set var="deferredScript" value="list" scope="request"/> --%>
+    <g:set var="deferredScript" value="???" scope="request"/> --%>
 </g:else>
 <g:set var="functionService" bean="functionService"/>
 <g:set var="pageTitle" value="${functionService.get('material')?.description}"/>
@@ -21,10 +21,10 @@
                 <div class="panel-heading">
                     <div class="panel-title">${pageTitle}</div>
                 </div></g:if>
-                <div class="panel-body">
+                <div class="panel-body"> <%--
                     <section class="content-header">
                         <g:render template="/layouts/server-message" bean="${material}"/>
-                    </section>
+                    </section> --%>
                     <section class="content">
                         <g:form resource="${material}" role="form" class="form-horizontal" name="materialForm">
                         <g:if test="${material}">
