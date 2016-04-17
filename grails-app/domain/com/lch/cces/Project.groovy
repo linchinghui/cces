@@ -31,7 +31,7 @@ class Project {
 		constructNo		blank: true, nullable: true, maxSize: 20
 		constructPlace	blank: false, nullable: false, maxSize: 40
 		constructCode	blank: false, nullable: false, inList: ConstructType*.id
-//		constructType	blank: false, nullable: false
+		constructType	blank: false, nullable: false
 		durationBegin	blank: true, nullable: true
 		durationEnd		blank: true, nullable: true
 		contact			blank: true, nullable: true, maxSize: 36
