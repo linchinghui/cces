@@ -12,8 +12,7 @@ function modifyDetailDataRequested (result, editForm) {
 }
 
 function createDetailDataTable() {
-  var qryStr = serverParams.embedPage ? '?embed=true&roleId=' + serverParams.roleId : '';
-
+  var qryStr = serverParams.embed ? '?' + $.param(serverParams) : '';
   var dataCols = [ //0
       renderDefaultAlterationCellWithId4DataTables({
         edit: {
@@ -28,7 +27,7 @@ function createDetailDataTable() {
       })
     ];
 
-  if (! serverParams.embedPage) {
+  if (! serverParams.embed) {
     dataCols.push(
       { //1
         data: 'role'
@@ -60,23 +59,19 @@ function createDetailDataTable() {
       ajax: {
         url: '/api/privileges.json',
         data: function(params, settings) {
-          return $.extend({}, 
-            serverParams.embedPage ? {
+          return $.extend({
               draw: params.draw,
-              embed: true,
-              roleId: serverParams.roleId
-            } : {
-              draw: params.draw,
-              max: params.length,
-              offset: params.start
-            }, {
               sort: settings.aoColumns[params.order[0].column].data,
               order: params.order[0].dir
+            }, 
+            serverParams.embed ? serverParams : {
+              max: params.length,
+              offset: params.start
             });
         }
       },
 
-      initComplete: serverParams.embedPage ? null : function (settings, data) { // this == DataTable()
+      initComplete: serverParams.embed ? null : function (settings, data) { // this == DataTable()
         initialized4DataTables(this, settings, data);
       },
 
@@ -84,13 +79,14 @@ function createDetailDataTable() {
         copy: true
       },
       buttons: [
-        //{text: '新增', action: addDetailDataRequest}
+        // {text: '新增', action: addDetailDataRequest}
       ],
       columns: dataCols
+      ,order: [[1,'asc']] // prev: 'aaSorting'
     };
 
   privilegeList = $('#list-privilege').DataTable(
-    serverParams.embedPage ? $.extend({}, {
+    serverParams.embed ? $.extend({}, {
           dom: 'Bftri',
           pageLength: 100,
           scrollY: true
