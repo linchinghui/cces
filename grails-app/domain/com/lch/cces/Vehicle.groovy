@@ -39,6 +39,6 @@ class Vehicle {
 	}
 
 	public String toString() {
-		"${plateNo}"
+		"${id}"
 	}
 }
