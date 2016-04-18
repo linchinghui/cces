@@ -5,7 +5,7 @@
 </g:if>
 <g:else>
     <g:set var="modalPage" value="${true}" scope="request"/> <%--
-    <g:set var="deferredScript" value="list" scope="request"/> --%>
+    <g:set var="deferredScript" value="???" scope="request"/> --%>
 </g:else>
 <g:set var="functionService" bean="functionService"/>
 <g:set var="pageTitle" value="${functionService.get('certification')?.description + '-設定'}"/>
@@ -19,8 +19,14 @@
     </head>
     <body>
         <div class="container" role="main">
-            <div class="panel panel-info">
-                <div class="panel-body">
+            <div class="panel panel-info"><g:if test="${modalPage}">
+                <div class="panel-heading">
+                    <div class="panel-title">${pageTitle}</div>
+                </div></g:if>
+                <div class="panel-body"> <%--
+                    <section class="content-header">
+                        <g:render template="/layouts/server-message" bean="${assignment}"/>
+                    </section> --%>
                     <section class="content">
                         <g:form resource="${certification}" method="${submitMehtod}" role="form" class="form-horizontal" name="certificationForm">
                         <g:if test="${certification}">

@@ -41,7 +41,7 @@ class Certification implements Serializable, Comparable<Certification> {
 	}
 
 	public String toString() {
-		"${title}-${uri}"
+		"${title}:${uri}"
 	}
 
 	public int compareTo(def other) {
