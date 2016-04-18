@@ -1,0 +1,6 @@
+/*
+*= require_self
+*/
+.panel .panel-body {
+    padding-bottom: 120px;
+}
