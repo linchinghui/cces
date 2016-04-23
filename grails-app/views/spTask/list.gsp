@@ -1,29 +1,40 @@
-<g:set var="deferredScript" value="form/vehicle" scope="request"/>
+<g:set var="deferredScript" value="form/spTask" scope="request"/>
 <g:set var="functionService" bean="functionService"/>
-<g:set var="pageTitle" value="${functionService.get('vehicle')?.description}"/>
+<g:set var="pageTitle" value="${functionService.get('spTask')?.description}"/>
 <!DOCTYPE html>
 <html>
     <head>
         <meta name="layout" content="main" />
         <title>CCES - ${pageTitle}</title>
-        <asset:stylesheet src="grid"/> <%--
-        <asset:stylesheet src="form/vehicle"/> --%>
+        <asset:stylesheet src="grid"/>
+        <asset:stylesheet src="form/spTask"/>
     </head>
     <body>
       <div class="content-wrapper" role="main"> <%--
         <section class="content-header">
-          <g:render template="/layouts/server-message" bean="${vehicle}"/>
+          <g:render template="/layouts/server-message" bean="${spTask}"/>
         </section> --%>
         <section class="content">
           <div class="row">
             <div class="col-xs-12">
+              <div class="clearfix">
+                <div class="projectContainer col-sm-6">
+                  <label for="project">專案:</label>
+                  <div class="assignProject form-control">
+                    <span class="text-center"><span class="ajax-loader">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></span>
+                  </div>
+                </div>
+                <div class="dateContainer col-sm-5">
+                  <f:field property="workedDate" label="日期:" widget="date" />
+                </div>
+              </div>
               <ul class="nav nav-tabs">
                 <li class="active">
-                  <a data-toggle="mtab" data-target="#tab1" href="#"><big>${pageTitle}</big></a>
+                  <a data-toggle="mtab" data-target="#tab1" href="#"><big>人員</big></a>
                 </li>
                 <li>
-                  <a data-toggle="mtab" data-target="#tab2" href="${g.createLink([controller:'vehicleBrand', action:'index',params:[embed:true]])}">
-                    <big>${functionService.get('vehicleBrand')?.description}</big>
+                  <a data-toggle="mtab" data-target="#tab2" href="${g.createLink([controller:'vehicleMilage', action:'index',params:[embed:true]])}">
+                    <big>${functionService.get('vehicleMilage')?.description}</big>
                   </a>
                 </li>
               </ul>
@@ -35,26 +46,24 @@
                       <h3 class="box-title">${pageTitle}</h3>
                     </div> --%>
                     <div class="box-body">
-                      <table id="list-vehicle" class="table table-bordered table-hover">
+                      <table id="list-spTask" class="table table-bordered table-hover">
                         <thead>
                           <tr>
                             <th></th>
-                            <th>車號</th>
-                            <th>驗車<span class="hidden-xs">日期</span></th>
-                            <th><span class="hidden-xs">定檢</span>期限</th>
-                            <th>廠牌</th>
-                            <th>型號</th>
+                            <th><span class="hidden-xs">工程</span>地點</th>
+                            <th>機台<span class="hidden-xs">型號</span></th>
+                            <th><span class="hidden-xs">工作</span>人員</th>
+                            <th><span class="hidden-xs">施作</span>方式</th>
                             <th>備註</th>
                           </tr>
                         </thead>
                         <tbody>
                           <tr>
                             <td></td>
-                            <td>AB-123</td>
-                            <td></td>
-                            <td></td>
-                            <td>SUPER</td>
-                            <td>GTR</td>
+                            <td>竹科</td>
+                            <td>X-123</td>
+                            <td>黃之應</td>
+                            <td>高架</td>
                             <td></td>
                           </tr>
                         </tbody>
@@ -74,16 +83,21 @@
                   </div>
                 </div>
               </div>
-
             </div>
           </div>
         </section>
       </div>
 <asset:script type='text/javascript'><%-- deferred JS here --%>
+var server = {
+  workedDate: '${params?.workedDate?.format("yyyy-MM-dd")}',
+  project: '${params?.project}'
+};
+
 $(function() {
-  <g:render template="/layouts/client-message" bean="${vehicle}"/>
-  createTabs();
-  createDataTable();
+  <g:render template="/layouts/client-message" bean="${spTask}"/>
+  initializeSelectFields();
+  initializeSpTasks();
+  $('input[type=text],textarea').filter(':enabled:visible:first').focus();
 });
 </asset:script>
     </body>

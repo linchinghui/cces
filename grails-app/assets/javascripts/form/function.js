@@ -19,13 +19,10 @@ function createDataTable() {
     ajax: {
       url: '/api/functions.json'
     },
-
     // infoCallback: null, // renderDisplayHit4DataTables
-
     initComplete: function (settings, data) { // this == DataTable()
       initialized4DataTables(this, settings, data);
     },
-    
     extButtons: {
       copy: true
     },

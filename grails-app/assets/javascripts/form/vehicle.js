@@ -19,7 +19,6 @@ function createTabs() {
         },
         success: function(response){
           $(thisEle.attr('data-target')).html(response);
-          // thisEle.tab('show');
           thisEle.attr('href','#');
         }
       });
@@ -60,11 +59,9 @@ function createDataTable() {
     ajax: {
       url: '/api/vehicles.json'
     },
-
     initComplete: function (settings, data) { // this == DataTable()
       initialized4DataTables(this, settings, data);
     },
-
     extButtons: {
       copy: true
     },

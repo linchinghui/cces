@@ -21,13 +21,16 @@ class PrivilegeController extends BaseController<Privilege> {
 
         if (compIds?.size() >= 1) {
             if (compIds[0] != 'null') {
-                if (params?.roleId == null) { params['roleId'] = compIds[0] }
-
+                if (params?.roleId == null) {
+                    params['roleId'] = compIds[0]
+                }
             } else {
                 params.remove('id') // to identify 'CREATE'
             }
 
-            if (compIds?.size() >= 2) { params['functionId'] = compIds[1] }
+            if (compIds?.size() >= 2 && compIds[1] != 'null' && params?.functionId == null) {
+                params['functionId'] = compIds[1]
+            }
         }
     }
 
@@ -72,11 +75,13 @@ class PrivilegeController extends BaseController<Privilege> {
         resolveParameters(params)
         def props = params
 
-        if (params?.roleId) {
+        if (params?.roleId &&
+            params?.roleId != 'null') {
             props.role = Role.get(params.roleId)
             props.remove('roleId')
         }
-        if (params?.functionId) {
+        if (params?.functionId &&
+            params?.functionId != 'null') {
             props.function = Function.get(params.functionId)
             props.remove('functionId')
         }
@@ -91,8 +96,7 @@ class PrivilegeController extends BaseController<Privilege> {
     def edit() {
         resolveParameters(params)
 
-        // if (params?.roleId && params?.functionId) {
-        if (params?.id) { // CREATE
+        if (params?.id) {
             super.edit()
 
         } else {

@@ -33,11 +33,9 @@ function createDataTable() {
     ajax: {
       url: '/api/workers.json'
     },
-
     initComplete: function (settings, data) { // this == DataTable()
       initialized4DataTables(this, settings, data);
     },
-
     extButtons: {
       copy: true
     },

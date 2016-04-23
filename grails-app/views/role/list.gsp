@@ -1,4 +1,4 @@
-<g:set var="embedPage" value="${params?.embed=='true'}" scope="request"/>
+<%--<g:set var="embedPage" value="${params?.embed=='true'}" scope="request"/>--%>
 <g:set var="deferredScript" value="form/role" scope="request"/>
 <g:set var="functionService" bean="functionService"/>
 <g:set var="pageTitle" value="${functionService.get('role')?.description}"/>
@@ -11,7 +11,10 @@
         <asset:stylesheet src="form/role"/> --%>
     </head>
     <body>
-      <div class="content-wrapper" role="main">
+      <div class="content-wrapper" role="main"> <%--
+        <section class="content-header">
+          <g:render template="/layouts/server-message" bean="${role}"/>
+        </section> --%>
         <section class="content">
           <div class="row">
             <div class="col-xs-12">

@@ -15,8 +15,8 @@
           <div class="row">
             <div class="col-xs-12">
               <div class="clearfix">
-                <div class="projectContainer col-sm-7">
-                  <label for="project" class="control-label hidden-xs">專案:</label>
+                <div class="projectContainer col-sm-6 col-xs-6">
+                  <label for="project" class="hidden-xs">專案:</label>
                   <div class="assignProject form-control">
                     <span class="text-center"><span class="ajax-loader">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></span>
                   </div>
@@ -88,6 +88,7 @@ $(function() {
   <g:render template="/layouts/client-message" bean="${assignment}"/>
   initializeSelectFields();
   initializeAssignments();
+  $('input[type=text],textarea').filter(':enabled:visible:first').focus();
 });
 </asset:script>
     </body>
