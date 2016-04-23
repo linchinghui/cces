@@ -11,7 +11,7 @@ class SpTask implements Serializable, Comparable<SpTask> {
 	Date			workedDate		// 施工日期(建檔日期)
 	Worker			employee		// 工作人員(員工)
 	String			constructPlace	// 工程地點
-	String			equipment		// 機台
+	String			equipment		// 機台型號
 	String			constructCode	// 施作方式
 	ConstructType	constructType	// 施作方式 (input/display)
 	String			note			// 備註
