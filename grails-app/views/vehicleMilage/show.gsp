@@ -8,13 +8,13 @@
     <g:set var="deferredScript" value="???" scope="request"/> --%>
 </g:else>
 <g:set var="functionService" bean="functionService"/>
-<g:set var="pageTitle" value="${functionService.get('certification')?.description}"/>
+<g:set var="pageTitle" value="${functionService.get('vehicleMilage')?.description}"/>
 <!DOCTYPE html>
 <html>
     <head>
         <meta name="layout" content="main" />
         <title>CCES - ${pageTitle}</title>
-        <asset:stylesheet src="form/certification"/>
+        <asset:stylesheet src="form/vehicleMilage"/>
     </head>
     <body>
         <div class="container" role="main">
@@ -24,21 +24,20 @@
                 </div></g:if>
                 <div class="panel-body"> <%--
                     <section class="content-header">
-                        <g:render template="/layouts/server-message" bean="${certification}"/>
+                        <g:render template="/layouts/server-message" bean="${vehicleMilage}"/>
                     </section> --%>
                     <section class="content">
-                        <g:form resource="${certification}" role="form" class="form-horizontal" name="certificationForm">
-                        <g:if test="${certification}">
+                        <g:form resource="${vehicleMilage}" role="form" class="form-horizontal" name="vehicleMilageForm">
+                        <g:if test="${vehicleMilage}">
                             <g:if test="${_csrf?.parameterName}">
                               <input name='${_csrf?.parameterName}' type='hidden' value='${_csrf?.token}'/>
                             </g:if>
                             <fieldset class="form-group">
-                                <f:with bean="certification">
-                                    <f:display property="title" label="證照" />
-                                    <f:display property="examDate" label="考取年月" wrapper="date" />
-                                    <f:display property="expiryDate" label="有效年月" wrapper="date" />
-                                    <f:display property="reExamDate" label="回訓日期" wrapper="date" />
-                                    <f:display property="copied" label="證照影本繳交日" wrapper="date" />
+                                <f:with bean="vehicleMilage">
+                                    <f:display property="project" label="專案" />
+                                    <f:display property="dispatchedDate" label="用車日期" widget="date" />
+                                    <f:display property="vehicle" label="車輛" />
+                                    <f:display property="km" label="里程數" />
                                 </f:with>
                             </fieldset>
                         </g:if>
@@ -49,11 +48,11 @@
         </div>
 <asset:script type='text/javascript'><%-- deferred JS here --%>
 $(function() {
-    var showForm = $('#certificationForm');
+    var showForm = $('#vehicleMilageForm');
     <g:if test="${dialogPage}">
         $('.bootstrap-dialog-title').html('${pageTitle}');
     </g:if>
-    <g:render template="/layouts/client-message" bean="${certification}"/>
+    <g:render template="/layouts/client-message" bean="${vehicleMilage}"/>
     <g:render template="/layouts/client-render" model="[formVar: 'showForm']"/>
 });
 </asset:script>

@@ -14,11 +14,12 @@ function createDataTable() {
       },
       url: '/api/announcements.json'
     },
-
     initComplete: function (settings, data) { // this == DataTable()
       initialized4DataTables(this, settings, data);
+      $(window).resize(function() {
+        announcementList.columns.adjust().responsive.recalc();
+      });
     },
-
     extButtons: {
       // copy: true
     },

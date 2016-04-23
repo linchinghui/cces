@@ -25,7 +25,7 @@ function getLastParameters() {
       format: 'json'
     }
 
-  if (lastDateAssigned && lastDate >= moment().transform('YYYY-MM-DD 00:00:00.000')) {
+  if (lastDateAssigned) { // && lastDate >= moment().transform('YYYY-MM-DD 00:00:00.000')) {
     qryParams['d' + lastDate.day()] = true;
   }
 
@@ -68,27 +68,13 @@ function createDataTable() {
     };
   });
 
-  var qryStr = '?' + $.param(getLastParameters());
-
   assignDataTable = assignDataTableDiv.DataTable({
     dom: 'B<"pull-right"i>ftrp',
     processing: true,
     serverSide: true,
     deferRender: true,
     ajax: {
-      onDone: function() {
-        if (! (assignProjectList.val() || false)) {
-          assignDataTable.buttons().disable();
-        }
-      },
-
-      onReloadClick: function(event) {
-        return (assignProjectList.val() && true);
-      },
-
-      // onReloadClicked: function() {
-      // },
-
+      url: '/api/assignments.json',
       data: function(params, settings) {
         settings.ajax.fake = ! (assignProjectList.val() || false);
 
@@ -100,17 +86,23 @@ function createDataTable() {
             order: (params.order ? params.order[0].dir : 'asc')
           }, getLastParameters() );
       },
-      url: '/api/assignments.json'
+      onDone: function() {
+        if (! (assignProjectList.val() || false)) {
+          assignDataTable.buttons().disable();
+        }
+      },
+      onReloadClick: function(event) {
+        return (assignProjectList.val() && true);
+      }
+      // ,onReloadClicked: function() {
+      // }
     },
-
     infoCallback: function (settings, start, end, max, total, pre) {
       return lastDate ? '過濾條件: 週'+ assignCLNDR.daysOfTheWeek[ lastDate.day() ] : '';
     },
-
     initComplete: function (settings, data) { // this == DataTable()
       initialized4DataTables(this, settings, data);
     },
-
     extButtons: {
       // copy: true
     },
@@ -120,11 +112,11 @@ function createDataTable() {
     columns: [ //0
       renderDefaultAlterationCellWithId4DataTables({
         edit: {
-          url: '/assignment/edit' + qryStr,
+          url: '/assignment/edit',
           callback: modifyDataRequested
         }
         ,delete:  {
-          url: '/assignment/delete' + qryStr,
+          url: '/assignment/delete',
           callback: removeDataRequested
         }
       })
@@ -221,7 +213,6 @@ function buildAssignCalendar (assignData) {
         lastWeek = lastDate.week();
         loadAssignments();
       },
-
       onIntervalChange: function (sunday, saturday) {
         lastDateAssigned = false;
         lastDate = null;
@@ -259,6 +250,7 @@ function loadAssignments () {
 
     if (assignCLNDR) {
       assignCLNDR.setEvents(promise.data);
+      
     } else {
       buildAssignCalendar(promise.data);
     }
@@ -267,14 +259,15 @@ function loadAssignments () {
 
     if (assignDataTable) {
       reloadDataTables(assignDataTable, true);
+
     } else {
       createDataTable();
     }
   });
 }
-/*----------------------------------
-  default by server-side parameters
- -----------------------------------*/
+/*----------------------------------------
+  default value by server-side parameters
+ -----------------------------------------*/
 function initializeAssignments () {
   $.ajax.fake.defaults.wait = 0;
 

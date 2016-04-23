@@ -69,6 +69,7 @@ $(function() {
     <g:render template="/layouts/client-message" bean="${worker}"/>
     <g:render template="/layouts/client-submit" model="[formVar: 'editForm']"/>
     <g:render template="/layouts/client-render" model="[formVar: 'editForm']"/>
+    $('input[type=text],textarea').filter(':enabled:visible:first').focus();
 });
 </asset:script>
     </body>
