@@ -238,12 +238,14 @@ abstract class BaseController<T> extends RestfulController<T> {
         
         T instance = createResource()
         instance.validate()
+
         if (! afterPropertiesValidate(instance, transactionStatus)) {
             return
         }
         if (! persistResource(instance, transactionStatus)) {
             return
         }
+
         renderSavedPage(instance)
     }
 

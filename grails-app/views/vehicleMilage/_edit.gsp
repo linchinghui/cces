@@ -63,6 +63,7 @@ $(function() {
     <g:render template="/layouts/client-message" bean="${vehicleMilage}"/>
     <g:render template="/layouts/client-submit" model="[formVar: 'editForm']"/>
     <g:render template="/layouts/client-render" model="[formVar: 'editForm']"/>
+    $('input[type=text],input[type=number],textarea').filter(':enabled:visible:first').focus();
 });
 </asset:script>
     </body>

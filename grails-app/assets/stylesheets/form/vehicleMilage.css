@@ -1,6 +1,7 @@
 /*
 *= require_self
 */
-.panel .panel-body {
+.panel .panel-body,
+.modal .panel .panel-body {
     padding-bottom: 120px;
 }

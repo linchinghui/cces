@@ -33,11 +33,9 @@ function createBrandDataTable() {
     ajax: {
       url: '/api/vehicleBrands.json'
     },
-
     initComplete: function (settings, data) { // this == DataTable()
       initialized4DataTables(this, settings, data);
     },
-
     extButtons: {
       copy: true
     },

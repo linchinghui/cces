@@ -35,7 +35,12 @@
                             </g:if>
                             <fieldset class="form-group">
                                 <f:with bean="vehicle">
-                                    <f:field property="plateNo" label="車號" widget-placeholder="輸入中英文說明" />
+                                    <g:if test="${type=='C'}">
+                                        <f:field property="plateNo" label="車號" widget-placeholder="輸入中英文說明" />
+                                    </g:if>
+                                    <g:else>
+                                        <f:display property="plateNo" label="車號" />
+                                    </g:else>
                                     <f:field property="brand" label="廠牌" />
                                     <f:field property="model" label="型號" widget-placeholder="輸入中英文說明" />
                                     <f:field property="inspectedDate" label="驗車日期" widget="date" />
@@ -58,6 +63,7 @@ $(function() {
     <g:render template="/layouts/client-message" bean="${vehicle}"/>
     <g:render template="/layouts/client-submit" model="[formVar: 'editForm']"/>
     <g:render template="/layouts/client-render" model="[formVar: 'editForm']"/>
+    $('input[type=text],textarea').filter(':enabled:visible:first').focus();
 });
 </asset:script>
     </body>
