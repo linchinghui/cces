@@ -11,17 +11,31 @@ function modifyDetailDataRequested (result, editForm) {
   reloadDataTables(privilegeList);
 }
 
+function addDetailDataRequested (result, editForm) {
+  reloadDataTables(announcementList);
+}
+
+function addDetailDataRequest (evt, dt, node, config) {
+  BootstrapDialog.show({
+    title: '新增...',
+    message: requestAction4BootstrapDialog({
+      url: '/privilege/create',
+      callback: addDetailDataRequested
+    })
+  });
+}
+
 function createDetailDataTable() {
   var qryStr = serverParams.embed ? '?' + $.param(serverParams) : '';
   var dataCols = [ //0
       renderDefaultAlterationCellWithId4DataTables({
         edit: {
-          url: '/privilege/edit'+qryStr,
+          url: '/privilege/edit' + qryStr,
           callback: modifyDetailDataRequested
         }
         ,delete:  {
           title: '清除...',
-          url: '/privilege/delete'+qryStr,
+          url: '/privilege/delete' + qryStr,
           callback: removeDetailDataRequested
         }
       })
@@ -70,27 +84,26 @@ function createDetailDataTable() {
             });
         }
       },
-
       initComplete: serverParams.embed ? null : function (settings, data) { // this == DataTable()
         initialized4DataTables(this, settings, data);
       },
-
       extButtons: {
         copy: true
       },
-      buttons: [
-        // {text: '新增', action: addDetailDataRequest}
-      ],
       columns: dataCols
-      ,order: [[1,'asc']] // prev: 'aaSorting'
+      // ,order: [[1,'asc']] // prev: 'aaSorting'
     };
 
   privilegeList = $('#list-privilege').DataTable(
-    serverParams.embed ? $.extend({}, {
+    $.extend({}, serverParams.embed ? {
           dom: 'Bftri',
           pageLength: 100,
-          scrollY: true
+          scrollY: true,
+          buttons: []
+        } : {
+          buttons: [{
+            text: '新增', action: addDetailDataRequest
+          }]
         }, dataSettings)
-      : dataSettings
     ).buttons().disable();
 }
