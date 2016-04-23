@@ -84,6 +84,7 @@ var serverParams = {
 
 $(function() {
   <g:render template="/layouts/client-message" bean="${vehicleMilage}"/>
+  createCriterionListener();
   createMilageTable();
 });
 </asset:script>

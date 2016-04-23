@@ -3,7 +3,7 @@ package com.lch.cces
 import grails.rest.Resource
 import org.grails.databinding.BindingFormat
 
-//@Resource(uri = '/api/vehicleMilages', superClass = VehicleMilageController)
+@Resource(uri = '/api/vehicleMilages', superClass = VehicleMilageController)
 class VehicleMilage implements Serializable, Comparable<VehicleMilage> {
 
 	Project		project			// 專案(一般,園區)
@@ -20,20 +20,20 @@ class VehicleMilage implements Serializable, Comparable<VehicleMilage> {
     }
 
 	static mapping = {
-		version			false
+		version		false
 
-		id				composite: ['project', 'dispatchedDate', 'vehicle']
+		id			composite: ['project', 'dispatchedDate', 'vehicle']
 	}
 
 	public String getId() {
-		"${project?.id}|${dispatchedDate?.format('yyyy-MM-ddZ')}|${vehicle?.id}"
+		"${project?.id}|${dispatchedDate?.format('yyyy-MM-dd')}|${vehicle?.id}"
 	}
 
 	// public void setId(String _id) {
 	// }
 
 	public String toString() {
-		"${project?.id}:${dispatchedDate?.format('yyyy-MM-ddZ')}:${vehicle?.id}"
+		"${project?.id}:${dispatchedDate?.format('yyyy-MM-dd')}:${vehicle?.id}"
 	}
 
 	public int compareTo(def other) {
