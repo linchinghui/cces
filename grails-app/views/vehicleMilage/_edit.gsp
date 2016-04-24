@@ -7,6 +7,7 @@
     <g:set var="modalPage" value="${true}" scope="request"/> <%--
     <g:set var="deferredScript" value="???" scope="request"/> --%>
 </g:else>
+<g:set var="embedPage" value="${params?.embed=='true'}" scope="request"/>
 <g:set var="functionService" bean="functionService"/>
 <g:set var="pageTitle" value="${functionService.get('vehicleMilage')?.description}-${type=='C' ? '新增' : type=='U' ? '編輯' : ''}"/>
 <g:set var="submitMehtod" value="${type=='C' ? 'POST' : type=='U' ? 'PUT' : ''}"/>
@@ -35,7 +36,7 @@
                             </g:if>
                             <fieldset class="form-group">
                                 <f:with bean="vehicleMilage">
-                                    <g:if test="${type=='C'}">
+                                    <g:if test="${type=='C' && ! embedPage}">
                                         <f:field property="project" label="專案" />
                                         <f:field property="dispatchedDate" label="用車日期" widget="date" />
                                     </g:if>
@@ -57,13 +58,22 @@
             </div>
         </div>
 <asset:script type='text/javascript'><%-- deferred JS here --%>
+<%--
+<g:if test="${type=='U'}">
+var serverParams = {
+  embed: ${embedPage},
+  projectId: '${params?.projectId}',
+  dispatchedDate: '${params?.dispatchedDate}'
+};
+</g:if>
+--%>
 $(function() {
-    var editForm = $('#vehicleMilageForm');
-    $('.bootstrap-dialog-title').html('${pageTitle}');
-    <g:render template="/layouts/client-message" bean="${vehicleMilage}"/>
-    <g:render template="/layouts/client-submit" model="[formVar: 'editForm']"/>
-    <g:render template="/layouts/client-render" model="[formVar: 'editForm']"/>
-    $('input[type=text],input[type=number],textarea').filter(':enabled:visible:first').focus();
+  var editForm = $('#vehicleMilageForm');
+  $('.bootstrap-dialog-title').html('${pageTitle}');
+  <g:render template="/layouts/client-message" bean="${vehicleMilage}"/>
+  <g:render template="/layouts/client-submit" model="[formVar: 'editForm']"/>
+  <g:render template="/layouts/client-render" model="[formVar: 'editForm']"/>
+  $('#km').focus();
 });
 </asset:script>
     </body>

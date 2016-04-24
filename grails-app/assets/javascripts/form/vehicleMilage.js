@@ -15,6 +15,7 @@ function createCriterionListener() {
 
 function getMilageParameters() {
   return {
+    embed: serverParams.embed,
     projectId: serverParams.projectId,
     dispatchedDate: serverParams.dispatchedDate.replace('/','-')
   }
@@ -90,7 +91,7 @@ function createMilageTable() {
       ajax: {
         url: '/api/vehicleMilages.json',
         data: function(params, settings) {
-          settings.ajax.fake = ! (assignProjectList.val() || false);
+          settings.ajax.fake = serverParams.embed && ! (serverParams.projectId || false);
 
           return $.extend({
               draw: params.draw,
@@ -117,7 +118,7 @@ function createMilageTable() {
           vehicleMilageList.columns.adjust().responsive.recalc();
         });
         // TODO
-        setTimeout(function(){ $(window).resize(); }, 1000);
+        setTimeout(function(){ $(window).resize(); }, 500);
       },
       extButtons: {
         copy: true

@@ -64,7 +64,7 @@ class VehicleMilageController extends BaseController<VehicleMilage> {
 
         if (params?.projectId &&
         	params?.projectId != 'null') {
-            props.role = Project.get(params.projectId)
+            props.project = Project.get(params.projectId)
             props.remove('projectId')
         }
         if (params.dispatchedDate &&

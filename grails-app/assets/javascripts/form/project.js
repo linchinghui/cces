@@ -5,9 +5,10 @@ var projectList;
 var constructTypes;
 
 function initializeConstrctTypes() {
-  chainAjaxCall( {
+  chainAjaxCall({
     url: '/api/projects.json',
     method: 'GET',
+    cache: true,
     async: false,
     headers: {
       'X-CCES-ACTION': 'constructTypes'
@@ -89,6 +90,7 @@ function createDataTable() {
           (constructTypes.hasOwnProperty(data) ? constructTypes[data] : data+'(代碼未定義)') :
           data;
       },
+      orderable: false,
       data: 'constructCode' // 'constructType'
     },{ //6
       render: renderDate4DataTables(),
