@@ -35,14 +35,14 @@ class SpTask implements Serializable, Comparable<SpTask> {
 	}
 
 	public String getId() {
-		"${project?.id}|${workedDate.toString().take(10)}|${employee?.id}"
+		"${project?.id}|${workedDate?.format('yyyy-MM-dd')}|${employee?.id}"
 	}
 
 	// public void setId(String _id) {
 	// }
 
 	public String toString() {
-		"${project?.id}:${workedDate}:${employee?.id}"
+		"${project?.id}:${workedDate?.format('yyyy-MM-dd')}:${employee?.id}"
 	}
 
 	public int compareTo(def other) {
