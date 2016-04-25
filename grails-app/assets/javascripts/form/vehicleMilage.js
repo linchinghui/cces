@@ -17,11 +17,11 @@ function getMilageParameters() {
   return {
     embed: serverParams.embed,
     projectId: serverParams.projectId,
-    dispatchedDate: serverParams.dispatchedDate.replace('/','-')
+    dispatchedDate: serverParams.dispatchedDate.replace(/\//g,'-')
   }
 }
 
-function getQueryString() {
+function getQueryMilageString() {
   return (serverParams.embed ? '?' + $.param(getMilageParameters()) : '');
 }
 
@@ -41,14 +41,15 @@ function addMilageRequest (evt, dt, node, config) {
   BootstrapDialog.show({
     title: '新增...',
     message: requestAction4BootstrapDialog({
-      url: '/vehicleMilage/create' + getQueryString(),
+      url: '/vehicleMilage/create', // method 1: + getQueryMilageString(),
       callback: addMilageRequested
-    })
+      // or method 2:
+    }, null, getMilageParameters())
   });
 }
 
 function createMilageTable() {
-  var qryStr = getQueryString();
+  var qryStr = getQueryMilageString();
 
   var dataCols = [ //0
       renderDefaultAlterationCellWithId4DataTables({

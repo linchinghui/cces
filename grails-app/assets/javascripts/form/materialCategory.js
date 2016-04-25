@@ -35,6 +35,11 @@ function createCatDataTable() {
     },
     initComplete: function (settings, data) { // this == DataTable()
       initialized4DataTables(this, settings, data);
+      $(window).resize(function() {
+        materialCategoryList.columns.adjust().responsive.recalc();
+      });
+      // TODO
+      setTimeout(function(){ $(window).resize(); }, 500);
     },
     extButtons: {
       copy: true
