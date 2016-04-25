@@ -38,8 +38,8 @@ function renderRolesField4DataTables (data, type, row, meta) {
   var htmlStr = '';
 
   $.each(roleMap, function (roleId, roleDesc) {
-    var rdrObj = $('<i class="fa fa-square-o"></i>') //;
-            .html('<span>&nbsp;' + roleId + '&nbsp;<span class="hidden-xs">' + roleDesc + '</span></span>');
+    var rdrObj = $('<i class="fa fa-square-o"></i>').html(
+      '<span>&nbsp;' + roleId + '&nbsp;<span class="hidden-xs">' + roleDesc + '</span></span>');
 
     $.each(data, function (idx, clz) {
       if (roleId == clz['id']) {

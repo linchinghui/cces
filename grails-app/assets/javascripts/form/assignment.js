@@ -295,15 +295,14 @@ function initializeSelectFields () {
     }
 
     return chainAjaxCall({ 
-          url: '/project',
-          method: 'GET',
-          cache: false,
-          async: false,
-          headers: {
-            'X-CCES-ACTION': 'brief'
-          }
+        url: '/project',
+        method: 'GET',
+        cache: false,
+        async: false,
+        headers: {
+          'X-CCES-ACTION': 'brief'
         }
-      );
+      });
 
   }).done(function (promise) {
     if (promise.rc == 1) {

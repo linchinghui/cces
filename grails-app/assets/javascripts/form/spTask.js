@@ -6,6 +6,8 @@ var assignProjectList = $('<select/>');
 var workedDate = $('#workedDate');
 var workedDatePicker = $('.workedDate');
 var spTaskDataTable;
+var constructTypes;
+var projectInfo;
 
 function createTabs() {
   $('.content a[data-toggle="mtab"]').click(function (e) {
@@ -37,11 +39,15 @@ function createTabs() {
 function getLastParameters() {
   var qryParams = {
       projectId: assignProjectList.val(),
-      workedDate: workedDate.val().replace('/','-'),
+      workedDate: workedDate.val(), // .replace(/\//g,'-'),
       format: 'json'
     }
 
   return qryParams;
+}
+
+function getQueryString() {
+  return ('?' + $.param(getLastParameters()));
 }
 
 function triggerCriterionChange(target) {
@@ -69,8 +75,9 @@ function addDataRequest (evt, dt, node, config) {
   BootstrapDialog.show({
     title: '新增...',
     message: requestAction4BootstrapDialog({
-      url: '/spTask/create',
+      url: '/spTask/create', // method 1: + getQueryString(),
       callback: addDataRequested
+      // or method 2:
     }, null, getLastParameters())
   });
 }
@@ -131,7 +138,7 @@ function createDataTable() {
           callback: modifyDataRequested
         }
         ,delete:  {
-      url: '/spTask/delete',
+          url: '/spTask/delete',
           callback: removeDataRequested
         }
       })
@@ -145,13 +152,43 @@ function createDataTable() {
       orderable: false,
       data: 'employee'
     },{ //4
+      render: function(data, type, row, meta) {
+        return (data && (type === 'display' || type === 'filter')) ?
+          (constructTypes.hasOwnProperty(data) ? constructTypes[data] : data+'(代碼未定義)') :
+          data;
+      },
       orderable: false,
-      data: 'constructType'
+      data: 'constructCode' // 'constructType'
     },{ //5
       orderable: false,
       data: 'note'
     }]
   }).buttons().disable();
+}
+
+/*-----------
+  load data
+ -----------*/
+function loadProjectInfo() {
+  var projectId = assignProjectList.val();
+  if (projectId) {
+    chainAjaxCall( {
+      url: '/api/projects/' + projectId + '.json',
+      method: 'GET',
+      async: false,
+
+    }).done(function (promise) {
+      if (promise.rc == 1) {
+        projectInfo = {'na': '(無法取得專案資訊)'}
+
+      } else {
+        projectInfo = promise.data;
+      }
+    });
+
+  } else{
+    projectInfo = null;
+  }
 }
 
 function loadSpTasks() {
@@ -163,29 +200,30 @@ function loadSpTasks() {
   }
 }
 
-/*----------------------------------------
-  default value by server-side parameters
- -----------------------------------------*/
 function initializeSpTasks () {
   $.ajax.fake.defaults.wait = 0;
   loadSpTasks();
 }
-/*---------------------------------------------------------------------
-  prepare worked date picker and ComboBox with project select-options
- ----------------------------------------------------------------------*/
+/*--------------------------------------------------------------------
+  prepare worked-date picker, project select-options, construct-types
+ ---------------------------------------------------------------------*/
 function createProjectCombo(ele) {
   assignProjectList = assignProjectDiv.html(ele).combobox();
 
   if (server.project) {
     var combo = assignProjectList.data('combobox');
+
     combo.$element.val( $.map( combo.map,
       function(val, desc) {
         return val == server.project ? desc : null;
       }));
     combo.lookup().select();
+
+    loadProjectInfo();
   }
 
   assignProjectList.change(function (e) {
+    loadProjectInfo();
     loadSpTasks();
     triggerCriterionChange(assignProjectList);
   });
@@ -202,17 +240,33 @@ function createDatePicker() {
   });
 }
 
-function initializeSelectFields () {
+function initializeSelectFields() {
   createDatePicker()
 
-  chainAjaxCall({ 
-    url: '/project',
+  chainAjaxCall({
+    url: '/api/projects.json',
     method: 'GET',
-    cache: false,
     async: false,
     headers: {
-      'X-CCES-ACTION': 'brief'
+      'X-CCES-ACTION': 'constructTypes'
     }
+
+  }).chain(function (promise) {
+    if (promise.rc == 1) {
+      constructTypes = {'na': '(無法取得[施作方式]代碼)'}
+
+    } else {
+      constructTypes = promise.data;
+    }
+
+    return chainAjaxCall({ 
+        url: '/project',
+        method: 'GET',
+        async: false,
+        headers: {
+          'X-CCES-ACTION': 'brief'
+        }
+      });
 
   }).done(function (promise) {
     if (promise.rc == 1) {

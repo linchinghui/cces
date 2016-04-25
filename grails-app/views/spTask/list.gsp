@@ -89,8 +89,9 @@
       </div>
 <asset:script type='text/javascript'><%-- deferred JS here --%>
 var server = {
-  workedDate: '${params?.workedDate?.format("yyyy-MM-dd")}',
-  project: '${params?.project}'
+  project: '${params?.project}',<%--
+  workedDate: '${params?.workedDate?.format("yyyy-MM-dd")}'--%>
+  workedDate: '${params?.workedDate}'
 };
 
 $(function() {

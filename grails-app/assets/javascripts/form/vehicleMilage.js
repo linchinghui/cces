@@ -15,12 +15,13 @@ function createCriterionListener() {
 
 function getMilageParameters() {
   return {
+    embed: serverParams.embed,
     projectId: serverParams.projectId,
-    dispatchedDate: serverParams.dispatchedDate.replace('/','-')
+    dispatchedDate: serverParams.dispatchedDate.replace(/\//g,'-')
   }
 }
 
-function getQueryString() {
+function getQueryMilageString() {
   return (serverParams.embed ? '?' + $.param(getMilageParameters()) : '');
 }
 
@@ -40,14 +41,15 @@ function addMilageRequest (evt, dt, node, config) {
   BootstrapDialog.show({
     title: '新增...',
     message: requestAction4BootstrapDialog({
-      url: '/vehicleMilage/create' + getQueryString(),
+      url: '/vehicleMilage/create', // method 1: + getQueryMilageString(),
       callback: addMilageRequested
-    })
+      // or method 2:
+    }, null, getMilageParameters())
   });
 }
 
 function createMilageTable() {
-  var qryStr = getQueryString();
+  var qryStr = getQueryMilageString();
 
   var dataCols = [ //0
       renderDefaultAlterationCellWithId4DataTables({
@@ -90,7 +92,7 @@ function createMilageTable() {
       ajax: {
         url: '/api/vehicleMilages.json',
         data: function(params, settings) {
-          settings.ajax.fake = ! (assignProjectList.val() || false);
+          settings.ajax.fake = serverParams.embed && ! (serverParams.projectId || false);
 
           return $.extend({
               draw: params.draw,
@@ -117,7 +119,7 @@ function createMilageTable() {
           vehicleMilageList.columns.adjust().responsive.recalc();
         });
         // TODO
-        setTimeout(function(){ $(window).resize(); }, 1000);
+        setTimeout(function(){ $(window).resize(); }, 500);
       },
       extButtons: {
         copy: true
