@@ -5,7 +5,7 @@ import com.lch.aaa.*
 class CertificationController extends BaseController<Certification> {
 
     static namespace = Application.NAMESPACE_API
-	static allowedMethods = [save: "POST", update: "PUT", patch: "PATCH", delete: "DELETE", upload: "POST"]
+	// static allowedMethods = [save: "POST", update: "PUT", patch: "PATCH", delete: "DELETE", upload: "POST"]
 
     CertificationController() {
         super(Certification)
