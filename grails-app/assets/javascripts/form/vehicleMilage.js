@@ -41,11 +41,16 @@ function addMilageRequest (evt, dt, node, config) {
   BootstrapDialog.show({
     title: '新增...',
     message: requestAction4BootstrapDialog({
-      url: '/vehicleMilage/create', // method 1: + getQueryMilageString(),
+      url: '/vehicleMilage/create',
       callback: addMilageRequested
-      // or method 2:
     }, null, getMilageParameters())
   });
+}
+
+function prepareUrl(actionType) {
+  return function() {
+    return '/vehicleMilage/' + actionType + getQueryString();
+  }
 }
 
 function createMilageTable() {
@@ -54,12 +59,14 @@ function createMilageTable() {
   var dataCols = [ //0
       renderDefaultAlterationCellWithId4DataTables({
         edit: {
-          url: '/vehicleMilage/edit' + qryStr,
+          // url: '/vehicleMilage/edit' + qryStr,
+          url: prepareUrl('edit'),
           callback: modifyMilageRequested
         }
         ,delete:  {
           title: '清除...',
-          url: '/vehicleMilage/delete' + qryStr,
+          // url: '/vehicleMilage/delete' + qryStr,
+          url: prepareUrl('delete'),
           callback: removeMilageRequested
         }
       })

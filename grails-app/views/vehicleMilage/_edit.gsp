@@ -36,7 +36,7 @@
                             </g:if>
                             <fieldset class="form-group">
                                 <f:with bean="vehicleMilage">
-                                    <g:if test="${type=='C' && ! dialogPage}">
+                                    <g:if test="${type=='C' && ! embedPage}">
                                         <f:field property="project" label="專案" />
                                         <f:field property="dispatchedDate" label="用車日期" widget="date" />
                                     </g:if>

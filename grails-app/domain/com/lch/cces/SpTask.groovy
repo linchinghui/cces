@@ -41,6 +41,13 @@ class SpTask implements Serializable, Comparable<SpTask> {
 	// public void setId(String _id) {
 	// }
 
+	ConstructType getConstructType() {
+		constructCode ? ConstructType.salvage(constructCode) : null
+	}
+	void setConstructType(ConstructType type) {
+		constructCode = type?.id
+	}
+
 	public String toString() {
 		"${project?.id}:${workedDate?.format('yyyy-MM-dd')}:${employee?.id}"
 	}

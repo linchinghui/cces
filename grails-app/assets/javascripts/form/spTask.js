@@ -19,14 +19,14 @@ function createTabs() {
       $.ajax({
         type: 'GET',
         url: loadUrl,
-        data: getLastParameters(),
+        data: getLastParameters('dispatchedDate'),
         error: function(jqXHR, status, error) {
           $(thisEle.attr('data-target')).html(jqXHR.responseText);
         },
-        success: function(response,x,y){
+        success: function(response){
           $(thisEle.attr('data-target')).html(response);
           thisEle.attr('href','#');
-          triggerCriterionChange($(thisEle));
+          // triggerCriterionChange($(thisEle));
         }
       });
     }
@@ -36,12 +36,13 @@ function createTabs() {
   });
 }
 
-function getLastParameters() {
+function getLastParameters(dateParam) {
   var qryParams = {
+      embed: true,
       projectId: assignProjectList.val(),
-      workedDate: workedDate.val(), // .replace(/\//g,'-'),
       format: 'json'
     }
+  qryParams[(dateParam ? dateParam : 'workedDate')] = workedDate.val(); //.replace(/\//g,'-')
 
   return qryParams;
 }
@@ -75,11 +76,16 @@ function addDataRequest (evt, dt, node, config) {
   BootstrapDialog.show({
     title: '新增...',
     message: requestAction4BootstrapDialog({
-      url: '/spTask/create', // method 1: + getQueryString(),
+      url: '/spTask/create', 
       callback: addDataRequested
-      // or method 2:
     }, null, getLastParameters())
   });
+}
+
+function prepareUrl(actionType) {
+  return function() {
+    return '/spTask/' + actionType + getQueryString();
+  }
 }
 
 function createDataTable() {
@@ -105,8 +111,8 @@ function createDataTable() {
 
         return $.extend({
             draw: params.draw,
-            max: params.length,
-            offset: params.start,
+            // max: params.length,
+            // offset: params.start,
             sort: (params.order ? settings.aoColumns[params.order[0].column].data : 'id'),
             order: (params.order ? params.order[0].dir : 'asc')
           }, getLastParameters() );
@@ -124,6 +130,11 @@ function createDataTable() {
     },
     initComplete: function (settings, data) { // this == DataTable()
       initialized4DataTables(this, settings, data);
+      $(window).resize(function() {
+        spTaskDataTable.columns.adjust().responsive.recalc();
+      });
+      // TODO
+      setTimeout(function(){ $(window).resize(); }, 500);
     },
     extButtons: {
       // copy: true
@@ -134,11 +145,11 @@ function createDataTable() {
     columns: [ //0
       renderDefaultAlterationCellWithId4DataTables({
         edit: {
-          url: '/spTask/edit',
+          url: prepareUrl('edit'),
           callback: modifyDataRequested
         }
         ,delete:  {
-          url: '/spTask/delete',
+          url: prepareUrl('delete'),
           callback: removeDataRequested
         }
       })
@@ -169,28 +180,6 @@ function createDataTable() {
 /*-----------
   load data
  -----------*/
-function loadProjectInfo() {
-  var projectId = assignProjectList.val();
-  if (projectId) {
-    chainAjaxCall( {
-      url: '/api/projects/' + projectId + '.json',
-      method: 'GET',
-      async: false,
-
-    }).done(function (promise) {
-      if (promise.rc == 1) {
-        projectInfo = {'na': '(無法取得專案資訊)'}
-
-      } else {
-        projectInfo = promise.data;
-      }
-    });
-
-  } else{
-    projectInfo = null;
-  }
-}
-
 function loadSpTasks() {
   if (spTaskDataTable) {
     reloadDataTables(spTaskDataTable, true);
@@ -219,11 +208,11 @@ function createProjectCombo(ele) {
       }));
     combo.lookup().select();
 
-    loadProjectInfo();
+    // loadProjectInfo();
   }
 
   assignProjectList.change(function (e) {
-    loadProjectInfo();
+    // loadProjectInfo();
     loadSpTasks();
     triggerCriterionChange(assignProjectList);
   });

@@ -31,23 +31,72 @@ class SpTaskController extends BaseController<SpTask> {
             }
 		}
 
-    	if (params?.workedDate) {
-			params['workedDate'] = params.workedDate.take(10).replaceAll('-','\\/')
+        if (params?.projectId) {
+            params['projectId'] = URLDecoder.decode(params['projectId'])
+        }
+        if (! params?.parsedDate && params?.workedDate) {
+			params['workedDate'] = URLDecoder.decode(params.workedDate).take(10).replaceAll('-','\\/')
+            params['parsedDate'] = new SimpleDateFormat('yyyy/MM/dd').parse(params.workedDate)
         }
     }
 
     private List<SpTask> listAllSpTasks(Map params) {
+        if (params?.embed == 'true') { // list all
+            params.remove('max')
+            params.remove('offset')
+        }
         resolveParameters(params)
 
         return SpTask.where {
-            if (params?.projectId)  { project.id   == params.projectId }
-            if (params.workedDate)  { workedDate   == new SimpleDateFormat('yyyy/MM/dd').parse(params.workedDate) }
-            if (params?.employeeId) { employee.id  == params.employeeId }
+            if (params?.projectId)  { project.id  == params.projectId }
+            if (params?.workedDate) { workedDate  == params.parsedDate }
+            if (params?.employeeId) { employee.id == params.employeeId }
         }.list(params)
     }
 
     protected final List<SpTask> listAllResources(Map params) {
-        listAllSpTasks(params)
+        def spTasks = listAllSpTasks(params)
+        def assignTasks = null
+
+        if (params?.embed == 'true') { // list all
+            //
+            // params.project and params.workedDate must not be null
+            //
+            def calendar = Calendar.instance
+            calendar.setTime(params.parsedDate)
+            def year = calendar.get(Calendar.YEAR)
+            def week = calendar.get(Calendar.WEEK_OF_YEAR)
+            def dx   = calendar.get(Calendar.DAY_OF_WEEK) - 1
+
+            def cloneTask = createResource(params)
+            def theProject = cloneTask.project
+            cloneTask.project = null
+
+            assignTasks = Assignment.where {
+                eq('project', theProject)
+                eq('year', year)
+                eq('week', week)
+                eq("d$dx", true)
+
+                not {
+                    exists SpTask.where {
+                        project    == theProject
+                        workedDate == params.parsedDate
+                    }.id()
+                }
+
+            }.collect {
+                def task = new SpTask(cloneTask.properties)
+                task.employee = it.employee
+                return task
+            }
+        }
+
+        if (assignTasks) {
+            spTasks += assignTasks
+        }
+
+        return spTasks
     }
 
     protected final SpTask queryForResource(Serializable id) {
@@ -56,10 +105,11 @@ class SpTaskController extends BaseController<SpTask> {
 
     private void prepareDefaultValue(props) {
     	if (props.project) {
-	        props.constructPlace = props.project.constructPlace
-	        props.equipment      = props.project.description
-	        props.constructType  = props.project.constructType // substitute of constructCode
-	    //  props.note           = props.project.note
+	        if (! props.constructPlace) props.constructPlace = props.project.constructPlace
+	        if (! props.equipment     ) props.equipment      = props.project.description
+        //  if (! props.constructCode ) props.constructCode  = props.project.constructCode
+            if (! props.constructType ) props.constructType  = props.project.constructType // substitute of constructCode
+	    //  if (! props.note          ) props.note           = props.project.note
     	}
     }
 
@@ -74,7 +124,8 @@ class SpTaskController extends BaseController<SpTask> {
         }
         if (params.workedDate &&
         	params?.workedDate != 'null') {
-        	props.workedDate = new SimpleDateFormat('yyyy/MM/dd').parse(params.workedDate)
+            // props.workedDate = params.parsedDate
+            props.workedDate = params.workedDate
     	}
         if (params?.employeeId &&
             params?.employeeId != 'null') {
