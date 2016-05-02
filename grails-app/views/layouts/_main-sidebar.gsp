@@ -32,7 +32,7 @@ def groupName = params?.group ? new String(params?.group?.decodeBase64()) : null
                   <% flash[(menuItem.controller)]=function.description %>
                   <li class="${controllerName == menuItem.controller ? 'active' : ''}">
                     <g:link controller="${menuItem.controller}" params="${[group: menuGroup.group.encodeAsBase64()]}">
-                        <i class="${menuItem.icon}"></i><span> ${function.description}</span>
+                        <i class="${menuItem.icon}"></i><span>${function.description}</span>
                       </g:link>
                   </li>
                 </g:if>

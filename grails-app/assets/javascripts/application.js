@@ -70,7 +70,7 @@ function alertInformation(data, jqXHR) { // jqXHR might be undefined
     message: function(dialog) {
       setTimeout(function() {
         dialog.close();
-      }, 2500);
+      }, 1500);
 
       return data.message;
     }
@@ -111,10 +111,17 @@ function organizeAlertMessage(data, propName, jqXHR, replyCode, callbackFn) {
       callbackFn.call(this, dialog);
     }
 
-    if (typeof jqXHR !== 'undefined' && jqXHR.status >= replyCode) {
-      dialog.setTitle(dialog.getTitle() + ' - ' + jqXHR.status);
+    if (typeof jqXHR !== 'undefined') {
+      if (jqXHR.status >= replyCode) {
+        dialog.setTitle(dialog.getTitle() + ' - ' + jqXHR.status);
+      }
+      if (jqXHR.getResponseHeader('content-type').indexOf('text/html') >= 0) {
+        return data[propName];
+      }
     }
-    if (typeof data[propName] !== 'undefined' && data[propName] !== '') {
+
+    // if (typeof data[propName] !== 'undefined' && data[propName] !== '') {
+    if (data[propName]) {
       if (typeof data[propName] == 'string') {
         return joinMessageToDialog(data[propName].split(';'));
 
@@ -127,7 +134,7 @@ function organizeAlertMessage(data, propName, jqXHR, replyCode, callbackFn) {
 
     } else {
       return jqXHR.statusText;
-    }      
+    }
   }
 }
 
@@ -222,6 +229,7 @@ var Chainable = function Chainable() {
 function chainPassCall(delivery) {
   var dfd = new jQuery.Deferred();
   dfd.resolve({rc: delivery.rc, data: delivery.data});
+  
   return dfd.promise(Chainable());
 }
 
@@ -257,10 +265,9 @@ function requestAction4BootstrapDialog(action, dataKey, params) {
       }
     };
 
-    var theUrl = action.url.split('?');
-    // var actionUrl = theUrl[0] + ((typeof dataKey !== 'undefined' /*&& (dataKey.length > 0 || dataKey > 0)*/) ? ('/' + dataKey) : '');
-    var actionUrl = theUrl[0] + (dataKey ? ('/' + dataKey) : '');
-    var actionParams = $.convertParamsFromQueryStr(theUrl.length > 1 ? theUrl[1] : null);
+    var theUrl = ($.isFunction(action.url) ? action.url.call() : action.url).split('?');
+    var actionUrl = theUrl[0] + (dataKey ? ('/' + encodeURI(dataKey)) : '');
+    var actionParams = $.convertParamsFromQueryStr(theUrl.length > 1 ? encodeURI(theUrl[1]) : null);
     $.extend(actionParams, {cb: Base64.encode(closeFn)}, params);
 
     return $('<div><span class="ajax-loader">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></div>')

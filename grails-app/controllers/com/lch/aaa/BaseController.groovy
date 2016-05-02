@@ -46,6 +46,7 @@ abstract class BaseController<T> extends RestfulController<T> {
 
     private def list(max) {
         params.max = Math.min(max ?: 10, 100)
+
         def countName = "${resourceName}Count".toString()
         // "${resourceName}List" to represent dataList by default
         // def listName = "${resourceName}List".toString()
