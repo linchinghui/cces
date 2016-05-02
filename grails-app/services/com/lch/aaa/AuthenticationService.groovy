@@ -11,6 +11,7 @@ class AuthenticationService {
 
 	def authenticationTrustResolver
 	def roleService
+	def privilegeService
 
 	// def getAuthentication() {
 	// 	SCH.context?.authentication
@@ -34,6 +35,14 @@ class AuthenticationService {
 			// description: (it.authority ==~ '.*ANONYMOUS$' ? '訪客' : roleService.get(it.authority)?.description)
 			description: (isLoggedIn() ? roleService.get(it.authority)?.description : '訪客')
 		]}
+	}
+
+	def getPrivileges() {
+		def roles = SCH.context?.authentication?.authorities?.collect {
+			ctx.roleService.get(it.authority)
+		}
+
+		privilegeService.listByRoles(roles*.id)
 	}
 
 

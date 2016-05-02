@@ -12,10 +12,6 @@ class VehicleMilageController extends BaseController<VehicleMilage> {
     }
 
     private void resolveParameters(params) {
-        if (params?.embed == 'true') { // list all
-            params.remove('max')
-        }
-
         def compIds = params?.id?.split('\\|')
 
         if (compIds?.size() >= 1) {
@@ -35,17 +31,25 @@ class VehicleMilageController extends BaseController<VehicleMilage> {
             }
         }
 
-    	if (params?.dispatchedDate) {
-			params['dispatchedDate'] = params.dispatchedDate.take(10).replaceAll('-','\\/')
-    	}
+        if (params?.projectId) {
+            params['projectId'] = URLDecoder.decode(params['projectId'])
+        }
+        if (params?.dispatchedDate) {
+            params['dispatchedDate'] = URLDecoder.decode(params.dispatchedDate).take(10).replaceAll('-','\\/')
+            params['parsedDate'] = new SimpleDateFormat('yyyy/MM/dd').parse(params.dispatchedDate)
+        }
     }
 
     private List<VehicleMilage> listAllVehicleMilages(Map params) {
+        if (params?.embed == 'true') { // list all
+            params.remove('max')
+            params.remove('offset')
+        }
         resolveParameters(params)
 
         return VehicleMilage.where {
             if (params?.projectId)     { project.id     == params.projectId }
-            if (params.dispatchedDate) { dispatchedDate == new SimpleDateFormat('yyyy/MM/dd').parse(params.dispatchedDate) }
+            if (params.dispatchedDate) { dispatchedDate == params.parsedDate }
             if (params?.vehicleId)     { vehicle.id     == params.vehicleId }
         }.list(params)
     }
@@ -63,16 +67,17 @@ class VehicleMilageController extends BaseController<VehicleMilage> {
         def props = params
 
         if (params?.projectId &&
-        	params?.projectId != 'null') {
+            params?.projectId != 'null') {
             props.project = Project.get(params.projectId)
             props.remove('projectId')
         }
         if (params.dispatchedDate &&
-        	params?.dispatchedDate != 'null') {
-        	props.dispatchedDate = new SimpleDateFormat('yyyy/MM/dd').parse(params.dispatchedDate)
-    	}
+            params?.dispatchedDate != 'null') {
+            // props.dispatchedDate = params.parsedDate
+            props.dispatchedDate = params.dispatchedDate
+        }
         if (params?.vehicleId &&
-        	params?.vehicleId != 'null') {
+            params?.vehicleId != 'null') {
             props.vehicle = Vehicle.get(params.vehicleId)
             props.remove('vehicleId')
         }

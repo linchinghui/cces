@@ -13,10 +13,6 @@ class PrivilegeController extends BaseController<Privilege> {
 	}
 
     private void resolveParameters(params) {
-        if (params?.embed == 'true') { // list all
-            params.remove('max')
-        }
-
         def compIds = params?.id?.split('\\|')
 
         if (compIds?.size() >= 1) {
@@ -35,6 +31,10 @@ class PrivilegeController extends BaseController<Privilege> {
     }
 
     private List<Privilege> listAllPrivileges(Map params) {
+        if (params?.embed == 'true') { // list all
+            params.remove('max')
+            params.remove('offset')
+        }
         resolveParameters(params)
         privilegeService.list(params)
     }
@@ -56,7 +56,7 @@ class PrivilegeController extends BaseController<Privilege> {
                     }.id()
                 }
             }.collect {
-                new Privilege(role: null/*theRole*/, function: it, canRead:/*true*/false, canWrite: false)
+                new Privilege(role: null/*theRole*/, function: it, canRead:false, canWrite: false)
             }
         }
 
@@ -64,7 +64,7 @@ class PrivilegeController extends BaseController<Privilege> {
             privileges += nonPrivileges
         }
 
-        /*return*/ privileges
+        return privileges
     }
     
     protected final Privilege queryForResource(Serializable id) {

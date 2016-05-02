@@ -33,7 +33,7 @@
                   <a data-toggle="mtab" data-target="#tab1" href="#"><big>人員</big></a>
                 </li>
                 <li>
-                  <a data-toggle="mtab" data-target="#tab2" href="${g.createLink([controller:'vehicleMilage', action:'index',params:[embed:true]])}">
+                  <a data-toggle="mtab" data-target="#tab2" href="${g.createLink([controller:'vehicleMilage', action:'index'])}">
                     <big>${functionService.get('vehicleMilage')?.description}</big>
                   </a>
                 </li>
@@ -89,8 +89,7 @@
       </div>
 <asset:script type='text/javascript'><%-- deferred JS here --%>
 var server = {
-  project: '${params?.project}',<%--
-  workedDate: '${params?.workedDate?.format("yyyy-MM-dd")}'--%>
+  project: '${params?.project}',
   workedDate: '${params?.workedDate}'
 };
 

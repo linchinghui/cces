@@ -12,7 +12,7 @@ function modifyDetailDataRequested (result, editForm) {
 }
 
 function addDetailDataRequested (result, editForm) {
-  reloadDataTables(announcementList);
+  reloadDataTables(privilegeList);
 }
 
 function addDetailDataRequest (evt, dt, node, config) {
@@ -22,7 +22,13 @@ function addDetailDataRequest (evt, dt, node, config) {
       url: '/privilege/create',
       callback: addDetailDataRequested
     })
-  });
+  }, null, $.param(serverParams));
+}
+
+function prepareUrl(actionType) {
+  return function() {
+    return '/privilege/' + actionType + (serverParams.embed ? '?' + $.param(serverParams) : '');
+  }
 }
 
 function createDetailDataTable() {
@@ -30,12 +36,12 @@ function createDetailDataTable() {
   var dataCols = [ //0
       renderDefaultAlterationCellWithId4DataTables({
         edit: {
-          url: '/privilege/edit' + qryStr,
+          url: prepareUrl('edit'),
           callback: modifyDetailDataRequested
         }
         ,delete:  {
           title: '清除...',
-          url: '/privilege/delete' + qryStr,
+          url: prepareUrl('delete'),
           callback: removeDetailDataRequested
         }
       })
@@ -75,13 +81,11 @@ function createDetailDataTable() {
         data: function(params, settings) {
           return $.extend({
               draw: params.draw,
-              sort: settings.aoColumns[params.order[0].column].data,
-              order: params.order[0].dir
-            }, 
-            serverParams.embed ? serverParams : {
               max: params.length,
-              offset: params.start
-            });
+              offset: params.start,
+              sort: (params.order ? settings.aoColumns[params.order[0].column].data : 'id'),
+              order: (params.order ? params.order[0].dir : 'asc')
+            }, serverParams );
         }
       },
       initComplete: serverParams.embed ? null : function (settings, data) { // this == DataTable()
@@ -90,8 +94,8 @@ function createDetailDataTable() {
       extButtons: {
         copy: true
       },
-      columns: dataCols
-      // ,order: [[1,'asc']] // prev: 'aaSorting'
+      columns: dataCols,
+      order: [[1,'asc']] // prev: 'aaSorting'
     };
 
   privilegeList = $('#list-privilege').DataTable(
