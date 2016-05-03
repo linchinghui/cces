@@ -44,6 +44,9 @@ function createDataTable() {
     ],
     columns: [ //0
       renderDefaultAlterationCellWithId4DataTables({
+        show: {
+          url: '/worker/show'
+        },
         edit: {
           url: '/worker/edit',
           callback: modifyDataRequested

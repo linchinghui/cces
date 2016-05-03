@@ -71,6 +71,9 @@ function createDataTable() {
     ],
     columns: [ //0
       renderDefaultAlterationCellWithId4DataTables({
+        show: {
+          url: '/material/show'
+        },
         edit: {
           url: '/material/edit',
           callback: modifyDataRequested

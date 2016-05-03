@@ -186,14 +186,14 @@ function createRemoveCellButtom(cellEle, dataKey, action) {
           label: '是',
           action: function (dialog) {
             dialog.getModalFooter().hide();
-            dialog.setMessage(requestAction4BootstrapDialog(action, dataKey, {'_method': 'DELETE'}));
+            dialog.setMessage(requestAction4BootstrapDialog(action, dataKey, {'_method': 'DELETE'})); // POST method
           }
         }]
     }).open();
   });
 }
 
-function createModifyCellButtom(cellEle, dataKey, action) {
+function createCellButtom(cellEle, dataKey, action) {
   cellEle.click(function() {
     var theCell = this.parentNode.parentNode;
     // var theRow = theCell.parentNode;
@@ -201,50 +201,55 @@ function createModifyCellButtom(cellEle, dataKey, action) {
 
     BootstrapDialog.show({
       title: action.title,
-      message: requestAction4BootstrapDialog(action, dataKey)
+      message: requestAction4BootstrapDialog(action, dataKey) // GET method
     });
   });
 }
 
 function renderDefaultAlterationCellWithId4DataTables(requestActions) {
-  return {
-    // visible: false,
-    // className: 'hidden',
+  var actionsLen = Object.keys(requestActions).length;
+
+  return { // visible: false, className: 'hidden',
     orderable: false,
     data: 'id',
+    width: (actionsLen == 3 ? '76px' : actionsLen == 2 ? '52px' : '28px'),
     render: function(data, type, full) {
-      return (requestActions.delete ? '<span><i class="fa fa-times"></i></span>&nbsp;' : '')
-            +'<span><i class="fa fa-pencil"></i></span>';
+      return (requestActions.show ? '<span><i class="fa fa-fw fa-info"></i></span>&nbsp;' : '')
+      + (requestActions.edit ? '<span><i class="fa fa-fw fa-pencil"></i></span>&nbsp;' : '')
+      + (requestActions.delete ? '<span><i class="fa fa-fw fa-times"></i></span>' : '')
+      + '<span style="display: inline;"></span>';
     },
     createdCell: function (cell, cellData, rowData, row, col) {
-      // userList == this.DataTable()
-      var serverActions = $.extend(true, {
-        edit: {
+      if (requestActions.show) {
+        var action = $.extend(true, {
+          type: 'show',
+          title: '資訊...',
+          selector: 'span i.fa-info',
+          key: 'id'
+        }, requestActions.show);
+
+        createCellButtom( $(action.selector, cell), rowData[action.key], action );
+      }
+      if (requestActions.edit) {
+        var action = $.extend(true, {
           type: 'edit',
           title: '編輯...',
           selector: 'span i.fa-pencil',
           key: 'id'
-        },
-        delete: (requestActions.delete ? {
+        }, requestActions.edit);
+
+        createCellButtom( $(action.selector, cell), rowData[action.key], action );
+      }
+      if (requestActions.delete) {
+        var action = $.extend(true, {
           type: 'delete',
           title: '刪除...',
           selector: 'span i.fa-times',
           key: 'id'
-        } : null)
-      }, requestActions);
+        }, requestActions.delete);
 
-      if (requestActions.delete) {
-        createRemoveCellButtom(
-          $(serverActions.delete.selector, cell),
-          rowData[serverActions.delete.key],
-          serverActions.delete
-        );
+        createRemoveCellButtom( $(action.selector, cell), rowData[action.key], action );
       }
-      createModifyCellButtom(
-        $(serverActions.edit.selector, cell),
-        rowData[serverActions.edit.key],
-        serverActions.edit
-      );
     }
   };
 }
@@ -271,7 +276,7 @@ $.extend(true, $.fn.dataTable.defaults, {
   dom: 'Bftrpi',
   pageLength: 10,
   searching: false, //true
-  // stateSave: true, // would cause 'sort' no work ? 
+  // stateSave: true, // would cause 'sort' no work ?
   select: {
     info: false,
     style: 'single'

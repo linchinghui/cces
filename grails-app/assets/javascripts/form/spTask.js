@@ -14,7 +14,7 @@ function createTabs() {
     e.preventDefault();
     var thisEle = $(this);
     var loadUrl = thisEle.attr('href');
-    
+
     if (loadUrl.length > 0 && loadUrl !== '#') {
       $.ajax({
         type: 'GET',
@@ -76,7 +76,7 @@ function addDataRequest (evt, dt, node, config) {
   BootstrapDialog.show({
     title: '新增...',
     message: requestAction4BootstrapDialog({
-      url: '/spTask/create', 
+      url: '/spTask/create',
       callback: addDataRequested
     }, null, getLastParameters())
   });
@@ -144,11 +144,14 @@ function createDataTable() {
     ],
     columns: [ //0
       renderDefaultAlterationCellWithId4DataTables({
+        show: {
+          url: prepareUrl('show')
+        },
         edit: {
           url: prepareUrl('edit'),
           callback: modifyDataRequested
-        }
-        ,delete:  {
+        },
+        delete: {
           url: prepareUrl('delete'),
           callback: removeDataRequested
         }
@@ -248,7 +251,7 @@ function initializeSelectFields() {
       constructTypes = promise.data;
     }
 
-    return chainAjaxCall({ 
+    return chainAjaxCall({
         url: '/project',
         method: 'GET',
         async: false,

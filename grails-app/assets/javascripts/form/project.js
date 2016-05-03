@@ -69,8 +69,12 @@ function createDataTable() {
           url: '/project/edit',
           callback: modifyDataRequested
         },
-        delete:  {
+        delete: {
           url: '/project/delete',
+          callback: removeDataRequested
+        },
+        show: {
+          url: '/project/show',
           callback: removeDataRequested
         }
       })
