@@ -6,7 +6,7 @@ import grails.converters.*
 class UserController extends BaseController<User> {
 
 	static namespace = NAMESPACE_API
-	static allowedMethods = [save: "POST", update: "PUT", patch: "PATCH", delete: "DELETE", changePassword: ["GET", "POST"]]
+	static allowedMethods = [save: 'POST', update: 'PUT', patch: 'PATCH', delete: 'DELETE', changePassword: ['GET', 'POST']]
 
 	def authenticationService
 
@@ -31,7 +31,7 @@ class UserController extends BaseController<User> {
 
 				if (isAjax()) {
 					render ((flash?.errors ? [error: flash.errors.newPassword] : [message: 'OK']) as JSON)
-					return							
+					return
 				}
 				// else: render message or error on changePassword.gsp
 			}

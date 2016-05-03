@@ -46,7 +46,7 @@ class SecurityService implements UserDetailsService, PersistentTokenRepository {
 			! user.accountLocked,
 			! user.credentialsExpired,
 			authorities ?: []
-		)	
+		)
 	}
 
 	/*
@@ -94,7 +94,7 @@ class SecurityService implements UserDetailsService, PersistentTokenRepository {
 		}
 
 		def persistentLogin = persistentLogins[0]
-		
+
 		return (persistentLogin) ? new PersistentRememberMeToken(
 				persistentLogin?.username,
 				persistentLogin?.series,
@@ -129,14 +129,12 @@ class SecurityService implements UserDetailsService, PersistentTokenRepository {
 	 */
 //	@Override
 //	public boolean canAccess(SecurityUser currentUser, Object resources) {
-//		// TODO Auto-generated method stub
 //		println 'canAccess(,)'
 //		return true
 //	}
 //
 //	@Override
 //	public boolean canAccess(SecurityUser currentUser) {
-//		// TODO Auto-generated method stub
 //		println 'canAccess()'
 //		return true
 //	}
@@ -156,14 +154,14 @@ class SecurityService implements UserDetailsService, PersistentTokenRepository {
 //
 //	public int vote(Authentication authentication, Object object, Collection<ConfigAttribute> attributes) {
 //		println "vote(object): $object  ||  $attributes"
-//		
+//
 ////		def supportAuthority = attributes?.find { attribute ->
 ////			supports(attribute)
 ////		}
 ////
 ////		supportAuthority == null ? ACCESS_ABSTAIN : isAllowed(authentication) ? ACCESS_GRANTED : ACCESS_DENIED
-//		
-//		return attributes?.size() <= 0 || authentication?.authorities?.size() <= 0 ? 
+//
+//		return attributes?.size() <= 0 || authentication?.authorities?.size() <= 0 ?
 //			ACCESS_ABSTAIN : isAllowed(authentication) ? ACCESS_GRANTED : ACCESS_DENIED
 //    }
 //

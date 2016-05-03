@@ -8,6 +8,7 @@ import org.springframework.http.HttpHeaders
 
 // combine restful
 abstract class BaseController<T> extends RestfulController<T> {
+	// static allowedMethods = [save: 'POST', update: 'PUT', patch: 'PATCH', delete: 'DELETE']
 
 	BaseController(Class<T> type) {
 		super(type) // super(getClass().getTypeParameters()[0].getGenericDeclaration()) ?
@@ -17,7 +18,7 @@ abstract class BaseController<T> extends RestfulController<T> {
 	protected final boolean isAjax() {
 		request['isAjax'] // request.getHeader('X-Requested-With') == 'XMLHttpRequest'
 	}
-    
+
     // TODO:
     def final addError = { field, message ->
         if (flash.errors) {
@@ -26,7 +27,7 @@ abstract class BaseController<T> extends RestfulController<T> {
             flash.errors = [(field): message]
         }
     }
-    
+
     // TODO:
     def final addMessage = { message ->
         flash.message = message
@@ -58,7 +59,6 @@ abstract class BaseController<T> extends RestfulController<T> {
 
             if (params?.draw) { // integrate with DataTables JS
                 def dataCount = countResources()
-// XXX: test datatables ...
 //Thread.currentThread().sleep(1000)
 // response.status = 404
                 respond (
@@ -159,7 +159,7 @@ abstract class BaseController<T> extends RestfulController<T> {
             } else {
                 errorMessage = instance.errors.allErrors
             }
-            
+
         } catch (e) {
             errorMessage = e.message
         }
@@ -236,7 +236,7 @@ abstract class BaseController<T> extends RestfulController<T> {
         if(handleReadOnly()) {
             return
         }
-        
+
         T instance = createResource()
         instance.validate()
 
