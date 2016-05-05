@@ -21,14 +21,14 @@ class SecurityService implements UserDetailsService, PersistentTokenRepository {
 		loadUserByUsername username, true
 	}
 
-    @Transactional(readOnly = true, noRollbackFor = [/*IllegalArgumentException,*/ UsernameNotFoundException])
-    UserDetails loadUserByUsername(String username, boolean loadRoles) throws UsernameNotFoundException {
-        def user = User.findWhere(username: username)
+  // @Transactional(readOnly = true, noRollbackFor = [/*IllegalArgumentException,*/ UsernameNotFoundException])
+  UserDetails loadUserByUsername(String username, boolean loadRoles) throws UsernameNotFoundException {
+    def user = User.findWhere(username: username)
 
-        if (!user) {
-            log.warn "User not found: $username"
-            throw new UsernameNotFoundException('User not found')
-        }
+    if (!user) {
+        log.warn "User not found: $username"
+        throw new UsernameNotFoundException('User not found')
+    }
 
 		def authorities = (!loadRoles) ? [] :
 			user.roles?.collect { role ->

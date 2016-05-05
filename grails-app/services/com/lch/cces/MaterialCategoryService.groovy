@@ -5,9 +5,9 @@ import grails.plugin.cache.Cacheable
 import grails.plugin.cache.CachePut
 import grails.plugin.cache.CacheEvict
 
+@Transactional(readOnly = true)
 class MaterialCategoryService {
 
-	@Transactional(readOnly = true)
 	@Cacheable('materialCategory')
 	MaterialCategory get(String id) {
 		return MaterialCategory.get(id?.toLowerCase())
