@@ -55,7 +55,7 @@ function createDataTable() {
       url: '/api/projects.json'
     },
     initComplete: function (settings, data) { // this == DataTable()
-      initialized4DataTables(this, settings, data);
+      initialized4DataTables(settings, data);
     },
     extButtons: {
       copy: true
@@ -65,16 +65,15 @@ function createDataTable() {
     ],
     columns: [ //0
       renderDefaultAlterationCellWithId4DataTables({
+        show: {
+          url: '/project/show'
+        },
         edit: {
           url: '/project/edit',
           callback: modifyDataRequested
         },
         delete: {
           url: '/project/delete',
-          callback: removeDataRequested
-        },
-        show: {
-          url: '/project/show',
           callback: removeDataRequested
         }
       })

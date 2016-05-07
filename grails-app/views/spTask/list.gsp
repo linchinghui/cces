@@ -18,14 +18,14 @@
           <div class="row">
             <div class="col-xs-12">
               <div class="clearfix">
-                <div class="projectContainer col-sm-6">
+                <div class="projectContainer col-sm-6 col-xs-12">
                   <label for="project">專案:</label>
                   <div class="assignProject form-control">
                     <span class="text-center"><span class="ajax-loader">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></span>
                   </div>
                 </div>
-                <div class="dateContainer col-sm-5">
-                  <f:field property="workedDate" label="日期:" widget="date" />
+                <div class="dateContainer col-sm-6 col-xs-12">
+                  <f:field property="workedDate" label="施工日期:" widget="date" />
                 </div>
               </div>
               <ul class="nav nav-tabs">

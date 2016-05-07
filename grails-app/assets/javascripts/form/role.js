@@ -24,6 +24,10 @@ function createDetailTab() {
   });
 }
 
+function renderDisplayHit4DataTables (settings, start, end, max, total, pre) {
+  return '<span class="small pull-right">點選後進行權限設定</span>';
+}
+
 function modifyDataRequested (result, editForm) {
   reloadDataTables(roleList);
   detailSec.empty();
@@ -41,11 +45,9 @@ function createDataTable() {
         detailSec.empty();
       }
     },
-    infoCallback: function (settings, start, end, max, total, pre) {
-      return '<span class="small pull-right">點選後進行權限設定</span>';
-    },
+    infoCallback: renderDisplayHit4DataTables,
     initComplete: function (settings, data) { // this == DataTable()
-      initialized4DataTables(this, settings, data);
+      initialized4DataTables(settings, data);
       detailSec.empty();
     },
     extButtons: {

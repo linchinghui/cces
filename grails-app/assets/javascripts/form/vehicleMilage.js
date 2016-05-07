@@ -121,7 +121,7 @@ function createMilageTable() {
         // }
       },
       initComplete: function (settings, data) { // this == DataTable()
-        initialized4DataTables(this, settings, data);
+        initialized4DataTables(settings, data);
         $(window).resize(function() {
           vehicleMilageList.columns.adjust().responsive.recalc();
         });

@@ -30,11 +30,11 @@
             <g:if test="${! selfStyle}">
                 <asset:stylesheet src="skin/almsaeedstudio"/>
             </g:if>
-            <g:layoutHead/>
+            <g:layoutHead/><%--
 <!--[if lt IE 9]>
 <asset:javascript src="iefix/html5shiv-3.7.3"/>
 <asset:javascript src="iefix/respond-1.4.2"/>
-<![endif]-->
+<![endif]-->--%>
         </head>
         <body class="hold-transition skin-blue sidebar-mini${params?.sc?' sidebar-collapse':''}">
             <div class="wrapper">
@@ -50,8 +50,8 @@
             <g:if test="${! selfStyle}">
                 <asset:javascript src="${((deferredScript?:'') - ~/.js.*$/)?:'application'}"/>
             </g:if>
-            <asset:deferredScripts/>
-            <asset:javascript src="iefix/ie10-viewport"/>
+            <asset:deferredScripts/><%--
+            <asset:javascript src="iefix/ie10-viewport"/>--%>
         </body>
     </html>
 </g:else>

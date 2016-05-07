@@ -12,7 +12,6 @@ aaa.menuGroups = [
 	    [controller: 'user', icon: 'fa fa-users'],
 	    [controller: 'role', icon: 'fa fa-unlock']
 	]],
-//	[group: 'authorize', description:'作業授權', icon:'fa fa-unlock'],
 	[group: 'filing', description:'資料建檔', icon:'fa fa-files-o', items: [
 		[controller: 'worker', icon: 'fa fa-user'],
 		[controller: 'vehicle', icon: 'fa fa-bus'],

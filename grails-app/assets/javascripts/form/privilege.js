@@ -89,7 +89,7 @@ function createDetailDataTable() {
         }
       },
       initComplete: serverParams.embed ? null : function (settings, data) { // this == DataTable()
-        initialized4DataTables(this, settings, data);
+        initialized4DataTables(settings, data);
       },
       extButtons: {
         copy: true
