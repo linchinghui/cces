@@ -1,3 +1,11 @@
 /*
 *= require_self
 */
+table.table-bordered:not([id="list-project"]) > thead > tr:first-child > th[rowspan="1"] {
+  border-bottom-width: 0;
+}
+/*
+table.table-bordered:not([id="list-project"]) > thead > tr:last-child > th[rowspan="1"] {
+  border-top-width: 0;
+}
+*/

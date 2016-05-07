@@ -17,9 +17,9 @@
 
     // CommonJS module is defined
     if (typeof module !== 'undefined' && module.exports) {
-        var isNode = (typeof process !== "undefined");
+        var isNode = (typeof process === "object") && (typeof process.versions === "object");
         var isElectron = isNode && ('electron' in process.versions);
-        if(isElectron) {
+        if (isElectron) {
             root.BootstrapDialog = factory(root.jQuery);
         } else {
             module.exports = factory(require('jquery'), require('bootstrap'));
@@ -238,6 +238,7 @@
         closable: true,
         closeByBackdrop: true,
         closeByKeyboard: true,
+        closeIcon: '&#215;',
         spinicon: BootstrapDialog.ICON_SPINNER,
         autodestroy: true,
         draggable: false,
@@ -309,9 +310,11 @@
     BootstrapDialog.moveFocus = function () {
         var lastDialogInstance = null;
         $.each(BootstrapDialog.dialogs, function (id, dialogInstance) {
-            lastDialogInstance = dialogInstance;
+            if (dialogInstance.isRealized() && dialogInstance.isOpened()) {
+                lastDialogInstance = dialogInstance;
+            }
         });
-        if (lastDialogInstance !== null && lastDialogInstance.isRealized()) {
+        if (lastDialogInstance !== null) {
             lastDialogInstance.getModal().focus();
         }
     };
@@ -331,16 +334,20 @@
          * Will be removed in later version, after Bootstrap Modal >= 3.3.0, updating z-index is unnecessary.
          */
         updateZIndex: function () {
-            var zIndexBackdrop = 1040;
-            var zIndexModal = 1050;
-            var dialogCount = 0;
-            $.each(BootstrapDialog.dialogs, function (dialogId, dialogInstance) {
-                dialogCount++;
-            });
-            var $modal = this.getModal();
-            var $backdrop = $modal.data('bs.modal').$backdrop;
-            $modal.css('z-index', zIndexModal + (dialogCount - 1) * 20);
-            $backdrop.css('z-index', zIndexBackdrop + (dialogCount - 1) * 20);
+            if (this.isOpened()) {
+                var zIndexBackdrop = 1040;
+                var zIndexModal = 1050;
+                var dialogCount = 0;
+                $.each(BootstrapDialog.dialogs, function (dialogId, dialogInstance) {
+                    if (dialogInstance.isRealized() && dialogInstance.isOpened()) {
+                        dialogCount++;
+                    }
+                });
+                var $modal = this.getModal();
+                var $backdrop = $modal.data('bs.modal').$backdrop;
+                $modal.css('z-index', zIndexModal + (dialogCount - 1) * 20);
+                $backdrop.css('z-index', zIndexBackdrop + (dialogCount - 1) * 20);
+            }
 
             return this;
         },
@@ -772,7 +779,8 @@
         createCloseButton: function () {
             var $container = $('<div></div>');
             $container.addClass(this.getNamespace('close-button'));
-            var $icon = $('<button class="close">&times;</button>');
+            var $icon = $('<button class="close"></button>');
+            $icon.append(this.options.closeIcon);
             $container.append($icon);
             $container.on('click', {dialog: this}, function (event) {
                 event.data.dialog.close();
@@ -849,12 +857,11 @@
                 var dialog = event.data.dialog;
                 var $button = event.data.$button;
                 var button = $button.data('button');
-                if (typeof button.action === 'function') {
-                    button.action.call($button, dialog, event);
-                }
-
                 if (button.autospin) {
                     $button.toggleSpin(true);
+                }
+                if (typeof button.action === 'function') {
+                    return button.action.call($button, dialog, event);
                 }
             });
 
@@ -862,8 +869,8 @@
             this.enhanceButton($button);
 
             //Initialize enabled or not
-            if(typeof button.enabled !== 'undefined') {
-              $button.toggleEnable(button.enabled);
+            if (typeof button.enabled !== 'undefined') {
+                $button.toggleEnable(button.enabled);
             }
 
             return $button;
@@ -1198,8 +1205,8 @@
      * @returns the created dialog instance
      */
     BootstrapDialog.alert = function () {
-        var options = {};
-        var defaultOptions = {
+        var alertOptions = {};
+        var defaultAlertOptions = {
             type: BootstrapDialog.TYPE_PRIMARY,
             title: null,
             message: null,
@@ -1210,35 +1217,54 @@
         };
 
         if (typeof arguments[0] === 'object' && arguments[0].constructor === {}.constructor) {
-            options = $.extend(true, defaultOptions, arguments[0]);
+            alertOptions = $.extend(true, defaultAlertOptions, arguments[0]);
         } else {
-            options = $.extend(true, defaultOptions, {
+            alertOptions = $.extend(true, defaultAlertOptions, {
                 message: arguments[0],
                 callback: typeof arguments[1] !== 'undefined' ? arguments[1] : null
             });
         }
 
-        return new BootstrapDialog({
-            type: options.type,
-            title: options.title,
-            message: options.message,
-            closable: options.closable,
-            draggable: options.draggable,
-            data: {
-                callback: options.callback
-            },
-            onhide: function (dialog) {
-                !dialog.getData('btnClicked') && dialog.isClosable() && typeof dialog.getData('callback') === 'function' && dialog.getData('callback')(false);
-            },
-            buttons: [{
-                    label: options.buttonLabel,
-                    action: function (dialog) {
-                        dialog.setData('btnClicked', true);
-                        typeof dialog.getData('callback') === 'function' && dialog.getData('callback')(true);
-                        dialog.close();
-                    }
-                }]
-        }).open();
+        var dialog = new BootstrapDialog(alertOptions);
+        dialog.setData('callback', alertOptions.callback);
+        dialog.addButton({
+            label: alertOptions.buttonLabel,
+            action: function (dialog) {
+                if (typeof dialog.getData('callback') === 'function' && dialog.getData('callback').call(this, true) === false) {
+                    return false;
+                }
+                dialog.setData('btnClicked', true);
+
+                return dialog.close();
+            }
+        });
+        if (typeof dialog.options.onhide === 'function') {
+            dialog.onHide(function (dialog) {
+                var hideIt = true;
+                if (!dialog.getData('btnClicked') && dialog.isClosable() && typeof dialog.getData('callback') === 'function') {
+                    hideIt = dialog.getData('callback')(false);
+                }
+                if (hideIt === false) {
+                    return false;
+                }
+                hideIt = this.onhide(dialog);
+
+                return hideIt;
+            }.bind({
+                onhide: dialog.options.onhide
+            }));
+        } else {
+            dialog.onHide(function (dialog) {
+                var hideIt = true;
+                if (!dialog.getData('btnClicked') && dialog.isClosable() && typeof dialog.getData('callback') === 'function') {
+                    hideIt = dialog.getData('callback')(false);
+                }
+
+                return hideIt;
+            });
+        }
+
+        return dialog.open();
     };
 
     /**
@@ -1247,56 +1273,58 @@
      * @returns the created dialog instance
      */
     BootstrapDialog.confirm = function () {
-        var options = {};
-        var defaultOptions = {
+        var confirmOptions = {};
+        var defaultConfirmOptions = {
             type: BootstrapDialog.TYPE_PRIMARY,
             title: null,
             message: null,
             closable: false,
             draggable: false,
             btnCancelLabel: BootstrapDialog.DEFAULT_TEXTS.CANCEL,
+            btnCancelClass: null,
             btnOKLabel: BootstrapDialog.DEFAULT_TEXTS.OK,
             btnOKClass: null,
             callback: null
         };
         if (typeof arguments[0] === 'object' && arguments[0].constructor === {}.constructor) {
-            options = $.extend(true, defaultOptions, arguments[0]);
+            confirmOptions = $.extend(true, defaultConfirmOptions, arguments[0]);
         } else {
-            options = $.extend(true, defaultOptions, {
+            confirmOptions = $.extend(true, defaultConfirmOptions, {
                 message: arguments[0],
-                closable: false,
-                buttonLabel: BootstrapDialog.DEFAULT_TEXTS.OK,
                 callback: typeof arguments[1] !== 'undefined' ? arguments[1] : null
             });
         }
-        if (options.btnOKClass === null) {
-            options.btnOKClass = ['btn', options.type.split('-')[1]].join('-');
+        if (confirmOptions.btnOKClass === null) {
+            confirmOptions.btnOKClass = ['btn', confirmOptions.type.split('-')[1]].join('-');
         }
 
-        return new BootstrapDialog({
-            type: options.type,
-            title: options.title,
-            message: options.message,
-            closable: options.closable,
-            draggable: options.draggable,
-            data: {
-                callback: options.callback
-            },
-            buttons: [{
-                    label: options.btnCancelLabel,
-                    action: function (dialog) {
-                        typeof dialog.getData('callback') === 'function' && dialog.getData('callback')(false);
-                        dialog.close();
-                    }
-                }, {
-                    label: options.btnOKLabel,
-                    cssClass: options.btnOKClass,
-                    action: function (dialog) {
-                        typeof dialog.getData('callback') === 'function' && dialog.getData('callback')(true);
-                        dialog.close();
-                    }
-                }]
-        }).open();
+        var dialog = new BootstrapDialog(confirmOptions);
+        dialog.setData('callback', confirmOptions.callback);
+        dialog.addButton({
+            label: confirmOptions.btnCancelLabel,
+            cssClass: confirmOptions.btnCancelClass,
+            action: function (dialog) {
+                if (typeof dialog.getData('callback') === 'function' && dialog.getData('callback').call(this, false) === false) {
+                    return false;
+                }
+
+                return dialog.close();
+            }
+        });
+        dialog.addButton({
+            label: confirmOptions.btnOKLabel,
+            cssClass: confirmOptions.btnOKClass,
+            action: function (dialog) {
+                if (typeof dialog.getData('callback') === 'function' && dialog.getData('callback').call(this, true) === false) {
+                    return false;
+                }
+
+                return dialog.close();
+            }
+        });
+
+        return dialog.open();
+
     };
 
     /**
