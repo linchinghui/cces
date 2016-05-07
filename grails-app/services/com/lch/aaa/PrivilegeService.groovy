@@ -8,30 +8,30 @@ import grails.plugin.cache.CacheEvict
 @Transactional(readOnly = true)
 class PrivilegeService {
 
-    List<Privilege> listByRoles(List roleIds) {
-        return Privilege.where {
-            role.id in roleIds
-        }.list()
-    }
+  List<Privilege> listByRoles(List roleIds) {
+    return Privilege.where {
+      role.id in (roleIds ?: [])
+    }.list()
+  }
 
 	@Cacheable('privilege')
 	List<Privilege> list(Map params) {
-        return Privilege.where {
-            if (params?.roleId) {
-                role.id == "${params.roleId}"
-                // role {
-                //     id == "${params.roleId}"
-                // }
-                // params.remove('roleId')
-            }
-            if (params?.functionId) {
-                function.id == "${params.functionId}"
-                // function {
-                //     id == "${params.functionId}"
-                // }
-                // params.remove('functionId')
-            }
-        }.list(params)
+    return Privilege.where {
+      if (params?.roleId) {
+        role.id == "${params.roleId}"
+        // role {
+        //     id == "${params.roleId}"
+        // }
+        // params.remove('roleId')
+      }
+      if (params?.functionId) {
+        function.id == "${params.functionId}"
+        // function {
+        //     id == "${params.functionId}"
+        // }
+        // params.remove('functionId')
+      }
+    }.list(params)
 	}
 
 	@Transactional

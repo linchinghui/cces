@@ -29,29 +29,31 @@ function renderCheck4DataTables(data, type, row, meta) {
     data;
 }
 
-function disableProcessing4DataTables(dataTableApi) {
-  dataTableApi._fnProcessingDisplay(false);
+function disableProcessing4DataTables(settings) {
+  settings.oInstance._fnProcessingDisplay(settings, false);
 }
 
-function transformServerResult4DataTables(dataTableApi) {
+function transformServerResult4DataTables(settings) {
   return function(response, status, jqXHR) {
     // JSON response, 'success' status, 200 of jqXHR.status, 'OK' of jqXHR.statusText
     alertMessage(response, jqXHR);
-    dataTableApi._fnAjaxUpdateDraw(response);
+    var dataTable = settings.oInstance.DataTable();
+    settings.oInstance._fnAjaxUpdateDraw(response);
 
-    if (dataTableApi.DataTable().context[0].ajax.onDone) {
-      dataTableApi.DataTable().context[0].ajax.onDone();
+    if (dataTable.context[0].ajax.onDone) {
+      dataTable.context[0].ajax.onDone();
     }
   }
 }
 
-function transformServerError4DataTables(dataTableApi) {
+function transformServerError4DataTables(settings) {
   return transformServerError(function() {
-    disableProcessing4DataTables(dataTableApi);
-    renderAjaxButtons4DataTables(dataTableApi.DataTable());
+    disableProcessing4DataTables(settings);
+    var dataTable = settings.oInstance.DataTable();
+    renderAjaxButtons4DataTables(dataTable);
 
-    if (dataTableApi.DataTable().context[0].ajax.onDone) {
-      dataTableApi.DataTable().context[0].ajax.onDone();
+    if (dataTable.context[0].ajax.onDone) {
+      dataTable.context[0].ajax.onDone();
     }
   });
 }
@@ -111,9 +113,8 @@ function addExternalButtons4Init(dataTable) {
   }
 }
 
-function addQueryButtons4Init(dataTableApi) {
-  var dataTable = dataTableApi.DataTable();
-
+function addQueryButtons4Init(settings) {
+  var dataTable = settings.oInstance ? settings.oInstance.DataTable() : settings.DataTable();
   var btns = new $.fn.dataTable.Buttons(dataTable, {
     buttons: [{
       text: '重查',
@@ -134,7 +135,7 @@ function addQueryButtons4Init(dataTableApi) {
       text: '取消',
       action: function(evt, dt, node, conf) {
         dt.context[0].jqXHR.abort && dt.context[0].jqXHR.abort(); // dataTable.context[0].jqXHR.abort();
-        disableProcessing4DataTables(dataTableApi);
+        disableProcessing4DataTables(settings);
       }
     }]
   });
@@ -144,10 +145,10 @@ function addQueryButtons4Init(dataTableApi) {
   var ajax = dataTable.context[0].ajax;
 
   if (ajax && typeof ajax.success === 'undefined') {
-    ajax.success = transformServerResult4DataTables(dataTableApi);
+    ajax.success = transformServerResult4DataTables(settings);
   }
   if (ajax && typeof ajax.error === 'undefined') {
-    ajax.error = transformServerError4DataTables(dataTableApi);
+    ajax.error = transformServerError4DataTables(settings);
   }
 }
 
@@ -186,14 +187,14 @@ function createRemoveCellButtom(cellEle, dataKey, action) {
           label: '是',
           action: function (dialog) {
             dialog.getModalFooter().hide();
-            dialog.setMessage(requestAction4BootstrapDialog(action, dataKey, {'_method': 'DELETE'}));
+            dialog.setMessage(requestAction4BootstrapDialog(action, dataKey, {'_method': 'DELETE'})); // POST method
           }
         }]
     }).open();
   });
 }
 
-function createModifyCellButtom(cellEle, dataKey, action) {
+function createEditCellButtom(cellEle, dataKey, action) {
   cellEle.click(function() {
     var theCell = this.parentNode.parentNode;
     // var theRow = theCell.parentNode;
@@ -201,60 +202,72 @@ function createModifyCellButtom(cellEle, dataKey, action) {
 
     BootstrapDialog.show({
       title: action.title,
-      message: requestAction4BootstrapDialog(action, dataKey)
+      message: requestAction4BootstrapDialog(action, dataKey) // GET method
     });
   });
 }
 
+function createInfoCellButtom(cellEle, dataKey, action) {
+  if (/null(\||)/.test(dataKey)) {
+    $(cellEle).addClass('disabled');
+    return;
+  }
+  createEditCellButtom(cellEle, dataKey, action);
+}
+
 function renderDefaultAlterationCellWithId4DataTables(requestActions) {
-  return {
-    // visible: false,
-    // className: 'hidden',
+  var actionsLen = Object.keys(requestActions).length;
+
+  return { // visible: false, className: 'hidden',
     orderable: false,
     data: 'id',
+    width: (actionsLen == 3 ? '76px' : actionsLen == 2 ? '52px' : '28px'),
     render: function(data, type, full) {
-      return (requestActions.delete ? '<span><i class="fa fa-times"></i></span>&nbsp;' : '')
-            +'<span><i class="fa fa-pencil"></i></span>';
+      return (requestActions.show ? '<span><i class="fa fa-fw fa-info"></i></span>&nbsp;' : '')
+      + (requestActions.edit ? '<span><i class="fa fa-fw fa-pencil"></i></span>&nbsp;' : '')
+      + (requestActions.delete ? '<span><i class="fa fa-fw fa-times"></i></span>' : '')
+      + '<span style="display: inline;"></span>';
     },
     createdCell: function (cell, cellData, rowData, row, col) {
-      // userList == this.DataTable()
-      var serverActions = $.extend(true, {
-        edit: {
+      if (requestActions.show) {
+        var action = $.extend(true, {
+          type: 'show',
+          title: '資訊...',
+          selector: 'span i.fa-info',
+          key: 'id'
+        }, requestActions.show);
+
+        createInfoCellButtom( $(action.selector, cell), rowData[action.key], action );
+      }
+      if (requestActions.edit) {
+        var action = $.extend(true, {
           type: 'edit',
           title: '編輯...',
           selector: 'span i.fa-pencil',
           key: 'id'
-        },
-        delete: (requestActions.delete ? {
+        }, requestActions.edit);
+
+        createEditCellButtom( $(action.selector, cell), rowData[action.key], action );
+      }
+      if (requestActions.delete) {
+        var action = $.extend(true, {
           type: 'delete',
           title: '刪除...',
           selector: 'span i.fa-times',
           key: 'id'
-        } : null)
-      }, requestActions);
+        }, requestActions.delete);
 
-      if (requestActions.delete) {
-        createRemoveCellButtom(
-          $(serverActions.delete.selector, cell),
-          rowData[serverActions.delete.key],
-          serverActions.delete
-        );
+        createRemoveCellButtom( $(action.selector, cell), rowData[action.key], action );
       }
-      createModifyCellButtom(
-        $(serverActions.edit.selector, cell),
-        rowData[serverActions.edit.key],
-        serverActions.edit
-      );
     }
   };
 }
 
-function initialized4DataTables(dataTableApi, settings, response) {
+function initialized4DataTables(settings, response) {
   $.fn.dataTable.ext.errMode = 'none';
-  var dataTable = dataTableApi.DataTable();
+  var dataTable = settings.oInstance ? settings.oInstance.DataTable() : settings.DataTable();
   addExternalButtons4Init(dataTable);
-  addQueryButtons4Init(dataTableApi);
-  // addQueryHandlers4Init(dataTableApi);
+  addQueryButtons4Init(settings);
   addSearchHighlight(dataTable);
 
   if (typeof response == 'undefined') {
@@ -262,8 +275,8 @@ function initialized4DataTables(dataTableApi, settings, response) {
   } else {
     alertMessage(response, dataTable.context[0].jqXHR);
   }
-  if (settings.ajax.onDone) {
-    settings.ajax.onDone();
+  if (dataTable.context[0].ajax.onDone) { // settings.ajax.onDone
+    dataTable.context[0].ajax.onDone();
   }
 }
 
@@ -271,7 +284,7 @@ $.extend(true, $.fn.dataTable.defaults, {
   dom: 'Bftrpi',
   pageLength: 10,
   searching: false, //true
-  // stateSave: true, // would cause 'sort' no work ? 
+  // stateSave: true, // would cause 'sort' no work ?
   select: {
     info: false,
     style: 'single'
@@ -321,7 +334,8 @@ $.extend(true, $.fn.dataTable.defaults, {
         dtContainer.find('table td').highlight(filterInput.val());
       }
     }
-    renderAjaxButtons4DataTables(this.api());
+
+    renderAjaxButtons4DataTables(settings.oInstance.DataTable());
   }
 });
 
@@ -329,8 +343,7 @@ $.fn.dataTable.ext.errMode = function(settings, tn, errors) {
   if (typeof settings !== 'undefined' && settings !== null) {
     console.log(errors);
 
-    var dataTableApi = settings.oInstance;
-    var dataTable = dataTableApi.DataTable();
+    var dataTable = settings.oInstance.DataTable();
     var jqXHR = dataTable.context[0].jqXHR;
     // var tableContainer = $(dataTable.table().container());
 
@@ -339,9 +352,16 @@ $.fn.dataTable.ext.errMode = function(settings, tn, errors) {
       settings.bDestroying = true;
       dataTable.clear().draw();
       delete settings['bDestroying'];
-      initialized4DataTables($('div.message'), dataTableApi, settings, {
-        errors: jqXHR.statusText
-      });
+
+      if (jqXHR.status == 401) {
+        disableProcessing4DataTables(settings);
+        $('.dataTables_empty').html('<i class="fa fa-exclamation-triangle"></i>&nbsp;無作業權限');
+
+      } else {
+        initialized4DataTables(settings, {
+          errors: jqXHR.statusText
+        });
+      }
     }
   }
 };

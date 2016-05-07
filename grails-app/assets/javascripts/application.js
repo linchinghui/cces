@@ -78,7 +78,7 @@ function alertInformation(data, jqXHR) { // jqXHR might be undefined
 }
 
 function joinMessageToDialog (msgObj) {
-  var msgLi = msgObj.map ? 
+  var msgLi = msgObj.map ?
     msgObj.map(function(obj) {
       var item = $('<li/>');
 
@@ -229,7 +229,7 @@ var Chainable = function Chainable() {
 function chainPassCall(delivery) {
   var dfd = new jQuery.Deferred();
   dfd.resolve({rc: delivery.rc, data: delivery.data});
-  
+
   return dfd.promise(Chainable());
 }
 
@@ -269,6 +269,11 @@ function requestAction4BootstrapDialog(action, dataKey, params) {
     var actionUrl = theUrl[0] + (dataKey ? ('/' + encodeURI(dataKey)) : '');
     var actionParams = $.convertParamsFromQueryStr(theUrl.length > 1 ? encodeURI(theUrl[1]) : null);
     $.extend(actionParams, {cb: Base64.encode(closeFn)}, params);
+
+    if (! params) { // method: GET
+      actionUrl += '?' + $.param(actionParams);
+      actionParams = null;
+    }
 
     return $('<div><span class="ajax-loader">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></div>')
       // .delay(100)

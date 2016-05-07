@@ -22,7 +22,6 @@ class AuthenticationService {
 		authentication && ! authenticationTrustResolver.isAnonymous(authentication)
 	}
 
-
 	def getPrincipal() {
 		// def p = SCH.context?.authentication?.principal
 		// return (p.toString() ==~ /^anonymous.*/ ? '訪客' : p.toString())
@@ -38,13 +37,14 @@ class AuthenticationService {
 	}
 
 	def getPrivileges() {
-		def roles = SCH.context?.authentication?.authorities?.collect {
-			ctx.roleService.get(it.authority)
+		def session = WebUtils.retrieveGrailsWebRequest().session
+		// def roles = SCH.context?.authentication?.authorities?.collect { // BUG!
+		def roles = session['SPRING_SECURITY_CONTEXT']?.authentication?.authorities?.collect {
+			roleService.get(it.authority)
 		}
 
-		privilegeService.listByRoles(roles*.id)
+		roles ? privilegeService.listByRoles(roles*.id) : []
 	}
-
 
 	def getLastException() {
 		def session = WebUtils.retrieveGrailsWebRequest().session
@@ -55,7 +55,6 @@ class AuthenticationService {
 		def session = WebUtils.retrieveGrailsWebRequest().session
 		return session['SPRING_SECURITY_LAST_EXCEPTION'] instanceof SessionAuthenticationException
 	}
-
 
 	void changePasswordOnline(confPassword, newPassword) throws AuthenticationException {
 		changePassword(this.principal?.username, confPassword, newPassword)

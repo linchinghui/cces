@@ -9,16 +9,34 @@ import org.springframework.http.HttpHeaders
 // combine restful
 abstract class BaseController<T> extends RestfulController<T> {
 
-	BaseController(Class<T> type) {
-		super(type) // super(getClass().getTypeParameters()[0].getGenericDeclaration()) ?
-	}
+		def authenticationService
+		/*
+		 * constructor
+		 */
+		BaseController(Class<T> type) {
+				super(type) // super(getClass().getTypeParameters()[0].getGenericDeclaration()) ?
+		}
 
+    protected T saveResource(T resource) {
+        resource.save flush: true
+    }
 
-	protected final boolean isAjax() {
-		request['isAjax'] // request.getHeader('X-Requested-With') == 'XMLHttpRequest'
-	}
-    
-    // TODO:
+    protected deleteResource(T resource) {
+        resource.delete flush: true
+    }
+
+    protected String getDeletPage() {
+        return '/layouts/deleted'
+    }
+
+		/*
+		 * helper
+		 * TODO:
+		 */
+		protected final boolean isAjax() {
+				request['isAjax'] // request.getHeader('X-Requested-With') == 'XMLHttpRequest'
+		}
+
     def final addError = { field, message ->
         if (flash.errors) {
             flash.errors.put(field, message)
@@ -26,91 +44,64 @@ abstract class BaseController<T> extends RestfulController<T> {
             flash.errors = [(field): message]
         }
     }
-    
-    // TODO:
+
     def final addMessage = { message ->
         flash.message = message
     }
 
-	def index(Integer max) {
-        def specActionName = request.getHeader('X-CCES-ACTION')
+		/*
+		 * authentication and authorization
+		 */
+		private def getPrivilegeByResource() {
+				authenticationService.privileges.find {
+						it.function.id == resourceName.toLowerCase()
+				}
+		}
 
-        if (specActionName) {
-            // ignore parameter max
-            this.&"${specActionName}"?.call()
+		private def boolean isReadAuthorized() {
+				getPrivilegeByResource()?.canRead
+		}
 
-        } else {
-            list(max)
-        }
-    }
+		private def boolean isWriteAuthorized() {
+				getPrivilegeByResource()?.canWrite
+		}
 
-    private def list(max) {
-        params.max = Math.min(max ?: 10, 100)
+		private def boolean isDeleteAuthorized() {
+				getPrivilegeByResource()?.canDelete
+		}
 
-        def countName = "${resourceName}Count".toString()
-        // "${resourceName}List" to represent dataList by default
-        // def listName = "${resourceName}List".toString()
+		private def unAuthorized() {
+// def theMessage = message(code: 'default.not.found.message', default: '資料不存在',
+//     args: [ message(code: "${resourceName}.label", default: resourceName), params.id ])
+				def theMessage = '無作業權限'
 
-//flash.error="test flash"
+				if (isAjax()) {
+						render status: UNAUTHORIZED
 
-        if (isAjax()) {
-            def dataList = listAllResources(params)
+				} else { // 配合 JS
+						if (request.getHeader('callback') || params?.cb) {
+								if (actionName == 'delete') {
+										flash.errors = theMessage
+										render template: getDeletPage(), model: [callback: params.cb, result: [id: params.id, status: NOT_FOUND.value(), message: theMessage]]
 
-            if (params?.draw) { // integrate with DataTables JS
-                def dataCount = countResources()
-// XXX: test datatables ...
-//Thread.currentThread().sleep(1000)
-// response.status = 404
-                respond (
-// message: 'TEST',
-// warning: ['TEST','Hey'],
-// error: 'TEST error',
-                    draw: params.draw,
-                    recordsTotal: dataCount,
-                    recordsFiltered: dataCount, // TODO
-                    data: dataList
-                )
+								} else {
+										response.status = UNAUTHORIZED.value()
+										render theMessage
+								}
 
-            } else {
-                // when params.format is on of xml, json
-                respond dataList
-            }
+						} else {
+								flash.errors = theMessage
+								// if (actionName != 'show') {
+								// 		redirect controller: resourceName, action: 'show', id: params?.id
+								// }
+						}
+				}
+		}
 
-        } else {
-            // if (params?.format != null || request.format != 'all') {
-            if (params?.format in ['all', 'form', null]) {
-                // just render viewer (and use ajax to access data above)
-                render view: 'list'//, model: [ (listName): dataList, (countName): dataCount ]
-
-            } else {
-                def dataList = listAllResources(params)
-                def dataCount = countResources()
-
-                respond dataList, model: [ (countName): dataCount ]
-            }
-        }
-    }
-
-    def show() {
-        T instance = queryForResource(params?.id)
-// println "show: ${flash?.message} | ${flash?.errors}  /  ${(! (flash?.message || flash?.errors))}"
-
-        if (! (flash?.message || flash?.errors)) {
-            if (instance == null) {
-                notFound()
-                return
-            }
-        }
-
-        if (params?.format || request.format != 'all') {
-            respond instance
-
-        } else {
-            render view: 'show', model: [(resourceName): instance]
-        }
-    }
-
-    def boolean afterPropertiesValidate(instance, transactionStatus) {
+		/*
+		 * commons
+		 */
+    private def boolean afterPropertiesValidate(instance, transactionStatus) {
         def isOK = true
 
         if (instance.hasErrors()) {
@@ -118,9 +109,6 @@ abstract class BaseController<T> extends RestfulController<T> {
             transactionStatus.setRollbackOnly()
             // original:
             // respond instance.errors, view:'create' // STATUS CODE 422
-
-            // if (params?.format || request.format != 'all') {
-            // if ((params?.format || request.format) in ['xml', 'json']) {
             // 配合 JS
             if (isAjax()) {
                 respond ( errors: instance.errors )
@@ -136,7 +124,7 @@ abstract class BaseController<T> extends RestfulController<T> {
         }
 
         return isOK
-    }
+		}
 
     def boolean persistResource(instance, transactionStatus) {
         def isOK = false
@@ -159,15 +147,12 @@ abstract class BaseController<T> extends RestfulController<T> {
             } else {
                 errorMessage = instance.errors.allErrors
             }
-            
+
         } catch (e) {
             errorMessage = e.message
         }
 
         if (! isOK) {
-// println "action name: $actionName"
-// println "errors: ${flash.errors}"
-
             transactionStatus.setRollbackOnly()
 
             if (isAjax()) {
@@ -207,8 +192,7 @@ abstract class BaseController<T> extends RestfulController<T> {
             }
             '*' {
                 response.addHeader(HttpHeaders.LOCATION,
-                        grailsLinkGenerator.link( resource: this.controllerName, action: 'show',id: instance.id, absolute: true,
-                                            namespace: hasProperty('namespace') ? this.namespace : null ))
+                        grailsLinkGenerator.link( resource: this.controllerName, action: 'show',id: instance.id, absolute: true, namespace: hasProperty('namespace') ? this.namespace : null ))
                 if (actionName == 'save') {
                     respond instance, [status: CREATED]
                 } else {
@@ -218,25 +202,69 @@ abstract class BaseController<T> extends RestfulController<T> {
         }
     }
 
-    def create() {
-// Thread.currentThread().sleep(1000)
-        if(handleReadOnly()) {
-            return
-        }
+    protected void notFound() {
         if (isAjax()) {
-            respond createResource()
+            render status: NOT_FOUND
 
-        } else {
-            render view: 'create', model: [ (resourceName): createResource() ]
+        } else { // 配合 JS
+            // def theMessage = message(code: 'default.not.found.message', default: '資料不存在',
+            //     args: [ message(code: "${resourceName}.label", default: resourceName), params.id ])
+            def theMessage = '資料不存在'
+
+            if (request.getHeader('callback') || params?.cb) {
+                if (actionName == 'delete') {
+                    flash.errors = theMessage
+                    render template: getDeletPage(), model: [callback: params.cb, result: [id: params.id, status: NOT_FOUND.value(), message: theMessage]]
+
+                } else {
+                    response.status = NOT_FOUND.value()
+                    render theMessage
+                }
+
+            } else {
+								flash.errors = theMessage
+                if (actionName != 'show') {
+                    flash.errors = theMessage
+                    // redirect action: 'index', method: 'GET'
+                    redirect controller: resourceName, action: 'show', id: params?.id
+                   // render view: 'show', id: params?.id
+                }
+            }
         }
+    }
+
+		/*
+		 * CRUD
+		 */
+		/*
+		 * ----- C -----
+		 */
+    def create() {
+				if (! isWriteAuthorized()) {
+						unAuthorized()
+						return
+				}
+				if (handleReadOnly()) {
+						return
+				}
+				if (isAjax()) {
+						respond createResource()
+
+				} else {
+				   render view: 'create', model: [ (resourceName): createResource() ]
+				}
     }
 
     @Transactional
     def save() {
-        if(handleReadOnly()) {
+				if (! isWriteAuthorized()) {
+						unAuthorized()
+						return
+				}
+        if (handleReadOnly()) {
             return
         }
-        
+
         T instance = createResource()
         instance.validate()
 
@@ -250,14 +278,107 @@ abstract class BaseController<T> extends RestfulController<T> {
         renderSavedPage(instance)
     }
 
-    def edit() {
+		/*
+		 * ----- R -----
+		 */
+		def index(Integer max) {
+				def specActionName = request.getHeader('X-CCES-ACTION')
+
+				if (specActionName) {
+						// ignore parameter max
+						this.&"${specActionName}"?.call()
+
+				} else {
+						list(max)
+				}
+		}
+
+    private def list(max) {
+				boolean hasReadAuth = isReadAuthorized()
+				if (! hasReadAuth) {
+						unAuthorized()
+						// return
+				}
+
+        params.max = Math.min(max ?: 10, 100)
+        def countName = "${resourceName}Count".toString()
+        // def listName = "${resourceName}List".toString() // "${resourceName}List" to represent dataList by default
+
+// Thread.currentThread().sleep(1000)
+// flash.error="test flash"
+// response.status = 404
+
+        if (isAjax()) {
+            def dataList = hasReadAuth ? listAllResources(params) : []
+
+            if (params?.draw) { // integrate with DataTables JS
+                def dataCount = hasReadAuth ? countResources() : java.math.BigInteger.ZERO
+                respond (
+										// message: 'TEST',
+										// warning: ['TEST','Hey'],
+										// error: 'TEST error',
+                    draw: params.draw,
+                    recordsTotal: dataCount,
+                    recordsFiltered: dataCount, // TODO
+                    data: dataList
+                )
+
+            } else {
+                respond dataList
+            }
+
+        } else {
+            if (params?.format in ['all', 'form', null]) { // (params?.format != null || request.format != 'all')
+                // just render viewer (and use ajax to access data above)
+                render view: 'list' //, model: [ (listName): dataList, (countName): dataCount ]
+
+            } else {
+                def dataList = hasReadAuth ? listAllResources(params) : []
+                def dataCount = hasReadAuth ? countResources() : java.math.BigInteger.ZERO
+                respond dataList, model: [ (countName): dataCount ]
+            }
+        }
+    }
+
+    def show() {
+				if (! isReadAuthorized()) {
+						unAuthorized()
+						// return
+				}
+
+        T instance = queryForResource(params?.id)
+
+        if (! (flash?.message || flash?.errors)) {
+            if (instance == null) {
+                notFound()
+                return
+            }
+        }
+        if (params?.format || request.format != 'all') {
+            respond instance
+
+        } else {
+            render view: 'show', model: [(resourceName): instance]
+        }
+    }
+
+		/*
+		 * ----- U -----
+		 */
+		def edit() {
 // Thread.currentThread().sleep(1000)
 // response.status = 501
 // return
-        if(handleReadOnly()) {
+				if (! isWriteAuthorized()) {
+						unAuthorized()
+						return
+				}
+        if (handleReadOnly()) {
             return
         }
+
         def instance = queryForResource(params?.id)
+
         if (! instance) {
             flash.message = '資料不存在'
         }
@@ -269,38 +390,53 @@ abstract class BaseController<T> extends RestfulController<T> {
         }
     }
 
-   @Transactional
-   def update() {
+    @Transactional
+    def update() {
 // response.status = 501
 // return
-        if(handleReadOnly()) {
-           return
+				if (! isWriteAuthorized()) {
+						unAuthorized()
+						return
+				}
+        if (handleReadOnly()) {
+            return
         }
 
         T instance = queryForResource(params?.id)
+
         if (instance == null) {
-           transactionStatus.setRollbackOnly()
-           notFound()
-           return
+            transactionStatus.setRollbackOnly()
+            notFound()
+            return
         }
 
         instance.properties = getObjectToBind()
+
         if (! afterPropertiesValidate(instance, transactionStatus)) {
             return
         }
         if (! persistResource(instance, transactionStatus)) {
             return
         }
-        renderSavedPage(instance)
-   }
 
-    @Transactional
+				renderSavedPage(instance)
+    }
+
+		/*
+		 * ----- D -----
+		 */
+  	@Transactional
     def delete() {
-        if(handleReadOnly()) {
+				if (! isDeleteAuthorized()) {
+						unAuthorized()
+						return
+				}
+        if (handleReadOnly()) {
             return
         }
 
         T instance = queryForResource(params?.id)
+
         if (instance == null) {
             transactionStatus.setRollbackOnly()
             notFound()
@@ -320,7 +456,6 @@ abstract class BaseController<T> extends RestfulController<T> {
         }
 
         if (! isDEL) {
-// println "delete fail: $errorMessage"
             transactionStatus.setRollbackOnly()
 
             if (isAjax()) {
@@ -336,7 +471,6 @@ abstract class BaseController<T> extends RestfulController<T> {
             }
             return
         }
-
         // 配合 JS
         if (params?.cb) {
             render template: getDeletPage(),
@@ -349,83 +483,6 @@ abstract class BaseController<T> extends RestfulController<T> {
                 flash.message = '已刪除'
                 redirect controller: resourceName, action: 'show', id: instance.id
             }
-//             request.withFormat {
-//                 form multipartForm {
-//                     // flash.message = message(code: 'default.deleted.message', args: [message(code: "${resourceClassName}.label".toString(), default: resourceClassName), instance.id])
-//                     // redirect action: 'index', method: 'GET'
-//                     flash.message = '已刪除'
-//                     redirect controller: resourceName, action: 'show', id: instance.id
-//                 }
-//                 '*'{ render status: NO_CONTENT } // NO CONTENT STATUS CODE
-//             }
         }
-    }
-
-    protected void notFound() {
-// log.debug "request.getHeader('callback'): ${request.getHeader('callback')}"
-// log.debug "request.format: ${request.format}"
-// log.debug "params[format]: ${params['format']}"
-
-        if (isAjax()) {
-        // if (params?.format || request.format != 'all') {
-            render status: NOT_FOUND
-
-        } else { // 配合 JS
-            // def theMessage = message(code: 'default.not.found.message', default: '資料不存在',
-            //     args: [ message(code: "${resourceName}.label", default: resourceName), params.id ])
-            def theMessage = '資料不存在'
-
-            if (request.getHeader('callback') || params?.cb) {
-                if (actionName == 'delete') {
-                    flash.errors = theMessage
-                    render template: getDeletPage(),
-                        model: [callback: params.cb, result: [id: params.id, status: NOT_FOUND.value(), message: theMessage]]
-                } else {
-                    response.status = NOT_FOUND.value()
-                    render theMessage
-                }
-
-            } else {
-                if (actionName == 'show') {
-                    flash.errors = theMessage
-
-                } else {
-                    flash.errors = theMessage
-                    // redirect action: 'index', method: 'GET'
-                    redirect controller: resourceName, action: 'show', id: params?.id
-                   // render view: 'show', id: params?.id
-                }
-            }
-        }
-
-//         request.withFormat {
-//             form multipartForm {
-//                 // 配合 JS
-//                 if (request.getHeader('callback') || params?.cb) {
-//                     response.status = NOT_FOUND.value()
-//                     render '資料不存在'
-
-//                 } else {
-//                     flash.message = message(code: 'default.not.found.message', args: [message(code: '${propertyName}.label', default: '${className}'), params.id])
-//                     // redirect action: 'index', method: 'GET'
-//                     redirect controller: resourceName, action: 'show', id: params?.id
-//                 }
-//             }
-//             '*'{
-//                 render status: NOT_FOUND
-//             }
-//         }
-    }
-
-    protected T saveResource(T resource) {
-        resource.save flush: true
-    }
-
-    protected deleteResource(T resource) {
-        resource.delete flush: true
-    }
-
-    protected String getDeletPage() {
-        return '/layouts/deleted'
     }
 }

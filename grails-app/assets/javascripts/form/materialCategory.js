@@ -34,7 +34,7 @@ function createCatDataTable() {
       url: '/api/materialCategories.json'
     },
     initComplete: function (settings, data) { // this == DataTable()
-      initialized4DataTables(this, settings, data);
+      initialized4DataTables(settings, data);
       $(window).resize(function() {
         materialCategoryList.columns.adjust().responsive.recalc();
       });

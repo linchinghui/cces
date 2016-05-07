@@ -5,9 +5,9 @@ import grails.plugin.cache.Cacheable
 import grails.plugin.cache.CachePut
 import grails.plugin.cache.CacheEvict
 
+@Transactional(readOnly = true)
 class FunctionService {
 
-	@Transactional(readOnly = true)
 	@Cacheable('function')
 	Function get(String id) {
 		return Function.get(id?.toLowerCase())

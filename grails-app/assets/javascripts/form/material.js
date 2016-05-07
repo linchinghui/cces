@@ -56,7 +56,7 @@ function createDataTable() {
       url: '/api/materials.json'
     },
     initComplete: function (settings, data) { // this == DataTable()
-      initialized4DataTables(this, settings, data);
+      initialized4DataTables(settings, data);
       $(window).resize(function() {
         materialList.columns.adjust().responsive.recalc();
       });
@@ -71,6 +71,9 @@ function createDataTable() {
     ],
     columns: [ //0
       renderDefaultAlterationCellWithId4DataTables({
+        show: {
+          url: '/material/show'
+        },
         edit: {
           url: '/material/edit',
           callback: modifyDataRequested

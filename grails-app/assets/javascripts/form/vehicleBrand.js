@@ -34,7 +34,7 @@ function createBrandDataTable() {
       url: '/api/vehicleBrands.json'
     },
     initComplete: function (settings, data) { // this == DataTable()
-      initialized4DataTables(this, settings, data);
+      initialized4DataTables(settings, data);
       $(window).resize(function() {
         vehicleBrandList.columns.adjust().responsive.recalc();
       });

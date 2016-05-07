@@ -10,7 +10,7 @@ import org.grails.web.converters.exceptions.ConverterException
 import org.springframework.core.io.ClassPathResource
 
 class BootStrap {
-	
+
     def init = { servletContext ->
 
 		Environment.executeForCurrentEnvironment {
@@ -28,7 +28,7 @@ class BootStrap {
 			}
 		}
 	}
-	
+
 	def destroy = {
 
 	}
@@ -36,7 +36,7 @@ class BootStrap {
     private initDb(ctx) {
 		// log.info "initialize database ..."
 		println "initialize database ..."
-		
+
 		def initData = Application.loadConfiguration('baseData.groovy')
 
 		/*
@@ -48,7 +48,7 @@ class BootStrap {
 
 		initData?.base?.roleMap?.each { entry ->
 			def r = Role.get(DefaultRoleType.salvage(entry.key).id)
-			
+
 			if (null == r) {
 				r = new Role(code: entry.key, description: entry.value)
 				r.save(flush: true)
@@ -65,7 +65,7 @@ class BootStrap {
 				case DefaultRoleType.ROLE_FILING:
 					roleFiling = r
 					break
-					
+
 				case DefaultRoleType.ROLE_USER:
 					if (! roleUser) {
 						roleUser = r
@@ -133,7 +133,7 @@ class BootStrap {
 				println "create Function: ${func.name}"
 			}
 		}
-		
+
 		/*
 		 * Privilege
 		 */
@@ -146,11 +146,11 @@ class BootStrap {
 				new Privilege(role: roleAdmin, function: func, canRead: true, canWrite: true).save(flush: true)
 			}
 		}
-		
+
     }
 
     /*
-	 * XML, JSON Marshallers<br> 
+	 * XML, JSON Marshallers<br>
 	 */
 	private registerMarshaller() {
 		// grails.converters.JSON.registerObjectMarshaller(java.sql.Timestamp) {
@@ -171,6 +171,7 @@ class BootStrap {
 		grails.converters.JSON.registerObjectMarshaller(
 			new EnhancedJsonMarshaller()
 				.addExclude('password')
+				.addExclude('handler')
 				// .addExclude('constructType')
 				, 2)
 		grails.converters.XML.registerObjectMarshaller(
@@ -188,12 +189,12 @@ class BootStrap {
 				, 5)
 	}
 
-	
+
 	/*
 	 * for development only<br>
 	 */
     private initForDevelopment(ctx) {
-		
+
 //		println DefaultRoleType.ordinals()
 //		println DefaultRoleType.names()
 

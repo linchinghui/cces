@@ -19,7 +19,7 @@
         <div id="spinner" class="spinner" style="display:none;"><g:message code="spinner.alt" default="Loading&hellip;"/></div>
         <g:layoutBody />
         <asset:javascript src="${((deferredScript?:'') - ~/.js.*$/)?:'application'}"/>
-        <asset:deferredScripts/>
-        <asset:javascript src="iefix/ie10-viewport"/>
+        <asset:deferredScripts/><%--
+        <asset:javascript src="iefix/ie10-viewport"/>--%>
     </body>
 </html>

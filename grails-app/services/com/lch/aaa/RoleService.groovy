@@ -5,9 +5,9 @@ import grails.plugin.cache.Cacheable
 import grails.plugin.cache.CachePut
 import grails.plugin.cache.CacheEvict
 
+@Transactional(readOnly = true)
 class RoleService {
 
-	@Transactional(readOnly = true)
 	@Cacheable('role')
 	Role get(String id) {
 		return Role.get(DefaultRoleType.salvage(id).id)

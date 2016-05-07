@@ -1,10 +1,8 @@
 package com.lch.aaa
 
-import static Application.NAMESPACE_API
-
 class PrivilegeController extends BaseController<Privilege> {
 
-	static namespace = NAMESPACE_API
+	static namespace = Application.NAMESPACE_API
 
     def privilegeService
 
@@ -66,7 +64,7 @@ class PrivilegeController extends BaseController<Privilege> {
 
         return privileges
     }
-    
+
     protected final Privilege queryForResource(Serializable id) {
         listAllPrivileges(params)[0]
     }

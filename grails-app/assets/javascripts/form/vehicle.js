@@ -9,7 +9,7 @@ function createTabs() {
     e.preventDefault();
     var thisEle = $(this);
     var loadUrl = thisEle.attr('href');
-    
+
     if (loadUrl.length > 0 && loadUrl !== '#') {
       $.ajax({
         type: 'GET',
@@ -60,7 +60,7 @@ function createDataTable() {
       url: '/api/vehicles.json'
     },
     initComplete: function (settings, data) { // this == DataTable()
-      initialized4DataTables(this, settings, data);
+      initialized4DataTables(settings, data);
       $(window).resize(function() {
         vehicleList.columns.adjust().responsive.recalc();
       });
@@ -75,6 +75,9 @@ function createDataTable() {
     ],
     columns: [ //0
       renderDefaultAlterationCellWithId4DataTables({
+        show: {
+          url: '/vehicle/show'
+        },
         edit: {
           url: '/vehicle/edit',
           callback: modifyDataRequested

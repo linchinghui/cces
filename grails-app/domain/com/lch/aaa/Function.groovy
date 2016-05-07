@@ -10,11 +10,11 @@ class Function {
 	String		description		// 作業名稱
 	Boolean		aided = false	// 輔助作業
 
-    static constraints = {
+	static constraints = {
 		name		blank: false, nullable: false, maxSize: 20, unique: true
 		description	blank: false, nullable: false, maxSize: 100
 		aided		blank: true, nullable: true
-    }
+	}
 
 	static mapping = {
 		version		false

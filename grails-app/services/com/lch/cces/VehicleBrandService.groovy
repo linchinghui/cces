@@ -5,9 +5,9 @@ import grails.plugin.cache.Cacheable
 import grails.plugin.cache.CachePut
 import grails.plugin.cache.CacheEvict
 
+@Transactional(readOnly = true)
 class VehicleBrandService {
 
-	@Transactional(readOnly = true)
 	@Cacheable('vehicleBrand')
 	VehicleBrand get(String id) {
 		return VehicleBrand.get(id?.toUpperCase())

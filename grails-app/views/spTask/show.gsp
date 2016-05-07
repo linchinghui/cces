@@ -17,7 +17,6 @@
         <asset:stylesheet src="form/spTask"/>
     </head>
     <body>
-${spTask}
         <div class="container" role="main">
             <div class="panel panel-info"><g:if test="${modalPage}">
                 <div class="panel-heading">

@@ -1,10 +1,8 @@
 package com.lch.aaa
 
-import static Application.NAMESPACE_API
-
 class FunctionController extends BaseController<Function> {
 
-    static namespace = NAMESPACE_API
+    static namespace = Application.NAMESPACE_API
 
     def functionService
 

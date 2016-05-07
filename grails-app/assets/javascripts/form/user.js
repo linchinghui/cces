@@ -47,9 +47,7 @@ function renderRolesField4DataTables (data, type, row, meta) {
       }
     });
 
-    htmlStr += (htmlStr.length > 0 ? '&nbsp;&nbsp;' : '')
-            + rdrObj.clone().wrap('<span></span>').parent().html();
-            // + '&nbsp;' + roleId + '&nbsp;<span class="hidden-xs">' + roleDesc + '</span>';
+    htmlStr += (htmlStr.length > 0 ? '&nbsp;&nbsp;' : '') + rdrObj.clone().wrap('<span></span>').parent().html();
   });
 
   return htmlStr;
@@ -87,7 +85,7 @@ function createDataTable() {
     },
     infoCallback: renderDisplayHit4DataTables,
     initComplete: function (settings, data) { // this == DataTable()
-      initialized4DataTables(this, settings, data);
+      initialized4DataTables(settings, data);
     },
     extButtons: {
       copy: true

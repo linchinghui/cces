@@ -19,7 +19,7 @@ class UrlMappings {
         "$PAGE_PASSWORD"    (controller: 'user', action: 'changePassword')
         '403'               (view: PAGE_DENY)
         '404'               (view: PAGE_NOTFOUND)
-        // '406'            (view: PAGE_ERROR)
+        '406'               (view: PAGE_ERROR)
         '500'               (view: PAGE_ERROR)
         '500'               (view: '/welcome', exception: CookieTheftException)
         '503'               (view: PAGE_MAINTENANCE)
