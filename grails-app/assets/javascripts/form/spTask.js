@@ -129,7 +129,7 @@ function createDataTable() {
       // }
     },
     initComplete: function (settings, data) { // this == DataTable()
-      initialized4DataTables(this, settings, data);
+      initialized4DataTables(settings, data);
       $(window).resize(function() {
         spTaskDataTable.columns.adjust().responsive.recalc();
       });
@@ -174,6 +174,11 @@ function createDataTable() {
       orderable: false,
       data: 'constructCode' // 'constructType'
     },{ //5
+      render: function(data, type, row, meta) {
+        return ((type === 'display' || type === 'filter') && /null(\||)/.test(row.id)) ?
+          '<span class="text-danger">已派工,未登錄</span>' :
+          data;
+      },
       orderable: false,
       data: 'note'
     }]
@@ -183,6 +188,22 @@ function createDataTable() {
 /*-----------
   load data
  -----------*/
+function loadProjectInfo(ele) {
+  var projectInfo= $('<span class="input-group-addon glyphicon glyphicon-info-sign"></span><span id="projectExists" class="sr-only"></span>')
+    .click(function() {
+      var projectId = assignProjectList.val();
+
+      if (projectId) {
+        BootstrapDialog.show({
+          title: '專案',
+          message: requestAction4BootstrapDialog({url:'/project/show'}, projectId) // GET method
+        });
+      }
+    });
+
+  ele.after(projectInfo);
+}
+
 function loadSpTasks() {
   if (spTaskDataTable) {
     reloadDataTables(spTaskDataTable, true);
@@ -201,21 +222,15 @@ function initializeSpTasks () {
  ---------------------------------------------------------------------*/
 function createProjectCombo(ele) {
   assignProjectList = assignProjectDiv.html(ele).combobox();
+  var combo = assignProjectList.data('combobox');
+  loadProjectInfo(combo.$element);
 
   if (server.project) {
-    var combo = assignProjectList.data('combobox');
-
-    combo.$element.val( $.map( combo.map,
-      function(val, desc) {
-        return val == server.project ? desc : null;
-      }));
+    combo.$element.val( $.map( combo.map, function(val, desc) { return val == server.project ? desc : null; }));
     combo.lookup().select();
-
-    // loadProjectInfo();
   }
 
   assignProjectList.change(function (e) {
-    // loadProjectInfo();
     loadSpTasks();
     triggerCriterionChange(assignProjectList);
   });
