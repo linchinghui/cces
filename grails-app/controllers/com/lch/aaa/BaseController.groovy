@@ -54,7 +54,7 @@ abstract class BaseController<T> extends RestfulController<T> {
 		 */
 		private def getPrivilegeByResource() {
 				authenticationService.privileges.find {
-						it.function.id == resourceName
+						it.function.id == resourceName.toLowerCase()
 				}
 		}
 
@@ -70,37 +70,33 @@ abstract class BaseController<T> extends RestfulController<T> {
 				getPrivilegeByResource()?.canDelete
 		}
 
-		private def respondNoAuthorization() {
-			if (isAjax()) {
-					render status: UNAUTHORIZED
+		private def unAuthorized() {
+// def theMessage = message(code: 'default.not.found.message', default: '資料不存在',
+//     args: [ message(code: "${resourceName}.label", default: resourceName), params.id ])
+				def theMessage = '無作業權限'
 
-			} else { // 配合 JS
-					// def theMessage = message(code: 'default.not.found.message', default: '資料不存在',
-					//     args: [ message(code: "${resourceName}.label", default: resourceName), params.id ])
-					def theMessage = '無作業權限'
+				if (isAjax()) {
+						render status: UNAUTHORIZED
 
-					if (request.getHeader('callback') || params?.cb) {
-							if (actionName == 'delete') {
-									flash.errors = theMessage
-									render template: getDeletPage(), model: [callback: params.cb, result: [id: params.id, status: NOT_FOUND.value(), message: theMessage]]
+				} else { // 配合 JS
+						if (request.getHeader('callback') || params?.cb) {
+								if (actionName == 'delete') {
+										flash.errors = theMessage
+										render template: getDeletPage(), model: [callback: params.cb, result: [id: params.id, status: NOT_FOUND.value(), message: theMessage]]
 
-							} else {
-									response.status = NOT_FOUND.value()
-									render theMessage
-							}
+								} else {
+										response.status = UNAUTHORIZED.value()
+										render theMessage
+								}
 
-					} else {
-							if (actionName == 'show') {
-									flash.errors = theMessage
-
-							} else {
-									flash.errors = theMessage
-									// redirect action: 'index', method: 'GET'
-									redirect controller: resourceName, action: 'show', id: params?.id
-								 // render view: 'show', id: params?.id
-							}
-					}
-			}		}
+						} else {
+								flash.errors = theMessage
+								// if (actionName != 'show') {
+								// 		redirect controller: resourceName, action: 'show', id: params?.id
+								// }
+						}
+				}
+		}
 
 		/*
 		 * commons
@@ -226,10 +222,8 @@ abstract class BaseController<T> extends RestfulController<T> {
                 }
 
             } else {
-                if (actionName == 'show') {
-                    flash.errors = theMessage
-
-                } else {
+								flash.errors = theMessage
+                if (actionName != 'show') {
                     flash.errors = theMessage
                     // redirect action: 'index', method: 'GET'
                     redirect controller: resourceName, action: 'show', id: params?.id
@@ -247,7 +241,7 @@ abstract class BaseController<T> extends RestfulController<T> {
 		 */
     def create() {
 				if (! isWriteAuthorized()) {
-						respondNoAuthorization()
+						unAuthorized()
 						return
 				}
 				if (handleReadOnly()) {
@@ -264,7 +258,7 @@ abstract class BaseController<T> extends RestfulController<T> {
     @Transactional
     def save() {
 				if (! isWriteAuthorized()) {
-						respondNoAuthorization()
+						unAuthorized()
 						return
 				}
         if (handleReadOnly()) {
@@ -300,14 +294,13 @@ abstract class BaseController<T> extends RestfulController<T> {
 		}
 
     private def list(max) {
-				if (! isReadAuthorized()) {
-				// 		respondNoAuthorization()
-						render "TEST"
-						return
+				boolean hasReadAuth = isReadAuthorized()
+				if (! hasReadAuth) {
+						unAuthorized()
+						// return
 				}
 
         params.max = Math.min(max ?: 10, 100)
-
         def countName = "${resourceName}Count".toString()
         // def listName = "${resourceName}List".toString() // "${resourceName}List" to represent dataList by default
 
@@ -316,11 +309,10 @@ abstract class BaseController<T> extends RestfulController<T> {
 // response.status = 404
 
         if (isAjax()) {
-            def dataList = listAllResources(params)
+            def dataList = hasReadAuth ? listAllResources(params) : []
 
             if (params?.draw) { // integrate with DataTables JS
-                def dataCount = countResources()
-
+                def dataCount = hasReadAuth ? countResources() : java.math.BigInteger.ZERO
                 respond (
 										// message: 'TEST',
 										// warning: ['TEST','Hey'],
@@ -341,8 +333,8 @@ abstract class BaseController<T> extends RestfulController<T> {
                 render view: 'list' //, model: [ (listName): dataList, (countName): dataCount ]
 
             } else {
-                def dataList = listAllResources(params)
-                def dataCount = countResources()
+                def dataList = hasReadAuth ? listAllResources(params) : []
+                def dataCount = hasReadAuth ? countResources() : java.math.BigInteger.ZERO
                 respond dataList, model: [ (countName): dataCount ]
             }
         }
@@ -350,8 +342,8 @@ abstract class BaseController<T> extends RestfulController<T> {
 
     def show() {
 				if (! isReadAuthorized()) {
-						respondNoAuthorization()
-						return
+						unAuthorized()
+						// return
 				}
 
         T instance = queryForResource(params?.id)
@@ -378,7 +370,7 @@ abstract class BaseController<T> extends RestfulController<T> {
 // response.status = 501
 // return
 				if (! isWriteAuthorized()) {
-						respondNoAuthorization()
+						unAuthorized()
 						return
 				}
         if (handleReadOnly()) {
@@ -403,7 +395,7 @@ abstract class BaseController<T> extends RestfulController<T> {
 // response.status = 501
 // return
 				if (! isWriteAuthorized()) {
-						respondNoAuthorization()
+						unAuthorized()
 						return
 				}
         if (handleReadOnly()) {
@@ -436,7 +428,7 @@ abstract class BaseController<T> extends RestfulController<T> {
   	@Transactional
     def delete() {
 				if (! isDeleteAuthorized()) {
-						respondNoAuthorization()
+						unAuthorized()
 						return
 				}
         if (handleReadOnly()) {
