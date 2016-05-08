@@ -11,9 +11,18 @@ class AssignmentController extends BaseController<Assignment> {
         super(Assignment)
     }
 
-    // def listMonth() {
-    //   render view: 'listMonth' //, model: [ (resourceName): createResource() ]
-    // }
+    def index(Integer max) {
+        if (params?.month) {
+          listMonth(max)
+        } else {
+          super.index(max)
+        }
+    }
+
+    private def listMonth(max) {
+      // render view: 'listMonth' //, model: [ (resourceName): createResource() ]
+      render view: '/notfound'
+    }
 
     private void resolveParameters(params) {
         def compIds = params?.id?.split('\\|')

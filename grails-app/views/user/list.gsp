@@ -30,8 +30,8 @@
                     <thead>
                       <tr>
                         <th></th>
-                        <th><span class="hidden-xs">使用者</span>代碼</th>
-                        <th><span class="hidden-xs">使用者</span>名稱</th>
+                        <th><span class="hidden-xs">登入</span>帳號</th>
+                        <th>姓名</th>
                         <th><span class="hidden-xs">作業</span>角色</th>
                         <th><span class="hidden-xs">可</span>登入</th>
                         <th><span class="hidden-xs">已</span>鎖住</th>
