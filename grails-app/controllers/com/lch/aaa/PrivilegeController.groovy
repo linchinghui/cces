@@ -2,13 +2,13 @@ package com.lch.aaa
 
 class PrivilegeController extends BaseController<Privilege> {
 
-	static namespace = Application.NAMESPACE_API
+		static namespace = Application.NAMESPACE_API
 
     def privilegeService
 
-	PrivilegeController() {
-		super(Privilege)
-	}
+		PrivilegeController() {
+			super(Privilege)
+		}
 
     private void resolveParameters(params) {
         def compIds = params?.id?.split('\\|')
@@ -98,7 +98,9 @@ class PrivilegeController extends BaseController<Privilege> {
             super.edit()
 
         } else {
-            redirect action: 'create', params: params
+            // redirect action: 'create', params: params
+						def url = g.createLink action: 'create', params: params
+            redirect url: url
         }
     }
 

@@ -30,7 +30,7 @@
                         <tr>
                         <th></th>
                         <th>日期</th>
-                        <th>公告</th>
+                        <th>內容</th>
                     </tr>
                     </thead>
                     <tbody>

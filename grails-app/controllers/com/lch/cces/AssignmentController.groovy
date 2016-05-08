@@ -5,10 +5,15 @@ import com.lch.aaa.*
 class AssignmentController extends BaseController<Assignment> {
 
     static namespace = Application.NAMESPACE_API
+    // static allowedMethods = [save: 'POST', update: 'PUT', patch: 'PATCH', delete: 'DELETE', listMonth: ['GET', 'POST']]
 
     AssignmentController() {
         super(Assignment)
     }
+
+    // def listMonth() {
+    //   render view: 'listMonth' //, model: [ (resourceName): createResource() ]
+    // }
 
     private void resolveParameters(params) {
         def compIds = params?.id?.split('\\|')
@@ -92,7 +97,9 @@ class AssignmentController extends BaseController<Assignment> {
             super.edit()
 
         } else {
-            redirect action: 'create', params: params
+            // redirect action: 'create', params: params
+            def url = g.createLink action: 'create', params: params
+            redirect url: url
         }
     }
 
