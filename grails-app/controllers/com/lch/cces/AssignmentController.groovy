@@ -5,9 +5,23 @@ import com.lch.aaa.*
 class AssignmentController extends BaseController<Assignment> {
 
     static namespace = Application.NAMESPACE_API
+    // static allowedMethods = [save: 'POST', update: 'PUT', patch: 'PATCH', delete: 'DELETE', listMonth: ['GET', 'POST']]
 
     AssignmentController() {
         super(Assignment)
+    }
+
+    def index(Integer max) {
+        if (params?.month) {
+          listMonth(max)
+        } else {
+          super.index(max)
+        }
+    }
+
+    private def listMonth(max) {
+      // render view: 'listMonth' //, model: [ (resourceName): createResource() ]
+      render view: '/notfound'
     }
 
     private void resolveParameters(params) {
@@ -92,7 +106,9 @@ class AssignmentController extends BaseController<Assignment> {
             super.edit()
 
         } else {
-            redirect action: 'create', params: params
+            // redirect action: 'create', params: params
+            def url = g.createLink action: 'create', params: params
+            redirect url: url
         }
     }
 

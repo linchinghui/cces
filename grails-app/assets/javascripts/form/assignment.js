@@ -26,7 +26,8 @@ function createTabs() {
     if (loadUrl.length > 0 && loadUrl !== '#') {
       $.ajax({
         type: 'GET',
-        url: loadUrl,
+        url: loadUrl.split('?')[0],
+        data: getLastParameters($.convertParamsFromQueryStr(loadUrl)),
         error: function(jqXHR, status, error) {
           $(thisEle.attr('data-target')).html(jqXHR.responseText);
         },
@@ -42,20 +43,27 @@ function createTabs() {
   });
 }
 
-function getLastParameters() {
+function getLastParameters(params) {
   var qryParams = {
       projectId: assignProjectList.val(),
       year: lastYear,
-      week: lastWeek,
       format: 'json'
     }
 
-  if (lastDateAssigned) { // && lastDate >= moment().transform('YYYY-MM-DD 00:00:00.000')) {
-    qryParams['d' + lastDate.day()] = true;
+  if (params) { // for 每月人員配置
+    $.extend(qryParams, params);
+
+  } else { // for 每週人員派工
+    qryParams['week'] = lastWeek;
+
+    if (lastDateAssigned) { // && lastDate >= moment().transform('YYYY-MM-DD 00:00:00.000')) {
+      qryParams['d' + lastDate.day()] = true;
+    }
   }
 
   return qryParams;
 }
+
 /*---------------
   DataTables
  ----------------*/
@@ -334,8 +342,6 @@ function createProjectCombo(ele) {
 
   assignProjectList.change(function (e) {
     loadAssignments();
-    // TODO
-    // triggerCriterionChange(assignProjectList);
   });
 }
 

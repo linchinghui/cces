@@ -176,7 +176,7 @@ function createDataTable() {
     },{ //5
       render: function(data, type, row, meta) {
         return ((type === 'display' || type === 'filter') && /null(\||)/.test(row.id)) ?
-          '<span class="text-danger">已派工,未登錄</span>' :
+          '<span class="text-danger text-bold">已派工,未登錄</span>' :
           data;
       },
       orderable: false,

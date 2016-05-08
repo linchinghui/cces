@@ -1,5 +1,5 @@
-<g:set var="deferredScript" value="form/assignment" scope="request"/>
-<g:set var="functionService" bean="functionService"/><%--
+<g:set var="deferredScript" value="form/assignment" scope="request"/><%--
+<g:set var="functionService" bean="functionService"/>
 <g:set var="pageTitle" value="${functionService.get('assignment')?.description}"/>--%>
 <g:set var="pageTitle" value="本週人員派工"/>
 <!DOCTYPE html>
@@ -11,7 +11,10 @@
         <asset:stylesheet src="form/assignment"/>
     </head>
     <body>
-      <div class="content-wrapper" role="main">
+      <div class="content-wrapper" role="main"> <%--
+        <section class="content-header">
+          <g:render template="/layouts/server-message" bean="${spTask}"/>
+        </section> --%>
         <section class="content">
           <div class="row">
             <div class="col-xs-12">
@@ -30,7 +33,7 @@
               </div>
               <ul class="nav nav-tabs">
                 <li>
-                  <a data-toggle="mtab" data-target="#tab1" href="${g.createLink(action:'listMonth', params:[embed:true])}">
+                  <a data-toggle="mtab" data-target="#tab1" href="${g.createLink(action:'index', params:[embed:true,month:Calendar.instance.get(Calendar.MONTH)])}">
                     <big>本月人員配置</big>
                   </a>
                 </li>

@@ -9,9 +9,9 @@ class AAAInterceptor {
     }
 
     boolean before() {
-
         request['isAjax'] = request.getHeader('X-Requested-With') == 'XMLHttpRequest' &&
                             request.requestURI.startsWith("/$NAMESPACE_API/")
+
         if (request['isAjax']) {
             response.setHeader('Expires', '-1')
             response.setHeader('Pragma', 'no-cache')
@@ -30,7 +30,6 @@ class AAAInterceptor {
             // request.format in ['xml', 'json']) {
             params['format'] = request.format
         }
-
 
         log.debug "${request.method} params : ${params}"
         log.debug "request.format: ${request.format}"
@@ -58,7 +57,7 @@ class AAAInterceptor {
 
         // if (! response.isCommitted()) {
             if ((
-                ! request['isAjax'] && 
+                ! request['isAjax'] &&
                 response.status < 300 &&
                 SecurityContextHolder.context.authentication == null
             ) || (

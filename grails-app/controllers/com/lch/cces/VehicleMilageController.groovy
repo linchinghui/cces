@@ -96,7 +96,9 @@ class VehicleMilageController extends BaseController<VehicleMilage> {
             super.edit()
 
         } else {
-            redirect action: 'create', params: params
+            // redirect action: 'create', params: params
+            def url = g.createLink action: 'create', params: params
+            redirect url: url
         }
     }
 }
