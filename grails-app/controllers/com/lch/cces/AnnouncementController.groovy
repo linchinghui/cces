@@ -26,7 +26,7 @@ class AnnouncementController extends BaseController<Announcement> {
             revokedDate >= today
         }.list(params) : []
 
-        def dataCount = hasReadAuth : dataList.size() : java.math.BigInteger.ZERO
+        def dataCount = hasReadAuth ? dataList.size() : java.math.BigInteger.ZERO
 
         respond (
         	draw: params.draw,

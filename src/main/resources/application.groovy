@@ -28,3 +28,7 @@ aaa.menuGroups = [
 ]
 
 aaa.rememberMe.validitySeconds = 604800 // 7 days
+
+cces.images = [
+	dir: '/var/www/images'
+]

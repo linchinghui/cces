@@ -16,7 +16,7 @@
           <div class="navbar-custom-menu">
             <ul class="nav navbar-nav">
 <%-- Notifications: --%>
-<g:if test="${isLoggedIn}"> 
+<g:if test="${isLoggedIn}">
               <li class="dropdown notifications-menu">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                   <i class="fa fa-bell-o"></i>
@@ -62,8 +62,9 @@
               <li class="dropdown user user-menu">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
 <g:if test="${isLoggedIn}">
-<%-- TODO: external resource here --%>
-                    <img src="../../dist/img/user2-160x160.jpg" class="user-image"/>
+<%-- TODO: external resource here --%><%--
+                    <img class="user-image" src="../../images/user2-160x160.jpg"/>--%>
+                    <g:img class="user-image" dir="images" file="user2-160x160.jpg"/>
 </g:if>
 <g:else>
                     <asset:image src="anonymous.png" class="user-image"/>
