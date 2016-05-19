@@ -6,7 +6,7 @@ import org.grails.web.util.WebUtils
 import org.springframework.security.core.context.SecurityContextHolder as SCH
 import org.springframework.security.web.authentication.session.SessionAuthenticationException
 
-@Transactional(readOnly = true)
+// @Transactional(readOnly = true)
 class AuthenticationService {
 
 	def authenticationTrustResolver

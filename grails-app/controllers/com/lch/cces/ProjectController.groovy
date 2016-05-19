@@ -12,14 +12,19 @@ class ProjectController extends BaseController<Project> {
     }
 
 	def brief() {
+        boolean hasReadAuth = isReadAuthorized()
+        if (! hasReadAuth) {
+                unAuthorized()
+                // return
+        }
         log.debug "project brief: ${params}"
 
-        def dataList = listAllResources(params)
+        def dataList = hasReadAuth ? listAllResources(params) : []
 
         // ignore ajax or not
         if (params?.format in ['all', 'form', null]) {
 			def countName = "${resourceName}Count".toString()
-	        def dataCount = countResources()
+	        def dataCount = hasReadAuth ? countResources() : java.math.BigInteger.ZERO
 	        // represent xml or json by viewer
             respond dataList, view: 'brief', model: [ (countName): dataCount ]
 

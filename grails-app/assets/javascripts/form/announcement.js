@@ -35,6 +35,11 @@ function createDataTable() {
     },
     initComplete: function (settings, data) { // this == DataTable()
       initialized4DataTables(settings, data);
+      $(window).resize(function() {
+        announcementList.columns.adjust().responsive.recalc();
+      });
+      // TODO
+      setTimeout(function(){ $(window).resize(); }, 500);
     },
     extButtons: {
       copy: true

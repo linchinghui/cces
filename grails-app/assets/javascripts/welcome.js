@@ -19,6 +19,8 @@ function createDataTable() {
       $(window).resize(function() {
         announcementList.columns.adjust().responsive.recalc();
       });
+      // TODO
+      setTimeout(function(){ $(window).resize(); }, 500);
     },
     extButtons: {
       // copy: true

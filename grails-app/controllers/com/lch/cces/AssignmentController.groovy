@@ -20,6 +20,11 @@ class AssignmentController extends BaseController<Assignment> {
     }
 
     private def listMonth(max) {
+        boolean hasReadAuth = isReadAuthorized()
+        if (! hasReadAuth) {
+                unAuthorized()
+                return
+        }
       // render view: 'listMonth' //, model: [ (resourceName): createResource() ]
       render view: '/notfound'
     }
@@ -118,6 +123,11 @@ class AssignmentController extends BaseController<Assignment> {
     def sumup() {
         log.debug "assignment sum-up: ${params}"
         resolveParameters(params)
+        boolean hasReadAuth = isReadAuthorized()
+        if (! hasReadAuth) {
+                unAuthorized()
+                return
+        }
 
         // if (params?.projectId) {
             respond combine4ClndrJS()

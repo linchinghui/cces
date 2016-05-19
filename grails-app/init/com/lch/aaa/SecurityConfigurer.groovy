@@ -14,8 +14,7 @@ import org.springframework.core.io.ClassPathResource
 import org.springframework.security.authentication.AuthenticationManager
 import org.springframework.security.authentication.AuthenticationProvider
 import org.springframework.security.core.userdetails.UserDetailsService
-import org.springframework.security.core.session.SessionRegistry
-import org.springframework.security.core.session.SessionRegistryImpl
+// import org.springframework.security.core.session.SessionRegistry
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
@@ -27,6 +26,7 @@ import org.springframework.security.web.authentication.RememberMeServices
 import org.springframework.security.web.authentication.SavedRequestAwareAuthenticationSuccessHandler
 import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository
 import org.springframework.security.web.authentication.rememberme.PersistentTokenBasedRememberMeServices
+// import org.springframework.security.web.authentication.session.SessionAuthenticationStrategy
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher
 
 @Configuration
@@ -47,8 +47,10 @@ class SecurityConfigurer extends WebSecurityConfigurerAdapter {
 	@Autowired // @Qualifier('authenticationProvider')
 	AuthenticationProvider authenticationProvider
 
-	// @Autowired
-	// SessionRegistry sessionRegistryImpl
+	// @Autowired // @Qualifier('sessionAuthenticationStrategy')
+	// SessionAuthenticationStrategy sessionAuthenticationStrategy
+	// @Autowired // @Qualifier('sessionRegistry')
+	// SessionRegistry sessionRegistry
 
 	// @Autowired // @Qualifier('rememberMeServices')
 	// RememberMeServices rememberMeServices
@@ -72,10 +74,13 @@ class SecurityConfigurer extends WebSecurityConfigurerAdapter {
 
 	@Override
 	public void configure(WebSecurity web) throws Exception {
-	// 	// already including  "/js/**", "/css/**", "/images/**" by default in Grails
-	// 	// web.ignoring().antMatchers("/favicon.ico", "/assets/**", "/**/*\\.{(js|css|gif|jpg|jpeg|png)}")
-	// 	// web.ignoring().antMatchers("/assets/**/*\\.(css|png)")
-		web.ignoring().antMatchers('/api/announcements*')
+		web
+			// .debug(true)
+			.ignoring()
+			// .antMatchers("/favicon.ico", "/assets/**", "/**/*\\.{(js|css|gif|jpg|jpeg|png)}")
+			// .antMatchers("/assets/**/*\\.(css|png)")
+			.antMatchers('/error', '/**/favicon.ico')
+			.antMatchers('/css/**', '/images/**', '/js/**')
 	}
 
 	@Override
@@ -88,6 +93,7 @@ class SecurityConfigurer extends WebSecurityConfigurerAdapter {
 		http//.addFilter(???)
 			.authorizeRequests()
 				.antMatchers(PAGES_PERMITTED).permitAll()
+				.antMatchers('/api/announcements**').permitAll()
 				.antMatchers('/console/**','/dbconsole/**').hasRole(DefaultRoleType.ROLE_SUPERVISOR.springSecurityRoleName())
 				// .antMatchers('/api/**').authenticated()
 				.anyRequest().authenticated()
@@ -112,7 +118,7 @@ class SecurityConfigurer extends WebSecurityConfigurerAdapter {
 				// .logoutSuccessHandler(???)
 				.logoutSuccessUrl(PAGE_LOGIN)
 				.invalidateHttpSession(true)
-				.deleteCookies('JSESSIONID') //,'remember-me')
+				.deleteCookies('JSESSIONID', 'remember-me')
 				.permitAll()
 			.and()
 				.rememberMe()
@@ -124,16 +130,16 @@ class SecurityConfigurer extends WebSecurityConfigurerAdapter {
 				.accessDeniedPage(PAGE_DENY)
 			.and()
 				.sessionManagement()
-				// .sessionAuthenticationStrategy(concurrentSessionControlStrategy)
-				// .sessionRegistry(sessionRegistryImpl)
-				.sessionFixation().none() //.changeSessionId()
+				.sessionFixation().none() //DEFAULT:.migrateSession() //.changeSessionId()
+				// .sessionAuthenticationStrategy(sessionAuthenticationStrategy)
+				// .sessionRegistry(sessionRegistry)
 				.maximumSessions(100).maxSessionsPreventsLogin(false)
-				.expiredUrl('/login?expired') // or /login?invalidated ???
+				.expiredUrl(PAGE_EXPIRED) // or /login?invalidated ???
 				//? .invalidSessionUrl( "/login?time=1" )
 			// .and()
 
 		// for dbconsole plugin:
-		// if (Environment.developmentMode) {
+		if (Environment.developmentMode) {
 			http.headers().frameOptions().disable()
 			http.csrf().disable()
 		// TODO:
@@ -148,6 +154,6 @@ class SecurityConfigurer extends WebSecurityConfigurerAdapter {
 			// 				'PATCH'.equals(reqMethod)
 			// 			)
 			// 		}
-		// }
+		}
 	}
 }

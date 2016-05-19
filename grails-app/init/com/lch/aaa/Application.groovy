@@ -30,7 +30,7 @@ import org.springframework.core.env.MapPropertySource
 //@EntityScan(
 //	basePackages=[
 //		'com.lch.cces'
-//	],	
+//	],
 //	basePackageClasses=[
 //		Function
 //	]
@@ -42,11 +42,12 @@ class Application extends GrailsAutoConfiguration implements EnvironmentAware {
 
 	public static final String NAMESPACE_DEFAULT = 'cces'
 	public static final String NAMESPACE_API = 'api'
-	
+
 	public static final String PARAMETER_TARGET_URL = '_tu_'
 
 	public static final String PAGE_HOME = '/'
 	public static final String PAGE_LOGIN = '/login'
+	public static final String PAGE_EXPIRED = PAGE_LOGIN+'?expired'
 	public static final String PAGE_LOGOUT = '/logout'
 	public static final String PAGE_PASSWORD = '/changePassword'
 	public static final String PAGE_DENY = '/deny'

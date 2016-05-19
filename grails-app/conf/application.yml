@@ -69,13 +69,17 @@ grails:
                 scriptlets: html
                 taglib: none
                 staticparts: none
+    cache:
+        enabled: true
 ---
 hibernate:
     cache:
         queries: false
         use_query_cache: false
         use_second_level_cache: false
-        region.factory_class: 'org.hibernate.cache.ehcache.EhCacheRegionFactory'
+        provider_class: net.sf.ehcache.hibernate.EhCacheProvider
+        region:
+            factory_class: 'org.hibernate.cache.ehcache.EhCacheRegionFactory'
 
 endpoints:
     jmx:
@@ -150,5 +154,5 @@ environments:
                 testOnReturn: false
                 jdbcInterceptors: ConnectionState;StatementCache(max=200) #ConnectionState
                 defaultTransactionIsolation: 2 # TRANSACTION_READ_COMMITTED
-#server:
-#    contextPath: '/cces'
+# server:
+#     context-path: '/cces'

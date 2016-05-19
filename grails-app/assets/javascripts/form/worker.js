@@ -59,6 +59,7 @@ function createDataTable() {
     ,{ //1
       data: 'empNo'
     },{ //2
+      width: '44px',
       data: 'empName'
     },{ //3
       data: 'sex'
