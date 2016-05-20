@@ -34,6 +34,11 @@ class AAAInterceptor {
         log.debug "${request.method} params : ${params}"
         log.debug "request.format: ${request.format}"
 
+        if (session['SPRING_SECURITY_CONTEXT']?.authentication &&
+            SecurityContextHolder.context.authentication == null
+        ) {
+            SecurityContextHolder.context.authentication = session['SPRING_SECURITY_CONTEXT'].authentication
+        }
         true
     }
 
@@ -42,7 +47,6 @@ class AAAInterceptor {
             request.queryString == null) {
             session['SPRING_SECURITY_LAST_EXCEPTION'] = null
         }
-
         true
     }
 
@@ -63,7 +67,6 @@ class AAAInterceptor {
             ) || (
                 ! request.isRequestedSessionIdValid())
             ) {
-
                 // redirect(mapping: 'home', params: params)
                 // return
                 request.getSession(false)?.invalidate()

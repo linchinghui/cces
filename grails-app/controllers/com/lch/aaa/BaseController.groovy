@@ -58,15 +58,15 @@ abstract class BaseController<T> extends RestfulController<T> {
 				}
 		}
 
-		private def boolean isReadAuthorized() {
+		protected def boolean isReadAuthorized() {
 				getPrivilegeByResource()?.canRead
 		}
 
-		private def boolean isWriteAuthorized() {
+		protected def boolean isWriteAuthorized() {
 				getPrivilegeByResource()?.canWrite
 		}
 
-		private def boolean isDeleteAuthorized() {
+		protected def boolean isDeleteAuthorized() {
 				getPrivilegeByResource()?.canDelete
 		}
 

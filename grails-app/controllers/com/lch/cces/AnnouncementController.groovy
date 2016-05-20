@@ -10,12 +10,16 @@ class AnnouncementController extends BaseController<Announcement> {
         super(Announcement)
     }
 
-    def upToDate() {
-        boolean hasReadAuth = isReadAuthorized()
-        if (! hasReadAuth) {
-            unAuthorized()
-            return
-        }
+//     protected def boolean isReadAuthorized() {
+//         true
+//     }
+
+    def upToDate() { // for every body
+        boolean hasReadAuth = true // isReadAuthorized()
+        // if (! hasReadAuth) {
+        //     unAuthorized()
+        //     return
+        // }
         log.debug "assignment up-to-date: ${params}"
 
         def today = new Date()

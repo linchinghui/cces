@@ -11,7 +11,7 @@ import org.springframework.security.web.authentication.rememberme.PersistentToke
 
 import com.lch.aaa.*;
 
-// @Transactional(readOnly = true)
+@Transactional(readOnly = true)
 class SecurityService implements UserDetailsService, PersistentTokenRepository {//, SecurityAccessable {//, AccessDecisionVoter<Object> {
 
 	/*
@@ -29,6 +29,8 @@ class SecurityService implements UserDetailsService, PersistentTokenRepository {
         log.warn "User not found: $username"
         throw new UsernameNotFoundException('User not found')
     }
+
+
 
 		def authorities = (!loadRoles) ? [] :
 			user.roles?.collect { role ->

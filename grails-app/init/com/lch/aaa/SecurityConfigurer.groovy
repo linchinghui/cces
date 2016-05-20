@@ -13,6 +13,7 @@ import org.springframework.context.annotation.Configuration
 import org.springframework.core.io.ClassPathResource
 import org.springframework.security.authentication.AuthenticationManager
 import org.springframework.security.authentication.AuthenticationProvider
+// import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.security.core.userdetails.UserDetailsService
 // import org.springframework.security.core.session.SessionRegistry
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder
@@ -60,6 +61,8 @@ class SecurityConfigurer extends WebSecurityConfigurerAdapter {
 
 	@Autowired
 	public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
+		// SecurityContextHolder.setStrategyName(SecurityContextHolder.MODE_GLOBAL) // .MODE_INHERITABLETHREADLOCAL)
+
 		auth
 			// .eraseCredentials(true)
 			.authenticationProvider(authenticationProvider)
@@ -81,6 +84,7 @@ class SecurityConfigurer extends WebSecurityConfigurerAdapter {
 			// .antMatchers("/assets/**/*\\.(css|png)")
 			.antMatchers('/error', '/**/favicon.ico')
 			.antMatchers('/css/**', '/images/**', '/js/**')
+			.antMatchers('/api/announcements.json*')
 	}
 
 	@Override
@@ -93,9 +97,8 @@ class SecurityConfigurer extends WebSecurityConfigurerAdapter {
 		http//.addFilter(???)
 			.authorizeRequests()
 				.antMatchers(PAGES_PERMITTED).permitAll()
-				.antMatchers('/api/announcements**').permitAll()
+				// .antMatchers('/api/announcements.json').permitAll()
 				.antMatchers('/console/**','/dbconsole/**').hasRole(DefaultRoleType.ROLE_SUPERVISOR.springSecurityRoleName())
-				// .antMatchers('/api/**').authenticated()
 				.anyRequest().authenticated()
 			.and()
 				.formLogin()

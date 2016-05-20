@@ -13,8 +13,8 @@ import static ch.qos.logback.classic.Level.*
 
 def ccesPattern = '%date{yyyy/MM/dd HH:mm:ss.SSS} ' +
                   '%-5level ' +
-                  '%-32logger{24} ' + // other format: %-24.32logger
                   '[%thread] ' +
+                  '%-32logger{24} ' + // other format: %-24.32logger
                   '- ' +
                   '%msg%n'
 
