@@ -49,7 +49,7 @@
       </div>
 <asset:script type='text/javascript'><%-- deferred JS here --%>
 var server = {
-  detailLink: '${g.createLink([controller:"privilege", action:"index"])}'
+  detailLink: '${createLink([controller:"privilege", action:"index"])}'
 };
 
 $(function() {

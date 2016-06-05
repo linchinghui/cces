@@ -35,7 +35,7 @@
   font-size: 20px;
   opacity: .3;
 }
-.fa.fa-product-hunt {
+.fa.fa-product-hunt, .fa.wpforms {
   font-size: 1.125em;
 }
 .highlight {
@@ -93,7 +93,7 @@
 }
 
 .panel {
-  margin-bottom: 0; 
+  margin-bottom: 0;
 }
 .panel input[type=checkbox] {
   opacity: 0;

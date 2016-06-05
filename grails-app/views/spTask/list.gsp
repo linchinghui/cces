@@ -33,7 +33,7 @@
                   <a data-toggle="mtab" data-target="#tab1" href="#"><big>人員</big></a>
                 </li>
                 <li>
-                  <a data-toggle="mtab" data-target="#tab2" href="${g.createLink([controller:'vehicleMilage', action:'index'])}">
+                  <a data-toggle="mtab" data-target="#tab2" href="${createLink([controller:'vehicleMilage', action:'index'])}">
                     <big>${functionService.get('vehicleMilage')?.description}</big>
                   </a>
                 </li>

@@ -1,12 +1,7 @@
+.gradle/
+.settings/
 build/
 bin/
-.gradle/
-.asscache
-.classpath
-.project
-.settings/
-*.pdf
-*.pptx
-manifest.yml
 notes/
-grails-app/assets/stylesheets/form copy/
+.asscache
+manifest.yml

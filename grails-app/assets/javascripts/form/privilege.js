@@ -19,7 +19,7 @@ function addDetailDataRequest (evt, dt, node, config) {
   BootstrapDialog.show({
     title: '新增...',
     message: requestAction4BootstrapDialog({
-      url: '/privilege/create',
+      url: contextPath+'/privilege/create',
       callback: addDetailDataRequested
     })
   }, null, $.param(serverParams));
@@ -27,7 +27,7 @@ function addDetailDataRequest (evt, dt, node, config) {
 
 function prepareUrl(actionType) {
   return function() {
-    return '/privilege/' + actionType + (serverParams.embed ? '?' + $.param(serverParams) : '');
+    return contextPath + '/privilege/' + actionType + (serverParams.embed ? '?' + $.param(serverParams) : '');
   }
 }
 
@@ -77,7 +77,7 @@ function createDetailDataTable() {
       serverSide: true,
       deferRender: true,
       ajax: {
-        url: '/api/privileges.json',
+        url: contextPath+'/api/privileges.json',
         data: function(params, settings) {
           return $.extend({
               draw: params.draw,

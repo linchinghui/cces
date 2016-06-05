@@ -10,7 +10,7 @@ class AAAInterceptor {
 
     boolean before() {
         request['isAjax'] = request.getHeader('X-Requested-With') == 'XMLHttpRequest' &&
-                            request.requestURI.startsWith("/$NAMESPACE_API/")
+                            request.requestURI.startsWith("${request.contextPath}/$NAMESPACE_API/")
 
         if (request['isAjax']) {
             response.setHeader('Expires', '-1')
@@ -43,8 +43,7 @@ class AAAInterceptor {
     }
 
     boolean after() {
-        if (request.forwardURI == PAGE_LOGIN &&
-            request.queryString == null) {
+        if ((request.forwardURI - request.contextPath) == PAGE_LOGIN && request.queryString == null) {
             session['SPRING_SECURITY_LAST_EXCEPTION'] = null
         }
         true

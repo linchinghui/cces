@@ -69,21 +69,19 @@ class SecurityConfigurer extends WebSecurityConfigurerAdapter {
 			.userDetailsService(authenticationProvider.userDetailsService)
 	}
 
-	//@Bean(name='authenticationManager')
-	@Override
-	public AuthenticationManager authenticationManagerBean() throws Exception {
-		return super.authenticationManagerBean()
-	}
+	// //@Bean(name='authenticationManager')
+	// @Override
+	// public AuthenticationManager authenticationManagerBean() throws Exception {
+	// 	return super.authenticationManagerBean()
+	// }
 
 	@Override
 	public void configure(WebSecurity web) throws Exception {
 		web
 			// .debug(true)
 			.ignoring()
-			// .antMatchers("/favicon.ico", "/assets/**", "/**/*\\.{(js|css|gif|jpg|jpeg|png)}")
-			// .antMatchers("/assets/**/*\\.(css|png)")
-			.antMatchers('/error', '/**/favicon.ico')
-			.antMatchers('/css/**', '/images/**', '/js/**')
+			// .antMatchers('/**/favicon.ico', '/error', '/css/**', '/js/**', '/images/**') // '/**/*\\.{(js|css|gif|jpg|jpeg|png)}'
+			.antMatchers('/assets/**', '/static/**')
 			.antMatchers('/api/announcements.json*')
 	}
 

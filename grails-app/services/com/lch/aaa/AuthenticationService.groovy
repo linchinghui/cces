@@ -64,7 +64,7 @@ class AuthenticationService {
 	void changePassword(userId, confPassword, newPassword) throws AuthenticationException {
 		com.lch.aaa.User u = com.lch.aaa.User.get(userId)
 
-		if (! (u && Holders.applicationContext.passwordEncoder?.matches(confPassword, u.password))) {
+		if (! (u && Holders.applicationContext.passwordEncoder?.matches(confPassword, u?.password))) {
 			// def messageSource = Holders.applicationContext.getBean("messageSource")
 			// throw new AuthenticationException(messageSource.getMessage('AbstractUserDetailsAuthenticationProvider.badCredentials'...))
 			throw new AuthenticationException('用戶憑證/密碼不正確')

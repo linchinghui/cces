@@ -28,8 +28,6 @@ class UrlMappings {
         "$PAGE_ERROR"       (view: PAGE_ERROR)
         "$PAGE_MAINTENANCE" (view: PAGE_MAINTENANCE)
 
-        // org.springframework.security.web.authentication.rememberme.CookieTheftException
-
         def restControllers = Holders.grailsApplication.controllerClasses.findAll {
             GrailsClassUtils.getStaticPropertyValue(it.clazz, 'namespace') == NAMESPACE_API
         }

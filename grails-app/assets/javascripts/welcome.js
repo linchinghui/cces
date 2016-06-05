@@ -12,7 +12,7 @@ function createDataTable() {
       headers: {
         'X-CCES-ACTION': 'upToDate'
       },
-      url: '/api/announcements.json'
+      url: contextPath+'/api/announcements.json'
     },
     initComplete: function (settings, data) { // this == DataTable()
       initialized4DataTables(settings, data);

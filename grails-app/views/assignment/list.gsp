@@ -33,7 +33,7 @@
               </div>
               <ul class="nav nav-tabs">
                 <li>
-                  <a data-toggle="mtab" data-target="#tab1" href="${g.createLink(action:'index', params:[embed:true,month:Calendar.instance.get(Calendar.MONTH)])}">
+                  <a data-toggle="mtab" data-target="#tab1" href="${createLink(action:'index', params:[embed:true,month:Calendar.instance.get(Calendar.MONTH)])}">
                     <big>本月人員配置</big>
                   </a>
                 </li>

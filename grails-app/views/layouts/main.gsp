@@ -30,7 +30,10 @@
             <g:if test="${! selfStyle}">
                 <asset:stylesheet src="skin/almsaeedstudio"/>
             </g:if>
-            <g:layoutHead/><%--
+            <g:layoutHead/>
+<g:javascript>
+    var contextPath='${request.contextPath}';
+</g:javascript><%--
 <!--[if lt IE 9]>
 <asset:javascript src="iefix/html5shiv-3.7.3"/>
 <asset:javascript src="iefix/respond-1.4.2"/>

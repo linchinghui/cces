@@ -19,7 +19,7 @@ function addDataRequest (evt, dt, node, config) {
   BootstrapDialog.show({
     title: '新增...',
     message: requestAction4BootstrapDialog({
-      url: '/worker/create',
+      url: contextPath+'/worker/create',
       callback: addDataRequested
     })
   });
@@ -31,7 +31,7 @@ function createDataTable() {
     serverSide: true,
     deferRender: true,
     ajax: {
-      url: '/api/workers.json'
+      url: contextPath+'/api/workers.json'
     },
     initComplete: function (settings, data) { // this == DataTable()
       initialized4DataTables(settings, data);
@@ -45,14 +45,14 @@ function createDataTable() {
     columns: [ //0
       renderDefaultAlterationCellWithId4DataTables({
         show: {
-          url: '/worker/show'
+          url: contextPath+'/worker/show'
         },
         edit: {
-          url: '/worker/edit',
+          url: contextPath+'/worker/edit',
           callback: modifyDataRequested
         },
         delete:  {
-          url: '/worker/delete',
+          url: contextPath+'/worker/delete',
           callback: removeDataRequested
         }
       })

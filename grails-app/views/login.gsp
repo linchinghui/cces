@@ -1,7 +1,10 @@
+<%@ page import="static com.lch.aaa.Application.*" %>
 <%@ page import="com.lch.aaa.*"%>
 <g:set var="authService" bean="authenticationService"/>
 <g:set var="lastException" value="${authService.lastException}" scope="request"/>
 <g:set var="modalPage" value="${true}" scope="request"/>
+<g:set var="loginLink" value="${createLink(controller:PAGE_LOGIN-'/')}"/>
+<g:set var="logoutLink" value="${createLink(controller:PAGE_LOGOUT-'/')}"/>
 <!DOCTYPE html>
 <html>
 <head>
@@ -16,7 +19,7 @@
 <body>
   <div class="container" role="main">
     <div class="col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2">
-      <h3><img src="/assets/cces_logo.png"/><span class="hidden-xs">&nbsp;工料成本估算系統</span></h3>
+      <h3><asset:image src="cces_logo.png"/><span class="hidden-xs">&nbsp;工料成本估算系統</span></h3>
     </div>
 
     <div id="box-login" class="col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2 col-xs-10 col-xs-offset-1">
@@ -32,7 +35,7 @@
               <div class='alert alert-danger'>${lastException.message}</div>
           </g:if>
 
-          <form name="form-signin" class="form-horizontal" role="form" action='/login' method='POST'>
+          <form name="form-signin" class="form-horizontal" role="form" action="${loginLink}" method='POST'>
             <g:if test="${_csrf?.parameterName}">
               <input name='${_csrf?.parameterName}' type='hidden' value='${_csrf?.token}'/>
             </g:if>
@@ -142,7 +145,7 @@ $(function() {
   });
 
   $('button[name="logout"]').click(function(){
-    $('form[name="form-signin"]').attr('action','${Application.PAGE_LOGOUT}').submit();
+    $('form[name="form-signin"]').attr('action','${logoutLink}').submit();
   });
 });
 </asset:script>

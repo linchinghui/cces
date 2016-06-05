@@ -19,7 +19,7 @@ function addCatDataRequest (evt, dt, node, config) {
   BootstrapDialog.show({
     title: '新增...',
     message: requestAction4BootstrapDialog({
-      url: '/materialCategory/create',
+      url: contextPath+'/materialCategory/create',
       callback: addCatDataRequested
     })
   });
@@ -31,7 +31,7 @@ function createCatDataTable() {
     serverSide: true,
     deferRender: true,
     ajax: {
-      url: '/api/materialCategories.json'
+      url: contextPath+'/api/materialCategories.json'
     },
     initComplete: function (settings, data) { // this == DataTable()
       initialized4DataTables(settings, data);
@@ -50,11 +50,11 @@ function createCatDataTable() {
     columns: [ //0
       renderDefaultAlterationCellWithId4DataTables({
         edit: {
-          url: '/materialCategory/edit',
+          url: contextPath+'/materialCategory/edit',
           callback: modifyCatDataRequested
         },
         delete:  {
-          url: '/materialCategory/delete',
+          url: contextPath+'/materialCategory/delete',
           callback: removeCatDataRequested
         }
       })

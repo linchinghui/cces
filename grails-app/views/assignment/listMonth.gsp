@@ -64,7 +64,7 @@
                   <a data-toggle="mtab" data-target="#tab1" href="#"><big>本月人員配置</big></a>
                 </li>
                 <li>
-                  <a data-toggle="mtab" data-target="#tab2" href="${g.createLink([controller:'vehicleMilage', action:'index'])}">
+                  <a data-toggle="mtab" data-target="#tab2" href="${createLink([controller:'vehicleMilage', action:'index'])}">
                     <big>${pageTitle}</big>
                   </a>
                 </li>

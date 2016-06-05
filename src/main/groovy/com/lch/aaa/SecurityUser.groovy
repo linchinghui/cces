@@ -1,4 +1,4 @@
-package com.lch.aaa;
+package com.lch.aaa
 
 import groovy.transform.EqualsAndHashCode
 import org.springframework.security.core.GrantedAuthority

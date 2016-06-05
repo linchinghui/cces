@@ -6,6 +6,7 @@ grails:
     gorm:
         failOnError: true
     resources:
+        # --- #9908 ---
         pattern: '/**'
 info:
     app:
@@ -92,6 +93,8 @@ dataSource:
 environments:
     development:
         grails:
+            # assets:
+            #     storagePath: '/tmp/assets'
             plugin:
                 fields:
                     disableLookupCache: true
@@ -129,6 +132,12 @@ environments:
                 jdbcInterceptors: ConnectionState;StatementCache(max=200) #ConnectionState
                 defaultTransactionIsolation: 2 # TRANSACTION_READ_COMMITTED
     production:
+        # grails:
+        #     assets:
+        #         storagePath: '/var/www/cces/assets'
+            # plugin:
+            #     'asset-pipeline':
+            #         storagePath: '/var/www/cces/assets'
         dataSource:
             driverClassName: com.mysql.jdbc.Driver
             dialect: org.hibernate.dialect.MySQL5InnoDBDialect
@@ -155,4 +164,4 @@ environments:
                 jdbcInterceptors: ConnectionState;StatementCache(max=200) #ConnectionState
                 defaultTransactionIsolation: 2 # TRANSACTION_READ_COMMITTED
 # server:
-#     context-path: '/cces'
+#     contextPath: '/cces'

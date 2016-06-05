@@ -76,7 +76,7 @@ function addDataRequest (evt, dt, node, config) {
   BootstrapDialog.show({
     title: '新增...',
     message: requestAction4BootstrapDialog({
-      url: '/spTask/create',
+      url: contextPath+'/spTask/create',
       callback: addDataRequested
     }, null, getLastParameters())
   });
@@ -84,12 +84,12 @@ function addDataRequest (evt, dt, node, config) {
 
 function prepareUrl(actionType) {
   return function() {
-    return '/spTask/' + actionType + getQueryString();
+    return contextPath + '/spTask/' + actionType + getQueryString();
   }
 }
 
 function createDataTable() {
-  $.ajax.fake.registerWebservice('/api/spTasks.json', function(req) {
+  $.ajax.fake.registerWebservice(contextPath+'/api/spTasks.json', function(req) {
     // empty DT data
     return {
       draw: req.draw,
@@ -105,7 +105,7 @@ function createDataTable() {
     serverSide: true,
     deferRender: true,
     ajax: {
-      url: '/api/spTasks.json',
+      url: contextPath+'/api/spTasks.json',
       data: function(params, settings) {
         settings.ajax.fake = ! (assignProjectList.val() || false);
 
@@ -196,7 +196,7 @@ function loadProjectInfo(ele) {
       if (projectId) {
         BootstrapDialog.show({
           title: '專案',
-          message: requestAction4BootstrapDialog({url:'/project/show'}, projectId) // GET method
+          message: requestAction4BootstrapDialog({url: contextPath+'/project/show'}, projectId) // GET method
         });
       }
     });
@@ -251,7 +251,7 @@ function initializeSelectFields() {
   createDatePicker()
 
   chainAjaxCall({
-    url: '/api/projects.json',
+    url: contextPath+'/api/projects.json',
     method: 'GET',
     async: false,
     headers: {
@@ -267,7 +267,7 @@ function initializeSelectFields() {
     }
 
     return chainAjaxCall({
-        url: '/project',
+        url: contextPath+'/project',
         method: 'GET',
         async: false,
         headers: {
