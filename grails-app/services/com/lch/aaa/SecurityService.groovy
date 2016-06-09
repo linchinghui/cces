@@ -11,7 +11,7 @@ import org.springframework.security.web.authentication.rememberme.PersistentToke
 
 import com.lch.aaa.*;
 
-// @Transactional(readOnly = true)
+@Transactional(readOnly = true) // for DB accessing by spring-security
 class SecurityService implements UserDetailsService, PersistentTokenRepository {//, SecurityAccessable {//, AccessDecisionVoter<Object> {
 
 	/*

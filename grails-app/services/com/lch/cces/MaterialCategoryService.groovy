@@ -8,19 +8,19 @@ import grails.plugin.cache.CacheEvict
 // @Transactional(readOnly = true)
 class MaterialCategoryService {
 
-	@Cacheable('materialCategory')
+	// @Cacheable('materialCategory')
 	MaterialCategory get(String id) {
 		return MaterialCategory.get(id?.toLowerCase())
 	}
 
 	@Transactional
-	@CachePut(value = 'materialCategory', key = '#materialCategory.id')
+	// @CachePut(value = 'materialCategory', key = '#materialCategory.id')
 	void save(MaterialCategory materialCategory) {
 		materialCategory.save flush: true
 	}
 
 	@Transactional
-	@CacheEvict(value = 'materialCategory', key = '#materialCategory.id')
+	// @CacheEvict(value = 'materialCategory', key = '#materialCategory.id')
 	void delete(MaterialCategory materialCategory) {
 		materialCategory.delete flush: true
 	}
