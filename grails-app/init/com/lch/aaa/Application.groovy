@@ -2,9 +2,7 @@ package com.lch.aaa
 
 import grails.boot.GrailsApp
 import grails.boot.config.GrailsAutoConfiguration
-
 import org.grails.core.io.DefaultResourceLocator
-
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.ComponentScan
@@ -63,7 +61,25 @@ class Application extends GrailsAutoConfiguration implements EnvironmentAware {
 	]
 
 	static void main(String[] args) {
-		GrailsApp.run(Application, args)
+		// for v3.0:
+		// GrailsApp.run(Application, args)
+		// for v3.1:
+		def app = new GrailsApp(Application) {
+			@Override
+			protected void printBanner(org.springframework.core.env.Environment environment) {
+				println '''
+	▄████████  ▄████████    ▄████████    ▄████████
+	███    ███ ███    ███   ███    ███   ███    ███
+	███    █▀  ███    █▀    ███    █▀    ███    █▀
+	███        ███         ▄███▄▄▄       ███
+	███        ███        ▀▀███▀▀▀     ▀███████████
+	███    █▄  ███    █▄    ███    █▄           ███
+	███    ███ ███    ███   ███    ███    ▄█    ███
+	████████▀  ████████▀    ██████████  ▄████████▀
+'''
+			}
+		}
+		app.run(args)
 	}
 
     public static ConfigObject loadConfiguration(String configFile) { //, grails.util.Environment env = null) {

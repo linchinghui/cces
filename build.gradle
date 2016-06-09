@@ -136,10 +136,11 @@ dependencies {
 
 
     compile 'org.grails.plugins:fields:2.1.2'
-    compile 'net.sf.ehcache:ehcache' //:2.10.2' // 2.9.0
+    // for NoSuchMethodError: org.springframework.cache.ehcache.EhCacheFactoryBean.setMaxEntriesLocalHeap
+    compile 'net.sf.ehcache:ehcache:2.10.2' // 2.9.0
     runtime 'org.grails.plugins:database-migration:2.0.0.RC4'
     runtime 'mysql:mysql-connector-java:5.1.39'
-    // runtime 'org.grails.plugins:grails-console' //:2.0.4'
+    runtime 'org.grails.plugins:grails-console:2.0.5'
 }
 
 task wrapper(type: Wrapper) {
