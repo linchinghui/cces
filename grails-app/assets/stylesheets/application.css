@@ -109,3 +109,8 @@
   padding-top: 0;
   padding-bottom: 0;
 }
+
+.content .combobox-container .typeahead {
+  width: auto;
+  padding-left: 0;
+}
