@@ -40,7 +40,7 @@ function createDataTable() {
     serverSide: true,
     deferRender: true,
     ajax: {
-      url: '/api/roles.json',
+      url: contextPath+'/api/roles.json',
       onReloadClicked: function() {
         detailSec.empty();
       }
@@ -59,7 +59,7 @@ function createDataTable() {
     columns: [ //0
       renderDefaultAlterationCellWithId4DataTables({
         edit: {
-          url: '/role/edit',
+          url: contextPath+'/role/edit',
           callback: modifyDataRequested
         }
       })

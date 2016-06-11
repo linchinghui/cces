@@ -10,7 +10,7 @@ class AAAInterceptor {
 
     boolean before() {
         request['isAjax'] = request.getHeader('X-Requested-With') == 'XMLHttpRequest' &&
-                            request.requestURI.startsWith("/$NAMESPACE_API/")
+                            request.requestURI.startsWith("${request.contextPath}/$NAMESPACE_API/")
 
         if (request['isAjax']) {
             response.setHeader('Expires', '-1')
@@ -34,15 +34,18 @@ class AAAInterceptor {
         log.debug "${request.method} params : ${params}"
         log.debug "request.format: ${request.format}"
 
+        if (session['SPRING_SECURITY_CONTEXT']?.authentication &&
+            SecurityContextHolder.context.authentication == null
+        ) {
+            SecurityContextHolder.context.authentication = session['SPRING_SECURITY_CONTEXT'].authentication
+        }
         true
     }
 
     boolean after() {
-        if (request.forwardURI == PAGE_LOGIN &&
-            request.queryString == null) {
+        if ((request.forwardURI - request.contextPath) == PAGE_LOGIN && request.queryString == null) {
             session['SPRING_SECURITY_LAST_EXCEPTION'] = null
         }
-
         true
     }
 
@@ -63,7 +66,6 @@ class AAAInterceptor {
             ) || (
                 ! request.isRequestedSessionIdValid())
             ) {
-
                 // redirect(mapping: 'home', params: params)
                 // return
                 request.getSession(false)?.invalidate()

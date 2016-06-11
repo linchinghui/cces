@@ -1,12 +1,99 @@
 ---
+hibernate:
+    cache:
+        queries: false
+        use_query_cache: false
+        use_second_level_cache: false
+        provider_class: net.sf.ehcache.hibernate.EhCacheProvider
+        region:
+            factory_class: 'org.hibernate.cache.ehcache.EhCacheRegionFactory'
+
+dataSource:
+    pooled: true
+    jmxExport: true
+
+environments:
+    development:
+        grails:
+            # assets:
+            #     storagePath: '/tmp/assets'
+            plugin:
+                fields:
+                    disableLookupCache: true
+        dataSource:
+            driverClassName: org.h2.Driver
+            username: sa
+            password:
+            dbCreate: create-drop
+            url: jdbc:h2:mem:testDb;MVCC=TRUE;LOCK_TIMEOUT=10000;DB_CLOSE_ON_EXIT=FALSE
+    # -- for DB change log --
+    change:
+        dataSource:
+            driverClassName: com.mysql.jdbc.Driver
+            dialect: org.hibernate.dialect.MySQL5InnoDBDialect
+            username: 'linchinghui'
+            password: 'cces168'
+            dbCreate: none
+            url: 'jdbc:mysql://192.168.0.201:3306/cces?useUnicode=true&characterEncoding=UTF-8'
+            properties:
+                jmxEnabled: true
+                initialSize: 5
+                maxActive: 50
+                minIdle: 5
+                maxIdle: 25
+                maxWait: 10000
+                maxAge: 600000
+                timeBetweenEvictionRunsMillis: 5000
+                minEvictableIdleTimeMillis: 60000
+                validationQuery: SELECT 1
+                validationQueryTimeout: 3
+                validationInterval: 15000
+                testOnBorrow: true
+                testWhileIdle: true
+                testOnReturn: false
+                jdbcInterceptors: ConnectionState;StatementCache(max=200) #ConnectionState
+                defaultTransactionIsolation: 2 # TRANSACTION_READ_COMMITTED
+    production:
+        # grails:
+        #     assets:
+        #         storagePath: '/var/www/cces/assets'
+            # plugin:
+            #     'asset-pipeline':
+            #         storagePath: '/var/www/cces/assets'
+        dataSource:
+            driverClassName: com.mysql.jdbc.Driver
+            dialect: org.hibernate.dialect.MySQL5InnoDBDialect
+            username: 'linchinghui'
+            password: 'cces168'
+            dbCreate: validate
+            url: 'jdbc:mysql://localhost:3306/cces?useUnicode=true&characterEncoding=UTF-8'
+            properties:
+                jmxEnabled: true
+                initialSize: 5
+                maxActive: 50
+                minIdle: 5
+                maxIdle: 25
+                maxWait: 10000
+                maxAge: 600000
+                timeBetweenEvictionRunsMillis: 5000
+                minEvictableIdleTimeMillis: 60000
+                validationQuery: SELECT 1
+                validationQueryTimeout: 3
+                validationInterval: 15000
+                testOnBorrow: true
+                testWhileIdle: true
+                testOnReturn: false
+                jdbcInterceptors: ConnectionState;StatementCache(max=200) #ConnectionState
+                defaultTransactionIsolation: 2 # TRANSACTION_READ_COMMITTED
+---
+---
 grails:
     profile: web
     codegen:
         defaultPackage: com.lch.cces
-    gorm:
-        failOnError: true
-    resources:
-        pattern: '/**'
+    spring:
+        transactionManagement:
+            proxies: false
 info:
     app:
         name: '@info.app.name@'
@@ -69,86 +156,30 @@ grails:
                 scriptlets: html
                 taglib: none
                 staticparts: none
----
-hibernate:
-    cache:
-        queries: false
-        use_query_cache: false
-        use_second_level_cache: false
-        region.factory_class: 'org.hibernate.cache.ehcache.EhCacheRegionFactory'
-
 endpoints:
     jmx:
         unique-names: true
+---
+grails:
+    gorm:
+        failOnError: true
+    resources:
+        # --- for issue #9908 ---
+        pattern: '/**'
+    # cache:
+    #     enabled: true
+    #     # clearAtStartup: true
+    #     config:
+    #         - cache:
+    #             name: 'function'
+    #         - cache:
+    #             name: 'privilege'
+    #         - cache:
+    #             name: 'role'
+    #         - cache:
+    #             name: 'materialCategory'
+    #         - cache:
+    #             name: 'vehicleBrand'
 
-dataSource:
-    pooled: true
-    jmxExport: true
-
-environments:
-    development:
-        grails:
-            plugin:
-                fields:
-                    disableLookupCache: true
-        dataSource:
-            driverClassName: org.h2.Driver
-            username: sa
-            password:
-            dbCreate: create-drop
-            url: jdbc:h2:mem:testDb;MVCC=TRUE;LOCK_TIMEOUT=10000;DB_CLOSE_ON_EXIT=FALSE
-    # -- for DB change log --
-    change:
-        dataSource:
-            driverClassName: com.mysql.jdbc.Driver
-            dialect: org.hibernate.dialect.MySQL5InnoDBDialect
-            username: 'linchinghui'
-            password: 'cces168'
-            dbCreate: none
-            url: 'jdbc:mysql://192.168.0.201:3306/cces?useUnicode=true&characterEncoding=UTF-8'
-            properties:
-                jmxEnabled: true
-                initialSize: 5
-                maxActive: 50
-                minIdle: 5
-                maxIdle: 25
-                maxWait: 10000
-                maxAge: 600000
-                timeBetweenEvictionRunsMillis: 5000
-                minEvictableIdleTimeMillis: 60000
-                validationQuery: SELECT 1
-                validationQueryTimeout: 3
-                validationInterval: 15000
-                testOnBorrow: true
-                testWhileIdle: true
-                testOnReturn: false
-                jdbcInterceptors: ConnectionState;StatementCache(max=200) #ConnectionState
-                defaultTransactionIsolation: 2 # TRANSACTION_READ_COMMITTED
-    production:
-        dataSource:
-            driverClassName: com.mysql.jdbc.Driver
-            dialect: org.hibernate.dialect.MySQL5InnoDBDialect
-            username: 'linchinghui'
-            password: 'cces168'
-            dbCreate: validate
-            url: 'jdbc:mysql://localhost:3306/cces?useUnicode=true&characterEncoding=UTF-8'
-            properties:
-                jmxEnabled: true
-                initialSize: 5
-                maxActive: 50
-                minIdle: 5
-                maxIdle: 25
-                maxWait: 10000
-                maxAge: 600000
-                timeBetweenEvictionRunsMillis: 5000
-                minEvictableIdleTimeMillis: 60000
-                validationQuery: SELECT 1
-                validationQueryTimeout: 3
-                validationInterval: 15000
-                testOnBorrow: true
-                testWhileIdle: true
-                testOnReturn: false
-                jdbcInterceptors: ConnectionState;StatementCache(max=200) #ConnectionState
-                defaultTransactionIsolation: 2 # TRANSACTION_READ_COMMITTED
-#server:
-#    contextPath: '/cces'
+# server:
+#     contextPath: '/cces'

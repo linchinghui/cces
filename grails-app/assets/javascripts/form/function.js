@@ -17,7 +17,7 @@ function createDataTable() {
     serverSide: true,
     deferRender: true,
     ajax: {
-      url: '/api/functions.json'
+      url: contextPath+'/api/functions.json'
     },
     initComplete: function (settings, data) { // this == DataTable()
       initialized4DataTables(settings, data);
@@ -30,7 +30,7 @@ function createDataTable() {
     columns: [ //0
       renderDefaultAlterationCellWithId4DataTables({
         edit: {
-          url: '/function/edit',
+          url: contextPath+'/function/edit',
           callback: modifyDataRequested
         }
       })

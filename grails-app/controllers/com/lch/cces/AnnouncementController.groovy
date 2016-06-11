@@ -10,18 +10,27 @@ class AnnouncementController extends BaseController<Announcement> {
         super(Announcement)
     }
 
-    def upToDate() {
+//     protected def boolean isReadAuthorized() {
+//         true
+//     }
+
+    def upToDate() { // for every body
+        boolean hasReadAuth = true // isReadAuthorized()
+        // if (! hasReadAuth) {
+        //     unAuthorized()
+        //     return
+        // }
         log.debug "assignment up-to-date: ${params}"
 
         def today = new Date()
         	today.clearTime()
 
-        def dataList = Announcement.where {
+        def dataList = hasReadAuth ? Announcement.where {
             announcedDate <= (today + 1)
             revokedDate >= today
-        }.list(params)
+        }.list(params) : []
 
-        def dataCount = dataList.size()
+        def dataCount = hasReadAuth ? dataList.size() : java.math.BigInteger.ZERO
 
         respond (
         	draw: params.draw,

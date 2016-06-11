@@ -9,6 +9,7 @@ base.functionList = [
 //	[name: 'dbconsole', description: '資料庫主控台'], // icon:'fa fa-database'
 //	[name: 'console', description: '系統主控台'], // icon:'fa fa-laptop'
 
+	[name: 'announcement', description: '告示'],
 	[name: 'function', description: '作業項目'],
 	[name: 'user', description: '帳號/角色'], // '使用者'
 	[name: 'role', description: '角色/授權'],
@@ -22,7 +23,7 @@ base.functionList = [
 
 	[name: 'project', description: '專案表'],
 	[name: 'assignment', description: '人員配置/派工'],
-	[name: 'task', description: '一般作業登錄'],
-	[name: 'spTask', description: '園區作業登錄'],
+	[name: 'task', description: '一般作業紀錄'],
+	[name: 'spTask', description: '園區機台作業紀錄'],
 	[name: 'vehicleMilage', description: '用車', aided: true]
 ]

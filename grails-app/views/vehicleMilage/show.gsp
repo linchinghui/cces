@@ -35,7 +35,7 @@
                             <fieldset class="form-group">
                                 <f:with bean="vehicleMilage">
                                     <f:display property="project" label="專案" />
-                                    <f:display property="dispatchedDate" label="用車日期" widget="date" />
+                                    <f:display property="dispatchedDate" label="用車日期" wrapper="date" />
                                     <f:display property="vehicle" label="車輛" />
                                     <f:display property="km" label="里程數" />
                                 </f:with>

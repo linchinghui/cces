@@ -45,7 +45,7 @@ function addDataRequest (evt, dt, node, config) {
   BootstrapDialog.show({
     title: '新增...',
     message: requestAction4BootstrapDialog({
-      url: '/vehicle/create',
+      url: contextPath+'/vehicle/create',
       callback: addDataRequested
     })
   });
@@ -57,7 +57,7 @@ function createDataTable() {
     serverSide: true,
     deferRender: true,
     ajax: {
-      url: '/api/vehicles.json'
+      url: contextPath+'/api/vehicles.json'
     },
     initComplete: function (settings, data) { // this == DataTable()
       initialized4DataTables(settings, data);
@@ -76,14 +76,14 @@ function createDataTable() {
     columns: [ //0
       renderDefaultAlterationCellWithId4DataTables({
         show: {
-          url: '/vehicle/show'
+          url: contextPath+'/vehicle/show'
         },
         edit: {
-          url: '/vehicle/edit',
+          url: contextPath+'/vehicle/edit',
           callback: modifyDataRequested
         },
         delete:  {
-          url: '/vehicle/delete',
+          url: contextPath+'/vehicle/delete',
           callback: removeDataRequested
         }
       })

@@ -2,9 +2,7 @@ package com.lch.aaa
 
 import grails.boot.GrailsApp
 import grails.boot.config.GrailsAutoConfiguration
-
 import org.grails.core.io.DefaultResourceLocator
-
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.ComponentScan
@@ -30,7 +28,7 @@ import org.springframework.core.env.MapPropertySource
 //@EntityScan(
 //	basePackages=[
 //		'com.lch.cces'
-//	],	
+//	],
 //	basePackageClasses=[
 //		Function
 //	]
@@ -42,11 +40,12 @@ class Application extends GrailsAutoConfiguration implements EnvironmentAware {
 
 	public static final String NAMESPACE_DEFAULT = 'cces'
 	public static final String NAMESPACE_API = 'api'
-	
+
 	public static final String PARAMETER_TARGET_URL = '_tu_'
 
 	public static final String PAGE_HOME = '/'
 	public static final String PAGE_LOGIN = '/login'
+	public static final String PAGE_EXPIRED = PAGE_LOGIN+'?expired'
 	public static final String PAGE_LOGOUT = '/logout'
 	public static final String PAGE_PASSWORD = '/changePassword'
 	public static final String PAGE_DENY = '/deny'
@@ -62,7 +61,25 @@ class Application extends GrailsAutoConfiguration implements EnvironmentAware {
 	]
 
 	static void main(String[] args) {
-		GrailsApp.run(Application, args)
+		// for v3.0:
+		// GrailsApp.run(Application, args)
+		// for v3.1:
+		def app = new GrailsApp(Application) {
+			@Override
+			protected void printBanner(org.springframework.core.env.Environment environment) {
+				println '''
+	▄████████  ▄████████    ▄████████    ▄████████
+	███    ███ ███    ███   ███    ███   ███    ███
+	███    █▀  ███    █▀    ███    █▀    ███    █▀
+	███        ███         ▄███▄▄▄       ███
+	███        ███        ▀▀███▀▀▀     ▀███████████
+	███    █▄  ███    █▄    ███    █▄           ███
+	███    ███ ███    ███   ███    ███    ▄█    ███
+	████████▀  ████████▀    ██████████  ▄████████▀
+'''
+			}
+		}
+		app.run(args)
 	}
 
     public static ConfigObject loadConfiguration(String configFile) { //, grails.util.Environment env = null) {

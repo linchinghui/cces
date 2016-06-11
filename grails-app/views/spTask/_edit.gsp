@@ -37,11 +37,11 @@
                                 <f:with bean="spTask">
                                     <g:if test="${type=='C' && ! dialogPage}">
                                         <f:field property="project" label="專案" />
-                                        <f:field property="workedDate" label="施工日期" widget="date" />
+                                        <f:field property="workedDate" label="施作日期" widget="date" />
                                     </g:if>
                                     <g:else>
                                         <f:display property="project" label="專案" />
-                                        <f:display property="workedDate" label="施工日期" widget="date" />
+                                        <f:display property="workedDate" label="施作日期" wrapper="date" />
                                     </g:else>
                                     <f:field property="constructPlace" label="工程地點" />
                                     <f:field property="equipment" label="機台型號" />
@@ -66,7 +66,7 @@ $(function() {
     <g:render template="/layouts/client-message" bean="${spTask}"/>
     <g:render template="/layouts/client-submit" model="[formVar: 'editForm']"/>
     <g:render template="/layouts/client-render" model="[formVar: 'editForm']"/>
-    $('input[type=text],textarea').filter(':enabled:visible:first').focus();
+    $('input[type=text],textarea').filter(':enabled:visible:first').each( function(idx,ele) { $(ele).focus(); } );
 });
 </asset:script>
     </body>

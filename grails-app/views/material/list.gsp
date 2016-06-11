@@ -22,7 +22,7 @@
                   <a data-toggle="mtab" data-target="#tab1" href="#"><big>${pageTitle}</big></a>
                 </li>
                 <li>
-                  <a data-toggle="mtab" data-target="#tab2" href="${g.createLink([controller:'materialCategory',action:'index',params:[embed:true]])}">
+                  <a data-toggle="mtab" data-target="#tab2" href="${createLink([controller:'materialCategory',action:'index',params:[embed:true]])}">
                     <big>${functionService.get('materialCategory')?.description}</big>
                   </a>
                 </li>

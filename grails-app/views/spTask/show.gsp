@@ -34,6 +34,8 @@
                             </g:if>
                             <fieldset class="form-group">
                                 <f:with bean="spTask">
+                                    <f:display property="project" label="專案" />
+                                    <f:display property="workedDate" label="施作日期" wrapper="date" />
                                     <f:display property="constructPlace" label="工程地點" />
                                     <f:display property="equipment" label="機台型號" />
                                     <f:display property="employee" label="工作人員" />

@@ -99,7 +99,7 @@ class PrivilegeController extends BaseController<Privilege> {
 
         } else {
             // redirect action: 'create', params: params
-						def url = g.createLink action: 'create', params: params
+			def url = g.createLink action: 'create', params: params
             redirect url: url
         }
     }

@@ -60,7 +60,7 @@ $(function() {
     <g:render template="/layouts/client-message" bean="${vehicleBrand}"/>
     <g:render template="/layouts/client-submit" model="[formVar: 'editForm']"/>
     <g:render template="/layouts/client-render" model="[formVar: 'editForm']"/>
-    $('input[type=text],textarea').filter(':enabled:visible:first').focus();
+    $('input[type=text],textarea').filter(':enabled:visible:first').each( function(idx,ele) { $(ele).focus(); } );
 });
 </asset:script>
     </body>

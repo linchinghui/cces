@@ -42,7 +42,7 @@
                                     </g:if>
                                     <g:else>
                                         <f:display property="project" label="專案" />
-                                        <f:display property="dispatchedDate" label="用車日期" widget="date" />
+                                        <f:display property="dispatchedDate" label="用車日期" wrapper="date" />
                                     </g:else>
                                     <f:field property="vehicle" label="車輛" />
                                     <f:field property="km" label="里程數" widget-placeholder="輸入公里數" />

@@ -19,7 +19,7 @@ function addDataRequest (evt, dt, node, config) {
   BootstrapDialog.show({
     title: '新增...',
     message: requestAction4BootstrapDialog({
-      url: '/announcement/create',
+      url: contextPath+'/announcement/create',
       callback: addDataRequested
     })
   });
@@ -31,10 +31,15 @@ function createDataTable() {
     serverSide: true,
     deferRender: true,
     ajax: {
-      url: '/api/announcements.json'
+        url: contextPath+'/api/announcements.json'
     },
     initComplete: function (settings, data) { // this == DataTable()
       initialized4DataTables(settings, data);
+      $(window).resize(function() {
+        announcementList.columns.adjust().responsive.recalc();
+      });
+      // TODO
+      setTimeout(function(){ $(window).resize(); }, 500);
     },
     extButtons: {
       copy: true
@@ -45,11 +50,11 @@ function createDataTable() {
     columns: [ //0
       renderDefaultAlterationCellWithId4DataTables({
         edit: {
-          url: '/announcement/edit',
+          url: contextPath+'/announcement/edit',
           callback: modifyDataRequested
         },
         delete:  {
-          url: '/announcement/delete',
+          url: contextPath+'/announcement/delete',
           callback: removeDataRequested
         }
       })

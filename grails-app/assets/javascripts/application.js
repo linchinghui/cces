@@ -1,4 +1,4 @@
-//= require jquery-2.2.0.min
+//= require jquery-2.2.4
 //  require_tree .
 //= require_self
 //= require bootstrap
@@ -42,6 +42,12 @@ if (typeof jQuery !== 'undefined') {
 
   /*----- first of all -----*/
   (function($) {
+
+    // $('#spinner').ajaxStart(function() {
+    //     $(this).fadeIn();
+    // }).ajaxStop(function() {
+    //     $(this).fadeOut();
+    // });
 
     $('.treeview-menu a').click(function() {
       if (! /\&sc=/.test(this.href)) {
@@ -115,7 +121,7 @@ function organizeAlertMessage(data, propName, jqXHR, replyCode, callbackFn) {
       if (jqXHR.status >= replyCode) {
         dialog.setTitle(dialog.getTitle() + ' - ' + jqXHR.status);
       }
-      if (jqXHR.getResponseHeader('content-type').indexOf('text/html') >= 0) {
+      if (jqXHR.getResponseHeader('content-type') && jqXHR.getResponseHeader('content-type').indexOf('text/html') >= 0) {
         return data[propName];
       }
     }

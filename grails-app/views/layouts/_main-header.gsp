@@ -1,8 +1,11 @@
 <%@ page import="static com.lch.aaa.Application.*" %>
 <g:set var="authService" bean="authenticationService"/>
 <g:set var="isLoggedIn" value="${authService.isLoggedIn()}" />
+<g:set var="loginLink" value="${createLink(controller:PAGE_LOGIN-'/')}"/>
+<g:set var="logoutLink" value="${createLink(controller:PAGE_LOGOUT-'/')}"/>
+<g:set var="chPwdLink" value="${createLink(controller:PAGE_PASSWORD-'/')}"/>
       <header class="main-header">
-        <a href="${createLink(url:'/')}" class="logo">
+        <a href="${createLink(mapping:'home')}" class="logo">
           <span class="logo-mini"></span><%-- mini logo for sidebar mini 50x50 pixels --%>
           <span class="logo-lg"><small>工料成本估算系統</small></span>
         </a>
@@ -16,7 +19,7 @@
           <div class="navbar-custom-menu">
             <ul class="nav navbar-nav">
 <%-- Notifications: --%>
-<g:if test="${isLoggedIn}"> 
+<g:if test="${isLoggedIn}">
               <li class="dropdown notifications-menu">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                   <i class="fa fa-bell-o"></i>
@@ -62,8 +65,10 @@
               <li class="dropdown user user-menu">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
 <g:if test="${isLoggedIn}">
-<%-- TODO: external resource here --%>
-                    <img src="../../dist/img/user2-160x160.jpg" class="user-image"/>
+<%-- TODO: external resource here --%><%--
+                    <img class="user-image" src="../../images/user2-160x160.jpg"/>--%>
+                    <g:img class="user-image" dir="images" file="user2-160x160.jpg"/>
+                    <g:external uri="/images/user2-160x160.jpg"/>
 </g:if>
 <g:else>
                     <asset:image src="anonymous.png" class="user-image"/>
@@ -74,7 +79,7 @@
                   <li class="user-header">
                     <p>
                       <g:each in="${authService.authorities}">
-                        <small><span class="pull-left">${it.authority}</span><span class="pull-right">${it.description}</span></small><br>
+                          <small><span class="pull-left">${it.authority}</span><span class="pull-right">${it.description}</span></small><br>
                       </g:each>
                     </p>
                   </li>
@@ -88,15 +93,15 @@
                   <li class="user-footer">
 <g:if test="${isLoggedIn}">
                       <div class="pull-left">
-                        <a id="changePassword" href="${PAGE_PASSWORD}" class="btn btn-default">變更密碼</a>
+                        <a id="changePassword" href="${chPwdLink}" class="btn btn-default">變更密碼</a>
                       </div>
                       <div class="pull-right">
-                        <a id="logout" href="${PAGE_LOGOUT}" class="btn btn-default">登出</a>
+                        <a id="logout" href="${logoutLink}" class="btn btn-default">登出</a>
                       </div>
 </g:if>
 <g:else>
                       <div class="pull-right">
-                        <a href="${PAGE_LOGIN}" class="btn btn-default">登入</a>
+                        <a href="${loginLink}" class="btn btn-default">登入</a>
                       </div>
 </g:else>
                   </li>

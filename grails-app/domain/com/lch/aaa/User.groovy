@@ -34,7 +34,6 @@ class User {
 		roles		joinTable: [key: 'user_id', column: 'role_id'], lazy: true // false
 	}
 
-	
 	// String getId() {
 	// 	this.id
 	// }

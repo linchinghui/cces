@@ -1,0 +1,9 @@
+${params?.controller}<br>
+${params?.action}<br>
+${params?._METHOD}<br>
+${params?.photo.class}<br>
+${params?.photo.filename}<br>
+${params?.photo.contentType}<br>
+${params?.photo.contentType.class}<br>
+${params?.photo.originalFilename}<br>
+${params?.photo.name}<br>

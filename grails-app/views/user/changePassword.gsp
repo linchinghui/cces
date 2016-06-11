@@ -1,5 +1,4 @@
 <%@ page import="static com.lch.aaa.Application.*" %>
-
 <g:if test="${params['cb']}">
     <g:set var="dialogPage" value="${true}" scope="request"/>
     <g:set var="selfStyle" value="${true}" scope="request"/>
@@ -8,6 +7,7 @@
     <g:set var="modalPage" value="${true}" scope="request"/>
 </g:else>
 <g:set var="pageTitle" value="密碼變更"/>
+<g:set var="chPwdLink" value="${createLink(controller:PAGE_PASSWORD-'/')}"/>
 <!DOCTYPE html>
 <html>
 <head>
@@ -16,10 +16,10 @@
   <asset:stylesheet src="changePassword"/>
 <%--
   <asset:javascript src="changePassword"/> --%>
-<%-- this page style here: 
+<%-- this page style here:
   <style type="text/css" media="screen">
   </style> --%>
-<%-- head JS here: 
+<%-- head JS here:
   <g:javascript>
   </g:javascript> --%>
 </head>
@@ -45,7 +45,7 @@
 					</g:each>
 				</div>
 			</g:if>
-        <form id="form-password" class="form-horizontal" role="form" action="/changePassword" method='POST'>
+        <form id="form-password" class="form-horizontal" role="form" action="${chPwdLink}" method='POST'>
             <g:if test="${_csrf?.parameterName}">
               <input name="${_csrf?.parameterName}" type='hidden' value="${_csrf?.token}"/>
             </g:if>
@@ -90,7 +90,7 @@ $(function() {
 </g:if>
 <g:if test="${modalPage}">
 	$('button.close').click(function(e){
-        window.location.href = '${params[PARAMETER_TARGET_URL]}';
+        window.location.href = "${params[PARAMETER_TARGET_URL]?:createLink(mapping:'home')}";
 	});
 </g:if>
   $('input[name=password]').focus();

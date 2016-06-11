@@ -8,7 +8,8 @@
 aaa.menuGroups = [
 //	[group: 'debug', description:'系統除錯', icon:'fa fa-bug'],
 	[group: 'maintain', description:'系統維護', icon:'fa fa-television', items: [
-	    [controller: 'function', icon: 'fa fa-list-alt'],
+		[controller: 'announcement', icon: 'fa fa-twitch'],
+		[controller: 'function', icon: 'fa fa-list-alt'],
 	    [controller: 'user', icon: 'fa fa-users'],
 	    [controller: 'role', icon: 'fa fa-unlock']
 	]],
@@ -18,7 +19,7 @@ aaa.menuGroups = [
 		[controller: 'material', icon: 'fa fa-clipboard']
 	]],
 	[group: 'project', description:'專案管理', icon:'fa fa-product-hunt', items: [
-		[controller: 'project', icon: 'fa fa-list-ol'],
+		[controller: 'project', icon: 'fa fa-wpforms'], // fa-list-ol
 		[controller: 'assignment', icon: 'fa fa-calendar-check-o'],
 		[controller: 'task', icon: 'fa fa-gavel'],
 		[controller: 'spTask', icon: 'fa fa-building-o']
@@ -28,3 +29,10 @@ aaa.menuGroups = [
 ]
 
 aaa.rememberMe.validitySeconds = 604800 // 7 days
+
+cces.images = [
+	// size: 500000,
+	uriPrefix: '/images',
+	persistFolder: (grails.util.Environment.developmentMode ? '/tmp' : '/var/www/cces'),
+	useCache: true
+]

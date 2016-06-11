@@ -88,14 +88,14 @@ function addDataRequest (evt, dt, node, config) {
   BootstrapDialog.show({
     title: '新增...',
     message: requestAction4BootstrapDialog({
-      url: '/assignment/create',
+      url: contextPath+'/assignment/create',
       callback: addDataRequested
     }, null, getLastParameters())
   });
 }
 
 function createDataTable() {
-  $.ajax.fake.registerWebservice('/api/assignments.json', function(req) {
+  $.ajax.fake.registerWebservice(contextPath+'/api/assignments.json', function(req) {
     // empty DT data
     return {
       draw: req.draw,
@@ -111,7 +111,7 @@ function createDataTable() {
     serverSide: true,
     deferRender: true,
     ajax: {
-      url: '/api/assignments.json',
+      url: contextPath+'/api/assignments.json',
       data: function(params, settings) {
         settings.ajax.fake = ! (assignProjectList.val() || false);
 
@@ -147,11 +147,11 @@ function createDataTable() {
     columns: [ //0
       renderDefaultAlterationCellWithId4DataTables({
         edit: {
-          url: '/assignment/edit',
+          url: contextPath+'/assignment/edit',
           callback: modifyDataRequested
         }
         ,delete:  {
-          url: '/assignment/delete',
+          url: contextPath+'/assignment/delete',
           callback: removeDataRequested
         }
       })
@@ -269,7 +269,7 @@ function loadProjectInfo(ele) {
       if (projectId) {
         BootstrapDialog.show({
           title: '專案',
-          message: requestAction4BootstrapDialog({url:'/project/show'}, projectId) // GET method
+          message: requestAction4BootstrapDialog({url: contextPath+'/project/show'}, projectId) // GET method
         });
       }
     });
@@ -278,14 +278,14 @@ function loadProjectInfo(ele) {
 }
 
 function loadAssignments () {
-  $.ajax.fake.registerWebservice('/api/assignments', function(req) {
+  $.ajax.fake.registerWebservice(contextPath+'/api/assignments', function(req) {
     // events data
     return [];
   });
 
   chainAjaxCall({
     fake: ! (assignProjectList.val() || false),
-    url: '/api/assignments',
+    url: contextPath+'/api/assignments',
     method: 'GET',
     cache: false,
     // async: false,
@@ -361,7 +361,7 @@ function initializeSelectFields () {
     }
 
     return chainAjaxCall({
-        url: '/project',
+        url: contextPath+'/project',
         method: 'GET',
         cache: false,
         async: false,

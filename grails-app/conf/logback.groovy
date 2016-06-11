@@ -11,8 +11,9 @@ import ch.qos.logback.core.FileAppender
 import ch.qos.logback.core.rolling.RollingFileAppender
 import static ch.qos.logback.classic.Level.*
 
-def ccesPattern = '%date{yyyy/MM/dd HH:mm:ss.SSS} ' +
+def logPattern = '%date{yyyy/MM/dd HH:mm:ss.SSS} ' +
                   '%-5level ' +
+                  '[%thread] ' +
                   '%-32logger{24} ' + // other format: %-24.32logger
                   '- ' +
                   '%msg%n'
@@ -25,7 +26,7 @@ def config = com.lch.aaa.Application.loadConfiguration('logging.groovy')
 appender('STDOUT', ConsoleAppender) {
   encoder(PatternLayoutEncoder) {
     // charset = Charset.forName('UTF-8')
-    pattern = ccesPattern
+    pattern = logPattern
   }
 }
 
@@ -39,7 +40,7 @@ if (Environment.isDevelopmentMode()) {
       file = "${targetDir}/stacktrace.log"
       append = true
       encoder(PatternLayoutEncoder) {
-        pattern = ccesPattern
+        pattern = logPattern
       }
     }
 
@@ -53,7 +54,7 @@ appender('GRAILS', FileAppender) { // RollingFileAppender
   file = "${config.log.dir?:targetDir}/grails.log"
   append = true
   encoder(PatternLayoutEncoder) {
-    pattern = ccesPattern
+    pattern = logPattern
   }
 }
 
@@ -67,11 +68,11 @@ appender('CCES', FileAppender) { // RollingFileAppender
   file = "${config.log.dir?:targetDir}/cces.log"
   append = true
   encoder(PatternLayoutEncoder) {
-    pattern = ccesPattern
+    pattern = logPattern
   }
 }
 
-['com.lch', 'grails.app.controllers.com.lch', 'grails.app.services.com.lch'].each {
+['com.lch', 'grails.app.controllers.AAAInterceptor', 'grails.app.controllers.com.lch', 'grails.app.services.com.lch'].each {
   logger(it, (config.log.cces.level ?: WARN), ['CCES'], false)
 }
 

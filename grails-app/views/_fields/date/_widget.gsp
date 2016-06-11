@@ -2,7 +2,7 @@
 <div> <%--
   <label for="${property}">${label}</label> --%>
   <div class="col-xs-5 input-group date ${property}">
-    <input type="text" value="${dateValue}" class="form-control" placeholder="YYYY/MM/DD" />
+    <input type="text" value="${dateValue}" class="form-control" placeholder="YYYY/MM/DD" ${required?'required="true"':''}/>
     <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
   </div>
   <input type="hidden" id="${property}" name="${property}" value="${dateValue}"/>

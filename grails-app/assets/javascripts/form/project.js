@@ -6,7 +6,7 @@ var constructTypes;
 
 function initializeConstrctTypes() {
   chainAjaxCall({
-    url: '/api/projects.json',
+    url: contextPath+'/api/projects.json',
     method: 'GET',
     cache: true,
     async: false,
@@ -40,7 +40,7 @@ function addDataRequest (evt, dt, node, config) {
   BootstrapDialog.show({
     title: '新增...',
     message: requestAction4BootstrapDialog({
-      url: '/project/create',
+      url: contextPath+'/project/create',
       callback: addDataRequested
     })
   });
@@ -52,7 +52,7 @@ function createDataTable() {
     serverSide: true,
     deferRender: true,
     ajax: {
-      url: '/api/projects.json'
+      url: contextPath+'/api/projects.json'
     },
     initComplete: function (settings, data) { // this == DataTable()
       initialized4DataTables(settings, data);
@@ -66,14 +66,14 @@ function createDataTable() {
     columns: [ //0
       renderDefaultAlterationCellWithId4DataTables({
         show: {
-          url: '/project/show'
+          url: contextPath+'/project/show'
         },
         edit: {
-          url: '/project/edit',
+          url: contextPath+'/project/edit',
           callback: modifyDataRequested
         },
         delete: {
-          url: '/project/delete',
+          url: contextPath+'/project/delete',
           callback: removeDataRequested
         }
       })

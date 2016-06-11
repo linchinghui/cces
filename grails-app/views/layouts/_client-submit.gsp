@@ -4,7 +4,7 @@
     evt.preventDefault();
 
     $.ajax({
-      url: $(this).attr('action'), //<%-- .replace('user/','${NAMESPACE_API}/users/'), --%>
+      url: $(this).attr('action'),
       type: $(this).attr('method'), //<%-- $(this).find('input[name="_method"]').val(), --%>
       data: $(this).serializeArray(),
       headers: { callback: true },
