@@ -5,8 +5,8 @@ import groovy.transform.CompileStatic
 public enum ConstructType {
 	ELEVATE('高架'),
 	ASSEMBLE('組裝'),
-	INSTALL('􏱎􏰹裝機'),
-	UNINSTALL('􏱎􏰹拆機'),
+	INSTALL('裝機'),
+	UNINSTALL('拆機'),
 	TUBE('爐管'),
 	OTHER('其他');
 
@@ -15,7 +15,7 @@ public enum ConstructType {
 		static List<String> names
 		// static List<Map<String, String>> map
 		static Map<String, String> map
-		
+
 		static {
 			// map = ConstructType.values().collect {
 			// 	[(it.id): it.desc]
@@ -69,7 +69,7 @@ public enum ConstructType {
 	}
 
 	/*
-	 * 
+	 *
 	 */
 	private String id
 	private String desc

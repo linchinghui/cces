@@ -8,14 +8,14 @@
     <g:set var="deferredScript" value="???" scope="request"/> --%>
 </g:else>
 <g:set var="functionService" bean="functionService"/>
-<g:set var="pageTitle" value="${functionService.get('announcement')?.description}-${type=='C' ? '新增' : type=='U' ? '編輯' : ''}"/>
+<g:set var="pageTitle" value="${functionService.get('supplier')?.description}-${type=='C' ? '新增' : type=='U' ? '編輯' : ''}"/>
 <g:set var="submitMehtod" value="${type=='C' ? 'POST' : type=='U' ? 'PUT' : ''}"/>
 <!DOCTYPE html>
 <html>
     <head>
         <meta name="layout" content="main" />
         <title>CCES - ${pageTitle}</title>
-        <asset:stylesheet src="form/announcement"/>
+        <asset:stylesheet src="form/supplier"/>
     </head>
     <body>
         <div class="container" role="main">
@@ -25,25 +25,24 @@
                 </div></g:if>
                 <div class="panel-body"> <%--
                     <section class="content-header">
-                        <g:render template="/layouts/server-message" bean="${announcement}"/>
+                        <g:render template="/layouts/server-message" bean="${supplier}"/>
                     </section> --%>
                     <section class="content">
-                        <g:form resource="${announcement}" method="${submitMehtod}" role="form" class="form-horizontal" name="announcementForm">
-                        <g:if test="${announcement}">
+                        <g:form resource="${supplier}" method="${submitMehtod}" role="form" class="form-horizontal" name="supplierForm">
+                        <g:if test="${supplier}">
                             <g:if test="${_csrf?.parameterName}">
                               <input name='${_csrf?.parameterName}' type='hidden' value='${_csrf?.token}'/>
                             </g:if>
                             <fieldset class="form-group">
-                                <f:with bean="announcement">
-                                    <f:field property="description" label="告示內容" />
-                                    <f:field property="announcedDate" label="公告日期" widget="datetime" />
-                                    <f:field property="revokedDate" label="撤榜日期" widget="date" />
+                                <f:with bean="supplier">
                                     <g:if test="${type=='C'}">
-                                        <f:field property="createdDate" label="建立日期" widget="date" value="${java.util.Calendar.instance}" required="false"/>
+                                        <f:field property="code" label="代碼" widget-placeholder="輸入(不含符號的)英文字母" />
                                     </g:if>
                                     <g:else>
-                                        <f:display property="createdDate" label="建立日期" wrapper="date" />
+                                        <f:display property="code" label="代碼" />
                                     </g:else>
+                                    <f:field property="name" label="供應商名稱" widget-placeholder="輸入中英文字母" />
+                                    <f:field property="contactPhoneNo" label="聯絡電話" />
                                 </f:with>
                             </fieldset>
                             <fieldset class="buttons">
@@ -57,9 +56,9 @@
         </div>
 <asset:script type='text/javascript'><%-- deferred JS here --%>
 $(function() {
-    var editForm = $('#announcementForm');
+    var editForm = $('#supplierForm');
     $('.bootstrap-dialog-title').html('${pageTitle}');
-    <g:render template="/layouts/client-message" bean="${announcement}"/>
+    <g:render template="/layouts/client-message" bean="${supplier}"/>
     <g:render template="/layouts/client-submit" model="[formVar: 'editForm']"/>
     <g:render template="/layouts/client-render" model="[formVar: 'editForm']"/>
     $('input[type=text],textarea').filter(':enabled:visible:first').each( function(idx,ele) { $(ele).focus(); } );

@@ -5,7 +5,7 @@ public enum SexType {
 	FEMALE('女');
 
 	/*
-	 * 
+	 *
 	 */
 	private String id
 	private String desc
@@ -20,6 +20,6 @@ public enum SexType {
 	}
 
 	public String toString() {
-		"$id-$desc"
+		"$desc($id)"
 	}
 }

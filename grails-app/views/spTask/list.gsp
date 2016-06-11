@@ -25,7 +25,7 @@
                   </div>
                 </div>
                 <div class="dateContainer col-sm-6 col-xs-12">
-                  <f:field property="workedDate" label="施工日期:" widget="date" />
+                  <f:field property="workedDate" label="施作日期:" widget="date" />
                 </div>
               </div>
               <ul class="nav nav-tabs">
