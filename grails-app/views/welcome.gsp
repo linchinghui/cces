@@ -1,6 +1,4 @@
 <g:set var="deferredScript" value="welcome" scope="request"/>
-<g:set var="functionService" bean="functionService"/>
-<g:set var="pageTitle" value="${functionService.get('announcement')?.description}"/>
 <!DOCTYPE html>
 <html>
 <head>
@@ -49,6 +47,7 @@
     </div>
 <asset:script type='text/javascript'><%-- deferred JS here --%>
 $(function() {
+  <g:render template="/layouts/client-message" bean="${null}"/>
   createDataTable();
 });
 </asset:script>
