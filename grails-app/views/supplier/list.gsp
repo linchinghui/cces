@@ -1,11 +1,8 @@
 <g:set var="deferredScript" value="form/supplier" scope="request"/>
-<g:set var="functionService" bean="functionService"/>
-<g:set var="pageTitle" value="${functionService.get('supplier')?.description}"/>
 <!DOCTYPE html>
 <html>
     <head>
         <meta name="layout" content="main" />
-        <title>CCES - ${pageTitle}</title>
         <asset:stylesheet src="grid"/> <%--
         <asset:stylesheet src="form/supplier"/> --%>
     </head>
@@ -32,6 +29,11 @@
                         <th></th>
                         <th>代碼</th>
                         <th>供應商名稱</th>
+                        <th>統一編號</th>
+                        <th>電話</th>
+                        <th>傳真電話</th>
+                        <th>電子郵件信箱</th>
+                        <th>聯絡人</th>
                         <th>聯絡電話</th>
                       </tr>
                     </thead>
@@ -39,6 +41,12 @@
                       <tr>
                         <td></td>
                         <td>test</td>
+                        <td>TEST</td>
+                        <td>1234567</td>
+                        <td>04-1234567</td>
+                        <td></td>
+                        <td>linchinghui@gmail.com</td>
+                        <td>Lin Chinghui</td>
                         <td>04-1234567</td>
                       </tr>
                     </tbody>
