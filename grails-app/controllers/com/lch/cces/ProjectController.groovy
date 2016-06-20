@@ -33,6 +33,10 @@ class ProjectController extends BaseController<Project> {
         }
     }
 
+	def projectTypes() {
+        respond ProjectType.map()
+	}
+
 	def constructTypes() {
         respond ConstructType.map()
 	}
