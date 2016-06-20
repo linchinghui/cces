@@ -5,14 +5,14 @@ import org.grails.databinding.BindingFormat
 
 @Resource(uri = '/api/announcements', superClass = AnnouncementController)
 class Announcement {
-	// @BindingFormat("yyyy/MM/dd'Z'")
+
 	@BindingFormat("yyyy/MM/dd'T'HH:mm:ss'Z'")
-	Date	announcedDate	// 公告日期
+	Date				announcedDate	// 公告日期
 	@BindingFormat("yyyy/MM/dd'Z'")
-	Date	revokedDate		// 撤榜日期
+	Date				revokedDate		// 撤榜日期
 	@BindingFormat("yyyy/MM/dd'Z'")
-	Date	createdDate		// 資料建立日期
-	String	description		// 告示內容
+	Date				createdDate		// 資料建立日期
+	String				description		// 告示內容
 
     static constraints = {
 		description		blank: false, nullable: false, maxSize: 200
@@ -29,8 +29,8 @@ class Announcement {
     }
 
 	static mapping = {
-		version		false
-		sort		'announcedDate'
+		version			false
+		sort			'announcedDate'
 	}
 
 	def beforeInsert() {

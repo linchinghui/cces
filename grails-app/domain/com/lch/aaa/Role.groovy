@@ -11,9 +11,9 @@ class Role implements Comparable<Role> {
 	String			description	// 角色名稱
 
 	static transients = ['type']
-	
+
 	static hasMany = [privileges: Privilege]
-	
+
 	static constraints = {
 		code		blank: false, nullable: false, maxSize: 12, unique: true
 		description	blank: false, nullable: false, maxSize: 10
@@ -37,7 +37,7 @@ class Role implements Comparable<Role> {
 	// 		type in DefaultRoleType.values()*.name()
 	// 	}.list()
 	// }
-	
+
 // testing: something wrong?
 //	public static Role get(def id) {
 //		try {
@@ -47,12 +47,12 @@ class Role implements Comparable<Role> {
 //		}
 //		return null
 //	}
-	
+
 	private static shortenedCode(code) {
 		//return code?.toUpperCase().split(DefaultRoleType.PREFIX)[-1][0].toUpperCase()
 		DefaultRoleType.salvage(code).id
 	}
-	
+
 
 //	String getId() {
 //		this.id

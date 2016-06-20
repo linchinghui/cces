@@ -6,15 +6,14 @@ import grails.rest.Resource
 @Resource(uri = '/api/privileges', superClass = PrivilegeController)
 class Privilege implements Serializable, Comparable<Privilege> {
 
-	Role		role
-	Function	function
-	Boolean		canRead = false
-	Boolean		canWrite = false
-	Boolean		canDelete = false
-	
+	Role			role
+	Function		function
+	Boolean			canRead = false
+	Boolean			canWrite = false
+	Boolean			canDelete = false
+
 	static mapping = {
 		version		false
-		//sort		'id'
 		//cache		usage: 'read-only', include: 'non-lazy'
 		cache		usage: 'read-write'
 

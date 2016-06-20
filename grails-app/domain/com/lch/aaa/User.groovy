@@ -6,14 +6,14 @@ import grails.util.Holders
 @Resource(uri = '/api/users', superClass = UserController)
 class User {
 
-	String		id					// primary key, 一律小寫
-	String		username			// 使用者, alias of id
-	String		fullname			// 未賦值, 預設同 id, 但為大寫
-	String		password
-	Boolean		enabled = true		// 可登入
-	Boolean		accountLocked		// 鎖住
-	Boolean		accountExpired		// 停用
-	Boolean		credentialsExpired	// 密碼過期
+	String			id					// primary key, 一律小寫
+	String			username			// 使用者, alias of id
+	String			fullname			// 未賦值, 預設同 id, 但為大寫
+	String			password
+	Boolean			enabled = true		// 可登入
+	Boolean			accountLocked		// 鎖住
+	Boolean			accountExpired		// 停用
+	Boolean			credentialsExpired	// 密碼過期
 
 	static hasMany = [roles: Role]
 

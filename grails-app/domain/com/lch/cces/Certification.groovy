@@ -6,23 +6,24 @@ import org.grails.databinding.BindingFormat
 @Resource(uri = '/api/certifications', superClass = CertificationController)
 class Certification implements Serializable, Comparable<Certification> {
 
-	Worker	emp			// 人員
-	String	title		// 證照名稱
+	Worker			emp			// 人員
+	String			title		// 證照名稱
 	// @BindingFormat("yyyy/MM/dd'Z'")
-	// Date	examDate	// 考取年月
+	// Date			examDate	// 考取年月
 	// @BindingFormat("yyyy/MM/dd'Z'")
-	// Date	expiryDate	// 有效年月
+	// Date			expiryDate	// 有效年月
 	// @BindingFormat("yyyy/MM/dd'Z'")
-	// Date	reExamDate	// 回訓日期
+	// Date			reExamDate	// 回訓日期
 	// @BindingFormat("yyyy/MM/dd'Z'")
-	// Date	copied		// 證照影本繳交日
-	// String	uri			// 證照影本 URI
-	URI	uri			// 證照影本 URI
+	// Date			copied		// 證照影本繳交日
+	// String		uri			// 證照影本 URI
+	URI				uri			// 證照影本 URI
 
 	static mapping = {
 		version		false
 		// sort		'id'
 
+		// TODO: 同一個 title 可能會有多個時期的認證 ?
 		id			composite: ['emp', 'title']
 	}
 
@@ -33,7 +34,7 @@ class Certification implements Serializable, Comparable<Certification> {
 		// expiryDate	blank: true, nullable: true
 		// reExamDate	blank: true, nullable: true
 		// copied		blank: true, nullable: true
-		uri			blank: true, nullable: true, maxSize: 40		
+		uri			blank: true, nullable: true, maxSize: 40
 	}
 
 	public String getId() {

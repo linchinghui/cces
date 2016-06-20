@@ -8,21 +8,26 @@ class Project {
 
 	String			id				// primary key, 一律小寫
 	String			code			// 專案代碼, alias of id
-	String			description		// 專案名稱 | 機台型號
-	String			constructNo		// 序號
+	String			description		// 專案名稱
+	String			constructNo		// 機台型號 (註: 使用原序號欄位)
 	String			constructPlace	// 工程地點
+	String			projectKind		// 工作型態
+	ProjectType		projectType		// 工作型態 (for input/display)
 	String			constructCode	// 施作方式
-	ConstructType	constructType	// 施作方式 (input/display)
-	@BindingFormat("yyyy/MM/dd")
+	ConstructType	constructType	// 施作方式 (for input/display)
+	@BindingFormat("yyyy/MM/dd'Z'")
 	Date			durationBegin	// 期程-開始
-	@BindingFormat("yyyy/MM/dd")
+	@BindingFormat("yyyy/MM/dd'Z'")
 	Date			durationEnd		// 期程-結束
 	String			contact			// 合約 | 委外編號
 	String			customer		// 甲方
 	String			contactPerson	// 聯絡人
 	String			contactPhoneNo	// 手機
 	String			note			// 備註
-	
+	@BindingFormat("yyyy/MM/dd'Z'")
+	Date			acceptanceDate	// 驗收日
+	Boolean			closed = false	// 結案 (已入帳者)
+
 	static transients = ['constructType']
 
     static constraints = {
@@ -30,6 +35,8 @@ class Project {
 		description		blank: false, nullable: false, maxSize: 40
 		constructNo		blank: true, nullable: true, maxSize: 20
 		constructPlace	blank: false, nullable: false, maxSize: 40
+		projectKind		blank: false, nullable: false, inList: ProjectType*.id
+		projectType		blank: false, nullable: false
 		constructCode	blank: false, nullable: false, inList: ConstructType*.id
 		constructType	blank: false, nullable: false
 		durationBegin	blank: true, nullable: true
@@ -39,6 +46,8 @@ class Project {
 		contactPerson	blank: true, nullable: true, maxSize: 40
 		contactPhoneNo	blank: true, nullable: true, maxSize: 12
 		note			blank: true, nullable: true, maxSize: 255
+		acceptanceDate	blank: true, nullable: true
+		closed			blank: true, nullable: true
     }
 
 	static mapping = {
@@ -46,8 +55,8 @@ class Project {
 		sort			'id'
 
 		id				generator: 'assigned', name: 'code'
-//		constructCode	column: 'construct_type'
-		constructCode	name: 'constructType'
+		projectKind		name: 'type' // column: 'type'
+		constructCode	name: 'constructType' // column: 'construct_type'
 	}
 
 	String getCode() {
@@ -55,6 +64,13 @@ class Project {
 	}
 	void setCode(String code) {
 		this.id = code?.toLowerCase()
+	}
+
+	ProjectType getProjectType() {
+		projectKind ? ProjectType.salvage(projectKind) : null
+	}
+	void setProjectType(ProjectType type) {
+		projectKind = type?.id
 	}
 
 	ConstructType getConstructType() {

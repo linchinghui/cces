@@ -6,13 +6,13 @@ import org.grails.databinding.BindingFormat
 @Resource(uri = '/api/vehicles', superClass = VehicleController)
 class Vehicle {
 
-	String			id				// primary key, 一律大寫
-	String			plateNo			// 車號, alias of id
-	VehicleBrand	brand			// 廠牌
-	String			model			// 型號
+	String				id				// primary key, 一律大寫
+	String				plateNo			// 車號, alias of id
+	VehicleBrand		brand			// 廠牌
+	String				model			// 型號
 	@BindingFormat("yyyy/MM/dd'Z'")
-	Date			inspectedDate	// 驗車日期
-	String			note			// 備註
+	Date				inspectedDate	// 驗車日期
+	String				note			// 備註
 
 	static constraints = {
 		plateNo			blank: false, nullable: false, maxSize: 10, unique: true //, validator: { val, obj ->
@@ -30,7 +30,7 @@ class Vehicle {
 		id				generator: 'assigned', name: 'plateNo'
 	}
 
-	
+
 	String getPlateNo() {
 		this.id
 	}
