@@ -10,16 +10,18 @@
 }
 */
 .projectContainer {
-    max-width: 320px;
-    padding-left: 5px;
-    margin-bottom: 5px;
+  max-width: 320px;
+  padding-left: 5px;
+  margin-bottom: 5px;
 }
+
 .projectContainer .glyphicon-info-sign {
-    top: 0;
-    border-left-width: 0;
+  top: 0;
+  border-left-width: 0;
 }
+
 .weekContainer {
-    padding-right: 0;
+  padding-right: 0;
 }
 /*
 .assignWeek {
@@ -29,14 +31,16 @@
 }
 */
 .assignDay .input-group {
-    display: inline-block;
-    margin: 0 8px;
+  display: inline-block;
+  margin: 0 8px;
 }
+
 .assignDay .input-group.unchecked {
-    color: #ccc;
+  color: #ccc;
 }
+
 #list-assignment_info {
-    padding: 5px;
-    border: 1px dashed gray;
-    border-radius: 4px;
+  padding: 5px;
+  border: 1px dashed gray;
+  border-radius: 4px;
 }

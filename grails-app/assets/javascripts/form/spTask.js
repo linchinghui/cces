@@ -6,11 +6,12 @@ var assignProjectList = $('<select/>');
 var workedDate = $('#workedDate');
 var workedDatePicker = $('.workedDate');
 var spTaskDataTable;
+var projectTypes;
 var constructTypes;
 var projectInfo;
 
 function createTabs() {
-  $('.content a[data-toggle="mtab"]').click(function (e) {
+  $('.content a[data-toggle="mtab"]').click(function(e) {
     e.preventDefault();
     var thisEle = $(this);
     var loadUrl = thisEle.attr('href');
@@ -23,12 +24,16 @@ function createTabs() {
         error: function(jqXHR, status, error) {
           $(thisEle.attr('data-target')).html(jqXHR.responseText);
         },
-        success: function(response){
+        success: function(response) {
           $(thisEle.attr('data-target')).html(response);
-          thisEle.attr('href','#');
+          thisEle.attr('href', '#');
           // triggerCriterionChange($(thisEle));
         }
       });
+    } else {
+      setTimeout(function() {
+        $(window).resize();
+      }, 500);
     }
 
     thisEle.tab('show');
@@ -38,10 +43,10 @@ function createTabs() {
 
 function getLastParameters(dateParam) {
   var qryParams = {
-      embed: true,
-      projectId: assignProjectList.val(),
-      format: 'json'
-    }
+    embed: true,
+    projectId: assignProjectList.val(),
+    format: 'json'
+  }
   qryParams[(dateParam ? dateParam : 'workedDate')] = workedDate.val(); //.replace(/\//g,'-')
 
   return qryParams;
@@ -60,23 +65,23 @@ function triggerCriterionChange(target) {
 /*---------------
   DataTables
  ----------------*/
-function removeDataRequested (result) {
+function removeDataRequested(result) {
   loadSpTasks();
 }
 
-function modifyDataRequested (result, editForm) {
+function modifyDataRequested(result, editForm) {
   loadSpTasks();
 }
 
-function addDataRequested (result, editForm) {
+function addDataRequested(result, editForm) {
   loadSpTasks();
 }
 
-function addDataRequest (evt, dt, node, config) {
+function addDataRequest(evt, dt, node, config) {
   BootstrapDialog.show({
     title: '新增...',
     message: requestAction4BootstrapDialog({
-      url: contextPath+'/spTask/create',
+      url: contextPath + '/spTask/create',
       callback: addDataRequested
     }, null, getLastParameters())
   });
@@ -89,7 +94,7 @@ function prepareUrl(actionType) {
 }
 
 function createDataTable() {
-  $.ajax.fake.registerWebservice(contextPath+'/api/spTasks.json', function(req) {
+  $.ajax.fake.registerWebservice(contextPath + '/api/spTasks.json', function(req) {
     // empty DT data
     return {
       draw: req.draw,
@@ -105,43 +110,40 @@ function createDataTable() {
     serverSide: true,
     deferRender: true,
     ajax: {
-      url: contextPath+'/api/spTasks.json',
+      url: contextPath + '/api/spTasks.json',
       data: function(params, settings) {
-        settings.ajax.fake = ! (assignProjectList.val() || false);
+        settings.ajax.fake = !(assignProjectList.val() || false);
 
         return $.extend({
-            draw: params.draw,
-            // max: params.length,
-            // offset: params.start,
-            sort: (params.order ? settings.aoColumns[params.order[0].column].data : 'id'),
-            order: (params.order ? params.order[0].dir : 'asc')
-          }, getLastParameters() );
+          draw: params.draw,
+          // max: params.length,
+          // offset: params.start,
+          sort: (params.order ? settings.aoColumns[params.order[0].column].data : 'id'),
+          order: (params.order ? params.order[0].dir : 'asc')
+        }, getLastParameters());
       },
       onDone: function() {
-        if (! (assignProjectList.val() || false)) {
+        if (!(assignProjectList.val() || false)) {
           spTaskDataTable.buttons().disable();
         }
       },
       onReloadClick: function(event) {
-        return (assignProjectList.val() && true);
-      }
-      // ,onReloadClicked: function() {
-      // }
+          return (assignProjectList.val() && true);
+        }
+        // ,onReloadClicked: function() {
+        // }
     },
-    initComplete: function (settings, data) { // this == DataTable()
+    initComplete: function(settings, data) { // this == DataTable()
       initialized4DataTables(settings, data);
-      $(window).resize(function() {
-        spTaskDataTable.columns.adjust().responsive.recalc();
-      });
-      // TODO
-      setTimeout(function(){ $(window).resize(); }, 500);
+      resizeDataTablesInSecs(spTaskDataTable);
     },
     extButtons: {
       // copy: true
     },
-    buttons: [
-      {text: '新增', action: addDataRequest}
-    ],
+    buttons: [{
+      text: '新增',
+      action: addDataRequest
+    }],
     columns: [ //0
       renderDefaultAlterationCellWithId4DataTables({
         show: {
@@ -155,33 +157,41 @@ function createDataTable() {
           url: prepareUrl('delete'),
           callback: removeDataRequested
         }
-      })
-    ,{ //1
-      orderable: false,
-      data: 'constructPlace'
-    },{ //2
-      orderable: false,
-      data: 'equipment'
-    },{ //3
-      orderable: false,
-      data: 'employee'
-    },{ //4
-      render: function(data, type, row, meta) {
-        return (data && (type === 'display' || type === 'filter')) ?
-          (constructTypes.hasOwnProperty(data) ? constructTypes[data] : data+'(代碼未定義)') :
-          data;
-      },
-      orderable: false,
-      data: 'constructCode' // 'constructType'
-    },{ //5
-      render: function(data, type, row, meta) {
-        return ((type === 'display' || type === 'filter') && /null(\||)/.test(row.id)) ?
-          '<span class="text-danger text-bold">已派工,未登錄</span>' :
-          data;
-      },
-      orderable: false,
-      data: 'note'
-    }]
+      }), { //1
+        orderable: false,
+        data: 'constructPlace'
+      }, { //2
+        orderable: false,
+        data: 'equipment'
+      }, { //3
+        orderable: false,
+        data: 'employee'
+      }, { //4
+        render: function(data, type, row, meta) {
+          return (data && (type === 'display' || type === 'filter')) ?
+            (projectTypes.hasOwnProperty(data) ? projectTypes[data] : data + '(代碼未定義)') :
+            data;
+        },
+        orderable: false,
+        data: 'projectKind' // 'projectType'
+      }, { //4
+        render: function(data, type, row, meta) {
+          return (data && (type === 'display' || type === 'filter')) ?
+            (constructTypes.hasOwnProperty(data) ? constructTypes[data] : data + '(代碼未定義)') :
+            data;
+        },
+        orderable: false,
+        data: 'constructCode' // 'constructType'
+      }, { //5
+        render: function(data, type, row, meta) {
+          return ((type === 'display' || type === 'filter') && /null(\||)/.test(row.id)) ?
+            '<span class="text-danger text-bold">已派工,未登錄</span>' :
+            data;
+        },
+        orderable: false,
+        data: 'note'
+      }
+    ]
   }).buttons().disable();
 }
 
@@ -189,14 +199,18 @@ function createDataTable() {
   load data
  -----------*/
 function loadProjectInfo(ele) {
-  var projectInfo= $('<span class="input-group-addon glyphicon glyphicon-info-sign"></span><span id="projectExists" class="sr-only"></span>')
+  var projectInfo = $(
+      '<span class="input-group-addon glyphicon glyphicon-info-sign"></span><span id="projectExists" class="sr-only"></span>'
+    )
     .click(function() {
       var projectId = assignProjectList.val();
 
       if (projectId) {
         BootstrapDialog.show({
           title: '專案',
-          message: requestAction4BootstrapDialog({url: contextPath+'/project/show'}, projectId) // GET method
+          message: requestAction4BootstrapDialog({
+              url: contextPath + '/project/show'
+            }, projectId) // GET method
         });
       }
     });
@@ -213,7 +227,7 @@ function loadSpTasks() {
   }
 }
 
-function initializeSpTasks () {
+function initializeSpTasks() {
   $.ajax.fake.defaults.wait = 0;
   loadSpTasks();
 }
@@ -226,11 +240,13 @@ function createProjectCombo(ele) {
   loadProjectInfo(combo.$element);
 
   if (server.project) {
-    combo.$element.val( $.map( combo.map, function(val, desc) { return val == server.project ? desc : null; }));
+    combo.$element.val($.map(combo.map, function(val, desc) {
+      return val == server.project ? desc : null;
+    }));
     combo.lookup().select();
   }
 
-  assignProjectList.change(function (e) {
+  assignProjectList.change(function(e) {
     loadSpTasks();
     triggerCriterionChange(assignProjectList);
   });
@@ -241,7 +257,7 @@ function createDatePicker() {
     server.workedDate ? moment(server.workedDate) : moment().transform('YYYY-MM-DD 00:00:00.000')
   );
 
-  workedDatePicker.datetimepicker().on('dp.change', function (e) {
+  workedDatePicker.datetimepicker().on('dp.change', function(e) {
     loadSpTasks();
     triggerCriterionChange(workedDatePicker);
   });
@@ -251,31 +267,54 @@ function initializeSelectFields() {
   createDatePicker()
 
   chainAjaxCall({
-    url: contextPath+'/api/projects.json',
+    url: contextPath + '/api/projects.json',
     method: 'GET',
+    cache: true,
     async: false,
     headers: {
-      'X-CCES-ACTION': 'constructTypes'
+      'X-CCES-ACTION': 'projectTypes'
     }
 
-  }).chain(function (promise) {
+  }).chain(function(promise) {
     if (promise.rc == 1) {
-      constructTypes = {'na': '(無法取得[施作方式]代碼)'}
+      projectTypes = {
+        'na': '(無法取得[工作型態]代碼)'
+      }
+
+    } else {
+      projectTypes = promise.data;
+    }
+
+    return chainAjaxCall({
+      url: contextPath + '/api/projects.json',
+      method: 'GET',
+      cache: true,
+      async: false,
+      headers: {
+        'X-CCES-ACTION': 'constructTypes'
+      }
+    });
+
+  }).chain(function(promise) {
+    if (promise.rc == 1) {
+      constructTypes = {
+        'na': '(無法取得[施作方式]代碼)'
+      }
 
     } else {
       constructTypes = promise.data;
     }
 
     return chainAjaxCall({
-        url: contextPath+'/project',
-        method: 'GET',
-        async: false,
-        headers: {
-          'X-CCES-ACTION': 'brief'
-        }
-      });
+      url: contextPath + '/project',
+      method: 'GET',
+      async: false,
+      headers: {
+        'X-CCES-ACTION': 'brief'
+      }
+    });
 
-  }).done(function (promise) {
+  }).done(function(promise) {
     if (promise.rc == 1) {
       assignProjectDiv.addClass('has-error').html($('<label class="control-label"/>').html('(無法取得專案清單)'));
 

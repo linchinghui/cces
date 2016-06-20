@@ -1,7 +1,12 @@
 /*
 *= require_self
 */
+
+#materialForm .col-xs-6 {
+  padding-left: 0;
+}
+/*
 .registeredDate > input {
-	/*font-weight: bold;*/
 	color: blue;
 }
+*/

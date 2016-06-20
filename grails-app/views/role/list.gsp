@@ -1,12 +1,9 @@
 <%--<g:set var="embedPage" value="${params?.embed=='true'}" scope="request"/>--%>
 <g:set var="deferredScript" value="form/role" scope="request"/>
-<g:set var="functionService" bean="functionService"/>
-<g:set var="pageTitle" value="${functionService.get('role')?.description}"/>
 <!DOCTYPE html>
 <html>
     <head>
         <meta name="layout" content="main" />
-        <title>CCES - ${pageTitle}</title>
         <asset:stylesheet src="grid"/> <%--
         <asset:stylesheet src="form/role"/> --%>
     </head>
@@ -19,7 +16,7 @@
           <div class="row">
             <div class="col-xs-12">
               <ul class="nav nav-tabs">
-                <li class="active"><a href="#" data-target="#" data-toggle="tab"><big>${pageTitle}</big></a></li>
+                <li class="active"><a href="#" data-target="#" data-toggle="tab"><big>角色</big></a></li>
               </ul>
               <div class="box">
                 <div class="box-header"></div>

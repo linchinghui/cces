@@ -16,19 +16,25 @@
 }
 */
 .combobox-container .typeahead {
-	/*border-radius: 0px 0px 4px 4px;*/
-	border: 1px solid lightgray;
-    margin: 0 0 0 5px;
-	width: 84%;
+  /*border-radius: 0px 0px 4px 4px;*/
+  border: 1px solid lightgray;
+  margin: 0 0 0 5px;
+  width: 84%;
 }
+
 .combobox-container .glyphicon-remove {
-	font-size: 0.7em;
+  font-size: 0.7em;
+}
+
+.bootstrap-dialog-message {
+  padding-left: 10px;
 }
 
 .input-group.date,
 .input-group.date.disabled {
   width: 11em;
 }
+
 .input-group.datetime,
 .input-group.datetime.disabled {
   width: 16em;

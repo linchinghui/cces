@@ -3,23 +3,23 @@
 
 var announcementList;
 
-function removeDataRequested (result) {
+function removeDataRequested(result) {
   reloadDataTables(announcementList);
 }
 
-function modifyDataRequested (result, editForm) {
+function modifyDataRequested(result, editForm) {
   reloadDataTables(announcementList);
 }
 
-function addDataRequested (result, editForm) {
+function addDataRequested(result, editForm) {
   reloadDataTables(announcementList);
 }
 
-function addDataRequest (evt, dt, node, config) {
+function addDataRequest(evt, dt, node, config) {
   BootstrapDialog.show({
     title: '新增...',
     message: requestAction4BootstrapDialog({
-      url: contextPath+'/announcement/create',
+      url: contextPath + '/announcement/create',
       callback: addDataRequested
     })
   });
@@ -31,48 +31,47 @@ function createDataTable() {
     serverSide: true,
     deferRender: true,
     ajax: {
-        url: contextPath+'/api/announcements.json'
+      url: contextPath + '/api/announcements.json'
     },
-    initComplete: function (settings, data) { // this == DataTable()
+    initComplete: function(settings, data) { // this == DataTable()
       initialized4DataTables(settings, data);
-      $(window).resize(function() {
-        announcementList.columns.adjust().responsive.recalc();
-      });
-      // TODO
-      setTimeout(function(){ $(window).resize(); }, 500);
+      resizeDataTablesInSecs(announcementList);
     },
     extButtons: {
       copy: true
     },
-    buttons: [
-      {text: '新增', action: addDataRequest}
-    ],
+    buttons: [{
+      text: '新增',
+      action: addDataRequest
+    }],
     columns: [ //0
       renderDefaultAlterationCellWithId4DataTables({
         edit: {
-          url: contextPath+'/announcement/edit',
+          url: contextPath + '/announcement/edit',
           callback: modifyDataRequested
         },
-        delete:  {
-          url: contextPath+'/announcement/delete',
+        delete: {
+          url: contextPath + '/announcement/delete',
           callback: removeDataRequested
         }
-      })
-    ,{ //1
-      orderable: false,
-      data: 'description'
-    },{ //2
-      render: renderDate4DataTables(true),
-      data: 'announcedDate'
-    },{ //3
-      render: renderDate4DataTables(),
-      data: 'revokedDate'
-    },{ //4
-      orderable: false,
-      render: renderDate4DataTables(),
-      data: 'createdDate'
-    }],
-    order: [[2,'desc']] // prev: 'aaSorting'
+      }), { //1
+        orderable: false,
+        data: 'description'
+      }, { //2
+        render: renderDate4DataTables(true),
+        data: 'announcedDate'
+      }, { //3
+        render: renderDate4DataTables(),
+        data: 'revokedDate'
+      }, { //4
+        orderable: false,
+        render: renderDate4DataTables(),
+        data: 'createdDate'
+      }
+    ],
+    order: [
+        [2, 'desc']
+      ] // prev: 'aaSorting'
 
   }).buttons().disable();
 }

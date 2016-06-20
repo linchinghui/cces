@@ -6,8 +6,8 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>CCES - Site Under Maintenance</title>
         <meta name="layout" content="main"/>
+        <title>CCES - Site Under Maintenance</title>
         <asset:stylesheet src="maintain"/>
     </head>
     <body>

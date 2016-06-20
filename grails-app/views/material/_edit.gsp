@@ -7,21 +7,19 @@
     <g:set var="modalPage" value="${true}" scope="request"/> <%--
     <g:set var="deferredScript" value="???" scope="request"/> --%>
 </g:else>
-<g:set var="functionService" bean="functionService"/>
-<g:set var="pageTitle" value="${functionService.get('material')?.description}-${type=='C' ? '新增' : type=='U' ? '編輯' : ''}"/>
+<g:set var="actionTitle" value="${pageTitle}-${type=='C' ? '新增' : type=='U' ? '編輯' : ''}"/>
 <g:set var="submitMehtod" value="${type=='C' ? 'POST' : type=='U' ? 'PUT' : ''}"/>
 <!DOCTYPE html>
 <html>
     <head>
         <meta name="layout" content="main" />
-        <title>CCES - ${pageTitle}</title>
         <asset:stylesheet src="form/material"/>
     </head>
     <body>
         <div class="container" role="main">
             <div class="panel panel-info"><g:if test="${modalPage}">
                 <div class="panel-heading">
-                    <div class="panel-title">${pageTitle}</div>
+                    <div class="panel-title">${actionTitle}</div>
                 </div></g:if>
                 <div class="panel-body"> <%--
                     <section class="content-header">
@@ -36,14 +34,17 @@
                             <fieldset class="form-group">
                                 <f:with bean="material">
                                     <f:field property="category" label="類型" />
-                                    <f:field property="name" label="名稱" widget-placeholder="輸入中英文說明" />
-                                    <f:field property="spec" label="尺寸 | 規格" widget-placeholder="輸入中英文說明" />
-                                    <f:field property="unit" label="單位" />
-                                    <f:field property="quantity" label="數量" />
-                                    <f:field property="price" label="價格" />
+                                    <f:field property="name" label="名稱" widget-placeholder="輸入中英文說明" /><%--
+                                    <f:field property="spec" label="尺寸 | 規格" widget-placeholder="輸入中英文說明" />--%>
+                                    <f:field property="dimension" label="尺寸" />
+                                    <f:field property="texture" label="材質" />
+                                    <f:field property="spec" label="其他" />
+                                    <div class="col-xs-6"><f:field property="quantity" label="數量" /></div>
+                                    <div class="col-xs-6"><f:field property="unit" label="單位" /></div>
+                                    <f:field property="price" label="價格" /><%--
                                     <f:field property="supplier" label="供應商" />
                                     <f:field property="contactPhoneNo" label="電話" />
-                                    <f:field property="registeredDate" label="登錄日期" widget="date" value="${type=='C'?java.util.Calendar.instance:material.registeredDate}"/>
+                                    <f:field property="registeredDate" label="登錄日期" widget="date" value="${type=='C'?java.util.Calendar.instance:material.registeredDate}"/>--%>
                                 </f:with>
                             </fieldset>
                             <fieldset class="buttons">
@@ -58,11 +59,11 @@
 <asset:script type='text/javascript'><%-- deferred JS here --%>
 $(function() {
     var editForm = $('#materialForm');
-    $('.bootstrap-dialog-title').html('${pageTitle}');
+    $('.bootstrap-dialog-title').html('${actionTitle}');
     <g:render template="/layouts/client-message" bean="${material}"/>
     <g:render template="/layouts/client-submit" model="[formVar: 'editForm']"/>
     <g:render template="/layouts/client-render" model="[formVar: 'editForm']"/>
-    $('input[type=text],textarea').filter(':enabled:visible:first').focus();
+    $('input[type=text],textarea').filter(':enabled:visible:first').each( function(idx,ele) { $(ele).focus(); } );
 });
 </asset:script>
     </body>

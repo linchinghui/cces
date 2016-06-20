@@ -2,10 +2,10 @@
 //= require_self
 
 var vehicleList;
-var nextMonthDate = moment().add(1,'months');
+var nextMonthDate = moment().add(1, 'months');
 
 function createTabs() {
-  $('.content a[data-toggle="mtab"]').click(function (e) {
+  $('.content a[data-toggle="mtab"]').click(function(e) {
     e.preventDefault();
     var thisEle = $(this);
     var loadUrl = thisEle.attr('href');
@@ -17,11 +17,15 @@ function createTabs() {
         error: function(jqXHR, status, error) {
           $(thisEle.attr('data-target')).html(jqXHR.responseText);
         },
-        success: function(response){
+        success: function(response) {
           $(thisEle.attr('data-target')).html(response);
-          thisEle.attr('href','#');
+          thisEle.attr('href', '#');
         }
       });
+    } else {
+      setTimeout(function() {
+        $(window).resize();
+      }, 500);
     }
 
     thisEle.tab('show');
@@ -29,23 +33,23 @@ function createTabs() {
   });
 }
 
-function removeDataRequested (result) {
+function removeDataRequested(result) {
   reloadDataTables(vehicleList);
 }
 
-function modifyDataRequested (result, editForm) {
+function modifyDataRequested(result, editForm) {
   reloadDataTables(vehicleList);
 }
 
-function addDataRequested (result, editForm) {
+function addDataRequested(result, editForm) {
   reloadDataTables(vehicleList);
 }
 
-function addDataRequest (evt, dt, node, config) {
+function addDataRequest(evt, dt, node, config) {
   BootstrapDialog.show({
     title: '新增...',
     message: requestAction4BootstrapDialog({
-      url: contextPath+'/vehicle/create',
+      url: contextPath + '/vehicle/create',
       callback: addDataRequested
     })
   });
@@ -57,66 +61,65 @@ function createDataTable() {
     serverSide: true,
     deferRender: true,
     ajax: {
-      url: contextPath+'/api/vehicles.json'
+      url: contextPath + '/api/vehicles.json'
     },
-    initComplete: function (settings, data) { // this == DataTable()
+    initComplete: function(settings, data) { // this == DataTable()
       initialized4DataTables(settings, data);
-      $(window).resize(function() {
-        vehicleList.columns.adjust().responsive.recalc();
-      });
-      // TODO
-      setTimeout(function(){ $(window).resize(); }, 500);
+      resizeDataTablesInSecs(vehicleList);
     },
     extButtons: {
       copy: true
     },
-    buttons: [
-      {text: '新增', action: addDataRequest}
-    ],
+    buttons: [{
+      text: '新增',
+      action: addDataRequest
+    }],
     columns: [ //0
       renderDefaultAlterationCellWithId4DataTables({
         show: {
-          url: contextPath+'/vehicle/show'
+          url: contextPath + '/vehicle/show'
         },
         edit: {
-          url: contextPath+'/vehicle/edit',
+          url: contextPath + '/vehicle/edit',
           callback: modifyDataRequested
         },
-        delete:  {
-          url: contextPath+'/vehicle/delete',
+        delete: {
+          url: contextPath + '/vehicle/delete',
           callback: removeDataRequested
         }
-      })
-    ,{ //1
-      data: 'plateNo'
-    },{ //2
-      render: renderDate4DataTables(),
-      data: 'inspectedDate'
-    },{ //3 : 定檢期限
-      orderable: false,
-      render: function(data, type, row, meta) {
-        var inspDate = moment(row.inspectedDate);
-        if (! inspDate.isValid()) {
-          return '';
+      }), { //1
+        data: 'plateNo'
+      }, { //2
+        render: renderDate4DataTables(),
+        data: 'inspectedDate'
+      }, { //3 : 定檢期限
+        orderable: false,
+        render: function(data, type, row, meta) {
+          var inspDate = moment(row.inspectedDate);
+          if (!inspDate.isValid()) {
+            return '';
+          }
+          var termDate = inspDate.add(13, 'months');
+          return $('<span></span>')
+            .addClass('text-' + (nextMonthDate >= termDate ? 'danger' : 'muted'))
+            .html(termDate.format('YYYY/MM/DD'))
+            .wrap('<span></span>')
+            .parent()
+            .html();
         }
-        var termDate = inspDate.add(13,'months');
-        return $('<span></span>')
-              .addClass('text-'+(nextMonthDate>=termDate ? 'danger' : 'muted'))
-              .html(termDate.format('YYYY/MM/DD'))
-              .wrap('<span></span>')
-              .parent()
-              .html();
+      }, { //4
+        data: 'brand'
+      }, { //5
+        orderable: false,
+        data: 'model'
+      }, { //6
+        orderable: false,
+        data: 'note'
       }
-    },{ //4
-      data: 'brand'
-    },{ //5
-      orderable: false,
-      data: 'model'
-    },{ //6
-      orderable: false,
-      data: 'note'
-    }],
-    order: [[1,'asc']] // prev: 'aaSorting'
+    ],
+    order: [
+        [1, 'asc']
+      ] // prev: 'aaSorting'
 
   }).buttons().disable();
 }

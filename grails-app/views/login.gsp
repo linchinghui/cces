@@ -1,6 +1,6 @@
 <%@ page import="static com.lch.aaa.Application.*" %>
 <%@ page import="com.lch.aaa.*"%>
-<g:set var="authService" bean="authenticationService"/>
+<%-- <g:set var="authService" bean="authenticationService"/> --%>
 <g:set var="lastException" value="${authService.lastException}" scope="request"/>
 <g:set var="modalPage" value="${true}" scope="request"/>
 <g:set var="loginLink" value="${createLink(controller:PAGE_LOGIN-'/')}"/>
@@ -25,7 +25,7 @@
     <div id="box-login" class="col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2 col-xs-10 col-xs-offset-1">
       <div class="panel panel-info">
         <div class="panel-heading">
-          <div class="panel-title">請登入</div>
+          <div class="panel-title">登入</div>
 <%-- TODO
           <div id="label-forgot"><a href="#">密碼忘記了?</a></div>
 --%>

@@ -2,9 +2,10 @@
 *= require_self
 */
 .content {
-	min-height: 520px !important;
+  min-height: 520px !important;
 }
+
 .employedDate > input {
 	/*font-weight: bold;*/
-	color: blue;
+  color: blue;
 }

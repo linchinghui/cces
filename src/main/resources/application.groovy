@@ -16,7 +16,9 @@ aaa.menuGroups = [
 	[group: 'filing', description:'資料建檔', icon:'fa fa-files-o', items: [
 		[controller: 'worker', icon: 'fa fa-user'],
 		[controller: 'vehicle', icon: 'fa fa-bus'],
-		[controller: 'material', icon: 'fa fa-clipboard']
+		[controller: 'material', icon: 'fa fa-clipboard'],
+		[controller: 'supplier', icon: 'fa fa-ambulance'],
+		[controller: 'revenue', icon: 'fa fa-usd']
 	]],
 	[group: 'project', description:'專案管理', icon:'fa fa-product-hunt', items: [
 		[controller: 'project', icon: 'fa fa-wpforms'], // fa-list-ol

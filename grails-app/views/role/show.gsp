@@ -7,20 +7,17 @@
     <g:set var="modalPage" value="${true}" scope="request"/> <%--
     <g:set var="deferredScript" value="???" scope="request"/> --%>
 </g:else>
-<g:set var="functionService" bean="functionService"/>
-<g:set var="pageTitle" value="${functionService.get('role')?.description}"/>
 <!DOCTYPE html>
 <html>
     <head>
         <meta name="layout" content="main" />
-        <title>CCES - ${pageTitle}</title>
         <asset:stylesheet src="form/role"/>
     </head>
     <body>
         <div class="container" role="main">
             <div class="panel panel-info"><g:if test="${modalPage}">
                 <div class="panel-heading">
-                    <div class="panel-title">${pageTitle}</div>
+                    <div class="panel-title">角色</div>
                 </div></g:if>
                 <div class="panel-body"> <%--
                     <section class="content-header">
@@ -48,7 +45,7 @@
 $(function() {
     var showForm = $('#roleForm');
     <g:if test="${dialogPage}">
-        $('.bootstrap-dialog-title').html('${pageTitle}');
+        $('.bootstrap-dialog-title').html('角色');
     </g:if>
     <g:render template="/layouts/client-message" bean="${role}"/>
     <g:render template="/layouts/client-render" model="[formVar: 'showForm']"/>

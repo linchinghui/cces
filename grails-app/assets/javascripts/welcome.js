@@ -2,6 +2,7 @@
 //= require_self
 
 var announcementList;
+
 function createDataTable() {
   announcementList = $('#list-announcement').DataTable({
     autoWidth: false,
@@ -12,15 +13,11 @@ function createDataTable() {
       headers: {
         'X-CCES-ACTION': 'upToDate'
       },
-      url: contextPath+'/api/announcements.json'
+      url: contextPath + '/api/announcements.json'
     },
-    initComplete: function (settings, data) { // this == DataTable()
+    initComplete: function(settings, data) { // this == DataTable()
       initialized4DataTables(settings, data);
-      $(window).resize(function() {
-        announcementList.columns.adjust().responsive.recalc();
-      });
-      // TODO
-      setTimeout(function(){ $(window).resize(); }, 500);
+      resizeDataTablesInSecs(announcementList);
     },
     extButtons: {
       // copy: true
@@ -29,18 +26,20 @@ function createDataTable() {
       // {text: '新增', action: addDataRequest}
     ],
     columns: [{ //0
-	  visible: false,
-	  orderable: false,
+      visible: false,
+      orderable: false,
       data: 'id',
-    },{ //1
+    }, { //1
       width: '28%',
       render: renderDate4DataTables(true),
       data: 'announcedDate'
-    },{ //2
+    }, { //2
       orderable: false,
       data: 'description'
     }],
-    order: [[1,'desc']] // prev: 'aaSorting'
+    order: [
+        [1, 'desc']
+      ] // prev: 'aaSorting'
 
   }).buttons().disable();
 }

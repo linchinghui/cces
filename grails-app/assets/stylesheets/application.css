@@ -12,6 +12,7 @@
   text-indent: 10px;
   color: white;
 }
+
 .ajax-loader {
   background: url('ajax-loader-small.gif') 100% 50% no-repeat;
 }
@@ -31,13 +32,28 @@
   float: left;
   color: red;
 }
+
 .close {
   font-size: 20px;
   opacity: .3;
 }
-.fa.fa-product-hunt, .fa.wpforms {
+
+.fa.fa-product-hunt {
   font-size: 1.125em;
 }
+
+.fa.fa-usd {
+  font-size: 0.9em;
+}
+
+.fa.fa-usd:after {
+  content: "\f155";
+}
+
+.fa.fa-user, .fa.fa-wpforms, .fa.fa-building-o {
+  font-size: 1.07em;
+}
+
 .highlight {
   background-color: yellow;
 }
@@ -79,6 +95,7 @@
 .box {
   margin-bottom: 0;
 }
+
 .box .box-header {
   padding-top: 0;
 }
@@ -88,6 +105,7 @@
   padding: 0;
   background-color: inherit;
 }
+
 .modal .wrapper, .modal .container {
   border-radius: 5px;
 }
@@ -95,6 +113,7 @@
 .panel {
   margin-bottom: 0;
 }
+
 .panel input[type=checkbox] {
   opacity: 0;
   position: absolute;
@@ -105,6 +124,7 @@
 .modal .panel {
   margin-bottom: 0;
 }
+
 .modal .panel .panel-body {
   padding-top: 0;
   padding-bottom: 0;

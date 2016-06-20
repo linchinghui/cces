@@ -38,9 +38,11 @@
   .error-details {
     padding: 5px 0 0 0;
   }
+
   .error-details h1 {
     margin-top: 10px;
   }
+
   .error-details img {
     margin: 0%;
     height: 200px;

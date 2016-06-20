@@ -6,15 +6,15 @@ import org.grails.databinding.BindingFormat
 @Resource(uri = '/api/spTasks', superClass = SpTaskController)
 class SpTask implements Serializable, Comparable<SpTask> {
 
-	Project			project			// 園區專案
-	@BindingFormat("yyyy/MM/dd")
-	Date			workedDate		// 施工日期(建檔日期)
-	Worker			employee		// 工作人員(員工)
-	String			constructPlace	// 工程地點
-	String			equipment		// 機台型號
-	String			constructCode	// 施作方式
-	ConstructType	constructType	// 施作方式 (input/display)
-	String			note			// 備註
+	Project				project			// 園區專案
+	@BindingFormat("yyyy/MM/dd'Z'")
+	Date				workedDate		// 施工日期(建檔日期)
+	Worker				employee		// 工作人員(員工)
+	String				constructPlace	// 工程地點
+	String				equipment		// 機台型號
+	String				constructCode	// 施作方式
+	ConstructType		constructType	// 施作方式 (input/display)
+	String				note			// 備註
 
     static constraints = {
 		project			blank: false, nullable: false
@@ -53,8 +53,8 @@ class SpTask implements Serializable, Comparable<SpTask> {
 	}
 
 	public int compareTo(def other) {
-		return projectId <=> other?.projectId ?: 
-			workedDate <=> other?.workedDate ?: 
+		return projectId <=> other?.projectId ?:
+			workedDate <=> other?.workedDate ?:
 			employeeId <=> other?.employeeId
 	}
 

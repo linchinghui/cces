@@ -18,7 +18,7 @@ var lastDateClass;
 var highLightClass = 'bg-info text-danger';
 
 function createTabs() {
-  $('.content a[data-toggle="mtab"]').click(function (e) {
+  $('.content a[data-toggle="mtab"]').click(function(e) {
     e.preventDefault();
     var thisEle = $(this);
     var loadUrl = thisEle.attr('href');
@@ -31,9 +31,9 @@ function createTabs() {
         error: function(jqXHR, status, error) {
           $(thisEle.attr('data-target')).html(jqXHR.responseText);
         },
-        success: function(response){
+        success: function(response) {
           $(thisEle.attr('data-target')).html(response);
-          thisEle.attr('href','#');
+          thisEle.attr('href', '#');
         }
       });
     }
@@ -45,10 +45,10 @@ function createTabs() {
 
 function getLastParameters(params) {
   var qryParams = {
-      projectId: assignProjectList.val(),
-      year: lastYear,
-      format: 'json'
-    }
+    projectId: assignProjectList.val(),
+    year: lastYear,
+    format: 'json'
+  }
 
   if (params) { // for 每月人員配置
     $.extend(qryParams, params);
@@ -66,8 +66,10 @@ function getLastParameters(params) {
 
 function triggerCriterionChange(target) {
   var evt = $.Event('criterionChanged');
-  evt.state = getLastParameters(($('.tab-pane.active')[0].id == 'tab1') ?
-    {embed: true, month: moment().month()} :
+  evt.state = getLastParameters(($('.tab-pane.active')[0].id == 'tab1') ? {
+      embed: true,
+      month: moment().month()
+    } :
     null
   );
   target.trigger(evt);
@@ -76,28 +78,28 @@ function triggerCriterionChange(target) {
 /*---------------
   DataTables
  ----------------*/
-function renderDisplayHit4DataTables (settings, start, end, max, total, pre) {
-   return lastDate ? '過濾條件: 週'+ assignCLNDR.daysOfTheWeek[ lastDate.day() ] : '';
+function renderDisplayHit4DataTables(settings, start, end, max, total, pre) {
+  return lastDate ? '過濾條件: 週' + assignCLNDR.daysOfTheWeek[lastDate.day()] : '';
 }
 
-function removeDataRequested (result) {
+function removeDataRequested(result) {
   lastDateClass = null;
   loadAssignments();
 }
 
-function modifyDataRequested (result, editForm) {
+function modifyDataRequested(result, editForm) {
   loadAssignments();
 }
 
-function addDataRequested (result, editForm) {
+function addDataRequested(result, editForm) {
   loadAssignments();
 }
 
-function addDataRequest (evt, dt, node, config) {
+function addDataRequest(evt, dt, node, config) {
   BootstrapDialog.show({
     title: '新增...',
     message: requestAction4BootstrapDialog({
-      url: contextPath+'/assignment/create',
+      url: contextPath + '/assignment/create',
       callback: addDataRequested
     }, null, getLastParameters())
   });
@@ -120,84 +122,87 @@ function createDataTable() {
     serverSide: true,
     deferRender: true,
     ajax: {
-      url: contextPath+'/api/assignments.json',
+      url: contextPath + '/api/assignments.json',
       data: function(params, settings) {
-        settings.ajax.fake = ! (assignProjectList.val() || false);
+        settings.ajax.fake = !(assignProjectList.val() || false);
 
         return $.extend({
-            draw: params.draw,
-            max: params.length,
-            offset: params.start,
-            sort: (params.order ? settings.aoColumns[params.order[0].column].data : 'id'),
-            order: (params.order ? params.order[0].dir : 'asc')
-          }, getLastParameters() );
+          draw: params.draw,
+          max: params.length,
+          offset: params.start,
+          sort: (params.order ? settings.aoColumns[params.order[0].column].data : 'id'),
+          order: (params.order ? params.order[0].dir : 'asc')
+        }, getLastParameters());
       },
       onDone: function() {
-        if (! (assignProjectList.val() || false)) {
+        if (!(assignProjectList.val() || false)) {
           assignDataTable.buttons().disable();
         }
       },
       onReloadClick: function(event) {
-        return (assignProjectList.val() && true);
-      }
-      // ,onReloadClicked: function() {
-      // }
+          return (assignProjectList.val() && true);
+        }
+        // ,onReloadClicked: function() {
+        // }
     },
     infoCallback: renderDisplayHit4DataTables,
-    initComplete: function (settings, data) { // this == DataTable()
+    initComplete: function(settings, data) { // this == DataTable()
       initialized4DataTables(settings, data);
     },
     extButtons: {
       // copy: true
     },
-    buttons: [
-      {text: '新增', action: addDataRequest}
-    ],
+    buttons: [{
+      text: '新增',
+      action: addDataRequest
+    }],
     columns: [ //0
       renderDefaultAlterationCellWithId4DataTables({
         edit: {
-          url: contextPath+'/assignment/edit',
+          url: contextPath + '/assignment/edit',
           callback: modifyDataRequested
-        }
-        ,delete:  {
-          url: contextPath+'/assignment/delete',
+        },
+        delete: {
+          url: contextPath + '/assignment/delete',
           callback: removeDataRequested
         }
-      })
-    ,{ //1
-      data: 'employee'
-    // },{ //2
-    //   data: 'project'
-    },{ //3
-      render: renderCheck4DataTables,
-      orderable: false,
-      data: 'd0'
-    },{ //4
-      render: renderCheck4DataTables,
-      orderable: false,
-      data: 'd1'
-    },{ //5
-      render: renderCheck4DataTables,
-      orderable: false,
-      data: 'd2'
-    },{ //6
-      render: renderCheck4DataTables,
-      orderable: false,
-      data: 'd3'
-    },{ //7
-      render: renderCheck4DataTables,
-      orderable: false,
-      data: 'd4'
-    },{ //8
-      render: renderCheck4DataTables,
-      orderable: false,
-      data: 'd5'
-    },{ //9
-      render: renderCheck4DataTables,
-      orderable: false,
-      data: 'd6'
-    }],
-    order: [[1,'asc']] // prev: 'aaSorting'
+      }), { //1
+        data: 'employee'
+          // },{ //2
+          //   data: 'project'
+      }, { //3
+        render: renderCheck4DataTables,
+        orderable: false,
+        data: 'd0'
+      }, { //4
+        render: renderCheck4DataTables,
+        orderable: false,
+        data: 'd1'
+      }, { //5
+        render: renderCheck4DataTables,
+        orderable: false,
+        data: 'd2'
+      }, { //6
+        render: renderCheck4DataTables,
+        orderable: false,
+        data: 'd3'
+      }, { //7
+        render: renderCheck4DataTables,
+        orderable: false,
+        data: 'd4'
+      }, { //8
+        render: renderCheck4DataTables,
+        orderable: false,
+        data: 'd5'
+      }, { //9
+        render: renderCheck4DataTables,
+        orderable: false,
+        data: 'd6'
+      }
+    ],
+    order: [
+        [1, 'asc']
+      ] // prev: 'aaSorting'
   }).buttons().disable();
 }
 /*---------------
@@ -238,26 +243,33 @@ function highLightFocusDate() {
   }
 }
 
-function buildAssignCalendar (assignData) {
-  $(document).keydown( function(e) {
+function buildAssignCalendar(assignData) {
+  $(document).keydown(function(e) {
     if (assignCLNDR && e.keyCode == 37) assignCLNDR.back(); // Left arrow
     if (assignCLNDR && e.keyCode == 39) assignCLNDR.forward(); // Right arrow
   });
 
   assignCLNDR = assignCLNDRDiv.clndr({
-    targets: {nextButton: 'week-next', todayButton: 'week-current', previousButton: 'week-previous'},
-    lengthOfTime: {days: 7, interval: 7},
+    targets: {
+      nextButton: 'week-next',
+      todayButton: 'week-current',
+      previousButton: 'week-previous'
+    },
+    lengthOfTime: {
+      days: 7,
+      interval: 7
+    },
     events: assignData,
     template: assignCLNDRTemplate,
 
     clickEvents: {
-      click: function (target) {
+      click: function(target) {
         lastDate = target.date;
         lastYear = lastDate.weekYear();
         lastWeek = lastDate.week();
         loadAssignments();
       },
-      onIntervalChange: function (sunday, saturday) {
+      onIntervalChange: function(sunday, saturday) {
         lastDateAssigned = false;
         lastDate = null;
         lastYear = sunday.weekYear();
@@ -271,14 +283,18 @@ function buildAssignCalendar (assignData) {
   loading assignments and sumup
  -----------------------------------*/
 function loadProjectInfo(ele) {
-  var projectInfo= $('<span class="input-group-addon glyphicon glyphicon-info-sign"></span><span id="projectExists" class="sr-only"></span>')
+  var projectInfo = $(
+      '<span class="input-group-addon glyphicon glyphicon-info-sign"></span><span id="projectExists" class="sr-only"></span>'
+    )
     .click(function() {
       var projectId = assignProjectList.val();
 
       if (projectId) {
         BootstrapDialog.show({
           title: '專案',
-          message: requestAction4BootstrapDialog({url: contextPath+'/project/show'}, projectId) // GET method
+          message: requestAction4BootstrapDialog({
+              url: contextPath + '/project/show'
+            }, projectId) // GET method
         });
       }
     });
@@ -286,15 +302,15 @@ function loadProjectInfo(ele) {
   ele.after(projectInfo);
 }
 
-function loadAssignments () {
+function loadAssignments() {
   $.ajax.fake.registerWebservice('/api/assignments', function(req) {
     // events data
     return [];
   });
 
   chainAjaxCall({
-    fake: ! (assignProjectList.val() || false),
-    url: contextPath+'/api/assignments',
+    fake: !(assignProjectList.val() || false),
+    url: contextPath + '/api/assignments',
     method: 'GET',
     cache: false,
     // async: false,
@@ -303,7 +319,7 @@ function loadAssignments () {
     },
     data: getLastParameters()
 
-  }).done(function (promise) {
+  }).done(function(promise) {
     if (assignCLNDRDiv.hasClass('has-error') || promise.rc == 1) { // got errors
       return;
     }
@@ -328,7 +344,7 @@ function loadAssignments () {
 /*----------------------------------------
   default value by server-side parameters
  -----------------------------------------*/
-function initializeAssignments () {
+function initializeAssignments() {
   $.ajax.fake.defaults.wait = 0;
 
   var now = moment();
@@ -345,42 +361,45 @@ function createProjectCombo(ele) {
   loadProjectInfo(combo.$element);
 
   if (server.project) {
-    combo.$element.val( $.map( combo.map, function(val, desc) { return val == server.project ? desc : null; }));
+    combo.$element.val($.map(combo.map, function(val, desc) {
+      return val == server.project ? desc : null;
+    }));
     combo.lookup().select();
   }
 
-  assignProjectList.change(function (e) {
+  assignProjectList.change(function(e) {
     loadAssignments();
     triggerCriterionChange(assignProjectList);
   });
 }
 
-function initializeSelectFields () {
+function initializeSelectFields() {
   chainAjaxCall({
     url: server.calendarTemplate,
     method: 'GET',
     // cache: false,
     async: false
 
-  }).chain(function (promise) {
+  }).chain(function(promise) {
     if (promise.rc == 1) {
-      assignCLNDRDiv.addClass('has-error').html($('<label class="control-label"/>').html('(無法取得['+server.pageTitle+']週曆程式)'));
+      assignCLNDRDiv.addClass('has-error').html($('<label class="control-label"/>').html('(無法取得[' + server.pageTitle +
+        ']週曆程式)'));
 
     } else {
       assignCLNDRTemplate = promise.data;
     }
 
     return chainAjaxCall({
-        url: contextPath+'/project',
-        method: 'GET',
-        cache: false,
-        async: false,
-        headers: {
-          'X-CCES-ACTION': 'brief'
-        }
-      });
+      url: contextPath + '/project',
+      method: 'GET',
+      cache: false,
+      async: false,
+      headers: {
+        'X-CCES-ACTION': 'brief'
+      }
+    });
 
-  }).done(function (promise) {
+  }).done(function(promise) {
     if (promise.rc == 1) {
       assignProjectDiv.addClass('has-error').html($('<label class="control-label"/>').html('(無法取得專案清單)'));
 

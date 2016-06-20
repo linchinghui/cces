@@ -7,6 +7,7 @@
 //= require_self
 
 function reloadDataTables(dt, arg) {
+  // ajust columns first, then reload
   if ($.isFunction(arg)) {
     dt.columns.adjust().ajax.reload(arg);
   } else {
@@ -15,7 +16,7 @@ function reloadDataTables(dt, arg) {
 }
 
 function renderDate4DataTables(timeIncluded) {
-  return function (data, type, row, meta) {
+  return function(data, type, row, meta) {
     // If display or filter data is requested, format the date
     return (data && (type == 'display' || type == 'filter')) ?
       moment(data).format('YYYY/MM/DD' + (timeIncluded ? ' HH:mm:ss' : '')) :
@@ -80,28 +81,43 @@ function addExternalButtons4Init(dataTable) {
   var extButtons = {};
   var extButtonSettings = dataTable.context[0] ? dataTable.context[0].oInit.extButtons : {};
 
-  if (! jQuery.isEmptyObject(extButtonSettings)) {
+  if (!jQuery.isEmptyObject(extButtonSettings)) {
     $.map(extButtonSettings, function(v, k) {
       if (v == true) {
         switch (k) {
           case 'copy':
-            $.extend(true, extButtons, {text: '複製', extend: k});
+            $.extend(true, extButtons, {
+              text: '複製',
+              extend: k
+            });
             break;
           case 'csv':
-            $.extend(true, extButtons, {text: 'CSV', extend: k});
+            $.extend(true, extButtons, {
+              text: 'CSV',
+              extend: k
+            });
             break;
           case 'print':
-            $.extend(true, extButtons, {text: '列印', extend: k});
+            $.extend(true, extButtons, {
+              text: '列印',
+              extend: k
+            });
             break;
           case 'pdf':
-            $.extend(true, extButtons, {text: 'PDF', extend: k, orientation: 'landscape'});
+            $.extend(true, extButtons, {
+              text: 'PDF',
+              extend: k,
+              orientation: 'landscape'
+            });
             break;
         }
       }
     });
   }
-  if (! jQuery.isEmptyObject(extButtons)) {
-    var btns = new $.fn.DataTable.Buttons(dataTable, {buttons: [extButtons]});
+  if (!jQuery.isEmptyObject(extButtons)) {
+    var btns = new $.fn.DataTable.Buttons(dataTable, {
+      buttons: [extButtons]
+    });
     var btnsGrp = btns.dom.container[0];
 
     for (var i = 0; i < btns.s.buttons.length; i++) {
@@ -172,24 +188,26 @@ function createRemoveCellButtom(cellEle, dataKey, action) {
     $(theCell).delay(500).trigger('click'); // un-toggle control detail
 
     new BootstrapDialog({
-        size: BootstrapDialog.SIZE_SMALL,
-        type: BootstrapDialog.TYPE_WARNING,
-        title: action.title + ' (ID=' + dataKey + ')',
-        message: '是否確定 ?',
-        closable: true,
-        buttons: [{
-          label: '否',
-          cssClass: 'pull-left',
-          action: function (dialog) {
-            dialog.close();
-          }
-        }, {
-          label: '是',
-          action: function (dialog) {
-            dialog.getModalFooter().hide();
-            dialog.setMessage(requestAction4BootstrapDialog(action, dataKey, {'_method': 'DELETE'})); // POST method
-          }
-        }]
+      size: BootstrapDialog.SIZE_SMALL,
+      type: BootstrapDialog.TYPE_WARNING,
+      title: action.title + ' (ID=' + dataKey + ')',
+      message: '是否確定 ?',
+      closable: true,
+      buttons: [{
+        label: '否',
+        cssClass: 'pull-left',
+        action: function(dialog) {
+          dialog.close();
+        }
+      }, {
+        label: '是',
+        action: function(dialog) {
+          dialog.getModalFooter().hide();
+          dialog.setMessage(requestAction4BootstrapDialog(action, dataKey, {
+            '_method': 'DELETE'
+          })); // POST method
+        }
+      }]
     }).open();
   });
 }
@@ -223,12 +241,11 @@ function renderDefaultAlterationCellWithId4DataTables(requestActions) {
     data: 'id',
     width: (actionsLen == 3 ? '76px' : actionsLen == 2 ? '52px' : '28px'),
     render: function(data, type, full) {
-      return (requestActions.show ? '<span><i class="fa fa-fw fa-info"></i></span>&nbsp;' : '')
-      + (requestActions.edit ? '<span><i class="fa fa-fw fa-pencil"></i></span>&nbsp;' : '')
-      + (requestActions.delete ? '<span><i class="fa fa-fw fa-times"></i></span>' : '')
-      + '<span style="display: inline;"></span>';
+      return (requestActions.show ? '<span><i class="fa fa-fw fa-info"></i></span>&nbsp;' : '') + (requestActions.edit ?
+        '<span><i class="fa fa-fw fa-pencil"></i></span>&nbsp;' : '') + (requestActions.delete ?
+        '<span><i class="fa fa-fw fa-times"></i></span>' : '') + '<span style="display: inline;"></span>';
     },
-    createdCell: function (cell, cellData, rowData, row, col) {
+    createdCell: function(cell, cellData, rowData, row, col) {
       if (requestActions.show) {
         var action = $.extend(true, {
           type: 'show',
@@ -237,7 +254,7 @@ function renderDefaultAlterationCellWithId4DataTables(requestActions) {
           key: 'id'
         }, requestActions.show);
 
-        createInfoCellButtom( $(action.selector, cell), rowData[action.key], action );
+        createInfoCellButtom($(action.selector, cell), rowData[action.key], action);
       }
       if (requestActions.edit) {
         var action = $.extend(true, {
@@ -247,7 +264,7 @@ function renderDefaultAlterationCellWithId4DataTables(requestActions) {
           key: 'id'
         }, requestActions.edit);
 
-        createEditCellButtom( $(action.selector, cell), rowData[action.key], action );
+        createEditCellButtom($(action.selector, cell), rowData[action.key], action);
       }
       if (requestActions.delete) {
         var action = $.extend(true, {
@@ -257,10 +274,20 @@ function renderDefaultAlterationCellWithId4DataTables(requestActions) {
           key: 'id'
         }, requestActions.delete);
 
-        createRemoveCellButtom( $(action.selector, cell), rowData[action.key], action );
+        createRemoveCellButtom($(action.selector, cell), rowData[action.key], action);
       }
     }
   };
+}
+
+function resizeDataTablesInSecs(dataTable) {
+  $(window).resize(function() {
+    dataTable.columns.adjust().responsive.recalc();
+  });
+  // TODO
+  setTimeout(function() {
+    $(window).resize();
+  }, 500);
 }
 
 function initialized4DataTables(settings, response) {
@@ -341,8 +368,6 @@ $.extend(true, $.fn.dataTable.defaults, {
 
 $.fn.dataTable.ext.errMode = function(settings, tn, errors) {
   if (typeof settings !== 'undefined' && settings !== null) {
-    console.log(errors);
-
     var dataTable = settings.oInstance.DataTable();
     var jqXHR = dataTable.context[0].jqXHR;
     // var tableContainer = $(dataTable.table().container());

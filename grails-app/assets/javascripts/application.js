@@ -24,7 +24,8 @@ if (typeof jQuery !== 'undefined') {
       //   }.bind({}))[0];
 
       // method 2:
-      var queryStr = decodeURI((str || document.location.search).replace(/(^.*\?)/,'').replace(/&/g, "\",\"").replace(/\=/g, "\":\""));
+      var queryStr = decodeURI((str || document.location.search).replace(/(^.*\?)/, '').replace(/&/g, "\",\"").replace(
+        /\=/g, "\":\""));
       return JSON.parse('{"' + queryStr + '"}')
     }
   });
@@ -50,7 +51,7 @@ if (typeof jQuery !== 'undefined') {
     // });
 
     $('.treeview-menu a').click(function() {
-      if (! /\&sc=/.test(this.href)) {
+      if (!/\&sc=/.test(this.href)) {
         if ($('body').hasClass('sidebar-collapse')) {
           this.href += '&sc=true';
         }
@@ -83,7 +84,7 @@ function alertInformation(data, jqXHR) { // jqXHR might be undefined
   });
 }
 
-function joinMessageToDialog (msgObj) {
+function joinMessageToDialog(msgObj) {
   var msgLi = msgObj.map ?
     msgObj.map(function(obj) {
       var item = $('<li/>');
@@ -104,7 +105,7 @@ function joinMessageToDialog (msgObj) {
       return item;
 
     }) : function() {
-      console.log(msgObj.stack);
+      log(msgObj.stack);
       return $('<li/>').html(msgObj.toString());
     };
 
@@ -121,7 +122,8 @@ function organizeAlertMessage(data, propName, jqXHR, replyCode, callbackFn) {
       if (jqXHR.status >= replyCode) {
         dialog.setTitle(dialog.getTitle() + ' - ' + jqXHR.status);
       }
-      if (jqXHR.getResponseHeader('content-type') && jqXHR.getResponseHeader('content-type').indexOf('text/html') >= 0) {
+      if (jqXHR.getResponseHeader('content-type') && jqXHR.getResponseHeader('content-type').indexOf('text/html') >=
+        0) {
         return data[propName];
       }
     }
@@ -132,7 +134,9 @@ function organizeAlertMessage(data, propName, jqXHR, replyCode, callbackFn) {
         return joinMessageToDialog(data[propName].split(';'));
 
       } else if (data[propName].filter) {
-        return joinMessageToDialog(data[propName].filter(function(v) { return v!=='' }));
+        return joinMessageToDialog(data[propName].filter(function(v) {
+          return v !== ''
+        }));
 
       } else {
         return joinMessageToDialog(data[propName]);
@@ -203,9 +207,9 @@ function transformServerError(callbackFn) {
     // reply-code of jqXHR.status, major message or reply-message of jqXHR.statusText
     alertMessage(
       jqXHR.status < 500 && { // jqXHR.status == 0 && {
-        warning: ( jqXHR.responseJSON && jqXHR.responseJSON.warning || jqXHR.responseText || message )
+        warning: (jqXHR.responseJSON && jqXHR.responseJSON.warning || jqXHR.responseText || message)
       } || {
-        errors: ( jqXHR.responseJSON && jqXHR.responseJSON.errors || jqXHR.responseText || message )
+        errors: (jqXHR.responseJSON && jqXHR.responseJSON.errors || jqXHR.responseText || message)
       },
       jqXHR);
 
@@ -220,11 +224,11 @@ function transformServerError(callbackFn) {
  ------------*/
 var Chainable = function Chainable() {
   return {
-    chain : function(next) {
+    chain: function(next) {
       var newDef = $.Deferred();
 
-      this.done( function(delivery) {
-        next(delivery||null).done(newDef.resolve);
+      this.done(function(delivery) {
+        next(delivery || null).done(newDef.resolve);
       });
 
       return newDef.promise(Chainable());
@@ -234,7 +238,10 @@ var Chainable = function Chainable() {
 
 function chainPassCall(delivery) {
   var dfd = new jQuery.Deferred();
-  dfd.resolve({rc: delivery.rc, data: delivery.data});
+  dfd.resolve({
+    rc: delivery.rc,
+    data: delivery.data
+  });
 
   return dfd.promise(Chainable());
 }
@@ -243,14 +250,20 @@ function chainAjaxCall(ajaxParams) {
   var dfd = new jQuery.Deferred();
 
   $.ajax(ajaxParams).then(
-      function (resp, status, jqXHR) {
-        dfd.resolve({rc: 0, data: resp});
-      },
-      transformServerError(function (msg) {
-        // TODO: point what happened with the URL
-        dfd.resolve({rc: 1, data: msg});
-      })
-    );
+    function(resp, status, jqXHR) {
+      dfd.resolve({
+        rc: 0,
+        data: resp
+      });
+    },
+    transformServerError(function(msg) {
+      // TODO: point what happened with the URL
+      dfd.resolve({
+        rc: 1,
+        data: msg
+      });
+    })
+  );
 
   return dfd.promise(Chainable());
 }
@@ -274,9 +287,11 @@ function requestAction4BootstrapDialog(action, dataKey, params) {
     var theUrl = ($.isFunction(action.url) ? action.url.call() : action.url).split('?');
     var actionUrl = theUrl[0] + (dataKey ? ('/' + encodeURI(dataKey)) : '');
     var actionParams = $.convertParamsFromQueryStr(theUrl.length > 1 ? encodeURI(theUrl[1]) : null);
-    $.extend(actionParams, {cb: Base64.encode(closeFn)}, params);
+    $.extend(actionParams, {
+      cb: Base64.encode(closeFn)
+    }, params);
 
-    if (! params) { // method: GET
+    if (!params) { // method: GET
       actionUrl += '?' + $.param(actionParams);
       actionParams = null;
     }
@@ -314,5 +329,5 @@ function renderCheckBox4GrailsFieldContain(contain) {
 
 function renderCheckBox(data) {
   return (data == true || data == 'true') ? '<i class="fa fa-check-square-o"></i>' :
-        (data == false || data == 'false') ? '<i class="fa fa-square-o"></i>' : data;
+    (data == false || data == 'false') ? '<i class="fa fa-square-o"></i>' : data;
 }
