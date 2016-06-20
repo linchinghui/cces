@@ -1,12 +1,9 @@
 <g:set var="embedPage" value="${params?.embed=='true'}" scope="request"/>
 <g:set var="deferredScript" value="form/materialCategory" scope="request"/>
-<g:set var="functionService" bean="functionService"/>
-<g:set var="pageTitle" value="${functionService.get('materialCategory')?.description}"/>
 <!DOCTYPE html>
 <html>
     <head>
         <meta name="layout" content="main" />
-        <title>CCES - ${pageTitle}</title>
         <asset:stylesheet src="grid"/> <%--
         <asset:stylesheet src="form/materialCategory"/> --%>
 <g:if test="${! embedPage}">

@@ -7,21 +7,19 @@
     <g:set var="modalPage" value="${true}" scope="request"/> <%--
     <g:set var="deferredScript" value="form/user" scope="request"/> --%>
 </g:else>
-<g:set var="functionService" bean="functionService"/>
-<g:set var="pageTitle" value="${functionService.get('user')?.description}-${type=='C' ? '新增' : type=='U' ? '編輯' : ''}"/>
+<g:set var="actionTitle" value="${pageTitle}-${type=='C' ? '新增' : type=='U' ? '編輯' : ''}"/>
 <g:set var="submitMehtod" value="${type=='C' ? 'POST' : type=='U' ? 'PUT' : ''}"/>
 <!DOCTYPE html>
 <html>
     <head>
         <meta name="layout" content="main" />
-        <title>CCES - ${pageTitle}</title>
         <asset:stylesheet src="form/user"/>
     </head>
     <body>
         <div class="container" role="main">
             <div class="panel panel-info"><g:if test="${modalPage}">
                 <div class="panel-heading">
-                    <div class="panel-title">${pageTitle}</div>
+                    <div class="panel-title">${actionTitle}</div>
                 </div></g:if>
                 <div class="panel-body"> <%--
                     <section class="content-header">
@@ -67,7 +65,7 @@
 $(function() {
     var editForm = $('#userForm');
 <%-- 1. title --%>
-    $('.bootstrap-dialog-title').html('${pageTitle}');
+    $('.bootstrap-dialog-title').html('${actionTitle}');
 <%-- 2. message --%>
     <g:render template="/layouts/client-message" bean="${user}"/>
 <%-- 3. form variable and submit delegation --%>

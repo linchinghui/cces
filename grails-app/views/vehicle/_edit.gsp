@@ -7,21 +7,19 @@
     <g:set var="modalPage" value="${true}" scope="request"/> <%--
     <g:set var="deferredScript" value="???" scope="request"/> --%>
 </g:else>
-<g:set var="functionService" bean="functionService"/>
-<g:set var="pageTitle" value="${functionService.get('vehicle')?.description}-${type=='C' ? '新增' : type=='U' ? '編輯' : ''}"/>
+<g:set var="actionTitle" value="${pageTitle}-${type=='C' ? '新增' : type=='U' ? '編輯' : ''}"/>
 <g:set var="submitMehtod" value="${type=='C' ? 'POST' : type=='U' ? 'PUT' : ''}"/>
 <!DOCTYPE html>
 <html>
     <head>
         <meta name="layout" content="main" />
-        <title>CCES - ${pageTitle}</title>
         <asset:stylesheet src="form/vehicle"/>
     </head>
     <body>
         <div class="container" role="main">
             <div class="panel panel-info"><g:if test="${modalPage}">
                 <div class="panel-heading">
-                    <div class="panel-title">${pageTitle}</div>
+                    <div class="panel-title">${actionTitle}</div>
                 </div></g:if>
                 <div class="panel-body"> <%--
                     <section class="content-header">
@@ -59,7 +57,7 @@
 <asset:script type='text/javascript'><%-- deferred JS here --%>
 $(function() {
     var editForm = $('#vehicleForm');
-    $('.bootstrap-dialog-title').html('${pageTitle}');
+    $('.bootstrap-dialog-title').html('${actionTitle}');
     <g:render template="/layouts/client-message" bean="${vehicle}"/>
     <g:render template="/layouts/client-submit" model="[formVar: 'editForm']"/>
     <g:render template="/layouts/client-render" model="[formVar: 'editForm']"/>

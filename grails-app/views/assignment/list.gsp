@@ -1,12 +1,9 @@
-<g:set var="deferredScript" value="form/assignment" scope="request"/><%--
-<g:set var="functionService" bean="functionService"/>
-<g:set var="pageTitle" value="${functionService.get('assignment')?.description}"/>--%>
-<g:set var="pageTitle" value="本週人員派工"/>
+<g:set var="deferredScript" value="form/assignment" scope="request"/>
+<g:set var="actionTitle" value="本週人員派工"/>
 <!DOCTYPE html>
 <html>
     <head>
         <meta name="layout" content="main" />
-        <title>CCES - ${pageTitle}</title>
         <asset:stylesheet src="grid"/>
         <asset:stylesheet src="form/assignment"/>
     </head>
@@ -38,7 +35,7 @@
                   </a>
                 </li>
                 <li class="active">
-                  <a data-toggle="mtab" data-target="#tab2" href="#"><big>${pageTitle}</big></a>
+                  <a data-toggle="mtab" data-target="#tab2" href="#"><big>${actionTitle}</big></a>
                 </li>
               </ul>
               <div class="tab-content">
@@ -46,7 +43,7 @@
                   <div class="box">
                     <div class="box-header"></div> <%--
                     <div class="box-header panel panel-default">
-                      <h3 class="box-title">${pageTitle}</h3>
+                      <h3 class="box-title">${actionTitle}</h3>
                     </div> --%>
                     <div class="box-body">
                       <span class="ajax-loader">請稍候&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
@@ -103,7 +100,7 @@
       </div>
 <asset:script type='text/javascript'><%-- deferred JS here --%>
 var server = {
-  pageTitle: '${pageTitle}',
+  pageTitle: '${actionTitle}',
   calendarTemplate: '<g:resource dir="static/assignment" file="calendar.tmpl" />',
   year: ${params?.year?:'null'},
   week: ${params?.week?:'null'},

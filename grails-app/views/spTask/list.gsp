@@ -1,11 +1,8 @@
 <g:set var="deferredScript" value="form/spTask" scope="request"/>
-<g:set var="functionService" bean="functionService"/>
-<g:set var="pageTitle" value="${functionService.get('spTask')?.description}"/>
 <!DOCTYPE html>
 <html>
     <head>
         <meta name="layout" content="main" />
-        <title>CCES - ${pageTitle}</title>
         <asset:stylesheet src="grid"/>
         <asset:stylesheet src="form/spTask"/>
     </head>

@@ -6,13 +6,10 @@
     <g:set var="modalPage" value="${true}" scope="request"/> <%--
     <g:set var="deferredScript" value="???" scope="request"/> --%>
 </g:else>
-<g:set var="functionService" bean="functionService"/>
-<g:set var="pageTitle" value="${functionService.get('material')?.description}"/>
 <!DOCTYPE html>
 <html>
     <head>
         <meta name="layout" content="main" />
-        <title>CCES - ${pageTitle}</title>
         <asset:stylesheet src="form/material"/>
     </head>
     <body>
@@ -35,18 +32,23 @@
                                 <f:with bean="material">
                                     <f:display property="category" label="類型" />
                                     <f:display property="name" label="名稱" />
-                                    <f:display property="spec" label="尺寸 | 規格" />
-                                    <f:display property="unit" label="單位" />
-                                    <f:display property="quantity" label="數量" />
-                                    <f:display property="price" label="價格" />
+                                    <f:display property="dimension" label="尺寸" />
+                                    <f:display property="texture" label="材質" />
+                                    <f:display property="spec" label="其他" /><%--label="尺寸 | 規格" />--%>
+                                    <div class="col-xs-6"><f:display property="quantity" label="數量" /></div>
+                                    <div class="col-xs-6"><f:display property="unit" label="單位" /></div>
+                                    <f:display property="price" label="價格" /><%--
                                     <f:display property="supplier" label="供應商" />
                                     <f:display property="contactPhoneNo" label="電話" />
-                                    <f:display property="registeredDate" label="登錄日期" wrapper="date" />
+                                    <f:display property="registeredDate" label="登錄日期" wrapper="date" />--%>
                                 </f:with>
                             </fieldset>
                         </g:if>
                         </g:form>
                     </section>
+                    <%-- <section class="content">
+                        TEST
+                    </section> --%>
                 </div>
             </div>
         </div>

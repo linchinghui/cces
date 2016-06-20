@@ -1,5 +1,4 @@
 <%@ page import="static com.lch.aaa.Application.*" %>
-<g:set var="authService" bean="authenticationService"/>
 <g:set var="isLoggedIn" value="${authService.isLoggedIn()}" />
 <g:set var="loginLink" value="${createLink(controller:PAGE_LOGIN-'/')}"/>
 <g:set var="logoutLink" value="${createLink(controller:PAGE_LOGOUT-'/')}"/>
@@ -18,8 +17,7 @@
           </a>
           <div class="navbar-custom-menu">
             <ul class="nav navbar-nav">
-<%-- Notifications: --%>
-<g:if test="${isLoggedIn}">
+<g:if test="${isLoggedIn}"><%-- Notifications: --%>
               <li class="dropdown notifications-menu">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                   <i class="fa fa-bell-o"></i>

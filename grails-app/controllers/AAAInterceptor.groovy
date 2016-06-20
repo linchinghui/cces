@@ -4,6 +4,8 @@ import org.springframework.security.core.context.SecurityContextHolder
 
 class AAAInterceptor {
 
+    def pages = PAGES_PERMITTED - PAGE_HOME
+
     AAAInterceptor() {
         matchAll() // .excludes uri: ~/????/
     }
@@ -31,8 +33,7 @@ class AAAInterceptor {
             params['format'] = request.format
         }
 
-        log.debug "${request.method} params : ${params}"
-        log.debug "request.format: ${request.format}"
+        log.debug "${request.method}(format:${request.format}) params : ${params}"
 
         if (session['SPRING_SECURITY_CONTEXT']?.authentication &&
             SecurityContextHolder.context.authentication == null
@@ -46,6 +47,20 @@ class AAAInterceptor {
         if ((request.forwardURI - request.contextPath) == PAGE_LOGIN && request.queryString == null) {
             session['SPRING_SECURITY_LAST_EXCEPTION'] = null
         }
+
+        if (model != null) {
+            def canSkip = pages.find {
+                view?.startsWith(it)
+            }
+            if (canSkip == null) {
+                model += [
+                    'functionService': grailsApplication.mainContext.functionService,
+                    'authService': grailsApplication.mainContext.authenticationService,
+                    'pageTitle' : grailsApplication.mainContext.functionService.get(params?.controller)
+                ]
+            }
+        }
+
         true
     }
 

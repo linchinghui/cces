@@ -2,6 +2,7 @@
     <g:if test="${embedPage}">
         <g:layoutBody />
     </g:if>
+
     <g:else>
         <div class="wrapper">
             <g:if test="${selfStyle}">
@@ -10,13 +11,16 @@
             <g:layoutBody />
         </div>
     </g:else>
+
     <g:if test="${! selfStyle}">
         <asset:javascript src="${((deferredScript?:'') - ~/.js.*$/)?:'application'}"/>
     </g:if>
+
     <asset:deferredScripts/>
 </g:if>
+
 <g:else>
-    <!doctype html>
+<!doctype html>
     <html lang="en" class="no-js">
         <head><%--
             <g:layoutHead/>--%>
@@ -24,7 +28,7 @@
             <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
             <meta http-equiv="X-UA-Compatible" content="IE=edge">
             <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-            <title><g:layoutTitle default="CCES"/></title>
+            <title><g:layoutTitle default="CCES - ${pageTitle}"/></title>
             <link rel="icon" href="${asset.assetPath(src: 'favicon.ico')}">
             <asset:stylesheet src="application"/>
             <g:if test="${! selfStyle}">
@@ -45,6 +49,7 @@
                     <g:layoutBody />
                 </g:if>
                 <g:else>
+                    <%-- <g:set var="authService" bean="authenticationService" scope="request"/> --%>
                     <g:render template="/layouts/main-header" />
                     <g:render template="/layouts/main-sidebar" />
                     <g:layoutBody />

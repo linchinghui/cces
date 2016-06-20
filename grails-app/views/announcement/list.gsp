@@ -1,11 +1,8 @@
 <g:set var="deferredScript" value="form/announcement" scope="request"/>
-<g:set var="functionService" bean="functionService"/>
-<g:set var="pageTitle" value="${functionService.get('announcement')?.description}"/>
 <!DOCTYPE html>
 <html>
     <head>
         <meta name="layout" content="main" />
-        <title>CCES - ${pageTitle}</title>
         <asset:stylesheet src="grid"/> <%--
         <asset:stylesheet src="form/announcement"/> --%>
     </head>
@@ -30,7 +27,7 @@
                     <thead>
                       <tr>
                         <th></th>
-                        <th><span class="hidden-xs">告示</span>內容</th>
+                        <th><span class="hidden-xs">公告</span>內容</th>
                         <th>公告<span class="hidden-xs">日期</span></th>
                         <th>撤榜<span class="hidden-xs">日期</span></th>
                         <th>建立<span class="hidden-xs">日期</span></th>
