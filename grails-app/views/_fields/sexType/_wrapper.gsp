@@ -4,7 +4,7 @@
   <select id="${property}" name="${property}" class="combobox" ${required?'required=true':''}>
     <option value="">M:男 F:女</option>
     <g:each in="${com.lch.cces.SexType.values()}">
-      <option value="${it.name()}">${it}</option>
+      <option value="${it.name()}" ${it==value?'selected':''}>${it}</option>
   </g:each>
   </select>
 </div>

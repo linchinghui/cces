@@ -12,7 +12,7 @@ class AssignmentController extends BaseController<Assignment> {
     }
 
     def index(Integer max) {
-        if (params?.month) {
+        if (params?.month != null) {
           listMonth(max)
         } else {
           super.index(max)

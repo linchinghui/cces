@@ -4,7 +4,7 @@
   <select id="${property}" name="${property}" class="combobox" ${required?'required=true':''}>
     <option value="">施作代碼</option>
     <g:each in="${com.lch.cces.ConstructType.values()}">
-      <option value="${it.name()}">${it.id}-${it}</option>
+      <option value="${it.name()}" ${it==value?'selected':''}>${it.id}-${it}</option>
   </g:each>
   </select>
 </div>
