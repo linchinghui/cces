@@ -356,9 +356,9 @@ function createProjectCombo(ele) {
   var combo = assignProjectList.data('combobox');
   loadProjectInfo(combo.$element);
 
-  if (server.project) {
+  if (server.projectId) {
     combo.$element.val($.map(combo.map, function(val, desc) {
-      return val == server.project ? desc : null;
+      return val == server.projectId ? desc : null;
     }));
     combo.lookup().select();
   }

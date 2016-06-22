@@ -18,7 +18,7 @@
               <div class="clearfix">
                 <div class="projectContainer col-sm-6 col-xs-12">
                   <label for="project" class="hidden-xs">專案:</label>
-                  <div class="assignProject form-control">
+                  <div class="assignProject form-control" data-placeholder="search for...">
                     <span class="text-center"><span class="ajax-loader">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></span>
                   </div>
                 </div>
@@ -104,7 +104,7 @@ var server = {
   calendarTemplate: '<g:resource dir="static/assignment" file="calendar.tmpl" />',
   year: ${params?.year?:'null'},
   week: ${params?.week?:'null'},
-  project: '${params?.project}'
+  projectId: '${params?.projectId}'
 };
 
 $(function() {

@@ -6,25 +6,28 @@ var detailSec = $('.detail');
 
 function createDetailTab() {
   $('#list-role tbody').on('click', 'tr', function() {
-    var roleId = roleList.row(this).data().id;
+    if ($(this).hasClass('selected')) {
+      detailSec
+        .html('<div class="text-center"><span class="ajax-loader">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></div>')
+        .load(server.detailLink, {
+            'embed': true,
+            'roleId': roleList.row(this).data().id
+          },
+          function(response, status, jqXHR) {
+            if (jqXHR.status >= 400) {
+              detailSec.empty();
+              alertError({}, jqXHR);
+            }
+          });
 
-    detailSec
-      .html('<div class="text-center"><span class="ajax-loader">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></div>')
-      .load(server.detailLink, {
-          'embed': true,
-          'roleId': roleId
-        },
-        function(response, status, jqXHR) {
-          if (jqXHR.status >= 400) {
-            detailSec.empty();
-            alertError({}, jqXHR);
-          }
-        });
+    } else {
+      detailSec.empty();
+    }
   });
 }
 
 function renderDisplayHit4DataTables(settings, start, end, max, total, pre) {
-  return '<span class="small pull-right">點選後進行權限設定</span>';
+  return '<span class="small pull-right">點選後檢視權限設定</span>';
 }
 
 function modifyDataRequested(result, editForm) {
@@ -48,7 +51,7 @@ function createDataTable() {
     initComplete: function(settings, data) { // this == DataTable()
       initialized4DataTables(settings, data);
       resizeDataTablesInSecs(roleList);
-      detailSec.empty();
+      // detailSec.empty();
     },
     extButtons: {
       // copy: true

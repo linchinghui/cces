@@ -124,7 +124,7 @@ function organizeAlertMessage(data, propName, jqXHR, replyCode, callbackFn) {
       }
       if (jqXHR.getResponseHeader('content-type') && jqXHR.getResponseHeader('content-type').indexOf('text/html') >=
         0) {
-        return data[propName];
+        return data[propName] ? data[propName] : jqXHR.statusText;
       }
     }
 
