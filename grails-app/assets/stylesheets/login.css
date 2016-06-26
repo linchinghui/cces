@@ -2,6 +2,10 @@
 *  require application
 *= require_self
 */
+html, body {
+  margin: 0;
+  height: 100%;
+}
 
 body {
   margin-top: 5%;

@@ -1,6 +1,9 @@
 /*
 *= require_self
 */
+#projectForm .col-xs-6 {
+  padding-left: 0;
+}
 table.table-bordered:not([id="list-project"]) > thead > tr:first-child > th[rowspan="1"] {
   border-bottom-width: 0;
 }
