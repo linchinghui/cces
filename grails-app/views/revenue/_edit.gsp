@@ -40,8 +40,8 @@
                                         <f:display property="project" label="專案" />
                                     </g:else>
                                     <f:field property="invoieNo" label="發票號碼" />
-                                    <f:field property="invoiceDate" label="發票日期" widget="date" />
-                                    <f:field property="recordDate" label="入帳日期" widget="date" /><%--
+                                    <div class="col-xs-6"><f:field property="invoiceDate" label="發票日期" widget="date" /></div>
+                                    <div class="col-xs-6"><f:field property="recordDate" label="入帳日期" widget="date" /></div><%--
                                     <f:field property="modifiedDate" label="調改日期" widget="datetime" />
                                     <f:field property="note" label="註記" />--%>
                                 </f:with>
@@ -62,7 +62,7 @@ $(function() {
     <g:render template="/layouts/client-message" bean="${revenue}"/>
     <g:render template="/layouts/client-submit" model="[formVar: 'editForm']"/>
     <g:render template="/layouts/client-render" model="[formVar: 'editForm']"/>
-    $('input[type=text],textarea').filter(':enabled:visible:first').each( function(idx,ele) { $(ele).focus(); } );
+    editForm.find('input[type=text],textarea').filter(':not([name=""]):enabled:visible:first').focus();
 });
 </asset:script>
     </body>

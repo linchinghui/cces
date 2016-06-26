@@ -42,11 +42,11 @@
                                     </g:else>
                                     <f:field property="empName" label="姓名" widget-placeholder="輸入中英文說明" />
                                     <f:field property="sex" label="姓別" />
-                                    <f:field property="employedDate" label="到職日" widget="date" value="${type=='C'?java.util.Calendar.instance:worker.employedDate}"/>
-                                    <f:field property="resignedDate" label="離職日" widget="date" />
+                                    <div class="col-xs-6"><f:field property="employedDate" label="到職日" widget="date" value="${type=='C'?java.util.Calendar.instance:worker.employedDate}"/></div>
+                                    <div class="col-xs-6"><f:field property="resignedDate" label="離職日" widget="date" /></div>
                                     <f:field property="avatarCopied" label="大頭照繳交日" widget="date" />
-                                    <f:field property="idCardCopied" label="身分證影本繳交日" widget="date" />
-                                    <f:field property="nhiIcCardCopied" label="健保卡影本繳交日" widget="date" />
+                                    <div class="col-xs-6"><f:field property="idCardCopied" label="身分證影本繳交日" widget="date" /></div>
+                                    <div class="col-xs-6"><f:field property="nhiIcCardCopied" label="健保卡影本繳交日" widget="date" /></div>
                                     <f:field property="diplomaCopied" label="畢業證書影本繳交日" widget="date" />
                                     <f:field property="oorCopied" label="退伍令影本繳交日" widget="date" />
                                     <f:field property="gdlCopied" label="駕照影本繳交日" widget="date" />
@@ -68,7 +68,7 @@ $(function() {
     <g:render template="/layouts/client-message" bean="${worker}"/>
     <g:render template="/layouts/client-submit" model="[formVar: 'editForm']"/>
     <g:render template="/layouts/client-render" model="[formVar: 'editForm']"/>
-    $('input[type=text],textarea').filter(':enabled:visible:first').each( function(idx,ele) { $(ele).focus(); } );
+    editForm.find('input[type=text],textarea').filter(':not([name=""]):enabled:visible:first').focus();
 });
 </asset:script>
     </body>

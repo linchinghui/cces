@@ -80,7 +80,7 @@ $(function() {
 <%-- 5: render and transform --%>
     <g:render template="/layouts/client-render" model="[formVar: 'editForm', renderCheckbox: true]"/>
 <%-- 6: post-render--%>
-    $('input[type=text],textarea').filter(':enabled:visible:first').each( function(idx,ele) { $(ele).focus(); } );
+    editForm.find('input[type=text],textarea').filter(':not([name=""]):enabled:visible:first').focus();
 });
 </asset:script>
     </body>

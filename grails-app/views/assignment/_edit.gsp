@@ -89,7 +89,7 @@ $(function() {
     <g:render template="/layouts/client-message" bean="${assignment}"/>
     <g:render template="/layouts/client-submit" model="[formVar: 'editForm']"/>
     <g:render template="/layouts/client-render" model="[formVar: 'editForm', renderCheckbox: true]"/>
-    $('input[type=text],textarea').filter(':enabled:visible:first').each( function(idx,ele) { $(ele).focus(); } );
+    editForm.find('input[type=text],textarea').filter(':not([name=""]):enabled:visible:first').focus();
 });
 </asset:script>
     </body>

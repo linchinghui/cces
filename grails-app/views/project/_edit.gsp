@@ -44,8 +44,8 @@
                                     <f:field property="constructPlace" label="工程地點" />
                                     <f:field property="projectType" label="工作型態" />
                                     <f:field property="constructType" label="施作方式" />
-                                    <f:field property="durationBegin" label="期程-開始" widget="date" />
-                                    <f:field property="durationEnd" label="期程-結束" widget="date" />
+                                    <div class="col-xs-6"><f:field property="durationBegin" label="期程-開始" widget="date" /></div>
+                                    <div class="col-xs-6"><f:field property="durationEnd" label="期程-結束" widget="date" /></div>
                                     <f:field property="contact" label="合約 | 委外編號" />
                                     <f:field property="customer" label="甲方" />
                                     <f:field property="contactPerson" label="聯絡人" />
@@ -69,7 +69,7 @@ $(function() {
     <g:render template="/layouts/client-message" bean="${project}"/>
     <g:render template="/layouts/client-submit" model="[formVar: 'editForm']"/>
     <g:render template="/layouts/client-render" model="[formVar: 'editForm']"/>
-    $('input[type=text],textarea').filter(':enabled:visible:first').each( function(idx,ele) { $(ele).focus(); } );
+    editForm.find('input[type=text],textarea').filter(':not([name=""]):enabled:visible:first').focus();
 });
 </asset:script>
     </body>

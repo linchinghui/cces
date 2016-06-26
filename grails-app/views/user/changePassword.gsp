@@ -133,7 +133,6 @@ $(function() {
 	// 	});
 	// });
 --%>
-    $('input[type=text],textarea').filter(':enabled:visible:first').focus();
 });
 </asset:script>
 </body>
