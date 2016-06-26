@@ -65,7 +65,7 @@ if (typeof jQuery !== 'undefined') {
   message prompt
  ----------------*/
 function log(m) {
-  console.log.apply(console, [m]);
+  if (m) console.log.apply(console, [m]);
 }
 
 function alertInformation(data, jqXHR) { // jqXHR might be undefined

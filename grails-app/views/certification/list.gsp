@@ -1,7 +1,5 @@
 <g:set var="embedPage" value="${params?.embed=='true'}" scope="request"/>
 <g:set var="deferredScript" value="form/certification" scope="request"/>
-<g:set var="functionService" bean="functionService"/>
-<g:set var="pageTitle" value="${functionService.get('certification')?.description}"/>
 <!DOCTYPE html>
 <html>
     <head>

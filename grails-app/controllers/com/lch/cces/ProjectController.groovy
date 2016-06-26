@@ -11,11 +11,11 @@ class ProjectController extends BaseController<Project> {
         super(Project)
     }
 
-	def brief() {
+    def brief() {
         boolean hasReadAuth = isReadAuthorized()
         if (! hasReadAuth) {
-                unAuthorized()
-                // return
+            unAuthorized()
+            // return
         }
         log.debug "project brief: ${params}"
 
@@ -23,21 +23,21 @@ class ProjectController extends BaseController<Project> {
 
         // ignore ajax or not
         if (params?.format in ['all', 'form', null]) {
-			def countName = "${resourceName}Count".toString()
-	        def dataCount = hasReadAuth ? countResources() : java.math.BigInteger.ZERO
-	        // represent xml or json by viewer
+            def countName = "${resourceName}Count".toString()
+            def dataCount = hasReadAuth ? countResources() : java.math.BigInteger.ZERO
+            // represent xml or json by viewer
             respond dataList, view: 'brief', model: [ (countName): dataCount ]
 
         } else {
-	        respond dataList
+            respond dataList
         }
     }
 
-	def projectTypes() {
+    def projectTypes() {
         respond ProjectType.map()
-	}
+    }
 
-	def constructTypes() {
+    def constructTypes() {
         respond ConstructType.map()
-	}
+    }
 }

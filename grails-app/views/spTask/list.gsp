@@ -50,7 +50,8 @@
                             <th><span class="hidden-xs">工程</span>地點</th>
                             <th>機台<span class="hidden-xs">型號</span></th>
                             <th><span class="hidden-xs">工作</span>人員</th>
-                            <th><span class="hidden-xs">施作</span>方式</th>
+                            <th><span class="hidden-xs">工作</span>型態</th>
+                            <th>施作<span class="hidden-xs">方式</span></th>
                             <th>備註</th>
                           </tr>
                         </thead>
@@ -60,6 +61,7 @@
                             <td>竹科</td>
                             <td>X-123</td>
                             <td>黃之應</td>
+                            <td>點工</td>
                             <td>高架</td>
                             <td></td>
                           </tr>
@@ -86,7 +88,7 @@
       </div>
 <asset:script type='text/javascript'><%-- deferred JS here --%>
 var server = {
-  project: '${params?.project}',
+  projectId: '${params?.projectId}',
   workedDate: '${params?.workedDate}'
 };
 

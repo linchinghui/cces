@@ -44,31 +44,29 @@ function createDetailDataTable() {
         url: prepareUrl('delete'),
         callback: removeDetailDataRequested
       }
-    })
+    }), { //1
+      data: 'role'
+    }, { //2
+      orderable: false,
+      data: 'function'
+    }, { //3
+      render: renderCheck4DataTables,
+      orderable: false,
+      data: 'canRead'
+    }, { //4
+      render: renderCheck4DataTables,
+      orderable: false,
+      data: 'canWrite'
+    }, { //5
+      render: renderCheck4DataTables,
+      orderable: false,
+      data: 'canDelete'
+    }
   ];
 
-  if (!serverParams.embed) {
-    dataCols.push({ //1
-      data: 'role'
-    });
+  if (serverParams.embed) {
+    dataCols.splice(1, 1);
   }
-
-  dataCols.push({ //2
-    orderable: false,
-    data: 'function'
-  }, { //3
-    render: renderCheck4DataTables,
-    orderable: false,
-    data: 'canRead'
-  }, { //4
-    render: renderCheck4DataTables,
-    orderable: false,
-    data: 'canWrite'
-  }, { //5
-    render: renderCheck4DataTables,
-    orderable: false,
-    data: 'canDelete'
-  });
 
   var dataSettings = {
     processing: true,
@@ -77,13 +75,7 @@ function createDetailDataTable() {
     ajax: {
       url: contextPath + '/api/privileges.json',
       data: function(params, settings) {
-        return $.extend({
-          draw: params.draw,
-          max: params.length,
-          offset: params.start,
-          sort: (params.order ? settings.aoColumns[params.order[0].column].data : 'id'),
-          order: (params.order ? params.order[0].dir : 'asc')
-        }, serverParams);
+        return $.extend(serverParams, $.fn.dataTable.defaults.ajax.data(params, settings));
       }
     },
     initComplete: serverParams.embed ? null : function(settings, data) { // this == DataTable()

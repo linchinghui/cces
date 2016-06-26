@@ -4,14 +4,18 @@
 //= require application
 //* require_tree grid
 //= require plugins/datatables-all
+//* require plugins/datatables
 //= require_self
 
-function reloadDataTables(dt, arg) {
-  // ajust columns first, then reload
+function reloadDataTables(dataTable, arg) {
   if ($.isFunction(arg)) {
-    dt.columns.adjust().ajax.reload(arg);
+    // dataTable.columns.adjust().ajax.reload(arg);
+    dataTable.ajax.reload(arg);
   } else {
-    dt.columns.adjust().ajax.reload(null, arg && true);
+    // dataTable.columns.adjust().ajax.reload(null, arg && true);
+    dataTable.ajax.reload(function() {
+      $(window).resize();
+    }, arg && true);
   }
 }
 
@@ -372,7 +376,8 @@ $.fn.dataTable.ext.errMode = function(settings, tn, errors) {
     var jqXHR = dataTable.context[0].jqXHR;
     // var tableContainer = $(dataTable.table().container());
 
-    if (typeof jqXHR !== undefined && jqXHR.status >= 400) {
+    // if (typeof jqXHR !== undefined && jqXHR.status >= 400) {
+    if (jqXHR && jqXHR.status >= 400) {
       // WTF v1.10.10: set bDestroying to invoke _fnReDraw()
       settings.bDestroying = true;
       dataTable.clear().draw();

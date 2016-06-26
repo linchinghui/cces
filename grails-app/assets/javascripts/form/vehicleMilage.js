@@ -67,25 +67,22 @@ function createMilageTable() {
         url: prepareUrl('delete'),
         callback: removeMilageRequested
       }
-    })
-  ];
-
-  if (!serverParams.embed) {
-    dataCols.push({ //1
+    }), { //1
       data: 'project'
-    });
-    dataCols.push({ //2
+    }, { //2
       render: renderDate4DataTables(),
       data: 'dispatchedDate'
-    });
-  }
+    }, { //3
+      data: 'vehicle'
+    }, { //4
+      orderable: false,
+      data: 'km'
+    }
+  ];
 
-  dataCols.push({ //3
-    data: 'vehicle'
-  }, { //4
-    orderable: false,
-    data: 'km'
-  });
+  if (serverParams.embed) {
+    dataCols.splice(1, 2);
+  }
 
   var dataSettings = {
     processing: true,
@@ -95,14 +92,7 @@ function createMilageTable() {
       url: contextPath + '/api/vehicleMilages.json',
       data: function(params, settings) {
         settings.ajax.fake = serverParams.embed && !(serverParams.projectId || false);
-
-        return $.extend({
-          draw: params.draw,
-          max: params.length,
-          offset: params.start,
-          sort: (params.order ? settings.aoColumns[params.order[0].column].data : 'id'),
-          order: (params.order ? params.order[0].dir : 'asc')
-        }, getMilageParameters());
+        return $.extend({}, $.fn.dataTable.defaults.ajax.data(params, settings), getMilageParameters());
       },
       onDone: function() {
         if (serverParams.embed && !(serverParams.projectId || false)) {
@@ -143,10 +133,8 @@ function createMilageTable() {
   });
 
   vehicleMilageList = $('#list-vehicleMilage').DataTable(
-    serverParams.embed ? $.extend({}, {
-      dom: 'Bftri',
-      pageLength: 100,
-      scrollY: true
+    serverParams.embed ? $.extend({
+      dom: 'Bftri'
     }, dataSettings) : dataSettings
   ).buttons().disable();
 }

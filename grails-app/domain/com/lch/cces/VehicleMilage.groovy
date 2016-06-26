@@ -12,12 +12,12 @@ class VehicleMilage implements Serializable, Comparable<VehicleMilage> {
 	Vehicle				vehicle			// 車輛
 	Integer				km = 0			// 里程數(公里)
 
-    static constraints = {
+	static constraints = {
 		project			blank: false, nullable: false
 		dispatchedDate	blank: false, nullable: false
 		vehicle			blank: false, nullable: false
 		km				blank: false, nullable: false, min: 1
-    }
+	}
 
 	static mapping = {
 		version			false

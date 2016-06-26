@@ -26,7 +26,7 @@ class AssignmentController extends BaseController<Assignment> {
                 return
         }
       // render view: 'listMonth' //, model: [ (resourceName): createResource() ]
-      render view: '/notfound'
+      render view: Application.PAGE_NOTFOUND
     }
 
     private void resolveParameters(params) {

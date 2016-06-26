@@ -5,7 +5,7 @@ import org.grails.databinding.BindingFormat
 
 @Resource(uri = '/api/suppliers', superClass = SupplierController)
 class Supplier {
-	
+
 	String				id				// primary key, 一律小寫
 	String				code			// 供應商代碼, alias of id
 	String				name			// 供應商名稱
@@ -20,7 +20,7 @@ class Supplier {
 	// @BindingFormat("yyyy/MM/dd'Z'")
 	// Date				createdDate		// 建檔日期
 
-    static constraints = {
+	static constraints = {
 		code			blank: false, nullable: false, maxSize: 10, unique: true
 		name			blank: false, nullable: false, maxSize: 40
 		ubn				blank: false, nullable: false, maxSize: 8
@@ -31,7 +31,7 @@ class Supplier {
 		contactPhoneNo	blank: true, nullable: true, maxSize: 12
 		// registeredDate	blank: false, nullable: false
 		// createdDate		blank: false, nullable: false
-    }
+	}
 
 	static mapping = {
 		version			false
@@ -39,7 +39,6 @@ class Supplier {
 
 		id				generator: 'assigned', name: 'code'
 	}
-
 
 	String getCode() {
 		this.id
