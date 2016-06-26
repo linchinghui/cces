@@ -4,7 +4,7 @@
   <select id="${property}" name="${property}" class="combobox" ${required?'required=true':''}>
     <option value="">工作型態</option>
     <g:each in="${com.lch.cces.ProjectType.values()}">
-      <option value="${it.name()}">${it.id}-${it}</option>
+      <option value="${it.name()}" ${it==value?'selected':''}>${it.id}-${it}</option>
   </g:each>
   </select>
 </div>

@@ -4,7 +4,7 @@
   <select id="${property}" name="${property}" class="combobox" ${required?'required=true':''}>
     <option value="">輸入員工編號</option>
     <g:each in="${com.lch.cces.Worker.list()}">
-      <option value="${it.id}">${it.empNo}-${it.empName}</option>
+      <option value="${it.id}" ${it==value?'selected':''}>${it.empNo}-${it.empName}</option>
     </g:each>
   </select>
 </div>

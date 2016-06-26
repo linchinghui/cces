@@ -4,7 +4,7 @@
   <select id="${property}" name="${property}" class="combobox" ${required?'required=true':''}>
     <option value="">輸入車號</option>
     <g:each in="${com.lch.cces.Vehicle.list()}">
-      <option value="${it.id}">${it.plateNo}</option>
+      <option value="${it.id}" ${it==value?'selected':''}>${it.plateNo}</option>
     </g:each>
   </select>
 </div>
