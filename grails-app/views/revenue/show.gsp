@@ -33,8 +33,8 @@
                                 <f:with bean="revenue">
                                     <f:display property="project" label="專案" />
                                     <f:display property="invoieNo" label="發票號碼" />
-                                    <f:display property="invoiceDate" label="發票日期" wrapper="date" />
-                                    <f:display property="recordDate" label="入帳日期" wrapper="date" /><%--
+                                    <div class="col-xs-6"><f:display property="invoiceDate" label="發票日期" wrapper="date" /></div>
+                                    <div class="col-xs-6"><f:display property="recordDate" label="入帳日期" wrapper="date" /></div><%--
                                     <f:display property="modifiedDate" label="調改日期" widget="datetime" />
                                     <f:display property="note" label="註記" />--%>
                                 </f:with>

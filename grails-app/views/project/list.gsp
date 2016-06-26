@@ -45,11 +45,11 @@
                         <th rowspan="2">
                             施作<span class="hidden-sm visible-md visible-lg">方式</span>
                         </th>
-                        <th colspan="2">期程</th>
-
-                        <th rowspan="2">
-                            合約<br class="hidden-xs visible-sm visible-md visible-lg"><br class="hidden-sm">
-                            委外<br class="hidden-xs visible-sm visible-md">編號
+                        <th colspan="2">
+                          期程
+                        </th>
+                        <th>
+                          <span class="hidden-xs">合約</span>
                         </th>
                         <th colspan="4">
                             <span class="visible-xs visible-sm">...</span>
@@ -59,6 +59,7 @@
                       <tr>
                         <th>開始</th>
                         <th>結束</th>
+                        <th><span class="visible-xs">合約</span>委外<br class="hidden-xs visible-sm visible-md">編號</th>
                         <th>甲方</th>
                         <th>聯絡人</th>
                         <th>手機</th>

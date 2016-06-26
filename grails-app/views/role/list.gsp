@@ -16,7 +16,7 @@
           <div class="row">
             <div class="col-xs-12">
               <ul class="nav nav-tabs">
-                <li class="active"><a href="#" data-target="#" data-toggle="tab"><big>角色</big></a></li>
+                <li class="active"><a href="#" data-target="#" data-toggle="tab"><big>${pageTitle}</big></a></li>
               </ul>
               <div class="box">
                 <div class="box-header"></div>
