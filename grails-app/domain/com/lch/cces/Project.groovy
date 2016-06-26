@@ -40,7 +40,13 @@ class Project {
 		constructCode	blank: false, nullable: false, inList: ConstructType*.id
 		constructType	blank: false, nullable: false
 		durationBegin	blank: true, nullable: true
-		durationEnd		blank: true, nullable: true
+		durationEnd		blank: true, nullable: true, validator: { val, obj ->
+			def isOK = obj.id == null || val == null || val >= obj.durationBegin
+			if (! isOK) {
+				return ['default.invalid.endDate', val?.format('yyyy/MM/dd'), obj.durationBegin?.format('yyyy/MM/dd')]
+			}
+			return isOK
+		}
 		contact			blank: true, nullable: true, maxSize: 36
 		customer		blank: true, nullable: true, maxSize: 40
 		contactPerson	blank: true, nullable: true, maxSize: 40
