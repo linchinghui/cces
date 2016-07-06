@@ -9,21 +9,25 @@ base.functionList = [
 //	[name: 'dbconsole', description: '資料庫主控台'], // icon:'fa fa-database'
 //	[name: 'console', description: '系統主控台'], // icon:'fa fa-laptop'
 
-	[name: 'announcement', description: '告示'],
+	[name: 'announcement', description: '公告', aided: true],
 	[name: 'function', description: '作業項目'],
-	[name: 'user', description: '帳號/角色'], // '使用者'
-	[name: 'role', description: '角色/授權'],
-	[name: 'privilege', description: '作業權限'],
+	[name: 'user', description: '作業帳號'],
+	[name: 'role', description: '作業授權-角色'],
+	[name: 'privilege', description: '作業授權-權限'],
 
-	[name: 'worker', description: '人員資料'],
-	[name: 'vehicle', description: '車輛資料'],
-	[name: 'vehicleBrand', description: '車輛廠牌', aided: true],
-	[name: 'material', description: '材料表'],
-	[name: 'materialCategory', description: '材料類型', aided: true],
+	[name: 'worker', description: '員工資料-員工'],
+	[name: 'vehicle', description: '車輛資料-車輛'],
+	[name: 'vehicleBrand', description: '車輛資料-廠牌', aided: true],
+	[name: 'supplier', description: '供應商資料-供應商'],
+	[name: 'material', description: '材料表-材料'],
+	[name: 'materialCategory', description: '材料表-類型', aided: true],
+	[name: 'materialSupplier', description: '材料表-供應來源', aided: true],
 
-	[name: 'project', description: '專案表'],
-	[name: 'assignment', description: '人員配置/派工'],
-	[name: 'task', description: '一般作業紀錄'],
-	[name: 'spTask', description: '園區機台作業紀錄'],
-	[name: 'vehicleMilage', description: '用車', aided: true]
+	[name: 'revenue', description: '收款資料'],
+
+	[name: 'project', description: '專案表-專案'],
+	[name: 'assignment', description: '人員配置-本週人員派工'],
+	[name: 'task', description: '一般施作紀錄'],
+	[name: 'spTask', description: '園區施作紀錄-人員'],
+	[name: 'vehicleMilage', description: '園區施作紀錄-用車', aided: true]
 ]
