@@ -31,8 +31,8 @@
                             </g:if>
                             <fieldset class="form-group">
                                 <f:with bean="vehicleBrand">
-                                    <f:display property="name" label="代碼" />
-                                    <f:display property="description" label="廠牌" />
+                                    <f:display property="name" label="廠牌代碼" />
+                                    <f:display property="description" label="廠牌名稱" />
                                 </f:with>
                             </fieldset>
                         </g:if>

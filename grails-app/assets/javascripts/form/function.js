@@ -40,7 +40,7 @@ function createDataTable() {
       }
     ],
     order: [
-        [1, 'asc']
+        [2, 'asc']
       ] // prev: 'aaSorting'
 
   }).buttons().disable();

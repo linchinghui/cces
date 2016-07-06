@@ -28,7 +28,7 @@ function initializeRoleTypes() {
   });
 }
 
-function renderDisplayHit4DataTables(settings, start, end, max, total, pre) {
+function renderDisplayHint4DataTables(settings, start, end, max, total, pre) {
   var rolesStr = $.map(roleMap, function(roleDesc, roleId) {
     return '<span>' + roleId + '&nbsp;:&nbsp;' + roleDesc + '</span>';
   }).join(',&nbsp;&nbsp;');
@@ -85,7 +85,7 @@ function createDataTable() {
     ajax: {
       url: contextPath + '/api/users.json'
     },
-    infoCallback: renderDisplayHit4DataTables,
+    infoCallback: renderDisplayHint4DataTables,
     initComplete: function(settings, data) { // this == DataTable()
       initialized4DataTables(settings, data);
       resizeDataTablesInSecs(userList);

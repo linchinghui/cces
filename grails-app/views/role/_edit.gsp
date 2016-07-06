@@ -34,12 +34,12 @@
                             <fieldset class="form-group">
                                 <f:with bean="role">
                                     <g:if test="${type=='C'}">
-                                        <f:field property="code" label="角色代碼" widget-placeholder="輸入(不含符號的)英文字母" />
+                                        <f:field property="code" label="角色代碼" widget-placeholder="英文字母" />
                                     </g:if>
                                     <g:else>
                                         <f:display property="code" label="角色代碼" />
                                     </g:else>
-                                    <f:field property="description" label="角色名稱" widget-placeholder="輸入中英文說明" />
+                                    <f:field property="description" label="角色名稱" />
                                 </f:with>
                             </fieldset>
                             <fieldset class="buttons">
@@ -56,9 +56,8 @@ $(function() {
     var editForm = $('#roleForm');
     $('.bootstrap-dialog-title').html('${actionTitle}');
     <g:render template="/layouts/client-message" bean="${role}"/>
-    <g:render template="/layouts/client-submit" model="[formVar: 'editForm']"/>
     <g:render template="/layouts/client-render" model="[formVar: 'editForm']"/>
-    editForm.find('input[type=text],textarea').filter(':not([name=""]):enabled:visible:first').focus();
+	<g:render template="/layouts/client-submit" model="[formVar: 'editForm']"/>
 });
 </asset:script>
     </body>

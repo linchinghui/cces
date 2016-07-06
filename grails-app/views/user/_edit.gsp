@@ -34,12 +34,12 @@
                             <fieldset class="form-group">
                                 <f:with bean="user">
                                     <g:if test="${type=='C'}">
-                                        <f:field property="username" label="登入帳號" widget-placeholder="輸入英文字母" />
+                                        <f:field property="username" label="登入帳號" widget-placeholder="英文字母(不含符號)" />
                                     </g:if>
                                     <g:else>
                                         <f:display property="username" label="登入帳號" />
                                     </g:else>
-                                    <f:field property="fullname" label="姓名" widget-placeholder="輸入中英文姓名" />
+                                    <f:field property="fullname" label="姓名" />
                                     <g:if test="${type=='C'}">
                                         <f:field property="password" label="密碼">
                                             <g:passwordField name="password"/>
@@ -63,24 +63,22 @@
         </div>
 <asset:script type='text/javascript'><%-- deferred JS here --%>
 $(function() {
-    var editForm = $('#userForm');
-<%-- 1. title --%>
-    $('.bootstrap-dialog-title').html('${actionTitle}');
-<%-- 2. message --%>
-    <g:render template="/layouts/client-message" bean="${user}"/>
-<%-- 3. form variable and submit delegation --%>
-    <g:render template="/layouts/client-submit" model="['formVar':'editForm']"/>
-<%-- 4: pre-render--%>
+    var editForm = $('#userForm');<%--
+ 1. title --%>
+    $('.bootstrap-dialog-title').html('${actionTitle}');<%--
+ 2. message --%>
+    <g:render template="/layouts/client-message" bean="${user}"/><%--
+ 3: pre-render--%>
     <g:if test="${type=='C'}">
-        editForm.find('div.fieldcontain input[name="password"]').prop('required',true);
+    editForm.find('div.fieldcontain input[name="password"]').prop('required',true);
     </g:if>
     <g:else>
-        editForm.find('div.fieldcontain').has('input[name="password"]').remove();
-    </g:else>
-<%-- 5: render and transform --%>
-    <g:render template="/layouts/client-render" model="[formVar: 'editForm', renderCheckbox: true]"/>
-<%-- 6: post-render--%>
-    editForm.find('input[type=text],textarea').filter(':not([name=""]):enabled:visible:first').focus();
+    editForm.find('div.fieldcontain').has('input[name="password"]').remove();
+    </g:else><%--
+ 4: render and transform --%>
+    <g:render template="/layouts/client-render" model="[formVar: 'editForm', renderCheckbox: true]"/><%--
+ 5. form variable and submit delegation & post-render --%>
+    <g:render template="/layouts/client-submit" model="['formVar':'editForm']"/>
 });
 </asset:script>
     </body>

@@ -18,7 +18,7 @@ class Revenue {
 
 	static constraints = {
 		project		blank: false, nullable: false
-		invoieNo	blank: false, nullable: false
+		invoieNo	blank: false, nullable: false, unique: true
 		invoiceDate	blank: false, nullable: false
 		recordDate	blank: true, nullable: true, validator: { val, obj ->
 			def isOK = obj.id == null || val == null || val >= obj.invoiceDate

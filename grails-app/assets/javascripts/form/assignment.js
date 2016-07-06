@@ -71,8 +71,9 @@ function getLastParameters(params) {
 /*---------------
   DataTables
  ----------------*/
-function renderDisplayHit4DataTables(settings, start, end, max, total, pre) {
-  return lastDate ? '過濾條件: 週' + assignCLNDR.daysOfTheWeek[lastDate.day()] : '';
+function renderDisplayHint4DataTables(settings, start, end, max, total, pre) {
+  return '<div class="head">' + (lastDate ? '過濾條件: 週' + assignCLNDR.daysOfTheWeek[lastDate.day()] : '') +
+    '</div><div class="foot small text-danger">新增相同人員時，視為修改</div>';
 }
 
 function removeDataRequested(result) {
@@ -140,7 +141,7 @@ function createDataTable() {
         // ,onReloadClicked: function() {
         // }
     },
-    infoCallback: renderDisplayHit4DataTables,
+    infoCallback: renderDisplayHint4DataTables,
     initComplete: function(settings, data) { // this == DataTable()
       initialized4DataTables(settings, data);
       resizeDataTablesInSecs(assignDataTable);
@@ -210,8 +211,8 @@ function highLightFocusDate() {
   // var dtBody = $('div[class="dataTables_scrollBody"] tr.child');
   // dtBody.find('span[class*="'+ highLightClass +'"]').removeClass(highLightClass);
 
-  var dtInfo = $('#list-assignment_info');
-  dtInfo.addClass('text-hide'); //.removeClass(highLightClass);
+  var dtHeadInfo = $('#list-assignment_info');
+  dtHeadInfo.addClass('text-hide'); //.removeClass(highLightClass);
 
   if (lastDateClass) {
     $(lastDateClass).removeClass('selected');
@@ -233,7 +234,7 @@ function highLightFocusDate() {
 
       lastDateClass = currDateClass;
       $(lastDateClass).addClass('selected');
-      dtInfo.removeClass('text-hide'); //.addClass(highLightClass);
+      dtHeadInfo.removeClass('text-hide'); //.addClass(highLightClass);
       lastDateAssigned = true;
     }
   }

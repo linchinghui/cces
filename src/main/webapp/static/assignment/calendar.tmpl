@@ -1,10 +1,10 @@
 <div class="clndr-controls hidden-xs">
-    <div class="week-previous">&nbsp;&lt; <%= intervalStart.subtract(1, 'day').format('MM/DD') %></div>
-    <div class="week-current"><u>&nbsp;回本週&nbsp;</u></div>
-    <div class="week-next"><%= intervalEnd.add(1, 'day').format('MM/DD') %> &gt;&nbsp;</div>
+    <div class="week-previous btn btn-sm">&nbsp;&lt; <%= intervalStart.subtract(1, 'day').format('MM/DD') %></div>
+    <div class="week-current btn btn-sm btn-default">&nbsp;回本週&nbsp;</div>
+    <div class="week-next btn btn-sm"><%= intervalEnd.add(1, 'day').format('MM/DD') %> &gt;&nbsp;</div>
 </div>
 <div class="clndr-grid">
-    <div class="week-previous visible-xs vcenter pull-left">&nbsp;&nbsp;&lt;<br><%= intervalStart.format('MM/DD') %></div>
+    <div class="week-previous visible-xs vcenter pull-left btn btn-default">&lt;<br><%= intervalStart.format('MM/DD') %></div>
     <div class="days-of-the-week vcenter pull-left">
         <% _.each(daysOfTheWeek, function(day) { %>
             <div class="header-day"><%= day %></div>
@@ -15,5 +15,5 @@
         <% }); %>
         </div>
     </div>
-    <div class="week-next visible-xs vcenter pull-left"><span class="pull-right"><span class="pull-right">&gt;&nbsp;&nbsp;</span><br><%= intervalEnd.format('MM/DD') %></span></div>
+    <div class="week-next visible-xs vcenter pull-left btn btn-default"><span class="pull-right"><span class="pull-right">&gt;&nbsp;&nbsp;&nbsp;</span><br><%= intervalEnd.format('MM/DD') %></span></div>
 </div>

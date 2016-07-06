@@ -9,11 +9,11 @@
         <link rel="icon" href="${asset.assetPath(src: 'favicon.ico')}">
         <asset:stylesheet src="application"/>
         <g:layoutHead/>
-        <asset:stylesheet src="skin/almsaeedstudio"/>
+        <asset:stylesheet src="skin/almsaeedstudio"/><%--
 <!--[if lt IE 9]>
         <asset:javascript src="iefix/html5shiv-3.7.3"/>
         <asset:javascript src="iefix/respond-1.4.2"/>
-<![endif]-->
+<![endif]-->--%>
     </head>
     <body class="hold-transition skin-blue sidebar-mini">
         <div id="spinner" class="spinner" style="display:none;"><g:message code="spinner.alt" default="Loading&hellip;"/></div>

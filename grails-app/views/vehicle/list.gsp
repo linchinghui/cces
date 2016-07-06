@@ -20,7 +20,7 @@
                 </li>
                 <li>
                   <a data-toggle="mtab" data-target="#tab2" href="${createLink([controller:'vehicleBrand', action:'index', params:[embed:true]])}">
-                    <big>${functionService.get('vehicleBrand')?.description}</big>
+                    <big>${functionService.getPageTitle('vehicleBrand')}</big>
                   </a>
                 </li>
               </ul>

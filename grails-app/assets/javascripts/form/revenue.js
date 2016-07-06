@@ -25,6 +25,10 @@ function addDataRequest(evt, dt, node, config) {
   });
 }
 
+function renderDisplayHint4DataTables(settings, start, end, max, total, pre) {
+  return '<span class="small pull-right text-danger">(相同專案可新增多筆發票)</span>';
+}
+
 function createDataTable() {
   revenueList = $('#list-revenue').DataTable({
     processing: true,
@@ -33,6 +37,7 @@ function createDataTable() {
     ajax: {
       url: contextPath + '/api/revenues.json'
     },
+    infoCallback: renderDisplayHint4DataTables,
     initComplete: function(settings, data) { // this == DataTable()
       initialized4DataTables(settings, data);
       resizeDataTablesInSecs(revenueList);

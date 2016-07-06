@@ -27,12 +27,12 @@
                     <thead>
                       <tr>
                         <th></th>
-                        <th>代碼</th>
-                        <th>供應商名稱</th>
-                        <th>統一編號</th>
+                        <th><span class="hidden-xs hidden-sm hidden-md">供應商</span>代碼</th>
+                        <th><span class="hidden-xs hidden-sm hidden-md">供應商</span>名稱</th>
+                        <th>統<span class="hidden-xs hidden-sm hidden-md">一</span>編<span class="hidden-xs hidden-sm hidden-md">號</span></th>
                         <th>電話</th>
-                        <th>傳真電話</th>
-                        <th>電子郵件信箱</th>
+                        <th>傳真<span class="hidden-xs hidden-sm hidden-md">電話</span></th>
+                        <th><span class="hidden-xs hidden-sm hidden-md">電子郵件</span>信箱</th>
                         <th>聯絡人</th>
                         <th>聯絡電話</th>
                       </tr>

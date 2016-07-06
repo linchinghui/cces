@@ -116,13 +116,13 @@
       </header>
 <asset:script type='text/javascript'><%-- deferred JS here --%>
 $(function() {
-  $('#logout').click(function(e) {
-    e.preventDefault();
+  $('#logout').click(function(evt) {
+    evt.preventDefault();
     $('<form>', {method: 'POST', action: e.target.href}).appendTo(document.body).submit();
   });
 
-  $('#changePassword').click(function(e) {
-    e.preventDefault();
+  $('#changePassword').click(function(evt) {
+    evt.preventDefault();
     window.location.href = e.target.href + '?${PARAMETER_TARGET_URL}=' + decodeURI(window.location.pathname);
 <%--
   // AJAX way:

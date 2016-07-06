@@ -30,7 +30,7 @@
                             </g:if>
                             <fieldset class="form-group">
                                 <f:with bean="supplier">
-                                    <f:display property="code" label="代碼" />
+                                    <f:display property="code" label="供應商代碼" />
                                     <f:display property="name" label="供應商名稱" />
                                     <f:display property="ubn" label="統一編號" />
                                     <f:display property="phoneNo" label="電話" />

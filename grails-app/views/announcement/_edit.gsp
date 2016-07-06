@@ -58,9 +58,8 @@ $(function() {
     var editForm = $('#announcementForm');
     $('.bootstrap-dialog-title').html('${actionTitle}');
     <g:render template="/layouts/client-message" bean="${announcement}"/>
-    <g:render template="/layouts/client-submit" model="[formVar: 'editForm']"/>
     <g:render template="/layouts/client-render" model="[formVar: 'editForm']"/>
-    editForm.find('input[type=text],textarea').filter(':not([name=""]):enabled:visible:first').focus();
+	<g:render template="/layouts/client-submit" model="[formVar: 'editForm']"/>
 });
 </asset:script>
     </body>

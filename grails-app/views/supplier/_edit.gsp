@@ -34,12 +34,12 @@
                             <fieldset class="form-group">
                                 <f:with bean="supplier">
                                     <g:if test="${type=='C'}">
-                                        <f:field property="code" label="代碼" widget-placeholder="輸入(不含符號的)英文字母" />
+                                        <f:field property="code" label="供應商代碼" widget-placeholder="英文字母(不含符號)" />
                                     </g:if>
                                     <g:else>
-                                        <f:display property="code" label="代碼" />
+                                        <f:display property="code" label="供應商代碼" />
                                     </g:else>
-                                    <f:field property="name" label="供應商名稱" widget-placeholder="輸入中英文字母" />
+                                    <f:field property="name" label="供應商名稱" />
                                     <f:field property="ubn" label="統一編號" />
                                     <f:field property="phoneNo" label="電話" />
                                     <f:field property="faxNo" label="傳真" />
@@ -62,9 +62,8 @@ $(function() {
     var editForm = $('#supplierForm');
     $('.bootstrap-dialog-title').html('${actionTitle}');
     <g:render template="/layouts/client-message" bean="${supplier}"/>
-    <g:render template="/layouts/client-submit" model="[formVar: 'editForm']"/>
     <g:render template="/layouts/client-render" model="[formVar: 'editForm']"/>
-    editForm.find('input[type=text],textarea').filter(':not([name=""]):enabled:visible:first').focus();
+	<g:render template="/layouts/client-submit" model="[formVar: 'editForm']"/>
 });
 </asset:script>
     </body>

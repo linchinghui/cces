@@ -27,8 +27,8 @@
                     <thead>
                       <tr>
                         <th></th>
-                        <th>代碼</th>
-                        <th>作業項目</th>
+                        <th>作業代碼</th>
+                        <th>作業名稱</th>
                       </tr>
                     </thead>
                     <tbody>

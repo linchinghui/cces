@@ -34,7 +34,7 @@
                             <fieldset class="form-group">
                                 <f:with bean="project">
                                     <g:if test="${type=='C'}">
-                                        <f:field property="code" label="專案代碼" widget-placeholder="輸入(不含符號的)英文字母" />
+                                        <f:field property="code" label="專案代碼" widget-placeholder="英文字母(不含符號)" />
                                     </g:if>
                                     <g:else>
                                         <f:display property="code" label="專案代碼" />
@@ -67,9 +67,8 @@ $(function() {
     var editForm = $('#projectForm');
     $('.bootstrap-dialog-title').html('${actionTitle}');
     <g:render template="/layouts/client-message" bean="${project}"/>
-    <g:render template="/layouts/client-submit" model="[formVar: 'editForm']"/>
     <g:render template="/layouts/client-render" model="[formVar: 'editForm']"/>
-    editForm.find('input[type=text],textarea').filter(':not([name=""]):enabled:visible:first').focus();
+	<g:render template="/layouts/client-submit" model="[formVar: 'editForm']"/>
 });
 </asset:script>
     </body>

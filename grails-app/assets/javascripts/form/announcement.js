@@ -25,6 +25,10 @@ function addDataRequest(evt, dt, node, config) {
   });
 }
 
+function renderDisplayHint4DataTables(settings, start, end, max, total, pre) {
+  return '<span class="small pull-right text-danger">(公告日期後並於撤榜日期前的資訊，會顯示於首頁中)</span>';
+}
+
 function createDataTable() {
   announcementList = $('#list-announcement').DataTable({
     processing: true,
@@ -33,6 +37,7 @@ function createDataTable() {
     ajax: {
       url: contextPath + '/api/announcements.json'
     },
+    infoCallback: renderDisplayHint4DataTables,
     initComplete: function(settings, data) { // this == DataTable()
       initialized4DataTables(settings, data);
       resizeDataTablesInSecs(announcementList);

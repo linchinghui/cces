@@ -115,7 +115,7 @@
             <div class="form-group">
               <label for="icode" class="col-md-3 control-label">Invitation Code</label>
               <div class="col-md-8">
-                <input class="form-control" name="icode" placeholder="Invitation Code   " type="text">
+                <input class="form-control" name="icode" placeholder="Invitation Code" type="text">
               </div>
             </div>--%>
             <div class="form-group"><%-- Button --%>

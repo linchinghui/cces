@@ -31,7 +31,7 @@
 							</g:if>
 							<fieldset class="form-group">
 								<f:with bean="materialCategory">
-									<f:display property="code" label="代碼" />
+									<f:display property="code" label="類型代碼" />
 									<f:display property="description" label="類型名稱" />
 								</f:with>
 							</fieldset>

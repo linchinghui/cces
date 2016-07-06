@@ -287,6 +287,7 @@ function requestAction4BootstrapDialog(action, dataKey, params) {
     var theUrl = ($.isFunction(action.url) ? action.url.call() : action.url).split('?');
     var actionUrl = theUrl[0] + (dataKey ? ('/' + encodeURI(dataKey)) : '');
     var actionParams = $.convertParamsFromQueryStr(theUrl.length > 1 ? encodeURI(theUrl[1]) : null);
+
     $.extend(actionParams, {
       cb: Base64.encode(closeFn)
     }, params);

@@ -91,10 +91,10 @@ $(function() {
         window.location.href = "${params[PARAMETER_TARGET_URL]?:createLink(mapping:'home')}";
 	});
 </g:if>
-  $('input[name=password]').focus();
-<%--
-	$('button[name=cancel]').click(function(e){
-        e.preventDefault();
+	$('input[name=password]').focus();<%--
+
+	$('button[name=cancel]').click(function(evt){
+        evt.preventDefault();
 	});
 --%><%--
 	function encodePwd() {
@@ -106,14 +106,14 @@ $(function() {
 			}
 		});
 	}
-	// $('#form-password').submit(function(e) {
+	// $('#form-password').submit(function(evt) {
 	// 	console.log(this);
-	// 	e.preventDefault();
+	// 	evt.preventDefault();
 	// 	return false;
 	// });
 
-	// $('form button[type=submit]').click(function(e){
-	//	e.preventDefault();
+	// $('form button[type=submit]').click(function(evt){
+	//	evt.preventDefault();
 
 	// 	var jqxhr = $.ajax({
 	// 		type: 'POST',

@@ -1,5 +1,5 @@
-<g:set var="deferredScript" value="form/assignment" scope="request"/>
-<g:set var="actionTitle" value="本週人員派工"/>
+<g:set var="deferredScript" value="form/assignment" scope="request"/><%--
+<g:set var="actionTitle" value="本週人員派工"/>--%>
 <!DOCTYPE html>
 <html>
     <head>
@@ -18,7 +18,7 @@
               <div class="clearfix">
                 <div class="projectContainer col-sm-6 col-xs-12">
                   <label for="project" class="hidden-xs">專案:</label>
-                  <div class="assignProject form-control" data-placeholder="search for...">
+                  <div class="assignProject form-control" data-placeholder="專案代碼或名稱關鍵字">
                     <span class="text-center"><span class="ajax-loader">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></span>
                   </div>
                 </div>
@@ -35,7 +35,7 @@
                   </a>
                 </li>
                 <li class="active">
-                  <a data-toggle="mtab" data-target="#tab2" href="#"><big>${actionTitle}</big></a>
+                  <a data-toggle="mtab" data-target="#tab2" href="#"><big><%--${actionTitle}--%>${pageTitle}</big></a>
                 </li>
               </ul>
               <div class="tab-content">

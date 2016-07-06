@@ -5,29 +5,38 @@ var roleList;
 var detailSec = $('.detail');
 
 function createDetailTab() {
-  $('#list-role tbody').on('click', 'tr', function() {
-    if ($(this).hasClass('selected')) {
-      detailSec
-        .html('<div class="text-center"><span class="ajax-loader">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></div>')
-        .load(server.detailLink, {
-            'embed': true,
-            'roleId': roleList.row(this).data().id
-          },
-          function(response, status, jqXHR) {
-            if (jqXHR.status >= 400) {
-              detailSec.empty();
-              alertError({}, jqXHR);
-            }
-          });
+  var actionFlag = null;
 
+  $('#list-role tbody').on('click', 'tr', function(evt, action) {
+    if (action) {
+      actionFlag = action.type;
+      return;
+    }
+    if ($(this).hasClass('selected')) {
+      if (actionFlag != 'edit') {
+        detailSec
+          .html('<div class="text-center"><span class="ajax-loader">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></div>')
+          .load(server.detailLink, {
+              'embed': true,
+              'roleId': roleList.row(this).data().id
+            },
+            function(response, status, jqXHR) {
+              if (jqXHR.status >= 400) {
+                detailSec.empty();
+                alertError({}, jqXHR);
+              }
+            });
+      }
     } else {
       detailSec.empty();
     }
+
+    actionFlag = null;
   });
 }
 
-function renderDisplayHit4DataTables(settings, start, end, max, total, pre) {
-  return '<span class="small pull-right">點選後檢視權限設定</span>';
+function renderDisplayHint4DataTables(settings, start, end, max, total, pre) {
+  return '<span class="small pull-right text-danger">點選後，可檢視權限設定 (系統管理者有預設權限，餘者須進行設定)</span>';
 }
 
 function modifyDataRequested(result, editForm) {
@@ -47,7 +56,7 @@ function createDataTable() {
         detailSec.empty();
       }
     },
-    infoCallback: renderDisplayHit4DataTables,
+    infoCallback: renderDisplayHint4DataTables,
     initComplete: function(settings, data) { // this == DataTable()
       initialized4DataTables(settings, data);
       resizeDataTablesInSecs(roleList);

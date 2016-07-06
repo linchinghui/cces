@@ -1,4 +1,3 @@
-<%--<g:set var="embedPage" value="${params?.embed=='true'}" scope="request"/>--%>
 <g:set var="deferredScript" value="form/role" scope="request"/>
 <!DOCTYPE html>
 <html>

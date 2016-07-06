@@ -19,7 +19,7 @@
 					<thead>
 					<tr>
 						<th></th>
-						<th>代碼</th>
+						<th>類型代碼</th>
 						<th>類型名稱</th>
 					</tr>
 					</thead>
@@ -49,7 +49,7 @@
 							<thead>
 							<tr>
 								<th></th>
-								<th>代碼</th>
+								<th>類型代碼</th>
 								<th>類型名稱</th>
 							</tr>
 							</thead>

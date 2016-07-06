@@ -34,12 +34,13 @@
                             <fieldset class="form-group">
                                 <f:with bean="function">
                                     <g:if test="${type=='C'}">
-                                        <f:field property="name" label="代碼" widget-placeholder="輸入(不含符號的)英文字母" />
+                                        <f:field property="name" label="作業代碼" widget-placeholder="英文字母(不含符號)" />
                                     </g:if>
                                     <g:else>
-                                        <f:display property="name" label="代碼" />
+                                        <f:display property="name" label="作業代碼" />
                                     </g:else>
-                                    <f:field property="description" label="作業項目" widget-placeholder="輸入中英文說明" />
+                                    <f:field property="description" label="作業名稱" widget-placeholder="ext: 材料表-供應商" />
+									<div class="small text-danger">格式: { 選單名稱 } [ - { 作業標頭 } ]</div>
                                 </f:with>
                             </fieldset>
                             <fieldset class="buttons">
@@ -56,9 +57,8 @@ $(function() {
     var editForm = $('#functionForm');
     $('.bootstrap-dialog-title').html('${actionTitle}');
     <g:render template="/layouts/client-message" bean="${function}"/>
-    <g:render template="/layouts/client-submit" model="[formVar: 'editForm']"/>
     <g:render template="/layouts/client-render" model="[formVar: 'editForm']"/>
-    editForm.find('input[type=text],textarea').filter(':not([name=""]):enabled:visible:first').focus();
+	<g:render template="/layouts/client-submit" model="[formVar: 'editForm']"/>
 });
 </asset:script>
     </body>

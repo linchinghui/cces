@@ -1,8 +1,10 @@
-<g:if test="${dialogPage || embedPage}">
+<g:if test="${dialogPage || embedPage}"><%--
+	<g:javascript>
+var contextPath='${request.contextPath}';
+	</g:javascript>--%>
     <g:if test="${embedPage}">
         <g:layoutBody />
     </g:if>
-
     <g:else>
         <div class="wrapper">
             <g:if test="${selfStyle}">
@@ -11,14 +13,11 @@
             <g:layoutBody />
         </div>
     </g:else>
-
     <g:if test="${! selfStyle}">
         <asset:javascript src="${((deferredScript?:'') - ~/.js.*$/)?:'application'}"/>
     </g:if>
-
     <asset:deferredScripts/>
 </g:if>
-
 <g:else>
 <!doctype html>
     <html lang="en" class="no-js">
@@ -35,9 +34,9 @@
                 <asset:stylesheet src="skin/almsaeedstudio"/>
             </g:if>
             <g:layoutHead/>
-<g:javascript>
-    var contextPath='${request.contextPath}';
-</g:javascript><%--
+			<g:javascript>
+var contextPath='${request.contextPath}';
+			</g:javascript><%--
 <!--[if lt IE 9]>
 <asset:javascript src="iefix/html5shiv-3.7.3"/>
 <asset:javascript src="iefix/respond-1.4.2"/>

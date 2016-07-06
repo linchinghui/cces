@@ -34,13 +34,13 @@
                             <fieldset class="form-group">
                                 <f:with bean="vehicle">
                                     <g:if test="${type=='C'}">
-                                        <f:field property="plateNo" label="車號" widget-placeholder="輸入中英文說明" />
+                                        <f:field property="plateNo" label="車號" widget-placeholder="英數字字母" />
                                     </g:if>
                                     <g:else>
                                         <f:display property="plateNo" label="車號" />
                                     </g:else>
                                     <f:field property="brand" label="廠牌" />
-                                    <f:field property="model" label="型號" widget-placeholder="輸入中英文說明" />
+                                    <f:field property="model" label="型號" />
                                     <f:field property="inspectedDate" label="驗車日期" widget="date" />
                                     <f:field property="note" label="備註" />
                                 </f:with>
@@ -59,9 +59,8 @@ $(function() {
     var editForm = $('#vehicleForm');
     $('.bootstrap-dialog-title').html('${actionTitle}');
     <g:render template="/layouts/client-message" bean="${vehicle}"/>
-    <g:render template="/layouts/client-submit" model="[formVar: 'editForm']"/>
     <g:render template="/layouts/client-render" model="[formVar: 'editForm']"/>
-    editForm.find('input[type=text],textarea').filter(':not([name=""]):enabled:visible:first').focus();
+	<g:render template="/layouts/client-submit" model="[formVar: 'editForm']"/>
 });
 </asset:script>
     </body>

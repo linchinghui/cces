@@ -30,8 +30,8 @@
                             </g:if>
                             <fieldset class="form-group">
                                 <f:with bean="function">
-                                    <f:display property="name" label="代碼" />
-                                    <f:display property="description" label="作業項目" />
+                                    <f:display property="name" label="作業代碼" />
+                                    <f:display property="description" label="作業名稱" />
                                 </f:with>
                             </fieldset>
                         </g:if>

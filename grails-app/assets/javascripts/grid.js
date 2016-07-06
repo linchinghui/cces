@@ -180,16 +180,29 @@ function addSearchHighlight(dataTable) {
   });
 }
 
+function reFireClick(evt, theCell, type) {
+  // var theCell = this.parentNode.parentNode;
+  var theRow = theCell.parentNode;
+
+  // evt.preventDefault();
+  // $(theCell).delay(500).trigger('click'); // un-toggle control detail
+  // if ($(theRow).hasClass('selected')) {
+  $(theCell).delay(500).trigger('click', {
+    type: type
+  }); // un-toggle control detail
+  // } else {
+  //	$(theRow).addClass('selected');
+  // }
+}
+
 function createRemoveCellButtom(cellEle, dataKey, action) {
   if (/null(\||)/.test(dataKey)) {
     $(cellEle).addClass('disabled');
     return;
   }
 
-  cellEle.click(function() {
-    var theCell = this.parentNode.parentNode;
-    // var theRow = theCell.parentNode;
-    $(theCell).delay(500).trigger('click'); // un-toggle control detail
+  cellEle.click(function(evt) {
+    reFireClick(evt, this.parentNode.parentNode, action.type);
 
     new BootstrapDialog({
       size: BootstrapDialog.SIZE_SMALL,
@@ -216,11 +229,10 @@ function createRemoveCellButtom(cellEle, dataKey, action) {
   });
 }
 
-function createEditCellButtom(cellEle, dataKey, action) {
-  cellEle.click(function() {
-    var theCell = this.parentNode.parentNode;
-    // var theRow = theCell.parentNode;
-    $(theCell).delay(500).trigger('click'); // un-toggle control detail
+function createEditCellButtom(cellEle, dataKey, action /*, infoOnly*/ ) {
+  cellEle.click(function(evt) {
+    /*if (! infoOnly)*/
+    reFireClick(evt, this.parentNode.parentNode, action.type);
 
     BootstrapDialog.show({
       title: action.title,
@@ -234,7 +246,8 @@ function createInfoCellButtom(cellEle, dataKey, action) {
     $(cellEle).addClass('disabled');
     return;
   }
-  createEditCellButtom(cellEle, dataKey, action);
+
+  createEditCellButtom(cellEle, dataKey, action /*, true*/ );
 }
 
 function renderDefaultAlterationCellWithId4DataTables(requestActions) {

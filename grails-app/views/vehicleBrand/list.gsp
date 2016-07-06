@@ -19,8 +19,8 @@
                     <thead>
                       <tr>
                         <th></th>
-                        <th>代碼</th>
-                        <th>廠牌</th>
+                        <th>廠牌代碼</th>
+                        <th>廠牌名稱</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -49,8 +49,8 @@
                     <thead>
                       <tr>
                         <th></th>
-                        <th>代碼</th>
-                        <th>廠牌</th>
+                        <th>廠牌代碼</th>
+                        <th>廠牌名稱</th>
                       </tr>
                     </thead>
                     <tbody>

@@ -21,10 +21,6 @@ function getMilageParameters() {
   }
 }
 
-function getQueryMilageString() {
-  return (serverParams.embed ? '?' + $.param(getMilageParameters()) : '');
-}
-
 function removeMilageRequested(result) {
   reloadDataTables(vehicleMilageList);
 }
@@ -49,13 +45,11 @@ function addMilageRequest(evt, dt, node, config) {
 
 function prepareUrl(actionType) {
   return function() {
-    return contextPath + '/vehicleMilage/' + actionType + getQueryString();
+    return contextPath + '/vehicleMilage/' + actionType + (serverParams.embed ? '?' + $.param(getMilageParameters()) : '');
   }
 }
 
 function createMilageTable() {
-  var qryStr = getQueryMilageString();
-
   var dataCols = [ //0
     renderDefaultAlterationCellWithId4DataTables({
       edit: {

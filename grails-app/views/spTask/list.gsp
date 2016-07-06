@@ -17,7 +17,7 @@
               <div class="clearfix">
                 <div class="projectContainer col-sm-6 col-xs-12">
                   <label for="project">專案:</label>
-                  <div class="assignProject form-control">
+                  <div class="assignProject form-control" data-placeholder="專案代碼或名稱關鍵字">
                     <span class="text-center"><span class="ajax-loader">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></span>
                   </div>
                 </div>
@@ -27,11 +27,11 @@
               </div>
               <ul class="nav nav-tabs">
                 <li class="active">
-                  <a data-toggle="mtab" data-target="#tab1" href="#"><big>人員</big></a>
+                  <a data-toggle="mtab" data-target="#tab1" href="#"><big>${pageTitle}</big></a>
                 </li>
                 <li>
                   <a data-toggle="mtab" data-target="#tab2" href="${createLink([controller:'vehicleMilage', action:'index'])}">
-                    <big>${functionService.get('vehicleMilage')?.description}</big>
+                    <big>${functionService.getPageTitle('vehicleMilage')}</big>
                   </a>
                 </li>
               </ul>
