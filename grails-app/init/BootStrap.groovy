@@ -88,6 +88,7 @@ class BootStrap {
 				if (! u) {
 					u = new User(
 						username: user,
+						fullname: user.toUpperCase(),
 						password: user,
 						enabled: true,
 						accountExpired: false,
