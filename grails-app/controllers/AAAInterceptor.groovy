@@ -52,11 +52,12 @@ class AAAInterceptor {
             def canSkip = pages.find {
                 view?.startsWith(it)
             }
+
             if (canSkip == null) {
                 model += [
                     'functionService': grailsApplication.mainContext.functionService,
                     'authService': grailsApplication.mainContext.authenticationService,
-                    'pageTitle' : grailsApplication.mainContext.functionService.get(params?.controller)
+                    'pageTitle' : params?.controller ? grailsApplication.mainContext.functionService.getPageTitle(params?.controller).toString() : ''
                 ]
             }
         }
