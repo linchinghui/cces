@@ -13,7 +13,7 @@
 <html>
     <head>
         <meta name="layout" content="main" />
-        <asset:stylesheet src="form/material"/>
+        <asset:stylesheet src="form/materialSupplier"/>
     </head>
     <body>
         <div class="container" role="main">
@@ -23,27 +23,35 @@
                 </div></g:if>
                 <div class="panel-body"> <%--
                     <section class="content-header">
-                        <g:render template="/layouts/server-message" bean="${material}"/>
+                        <g:render template="/layouts/server-message" bean="${materialSupplier}"/>
                     </section> --%>
                     <section class="content">
-                        <g:form resource="${material}" method="${submitMehtod}" role="form" class="form-horizontal" name="materialForm">
-                        <g:if test="${material}">
+                        <g:form resource="${materialSupplier}" method="${submitMehtod}" role="form" class="form-horizontal" name="materialSupplierForm">
+                        <g:if test="${materialSupplier}">
                             <g:if test="${_csrf?.parameterName}">
                               <input name='${_csrf?.parameterName}' type='hidden' value='${_csrf?.token}'/>
                             </g:if>
                             <fieldset class="form-group">
-                                <f:with bean="material">
-                                    <f:field property="category" label="材料類型" />
-                                    <f:field property="name" label="材料名稱" /><%-- <f:field property="spec" label="尺寸 | 規格" />--%>
-                                    <f:field property="dimension" label="尺寸" />
-                                    <f:field property="texture" label="材質" />
-                                    <f:field property="spec" label="其他" />
-                                    <div class="col-xs-6"><f:field property="quantity" label="數量" /></div>
-                                    <div class="col-xs-6"><f:field property="unit" label="單位" /></div>
-                                    <f:field property="price" label="價格" /><%--
-                                    <f:field property="supplier" label="供應商" />
-                                    <f:field property="contactPhoneNo" label="電話" />
-                                    <f:field property="registeredDate" label="登錄日期" widget="date" value="${type=='C'?java.util.Calendar.instance:material.registeredDate}"/>--%>
+                                <f:with bean="materialSupplier">
+									<g:if test="${type=='C' && params?.embed!='true'}">
+										<f:field property="material" label="材料" />
+									</g:if>
+									<g:else>
+										<f:display property="material" label="材料" />
+									</g:else>
+									<g:if test="${type=='C'}">
+										<div class="col-xs-6"><f:field property="supplier" label="供應商" /></div>
+										<div class="col-xs-6"><f:field property="brand" label="廠牌" /></div>
+									</g:if>
+									<g:else>
+										<div class="col-xs-6"><f:display property="supplier" label="供應商" /></div>
+										<div class="col-xs-6"><f:display property="brand" label="廠牌" /></div>
+									</g:else>
+									<div class="col-xs-6"><f:field property="purchasedDate" label="購買日期" widget="date" /></div>
+									<div class="col-xs-6"><f:field property="purchasedPrice" label="購買價格" /></div>
+									<f:field property="saleman" label="業務員" />
+									<div class="col-xs-6"><f:field property="phoneNo" label="電話" /></div>
+									<div class="col-xs-6"><f:field property="faxNo" label="傳真電話" /></div>
                                 </f:with>
                             </fieldset>
                             <fieldset class="buttons">
@@ -57,10 +65,10 @@
         </div>
 <asset:script type='text/javascript'><%-- deferred JS here --%>
 $(function() {
-    var editForm = $('#materialForm');
+    var editForm = $('#materialSupplierForm');
     $('.bootstrap-dialog-title').html('${actionTitle}');
-    <g:render template="/layouts/client-message" bean="${material}"/>
-    <g:render template="/layouts/client-render" model="[formVar: 'editForm']"/>
+    <g:render template="/layouts/client-message" bean="${materialSupplier}"/>
+    <g:render template="/layouts/client-render" model="[formVar: 'editForm', renderCheckbox: true]"/>
 	<g:render template="/layouts/client-submit" model="[formVar: 'editForm']"/>
 });
 </asset:script>

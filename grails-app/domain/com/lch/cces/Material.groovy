@@ -15,7 +15,7 @@ class Material {
 	Integer				quantity		// 數量
 	BigDecimal			price			// 價格
 
-	// static hasMany = [suppliers: Supplier]
+	static hasMany = [suppliers: Supplier]
 
 	// String			supplier		// 供應商
 	// String			contactPhoneNo	// 聯絡電號
@@ -32,7 +32,7 @@ class Material {
 		quantity		blank: false, nullable: false, size: 0..99999, min: 0
 		price			blank: true, nullable: true, size: 0..999999, min: BigDecimal.ZERO
 
-		// suppliers		joinTable: [key: 'material_id', column: 'supplier_id'], lazy: true // false
+		suppliers		joinTable: [key: 'material_id', column: 'supplier_id'], lazy: true // false
 
 		// supplier		blank: true, nullable: true, maxSize: 40
 		// contactPhoneNo	blank: true, nullable: true, maxSize: 12

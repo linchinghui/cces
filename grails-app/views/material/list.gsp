@@ -20,7 +20,7 @@
                 </li>
                 <li>
                   <a data-toggle="mtab" data-target="#tab2" href="${createLink([controller:'materialCategory',action:'index',params:[embed:true]])}">
-                    <big>${functionService.get('materialCategory')?.description}</big>
+                    <big>${functionService.getPageTitle('materialCategory')}</big>
                   </a>
                 </li>
               </ul>
@@ -36,8 +36,8 @@
                         <thead>
                           <tr>
                             <th></th>
-                            <th>類別</th>
-                            <th>名稱</th>
+                            <th><span class="hidden-xs hidden-sm hidden-md">材料</span>類別</th>
+                            <th><span class="hidden-xs hidden-sm hidden-md">材料</span>名稱</th>
                             <th>尺寸<%--<br class="hidden-xs">規格--%></th>
                             <th>材質</th>
                             <th>其他</th>
@@ -68,6 +68,7 @@
                       </table>
                     </div>
                   </div>
+                  <div class="detail"></div>
                 </div>
                 <div id="tab2" class="tab-pane fade">
                   <div class="box">
@@ -87,8 +88,13 @@
         </section>
       </div>
 <asset:script type='text/javascript'><%-- deferred JS here --%>
+var server = {
+  detailLink: '${createLink([controller:"materialSupplier", action:"index"])}'
+};
+
 $(function() {
   <g:render template="/layouts/client-message" bean="${material}"/>
+  createDetailTab();
   createDataTable();
   createTabs();
 });

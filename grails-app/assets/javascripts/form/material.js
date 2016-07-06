@@ -2,6 +2,40 @@
 //= require_self
 
 var materialList;
+var detailSec = $('.detail');
+
+function createDetailTab() {
+  var actionFlag = null;
+
+  $('#list-material tbody').on('click', 'tr', function(evt, action) {
+    if (action) {
+      actionFlag = action.type;
+      return;
+    }
+    if ($(this).hasClass('selected') /*&& actionFlag != 'show'*/ ) {
+      if (actionFlag != 'show') {
+        var thisRow = materialList.row(this);
+        detailSec
+          .html('<div class="text-center"><span class="ajax-loader">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></div>')
+          .load(server.detailLink, {
+              'embed': true,
+              'materialId': thisRow.data().id
+            },
+            function(response, status, jqXHR) {
+              if (jqXHR.status >= 400) {
+                detailSec.empty();
+                alertError({}, jqXHR);
+              }
+            });
+      }
+
+    } else {
+      detailSec.empty();
+    }
+
+    actionFlag = null;
+  });
+}
 
 function createTabs() {
   $('.content a[data-toggle="mtab"]').click(function(e) {
@@ -29,16 +63,23 @@ function createTabs() {
   });
 }
 
+function renderDisplayHint4DataTables(settings, start, end, max, total, pre) {
+  return '<span class="small pull-right text-danger">點選後, 可檢視材料供應設定</span>';
+}
+
 function removeDataRequested(result) {
   reloadDataTables(materialList);
+  // detailSec.empty();
 }
 
 function modifyDataRequested(result, editForm) {
   reloadDataTables(materialList);
+  // detailSec.empty();
 }
 
 function addDataRequested(result, editForm) {
   reloadDataTables(materialList);
+  // detailSec.empty();
 }
 
 function addDataRequest(evt, dt, node, config) {
@@ -57,11 +98,16 @@ function createDataTable() {
     serverSide: true,
     deferRender: true,
     ajax: {
-      url: contextPath + '/api/materials.json'
+      url: contextPath + '/api/materials.json',
+      onReloadClicked: function() {
+        detailSec.empty();
+      }
     },
+    infoCallback: renderDisplayHint4DataTables,
     initComplete: function(settings, data) { // this == DataTable()
       initialized4DataTables(settings, data);
       resizeDataTablesInSecs(materialList);
+      // detailSec.empty();
     },
     extButtons: {
       copy: true
