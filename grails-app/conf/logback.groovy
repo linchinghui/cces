@@ -12,11 +12,11 @@ import ch.qos.logback.core.rolling.RollingFileAppender
 import static ch.qos.logback.classic.Level.*
 
 def logPattern = '%date{yyyy/MM/dd HH:mm:ss.SSS} ' +
-                  '%-5level ' +
-                  '[%thread] ' +
-                  '%-32logger{24} ' + // other format: %-24.32logger
-                  '- ' +
-                  '%msg%n'
+            	'%-5level ' +
+                '[%thread] ' +
+                '%-33logger{24} ' + // other format: %-24.33logger
+                '- ' +
+                '%msg%n'
 
 def targetDir = BuildSettings.TARGET_DIR
 def config = com.lch.aaa.Application.loadConfiguration('logging.groovy')
@@ -58,8 +58,14 @@ appender('GRAILS', FileAppender) { // RollingFileAppender
   }
 }
 
-['grails.app', 'org.grails', 'org.springframework.security', 'org.springframework.boot.autoconfigure.security'].each {
+['grails.app', 'org.grails'].each {
+  logger(it, WARN, ['GRAILS'], false)
+}
+['org.springframework.security', 'org.springframework.boot.autoconfigure.security'].each {
   logger(it, (config.log.sys.level ?: WARN), ['GRAILS'], false)
+}
+['org.grails.web.servlet', 'org.grails.spring'].each {
+	logger(it, OFF, [], false) // DISABLE
 }
 
 

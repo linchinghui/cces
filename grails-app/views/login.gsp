@@ -35,10 +35,10 @@
               <div class='alert alert-danger'>${lastException.message}</div>
           </g:if>
 
-          <form name="form-signin" class="form-horizontal" role="form" action="${loginLink}" method='POST'>
+          <form name="form-signin" class="form-horizontal" role="form" action="${loginLink}" method='POST'><%-- enctype="multipart/form-data">
             <g:if test="${_csrf?.parameterName}">
               <input name='${_csrf?.parameterName}' type='hidden' value='${_csrf?.token}'/>
-            </g:if>
+		  </g:if>--%>
             <div class="input-group col-lg-offset-2 col-md-offset-2 col-sm-offset-2 col-xs-offset-1 col-lg-8 col-md-8 col-sm-8 col-xs-10">
               <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
               <input id="username" class="form-control" name="username" value="" placeholder="Username" type="text">
@@ -89,11 +89,10 @@
           <g:if test="${lastException}">
               <div class='alert alert-danger'>${lastException.message}</div>
           </g:if>--%>
-          <form name="form-signup" class="form-horizontal" role="form" action='/signup' method='POST'>
+          <form name="form-signup" class="form-horizontal" role="form" action='/signup' method='POST'><%-- enctype="multipart/form-data">
             <g:if test="${_csrf?.parameterName}">
               <input name='${_csrf?.parameterName}' type='hidden' value='${_csrf?.token}'/>
-            </g:if>
-
+		  </g:if>--%>
             <div class="form-group">
               <label for="email" class="col-md-3 control-label">Email</label>
               <div class="col-md-8">

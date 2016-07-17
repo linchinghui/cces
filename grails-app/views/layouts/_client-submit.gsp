@@ -1,5 +1,5 @@
-<%-- place this in script tag: --%>
-<g:if test="${params?.cb}">
+<%-- place this in script tag:
+ --%><g:if test="${params?.cb}">
 ${formVar}.submit(function (evt) {
 	evt.preventDefault();
 
@@ -17,7 +17,7 @@ ${formVar}.submit(function (evt) {
 		error: transformServerError()
 	});
 });
-</g:if>
-setTimeout(function() {
+</g:if><%-- focusing first editable field
+--%>setTimeout(function() {
 	editForm.find('input[type=text],textarea').filter(':not([name=""]):enabled:visible:first').focus();
 }, 400);

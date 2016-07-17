@@ -5,7 +5,7 @@ import groovy.transform.CompileStatic
 public enum ProjectType {
 	HOURLY('點工'),
 	SOLICIT('攬工'),
-	MONTHLY('包月'),
+	MONTHLY('包月試作'),
 	ORIGINAL('委外'),
 	OTHER('其他');
 

@@ -99,7 +99,7 @@
         </section>
       </div>
 <asset:script type='text/javascript'><%-- deferred JS here --%>
-var server = {
+var serverParams = {
   pageTitle: '${actionTitle}',
   calendarTemplate: '<g:resource dir="static/assignment" file="calendar.tmpl" />',
   year: ${params?.year?:'null'},

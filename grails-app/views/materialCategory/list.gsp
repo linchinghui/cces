@@ -19,15 +19,15 @@
 					<thead>
 					<tr>
 						<th></th>
-						<th>類型代碼</th>
-						<th>類型名稱</th>
+						<th>類別代碼</th>
+						<th>類別名稱</th>
 					</tr>
 					</thead>
 					<tbody>
 					<tr>
 						<td></td>
 						<td>test</td>
-						<td>測試類型</td>
+						<td>測試類別</td>
 					</tr>
 					</tbody>
 				</table>
@@ -49,15 +49,15 @@
 							<thead>
 							<tr>
 								<th></th>
-								<th>類型代碼</th>
-								<th>類型名稱</th>
+								<th>類別代碼</th>
+								<th>類別名稱</th>
 							</tr>
 							</thead>
 							<tbody>
 							<tr>
 								<td></td>
 								<td>test</td>
-								<td>測試類型</td>
+								<td>測試類別</td>
 							</tr>
 							</tbody>
 						</table>

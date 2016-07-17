@@ -1,6 +1,8 @@
 <g:if test="${dialogPage || embedPage}"><%--
 	<g:javascript>
-var contextPath='${request.contextPath}';
+var server = {
+	ctxParh: '${request.contextPath}'<g:if test="${_csrf?.parameterName}">, ${_csrf?.parameterName}: '${_csrf?.token}'</g:if>
+};
 	</g:javascript>--%>
     <g:if test="${embedPage}">
         <g:layoutBody />
@@ -35,7 +37,11 @@ var contextPath='${request.contextPath}';
             </g:if>
             <g:layoutHead/>
 			<g:javascript>
-var contextPath='${request.contextPath}';
+var server = {
+ctxPath: '${request.contextPath}'<g:if test="${_csrf?.parameterName}">,
+xHeader: '${_csrf?.headerName.encodeAsBase64()}',
+xToken: '${_csrf?.token.encodeAsBase64()}'</g:if>
+};
 			</g:javascript><%--
 <!--[if lt IE 9]>
 <asset:javascript src="iefix/html5shiv-3.7.3"/>

@@ -80,7 +80,7 @@
 $(function() {
   <g:render template="/layouts/client-message" bean="${vehicle}"/>
   createDataTable();
-  createTabs();
+  handleTabs();
 });
 </asset:script>
     </body>

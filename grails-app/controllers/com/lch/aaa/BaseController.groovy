@@ -79,10 +79,12 @@ abstract class BaseController<T> extends RestfulController<T> {
 	*/
 	private def commonWarning(replyCode, message) {
 		if (isAjax()) {
+			log.trace ("$replyCode @ isAjax()")
 			render status: replyCode
 
 		} else { // 配合 JS
 			if (request.getHeader('callback') || params?.cb) {
+				log.trace ("$replyCode @ callback")
 				if (actionName == 'delete') {
 					render template: getDeletPage(), model: [callback: params.cb, result: [id: params.id, status: replyCode.value(), message: message]]
 
@@ -99,13 +101,15 @@ abstract class BaseController<T> extends RestfulController<T> {
 				if (! (actionName in ['index', 'show'])) {
 					if (isReadAuthorized()) {
 						def url = g.createLink action: 'show', id: params?.id // params: params
-						log.debug ("$message! redirect to $url")
+						log.trace ("$message! redirect to $url")
 						redirect url: url
 					} else {
 						flash.errors += ';操作將轉回首頁'
-						log.debug ("$message! redirect to HOME")
+						log.trace ("$message! redirect to HOME")
 						redirect mapping: 'home'
 					}
+				} else {
+					log.trace "$replyCode @ UI"
 				}
 			}
 		}
@@ -410,14 +414,17 @@ abstract class BaseController<T> extends RestfulController<T> {
 	*/
 	@Transactional
 	def delete() {
+		// log.debug ("delete() before permisson check")
 		if (! isDeleteAuthorized()) {
 			unAuthorized()
 			return
 		}
+		// log.debug ("delete() after permisson check")
 		if (handleReadOnly()) {
 			return
 		}
 
+		// log.debug ("delete() query instance ...")
 		T instance = queryForResource(params?.id)
 
 		if (instance == null) {
@@ -426,6 +433,7 @@ abstract class BaseController<T> extends RestfulController<T> {
 			return
 		}
 
+		// log.debug ("delete() ...")
 		def isDEL = false
 		def errorMessage = null
 
@@ -441,28 +449,34 @@ abstract class BaseController<T> extends RestfulController<T> {
 		if (! isDEL) {
 			transactionStatus.setRollbackOnly()
 
-		if (isAjax()) {
-			respond ( errors: errorMessage )
+			if (isAjax()) {
+				// log.debug ("delete() failed, respond to isAjac()")
+				respond ( errors: errorMessage )
 
-		} else { // 配合 JS
-			// if (request.getHeader('callback')) {
-				render ( [errors: errorMessage] as JSON )
-			// } else {
-			// 		flash.errors = errorMessage
-			// 		render view: (actionName == 'save' ? 'create' : 'edit'), model: [ (resourceName): instance ]
-			// }
+			} else { // 配合 JS
+				// log.debug ("delete() failed, render UI")
+				// if (request.getHeader('callback')) {
+					render ( [errors: errorMessage] as JSON )
+				// } else {
+				// 		flash.errors = errorMessage
+				// 		render view: (actionName == 'save' ? 'create' : 'edit'), model: [ (resourceName): instance ]
+				// }
 			}
 			return
 		}
 		// 配合 JS
 		if (params?.cb) {
+			// log.debug ("delete() done @ callback")
 			render template: getDeletPage(),
 			model: [callback: params.cb, result: [id: params.id, status: NO_CONTENT.value(), message: '已刪除']]
+
 		} else {
 			if (params?.format || request.format != 'all') {
+				// log.debug ("delete() done @ UI")
 				render status: NO_CONTENT // NO CONTENT STATUS CODE
 
 			} else {
+				// log.debug ("delete() done and redirect to show")
 				flash.message = '已刪除'
 				// redirect controller: resourceName, action: 'show', id: instance.id
 				def url = g.createLink action: 'show', id: instance.id

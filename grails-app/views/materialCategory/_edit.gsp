@@ -7,7 +7,6 @@
 	<g:set var="modalPage" value="${true}" scope="request"/> <%--
 	<g:set var="deferredScript" value="???" scope="request"/> --%>
 </g:else>
-<g:set var="functionService" bean="functionService"/>
 <g:set var="actionTitle" value="${pageTitle}-${type=='C' ? '新增' : type=='U' ? '編輯' : ''}"/>
 <g:set var="submitMehtod" value="${type=='C' ? 'POST' : type=='U' ? 'PUT' : ''}"/>
 <!DOCTYPE html>
@@ -35,12 +34,12 @@
 								<fieldset class="form-group">
 									<f:with bean="materialCategory">
 										<g:if test="${type=='C'}">
-											<f:field property="code" label="類型代碼" widget-placeholder="英文字母(不含符號)" />
+											<f:field property="code" label="類別代碼" widget-placeholder="英文字母(不含符號)" />
 										</g:if>
 										<g:else>
-											<f:display property="code" label="類型代碼" />
+											<f:display property="code" label="類別代碼" />
 										</g:else>
-										<f:field property="description" label="類型名稱" />
+										<f:field property="description" label="類別名稱" />
 									</f:with>
 								</fieldset>
 								<fieldset class="buttons">

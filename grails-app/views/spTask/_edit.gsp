@@ -7,7 +7,6 @@
     <g:set var="modalPage" value="${true}" scope="request"/> <%--
     <g:set var="deferredScript" value="???" scope="request"/> --%>
 </g:else>
-<g:set var="functionService" bean="functionService"/>
 <g:set var="actionTitle" value="${pageTitle}-${type=='C' ? '新增' : type=='U' ? '編輯' : ''}"/>
 <g:set var="submitMehtod" value="${type=='C' ? 'POST' : type=='U' ? 'PUT' : ''}"/>
 <!DOCTYPE html>

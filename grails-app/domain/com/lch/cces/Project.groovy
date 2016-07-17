@@ -28,7 +28,7 @@ class Project {
 	Date			acceptanceDate	// 驗收日
 	Boolean			closed = false	// 結案 (已入帳者)
 
-	static transients = ['constructType']
+	static transients = ['projectType', 'constructType']
 
     static constraints = {
     	code			blank: false, nullable: false, maxSize: 10, unique: true
@@ -61,8 +61,8 @@ class Project {
 		sort			'id'
 
 		id				generator: 'assigned', name: 'code'
-		projectKind		name: 'type' // column: 'type'
-		constructCode	name: 'constructType' // column: 'construct_type'
+		projectKind		name: 'projectType', column: 'type'
+		constructCode	name: 'constructType'
 	}
 
 	String getCode() {

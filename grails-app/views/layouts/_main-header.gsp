@@ -62,8 +62,8 @@
 <%-- User Account: --%>
               <li class="dropdown user user-menu">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-<g:if test="${isLoggedIn}">
-<%-- TODO: external resource here --%><%--
+<g:if test="${isLoggedIn}"><%--
+TODO: external resource here --%><%--
                     <img class="user-image" src="../../images/user2-160x160.jpg"/>--%>
                     <g:img class="user-image" dir="images" file="user2-160x160.jpg"/>
                     <g:external uri="/images/user2-160x160.jpg"/>
@@ -80,15 +80,13 @@
                           <small><span class="pull-left">${it.authority}</span><span class="pull-right">${it.description}</span></small><br>
                       </g:each>
                     </p>
-                  </li>
-<%-- Body --%><%--
+                  </li><%-- Body
                   <li class="user-body">
                     <div class="col-xs-? text-center">
                       <a href="???">???</a>
                     </div>
-                  </li>
---%><%-- Footer--%>
-                  <li class="user-footer">
+                  </li> --%><%-- Footer--%>
+            	  <li class="user-footer">
 <g:if test="${isLoggedIn}">
                       <div class="pull-left">
                         <a id="changePassword" href="${chPwdLink}" class="btn btn-default">變更密碼</a>
@@ -96,8 +94,7 @@
                       <div class="pull-right">
                         <a id="logout" href="${logoutLink}" class="btn btn-default">登出</a>
                       </div>
-</g:if>
-<g:else>
+</g:if><g:else>
                       <div class="pull-right">
                         <a href="${loginLink}" class="btn btn-default">登入</a>
                       </div>
@@ -117,18 +114,24 @@
 <asset:script type='text/javascript'><%-- deferred JS here --%>
 $(function() {
   $('#logout').click(function(evt) {
-    evt.preventDefault();
-    $('<form>', {method: 'POST', action: e.target.href}).appendTo(document.body).submit();
+    evt.preventDefault();<%--
+    $('<form enctype="multipart/form-data">', {method: 'POST', action: evt.target.href})
+	  .appendTo(document.body)
+	  .append('<input type="hidden" name="${_csrf.parameterName}" value="'+Base64.decode(server.xToken)+'">')
+	  .submit();--%>
+	$('<form>', {method: 'POST', action: evt.target.href})
+  	  .appendTo(document.body)
+  	  .submit();
   });
 
   $('#changePassword').click(function(evt) {
     evt.preventDefault();
-    window.location.href = e.target.href + '?${PARAMETER_TARGET_URL}=' + decodeURI(window.location.pathname);
+    window.location.href = evt.target.href + '?${PARAMETER_TARGET_URL}=' + decodeURI(window.location.pathname);
 <%--
   // AJAX way:
     BootstrapDialog.show({
       // title: action.title,
-      message: requestAction4BootstrapDialog({url: e.target.href})
+      message: requestAction4BootstrapDialog({url: evt.target.href})
     });
 --%>
   });

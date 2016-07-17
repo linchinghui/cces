@@ -20,7 +20,7 @@ class AnnouncementController extends BaseController<Announcement> {
         //     unAuthorized()
         //     return
         // }
-        log.debug "assignment up-to-date: ${params}"
+        log.debug "announcement up-to-date()"
 
         def today = new Date()
         	today.clearTime()

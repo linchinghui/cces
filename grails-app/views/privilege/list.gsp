@@ -86,7 +86,7 @@
       </div>
 </g:else>
 <asset:script type='text/javascript'><%-- deferred JS here --%>
-var serverParams = {
+var serverParams2 = {
   embed: ${embedPage},
   roleId: '${params?.roleId}'
 };
