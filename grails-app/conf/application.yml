@@ -34,7 +34,7 @@ environments:
             username: 'linchinghui'
             password: 'cces168'
             dbCreate: none
-            url: 'jdbc:mysql://192.168.0.201:3306/cces?useUnicode=true&characterEncoding=UTF-8'
+            url: 'jdbc:mysql://192.168.0.201:3306/cces?useUnicode=true&characterEncoding=UTF-8&useSSL=false'
             properties:
                 jmxEnabled: true
                 initialSize: 5
@@ -54,19 +54,26 @@ environments:
                 jdbcInterceptors: ConnectionState;StatementCache(max=200) #ConnectionState
                 defaultTransactionIsolation: 2 # TRANSACTION_READ_COMMITTED
     production:
-        # grails:
-        #     assets:
-        #         storagePath: '/var/www/cces/assets'
-            # plugin:
-            #     'asset-pipeline':
-            #         storagePath: '/var/www/cces/assets'
+        grails:
+            assets:
+                bundle: true
+                # storagePath: '/var/www/cces/assets'
+                excludes:
+                    - '**/*.unminified.js'
+                    - '**/*.less'
+                    - '**/iefix'
+                minifyOptions:
+                    excludes:
+                        - '**/*.unminified.js'
+                        - '**/*.less'
+                        - '**/iefix'
         dataSource:
             driverClassName: com.mysql.jdbc.Driver
             dialect: org.hibernate.dialect.MySQL5InnoDBDialect
             username: 'linchinghui'
             password: 'cces168'
             dbCreate: validate
-            url: 'jdbc:mysql://localhost:3306/cces?useUnicode=true&characterEncoding=UTF-8'
+            url: 'jdbc:mysql://localhost:3306/cces?useUnicode=true&characterEncoding=UTF-8&useSSL=false'
             properties:
                 jmxEnabled: true
                 initialSize: 5

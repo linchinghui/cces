@@ -87,16 +87,40 @@ class SecurityConfigurer extends WebSecurityConfigurerAdapter {
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
+		def devIgnoreConsole = '/console/**'
+		def devIgnoreDbConsole = '/dbconsole/**'
+
+
 		// def config = new ConfigSlurper().parse(new ClassPathResource("security-config.groovy").URL)
 		def config = Holders.grailsApplication?.config
-
 		def authenticationManager = authenticationManagerBean()
 
-		http//.addFilter(???)
+		// for console / dbconsole plugin:
+		if (Environment.developmentMode) {
+			http.headers().frameOptions().disable()
+		// 	http.csrf().disable()
+		// } else { // TODO:
+		// // 	http.addFilterAfter(new CsrfHeaderFilter(), CsrfFilter.class)
+		// // 		.and.csrf().requireCsrfProtectionMatcher { req ->
+		// // 				def reqMethod = req.getMethod()
+		// // 				return ! req.getServletPath().startsWith('/api/') && (
+		// // 					'POST'.equals(reqMethod) ||
+		// // 					'PUT'.equals(reqMethod) ||
+		// // 					'DELETE'.equals(reqMethod) ||
+		// // 					'PATCH'.equals(reqMethod)
+		// // 				)
+		// // 			}
+		}
+
+		http
+			.csrf()
+				.ignoringAntMatchers(PAGE_LOGIN, PAGE_LOGOUT, devIgnoreConsole, devIgnoreDbConsole)
+			.and()
+		// http//.addFilter(???)
 			.authorizeRequests()
 				.antMatchers(PAGES_PERMITTED).permitAll()
 				// .antMatchers('/api/announcements.json').permitAll()
-				.antMatchers('/console/**','/dbconsole/**').hasRole(DefaultRoleType.ROLE_SUPERVISOR.springSecurityRoleName())
+				.antMatchers(devIgnoreConsole, devIgnoreDbConsole).hasRole(DefaultRoleType.ROLE_SUPERVISOR.springSecurityRoleName())
 				.anyRequest().authenticated()
 			.and()
 				.formLogin()
@@ -137,24 +161,5 @@ class SecurityConfigurer extends WebSecurityConfigurerAdapter {
 				.maximumSessions(100).maxSessionsPreventsLogin(false)
 				.expiredUrl(PAGE_EXPIRED) // or /login?invalidated ???
 				//? .invalidSessionUrl( "/login?time=1" )
-			// .and()
-
-		// for dbconsole plugin:
-		if (Environment.developmentMode) {
-			http.headers().frameOptions().disable()
-			http.csrf().disable()
-		// TODO:
-		// } else {
-			// http.addFilterAfter(new CsrfHeaderFilter(), CsrfFilter.class)
-			// 	.and.csrf().requireCsrfProtectionMatcher { req ->
-			// 			def reqMethod = req.getMethod()
-			// 			return ! req.getServletPath().startsWith('/api/') && (
-			// 				'POST'.equals(reqMethod) ||
-			// 				'PUT'.equals(reqMethod) ||
-			// 				'DELETE'.equals(reqMethod) ||
-			// 				'PATCH'.equals(reqMethod)
-			// 			)
-			// 		}
-		}
 	}
 }

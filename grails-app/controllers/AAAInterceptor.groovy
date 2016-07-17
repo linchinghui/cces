@@ -57,7 +57,7 @@ class AAAInterceptor {
                 model += [
                     'functionService': grailsApplication.mainContext.functionService,
                     'authService': grailsApplication.mainContext.authenticationService,
-                    'pageTitle' : params?.controller ? grailsApplication.mainContext.functionService.getPageTitle(params?.controller).toString() : ''
+                    'pageTitle' : params?.controller ? grailsApplication.mainContext.functionService.getPageTitle(params?.controller)?.toString() : ''
                 ]
             }
         }
