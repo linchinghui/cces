@@ -14,7 +14,12 @@ function reloadDataTables(dataTable, arg) {
   } else {
     // dataTable.columns.adjust().ajax.reload(null, arg && true);
     dataTable.ajax.reload(function() {
-      $(window).resize();
+		setTimeout(function() {
+		  $(window).trigger('resize');
+		//   $(window).trigger('resize', {
+		//   	dataTable: dataTable
+		//   });
+	    }, 500);
     }, arg && true);
   }
 }
@@ -82,7 +87,7 @@ function renderAjaxButtons4DataTables(dataTable, isInit) {
 }
 
 function addExternalButtons4Init(dataTable) {
-  var extButtons = {};
+  var extButtons = [];
   var extButtonSettings = dataTable.context[0] ? dataTable.context[0].oInit.extButtons : {};
 
   if (!jQuery.isEmptyObject(extButtonSettings)) {
@@ -90,25 +95,25 @@ function addExternalButtons4Init(dataTable) {
       if (v == true) {
         switch (k) {
           case 'copy':
-            $.extend(true, extButtons, {
+            extButtons.push({
               text: '複製',
               extend: k
             });
             break;
           case 'csv':
-            $.extend(true, extButtons, {
+            extButtons.push({
               text: 'CSV',
               extend: k
             });
             break;
           case 'print':
-            $.extend(true, extButtons, {
+            extButtons.push({
               text: '列印',
               extend: k
             });
             break;
           case 'pdf':
-            $.extend(true, extButtons, {
+            extButtons.push({
               text: 'PDF',
               extend: k,
               orientation: 'landscape'
@@ -120,16 +125,35 @@ function addExternalButtons4Init(dataTable) {
   }
   if (!jQuery.isEmptyObject(extButtons)) {
     var btns = new $.fn.DataTable.Buttons(dataTable, {
-      buttons: [extButtons]
+      buttons: extButtons
     });
+
     var btnsGrp = btns.dom.container[0];
+    $(btnsGrp).addClass('pull-right');
 
     for (var i = 0; i < btns.s.buttons.length; i++) {
       btns.disable(i);
     }
 
-    $(btnsGrp).addClass('pull-right');
-    $(dataTable.table().container()).find('.dt-buttons.btn-group').after(btnsGrp);
+	var ctnWrapper = dataTable.table().container();
+    // if (extButtonSettings.collapse) {
+    //   var ctnWrapperId = ctnWrapper.id;
+    //   var ctnId = ctnWrapperId.replace(/_wrapper$/, '');
+	//
+    // //   var btnToggle = `<a data-toggle="collapse" data-parent="#${ctnWrapperId}" href="#${ctnId}" aria-expanded="true" aria-controls="${ctnId}">#</a>`;
+    // //   $(`#${ctnId}`).addClass('collapse in')
+	// // 	  .on('show.bs.collapse', function() {
+	// // 		$(window)/*.delay(500)*/.trigger('resize', {
+	// // 		  dataTable: dataTable
+	// // 		});
+	// //       })
+	// //   ;
+	// // $(btnsGrp).append(btnToggle);
+	//
+	// // OR: $('.dataTables_scroll').collapse('show');
+    // }
+
+    $(ctnWrapper).find('.dt-buttons.btn-group').after(btnsGrp);
   }
 }
 
@@ -298,12 +322,19 @@ function renderDefaultAlterationCellWithId4DataTables(requestActions) {
 }
 
 function resizeDataTablesInSecs(dataTable) {
-  $(window).resize(function() {
-    dataTable.columns.adjust().responsive.recalc();
+  $(window).resize( function(evt, params) {
+	var dt = /*params ? params.dataTable :*/ dataTable;
+    dt.columns.adjust().responsive.recalc();
   });
   // TODO
+  // $(window).delay(500).trigger('resize', {
+  // ataTable: dataTable
+  // });
   setTimeout(function() {
-    $(window).resize();
+    $(window).trigger('resize');
+	// $(window).trigger('resize', {
+	//   dataTable: dataTable
+	// });
   }, 500);
 }
 

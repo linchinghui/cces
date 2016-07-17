@@ -1,4 +1,5 @@
 //= require util/moment
 //= require util/moment-transform
-//= require plugins/bootstrap-datetimepicker
 //= require_self
+//= require plugins/bootstrap-datetimepicker
+moment.locale('zh-tw');

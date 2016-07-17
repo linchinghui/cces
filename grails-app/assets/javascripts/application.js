@@ -31,6 +31,11 @@ if (typeof jQuery !== 'undefined') {
   });
 
   $.ajaxSetup({
+    beforeSend: function(xhr) {
+      if (server['xHeader']) {
+        xhr.setRequestHeader(Base64.decode(server.xHeader), Base64.decode(server.xToken));
+      }
+    },
     converters: {
       "text json": function(json) {
         return $.parseJSON((typeof(json) == 'string') ?
@@ -41,14 +46,8 @@ if (typeof jQuery !== 'undefined') {
     }
   });
 
-  /*----- first of all -----*/
   (function($) {
-
-    // $('#spinner').ajaxStart(function() {
-    //     $(this).fadeIn();
-    // }).ajaxStop(function() {
-    //     $(this).fadeOut();
-    // });
+    // $('#spinner').ajaxStart(function() { $(this).fadeIn(); }).ajaxStop(function() { $(this).fadeOut(); });
 
     $('.treeview-menu a').click(function() {
       if (!/\&sc=/.test(this.href)) {
@@ -331,4 +330,42 @@ function renderCheckBox4GrailsFieldContain(contain) {
 function renderCheckBox(data) {
   return (data == true || data == 'true') ? '<i class="fa fa-check-square-o"></i>' :
     (data == false || data == 'false') ? '<i class="fa fa-square-o"></i>' : data;
+}
+
+/*---------
+  handlers
+ ----------*/
+function handleTabs(dataCallback, callbackParams) {
+  $('.content a[data-toggle="mtab"]').click(function(e) {
+    e.preventDefault();
+    var thisEle = $(this);
+    var loadUrl = thisEle.attr('href');
+
+    if (loadUrl.length > 0 && loadUrl !== '#') {
+      $.ajax({
+        type: 'GET',
+        // url: loadUrl,
+		url: loadUrl.split('?')[0],
+        data: (
+		  dataCallback ?
+		  dataCallback(callbackParams ? callbackParams : $.convertParamsFromQueryStr(loadUrl)) :
+		  $.convertParamsFromQueryStr(loadUrl)
+		),
+        error: function(jqXHR, status, error) {
+          $(thisEle.attr('data-target')).html(jqXHR.responseText);
+        },
+        success: function(response) {
+          $(thisEle.attr('data-target')).html(response);
+          thisEle.attr('href', '#');
+        }
+      });
+    } else {
+      setTimeout(function() {
+        $(window).resize();
+      }, 500);
+    }
+
+    thisEle.tab('show');
+    return false;
+  });
 }
