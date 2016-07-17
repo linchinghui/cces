@@ -16,7 +16,7 @@ function createDetailTab() {
       if (actionFlag != 'edit') {
         detailSec
           .html('<div class="text-center"><span class="ajax-loader">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></div>')
-          .load(server.detailLink, {
+          .load(serverParams.detailLink, {
               'embed': true,
               'roleId': roleList.row(this).data().id
             },
@@ -51,7 +51,7 @@ function createDataTable() {
     serverSide: true,
     deferRender: true,
     ajax: {
-      url: contextPath + '/api/roles.json',
+      url: server.ctxPath + '/api/roles.json',
       onReloadClicked: function() {
         detailSec.empty();
       }
@@ -59,7 +59,7 @@ function createDataTable() {
     infoCallback: renderDisplayHint4DataTables,
     initComplete: function(settings, data) { // this == DataTable()
       initialized4DataTables(settings, data);
-      resizeDataTablesInSecs(roleList);
+      resizeDataTablesInSecs(settings.oInstance.DataTable());
       // detailSec.empty();
     },
     extButtons: {
@@ -71,7 +71,7 @@ function createDataTable() {
     columns: [ //0
       renderDefaultAlterationCellWithId4DataTables({
         edit: {
-          url: contextPath + '/role/edit',
+          url: server.ctxPath + '/role/edit',
           callback: modifyDataRequested
         }
       }), { //1

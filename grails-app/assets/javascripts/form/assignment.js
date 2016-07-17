@@ -17,35 +17,35 @@ var lastDateAssigned;
 var lastDateClass;
 var highLightClass = 'bg-info text-danger';
 
-function createTabs() {
-  $('.content a[data-toggle="mtab"]').click(function(e) {
-    e.preventDefault();
-    var thisEle = $(this);
-    var loadUrl = thisEle.attr('href');
-
-    if (loadUrl.length > 0 && loadUrl !== '#') {
-      $.ajax({
-        type: 'GET',
-        url: loadUrl.split('?')[0],
-        data: getLastParameters($.convertParamsFromQueryStr(loadUrl)),
-        error: function(jqXHR, status, error) {
-          $(thisEle.attr('data-target')).html(jqXHR.responseText);
-        },
-        success: function(response) {
-          $(thisEle.attr('data-target')).html(response);
-          thisEle.attr('href', '#');
-        }
-      });
-    } else {
-      setTimeout(function() {
-        $(window).resize();
-      }, 500);
-    }
-
-    thisEle.tab('show');
-    return false;
-  });
-}
+// function handleTabs() {
+//   $('.content a[data-toggle="mtab"]').click(function(e) {
+//     e.preventDefault();
+//     var thisEle = $(this);
+//     var loadUrl = thisEle.attr('href');
+//
+//     if (loadUrl.length > 0 && loadUrl !== '#') {
+//       $.ajax({
+//         type: 'GET',
+//         url: loadUrl.split('?')[0],
+//         data: getLastParameters($.convertParamsFromQueryStr(loadUrl)),
+//         error: function(jqXHR, status, error) {
+//           $(thisEle.attr('data-target')).html(jqXHR.responseText);
+//         },
+//         success: function(response) {
+//           $(thisEle.attr('data-target')).html(response);
+//           thisEle.attr('href', '#');
+//         }
+//       });
+//     } else {
+//       setTimeout(function() {
+//         $(window).resize();
+//       }, 500);
+//     }
+//
+//     thisEle.tab('show');
+//     return false;
+//   });
+// }
 
 function getLastParameters(params) {
   var qryParams = {
@@ -93,14 +93,14 @@ function addDataRequest(evt, dt, node, config) {
   BootstrapDialog.show({
     title: '新增...',
     message: requestAction4BootstrapDialog({
-      url: contextPath + '/assignment/create',
+      url: server.ctxPath + '/assignment/create',
       callback: addDataRequested
     }, null, getLastParameters())
   });
 }
 
 function createDataTable() {
-  $.ajax.fake.registerWebservice(contextPath + '/api/assignments.json',
+  $.ajax.fake.registerWebservice(server.ctxPath + '/api/assignments.json',
     function(req) {
       // empty DT data
       return {
@@ -117,7 +117,7 @@ function createDataTable() {
     serverSide: true,
     deferRender: true,
     ajax: {
-      url: contextPath + '/api/assignments.json',
+      url: server.ctxPath + '/api/assignments.json',
       data: function(params, settings) {
         settings.ajax.fake = !(assignProjectList.val() || false);
 
@@ -142,9 +142,9 @@ function createDataTable() {
         // }
     },
     infoCallback: renderDisplayHint4DataTables,
-    initComplete: function(settings, data) { // this == DataTable()
+    initComplete: function(settings, data) {
       initialized4DataTables(settings, data);
-      resizeDataTablesInSecs(assignDataTable);
+      resizeDataTablesInSecs(settings.oInstance.DataTable());
     },
     extButtons: {
       // copy: true
@@ -156,11 +156,11 @@ function createDataTable() {
     columns: [ //0
       renderDefaultAlterationCellWithId4DataTables({
         edit: {
-          url: contextPath + '/assignment/edit',
+          url: server.ctxPath + '/assignment/edit',
           callback: modifyDataRequested
         },
         delete: {
-          url: contextPath + '/assignment/delete',
+          url: server.ctxPath + '/assignment/delete',
           callback: removeDataRequested
         }
       }), { //1
@@ -290,7 +290,7 @@ function loadProjectInfo(ele) {
         BootstrapDialog.show({
           title: '專案',
           message: requestAction4BootstrapDialog({
-              url: contextPath + '/project/show'
+              url: server.ctxPath + '/project/show'
             }, projectId) // GET method
         });
       }
@@ -300,14 +300,14 @@ function loadProjectInfo(ele) {
 }
 
 function loadAssignments() {
-  $.ajax.fake.registerWebservice(contextPath + '/api/assignments', function(req) {
+  $.ajax.fake.registerWebservice(server.ctxPath + '/api/assignments', function(req) {
     // events data
     return [];
   });
 
   chainAjaxCall({
     fake: !(assignProjectList.val() || false),
-    url: contextPath + '/api/assignments',
+    url: server.ctxPath + '/api/assignments',
     method: 'GET',
     cache: false,
     // async: false,
@@ -345,8 +345,8 @@ function initializeAssignments() {
   $.ajax.fake.defaults.wait = 0;
 
   var now = moment();
-  lastYear = server.year ? server.year : now.weekYear();
-  lastWeek = server.week ? server.week : now.week();
+  lastYear = serverParams.year ? serverParams.year : now.weekYear();
+  lastWeek = serverParams.week ? serverParams.week : now.week();
   loadAssignments();
 }
 /*---------------------------------------------------------------------
@@ -357,9 +357,9 @@ function createProjectCombo(ele) {
   var combo = assignProjectList.data('combobox');
   loadProjectInfo(combo.$element);
 
-  if (server.projectId) {
+  if (serverParams.projectId) {
     combo.$element.val($.map(combo.map, function(val, desc) {
-      return val == server.projectId ? desc : null;
+      return val == serverParams.projectId ? desc : null;
     }));
     combo.lookup().select();
   }
@@ -371,7 +371,7 @@ function createProjectCombo(ele) {
 
 function initializeSelectFields() {
   chainAjaxCall({
-    url: server.calendarTemplate,
+    url: serverParams.calendarTemplate,
     method: 'GET',
     // cache: false,
     async: false
@@ -379,14 +379,14 @@ function initializeSelectFields() {
   }).chain(function(promise) {
     if (promise.rc == 1) {
       assignCLNDRDiv.addClass('has-error').html($(
-        '<label class="control-label"/>').html('(無法取得[' + server.pageTitle + ']週曆程式)'));
+        '<label class="control-label"/>').html('(無法取得[' + serverParams.pageTitle + ']週曆程式)'));
 
     } else {
       assignCLNDRTemplate = promise.data;
     }
 
     return chainAjaxCall({
-      url: contextPath + '/project',
+      url: server.ctxPath + '/project',
       method: 'GET',
       cache: false,
       async: false,
@@ -402,7 +402,7 @@ function initializeSelectFields() {
 
     } else {
       createProjectCombo($(promise.data))
-      createTabs();
+      handleTabs(getLastParameters);
     }
   });
 }

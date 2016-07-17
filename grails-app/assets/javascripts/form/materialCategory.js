@@ -19,7 +19,7 @@ function addCatDataRequest(evt, dt, node, config) {
   BootstrapDialog.show({
     title: '新增...',
     message: requestAction4BootstrapDialog({
-      url: contextPath + '/materialCategory/create',
+      url: server.ctxPath + '/materialCategory/create',
       callback: addCatDataRequested
     })
   });
@@ -31,11 +31,11 @@ function createCatDataTable() {
     serverSide: true,
     deferRender: true,
     ajax: {
-      url: contextPath + '/api/materialCategories.json'
+      url: server.ctxPath + '/api/materialCategories.json'
     },
-    initComplete: function(settings, data) { // this == DataTable()
+    initComplete: function(settings, data) {
       initialized4DataTables(settings, data);
-      resizeDataTablesInSecs(materialCategoryList);
+	  resizeDataTablesInSecs(settings.oInstance.DataTable());
     },
     extButtons: {
       copy: true
@@ -47,11 +47,11 @@ function createCatDataTable() {
     columns: [ //0
       renderDefaultAlterationCellWithId4DataTables({
         edit: {
-          url: contextPath + '/materialCategory/edit',
+          url: server.ctxPath + '/materialCategory/edit',
           callback: modifyCatDataRequested
         },
         delete: {
-          url: contextPath + '/materialCategory/delete',
+          url: server.ctxPath + '/materialCategory/delete',
           callback: removeCatDataRequested
         }
       }), { //1

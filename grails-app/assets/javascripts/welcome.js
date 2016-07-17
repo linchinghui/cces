@@ -13,11 +13,11 @@ function createDataTable() {
       headers: {
         'X-CCES-ACTION': 'upToDate'
       },
-      url: contextPath + '/api/announcements.json'
+      url: server.ctxPath + '/api/announcements.json'
     },
     initComplete: function(settings, data) { // this == DataTable()
       initialized4DataTables(settings, data);
-      resizeDataTablesInSecs(announcementList);
+      resizeDataTablesInSecs(settings.oInstance.DataTable());
     },
     extButtons: {
       // copy: true

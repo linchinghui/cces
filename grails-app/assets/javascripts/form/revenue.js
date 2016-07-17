@@ -19,7 +19,7 @@ function addDataRequest(evt, dt, node, config) {
   BootstrapDialog.show({
     title: '新增...',
     message: requestAction4BootstrapDialog({
-      url: contextPath + '/revenue/create',
+      url: server.ctxPath + '/revenue/create',
       callback: addDataRequested
     })
   });
@@ -35,12 +35,12 @@ function createDataTable() {
     serverSide: true,
     deferRender: true,
     ajax: {
-      url: contextPath + '/api/revenues.json'
+      url: server.ctxPath + '/api/revenues.json'
     },
     infoCallback: renderDisplayHint4DataTables,
     initComplete: function(settings, data) { // this == DataTable()
       initialized4DataTables(settings, data);
-      resizeDataTablesInSecs(revenueList);
+      resizeDataTablesInSecs(settings.oInstance.DataTable());
     },
     extButtons: {
       copy: true
@@ -52,14 +52,14 @@ function createDataTable() {
     columns: [ //0
       renderDefaultAlterationCellWithId4DataTables({
         // show: {
-        //   url: contextPath+'/revenue/show'
+        //   url: server.ctxPath+'/revenue/show'
         // },
         edit: {
-          url: contextPath + '/revenue/edit',
+          url: server.ctxPath + '/revenue/edit',
           callback: modifyDataRequested
         },
         delete: {
-          url: contextPath + '/revenue/delete',
+          url: server.ctxPath + '/revenue/delete',
           callback: removeDataRequested
         }
       }), { //1

@@ -17,7 +17,7 @@ function createDetailTab() {
         var thisRow = materialList.row(this);
         detailSec
           .html('<div class="text-center"><span class="ajax-loader">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></div>')
-          .load(server.detailLink, {
+          .load(serverParams.detailLink, {
               'embed': true,
               'materialId': thisRow.data().id
             },
@@ -37,31 +37,31 @@ function createDetailTab() {
   });
 }
 
-function createTabs() {
-  $('.content a[data-toggle="mtab"]').click(function(e) {
-    e.preventDefault();
-    var thisEle = $(this);
-    var loadUrl = thisEle.attr('href');
-
-    if (loadUrl.length > 0 && loadUrl !== '#') {
-      $(thisEle.attr('data-target')).load(loadUrl, function(response, status, jqXHR) {
-        if (jqXHR.status >= 400) {
-          $(thisEle.attr('data-target')).html(jqXHR.responseText);
-
-        } else {
-          thisEle.attr('href', '#');
-        }
-      });
-    } else {
-      setTimeout(function() {
-        $(window).resize();
-      }, 500);
-    }
-
-    thisEle.tab('show');
-    return false;
-  });
-}
+// function handleTabs() {
+//   $('.content a[data-toggle="mtab"]').click(function(e) {
+//     e.preventDefault();
+//     var thisEle = $(this);
+//     var loadUrl = thisEle.attr('href');
+//
+//     if (loadUrl.length > 0 && loadUrl !== '#') {
+//       $(thisEle.attr('data-target')).load(loadUrl, function(response, status, jqXHR) {
+//         if (jqXHR.status >= 400) {
+//           $(thisEle.attr('data-target')).html(jqXHR.responseText);
+//
+//         } else {
+//           thisEle.attr('href', '#');
+//         }
+//       });
+//     } else {
+// 		setTimeout(function() {
+// 		  $(window).trigger('resize'); //Object('material' / 'materialCategory')
+// 		}, 500);
+//     }
+//
+//     thisEle.tab('show');
+//     return false;
+//   });
+// }
 
 function renderDisplayHint4DataTables(settings, start, end, max, total, pre) {
   return '<span class="small pull-right text-danger">點選後, 可檢視材料供應設定</span>';
@@ -86,7 +86,7 @@ function addDataRequest(evt, dt, node, config) {
   BootstrapDialog.show({
     title: '新增...',
     message: requestAction4BootstrapDialog({
-      url: contextPath + '/material/create',
+      url: server.ctxPath + '/material/create',
       callback: addDataRequested
     })
   });
@@ -98,18 +98,19 @@ function createDataTable() {
     serverSide: true,
     deferRender: true,
     ajax: {
-      url: contextPath + '/api/materials.json',
+      url: server.ctxPath + '/api/materials.json',
       onReloadClicked: function() {
         detailSec.empty();
       }
     },
     infoCallback: renderDisplayHint4DataTables,
-    initComplete: function(settings, data) { // this == DataTable()
+    initComplete: function(settings, data) {
       initialized4DataTables(settings, data);
-      resizeDataTablesInSecs(materialList);
+      resizeDataTablesInSecs(settings.oInstance.DataTable());
       // detailSec.empty();
     },
     extButtons: {
+      collapse: true,
       copy: true
     },
     buttons: [{
@@ -119,14 +120,14 @@ function createDataTable() {
     columns: [ //0
       renderDefaultAlterationCellWithId4DataTables({
         show: {
-          url: contextPath + '/material/show'
+          url: server.ctxPath + '/material/show'
         },
         edit: {
-          url: contextPath + '/material/edit',
+          url: server.ctxPath + '/material/edit',
           callback: modifyDataRequested
         },
         delete: {
-          url: contextPath + '/material/delete',
+          url: server.ctxPath + '/material/delete',
           callback: removeDataRequested
         }
       }), { //1

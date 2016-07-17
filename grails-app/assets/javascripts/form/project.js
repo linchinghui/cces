@@ -7,7 +7,7 @@ var constructTypes;
 
 function initializeConstrctTypes() {
   chainAjaxCall({
-    url: contextPath + '/api/projects.json',
+    url: server.ctxPath + '/api/projects.json',
     method: 'GET',
     cache: true,
     async: false,
@@ -26,7 +26,7 @@ function initializeConstrctTypes() {
     }
 
     return chainAjaxCall({
-      url: contextPath + '/api/projects.json',
+      url: server.ctxPath + '/api/projects.json',
       method: 'GET',
       cache: true,
       async: false,
@@ -63,7 +63,7 @@ function addDataRequest(evt, dt, node, config) {
   BootstrapDialog.show({
     title: '新增...',
     message: requestAction4BootstrapDialog({
-      url: contextPath + '/project/create',
+      url: server.ctxPath + '/project/create',
       callback: addDataRequested
     })
   });
@@ -75,11 +75,11 @@ function createDataTable() {
     serverSide: true,
     deferRender: true,
     ajax: {
-      url: contextPath + '/api/projects.json'
+      url: server.ctxPath + '/api/projects.json'
     },
     initComplete: function(settings, data) { // this == DataTable()
       initialized4DataTables(settings, data);
-      resizeDataTablesInSecs(projectList);
+      resizeDataTablesInSecs(settings.oInstance.DataTable());
     },
     extButtons: {
       copy: true
@@ -91,14 +91,14 @@ function createDataTable() {
     columns: [ //0
       renderDefaultAlterationCellWithId4DataTables({
         show: {
-          url: contextPath + '/project/show'
+          url: server.ctxPath + '/project/show'
         },
         edit: {
-          url: contextPath + '/project/edit',
+          url: server.ctxPath + '/project/edit',
           callback: modifyDataRequested
         },
         delete: {
-          url: contextPath + '/project/delete',
+          url: server.ctxPath + '/project/delete',
           callback: removeDataRequested
         }
       }), { //1

@@ -1,4 +1,4 @@
-//= require ../grid
+//* require ../grid
 //= require_self
 
 var supplierList;
@@ -31,11 +31,11 @@ function createDataTable() {
     serverSide: true,
     deferRender: true,
     ajax: {
-      url: contextPath + '/api/suppliers.json'
+      url: server.ctxPath + '/api/suppliers.json'
     },
-    initComplete: function(settings, data) { // this == DataTable()
+    initComplete: function(settings, data) {
       initialized4DataTables(settings, data);
-      resizeDataTablesInSecs(supplierList);
+      resizeDataTablesInSecs(settings.oInstance.DataTable());
     },
     extButtons: {
       copy: true
@@ -47,14 +47,14 @@ function createDataTable() {
     columns: [ //0
       renderDefaultAlterationCellWithId4DataTables({
         // show: {
-        //   url: contextPath+'/supplier/show'
+        //   url: server.ctxPath+'/supplier/show'
         // },
         edit: {
-          url: contextPath + '/supplier/edit',
+          url: server.ctxPath + '/supplier/edit',
           callback: modifyDataRequested
         },
         delete: {
-          url: contextPath + '/supplier/delete',
+          url: server.ctxPath + '/supplier/delete',
           callback: removeDataRequested
         }
       }), { //1

@@ -7,7 +7,7 @@ var roleMap = {};
 
 function initializeRoleTypes() {
   chainAjaxCall({
-    url: contextPath + '/api/roles.json',
+    url: server.ctxPath + '/api/roles.json',
     method: 'GET',
     async: false,
     cache: true
@@ -83,12 +83,12 @@ function createDataTable() {
     serverSide: true,
     deferRender: true,
     ajax: {
-      url: contextPath + '/api/users.json'
+      url: server.ctxPath + '/api/users.json'
     },
     infoCallback: renderDisplayHint4DataTables,
     initComplete: function(settings, data) { // this == DataTable()
       initialized4DataTables(settings, data);
-      resizeDataTablesInSecs(userList);
+      resizeDataTablesInSecs(settings.oInstance.DataTable());
     },
     extButtons: {
       copy: true
@@ -100,11 +100,11 @@ function createDataTable() {
     columns: [ //0
       renderDefaultAlterationCellWithId4DataTables({
         edit: {
-          url: contextPath + '/user/edit',
+          url: server.ctxPath + '/user/edit',
           callback: modifyDataRequested
         },
         delete: {
-          url: contextPath + '/user/delete',
+          url: server.ctxPath + '/user/delete',
           callback: removeDataRequested
         }
       }), { //1

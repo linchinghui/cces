@@ -19,20 +19,20 @@ function addDetailDataRequest(evt, dt, node, config) {
   BootstrapDialog.show({
     title: '新增...',
     message: requestAction4BootstrapDialog({
-      url: contextPath + '/privilege/create',
+      url: server.ctxPath + '/privilege/create',
       callback: addDetailDataRequested
     })
-  }, null, $.param(serverParams));
+}, null, $.param(serverParams2));
 }
 
 function prepareUrl(actionType) {
   return function() {
-    return contextPath + '/privilege/' + actionType + (serverParams.embed ? '?' + $.param(serverParams) : '');
+    return server.ctxPath + '/privilege/' + actionType + (serverParams2.embed ? '?' + $.param(serverParams2) : '');
   }
 }
 
 function createDetailDataTable() {
-  var qryStr = serverParams.embed ? '?' + $.param(serverParams) : '';
+  var qryStr = serverParams2.embed ? '?' + $.param(serverParams2) : '';
   var dataCols = [ //0
     renderDefaultAlterationCellWithId4DataTables({
       edit: {
@@ -64,7 +64,7 @@ function createDetailDataTable() {
     }
   ];
 
-  if (serverParams.embed) {
+  if (serverParams2.embed) {
     dataCols.splice(1, 1);
   }
 
@@ -73,14 +73,14 @@ function createDetailDataTable() {
     serverSide: true,
     deferRender: true,
     ajax: {
-      url: contextPath + '/api/privileges.json',
+      url: server.ctxPath + '/api/privileges.json',
       data: function(params, settings) {
-        return $.extend(serverParams, $.fn.dataTable.defaults.ajax.data(params, settings));
+        return $.extend(serverParams2, $.fn.dataTable.defaults.ajax.data(params, settings));
       }
     },
-    initComplete: serverParams.embed ? null : function(settings, data) { // this == DataTable()
+    initComplete: serverParams2.embed ? null : function(settings, data) { // this == DataTable()
       initialized4DataTables(settings, data);
-      resizeDataTablesInSecs(privilegeList);
+      resizeDataTablesInSecs(settings.oInstance.DataTable());
     },
     extButtons: {
       copy: true
@@ -92,7 +92,7 @@ function createDetailDataTable() {
   };
 
   privilegeList = $('#list-privilege').DataTable(
-    $.extend({}, serverParams.embed ? {
+    $.extend({}, serverParams2.embed ? {
       dom: 'Bftri',
       pageLength: 100,
       scrollY: true,

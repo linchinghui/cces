@@ -2,6 +2,42 @@
 //= require_self
 
 var workerList;
+var detailSec = $('.detail');
+
+function createDetailTab() {
+	var actionFlag = null;
+
+    $('#list-worker tbody').on('click', 'tr', function(evt, action) {
+      if (action) {
+        actionFlag = action.type;
+        return;
+      }
+      if ($(this).hasClass('selected')) {
+        if (actionFlag != 'edit') {
+          detailSec
+            .html('<div class="text-center"><span class="ajax-loader">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></div>')
+            .load(serverParams.detailLink, {
+                'embed': true,
+                'empId': workerList.row(this).data().id
+              },
+              function(response, status, jqXHR) {
+                if (jqXHR.status >= 400) {
+                  detailSec.empty();
+                  alertError({}, jqXHR);
+                }
+              });
+        }
+      } else {
+        detailSec.empty();
+      }
+
+      actionFlag = null;
+    });
+}
+
+function renderDisplayHint4DataTables(settings, start, end, max, total, pre) {
+  return '<span class="small pull-right text-danger">點選後，可檢視證照資料</span>';
+}
 
 function removeDataRequested(result) {
   reloadDataTables(workerList);
@@ -19,7 +55,7 @@ function addDataRequest(evt, dt, node, config) {
   BootstrapDialog.show({
     title: '新增...',
     message: requestAction4BootstrapDialog({
-      url: contextPath + '/worker/create',
+      url: server.ctxPath + '/worker/create',
       callback: addDataRequested
     })
   });
@@ -31,11 +67,12 @@ function createDataTable() {
     serverSide: true,
     deferRender: true,
     ajax: {
-      url: contextPath + '/api/workers.json'
+      url: server.ctxPath + '/api/workers.json'
     },
+	infoCallback: renderDisplayHint4DataTables,
     initComplete: function(settings, data) { // this == DataTable()
       initialized4DataTables(settings, data);
-      resizeDataTablesInSecs(workerList);
+      resizeDataTablesInSecs(settings.oInstance.DataTable());
     },
     extButtons: {
       copy: true
@@ -47,14 +84,14 @@ function createDataTable() {
     columns: [ //0
       renderDefaultAlterationCellWithId4DataTables({
         show: {
-          url: contextPath + '/worker/show'
+          url: server.ctxPath + '/worker/show'
         },
         edit: {
-          url: contextPath + '/worker/edit',
+          url: server.ctxPath + '/worker/edit',
           callback: modifyDataRequested
         },
         delete: {
-          url: contextPath + '/worker/delete',
+          url: server.ctxPath + '/worker/delete',
           callback: removeDataRequested
         }
       }), { //1
@@ -63,30 +100,38 @@ function createDataTable() {
         width: '44px',
         data: 'empName'
       }, { //3
+		orderable: false,
         data: 'sex'
       }, { //4
         render: renderDate4DataTables(),
         data: 'employedDate'
       }, { //5
         render: renderDate4DataTables(),
+		orderable: false,
         data: 'resignedDate'
       }, { //6
         render: renderDate4DataTables(),
+		orderable: false,
         data: 'avatarCopied'
       }, { //7
         render: renderDate4DataTables(),
+		orderable: false,
         data: 'idCardCopied'
       }, { //8
         render: renderDate4DataTables(),
+		orderable: false,
         data: 'nhiIcCardCopied'
       }, { //9
         render: renderDate4DataTables(),
+		orderable: false,
         data: 'diplomaCopied'
       }, { //10
         render: renderDate4DataTables(),
+		orderable: false,
         data: 'oorCopied'
       }, { //11
         render: renderDate4DataTables(),
+		orderable: false,
         data: 'gdlCopied'
       }
     ],

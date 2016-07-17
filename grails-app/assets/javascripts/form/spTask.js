@@ -10,36 +10,36 @@ var projectTypes;
 var constructTypes;
 var projectInfo;
 
-function createTabs() {
-  $('.content a[data-toggle="mtab"]').click(function(e) {
-    e.preventDefault();
-    var thisEle = $(this);
-    var loadUrl = thisEle.attr('href');
-
-    if (loadUrl.length > 0 && loadUrl !== '#') {
-      $.ajax({
-        type: 'GET',
-        url: loadUrl,
-        data: getLastParameters('dispatchedDate'),
-        error: function(jqXHR, status, error) {
-          $(thisEle.attr('data-target')).html(jqXHR.responseText);
-        },
-        success: function(response) {
-          $(thisEle.attr('data-target')).html(response);
-          thisEle.attr('href', '#');
-          // triggerCriterionChange($(thisEle));
-        }
-      });
-    } else {
-      setTimeout(function() {
-        $(window).resize();
-      }, 500);
-    }
-
-    thisEle.tab('show');
-    return false;
-  });
-}
+// function handleTabs() {
+//   $('.content a[data-toggle="mtab"]').click(function(e) {
+//     e.preventDefault();
+//     var thisEle = $(this);
+//     var loadUrl = thisEle.attr('href');
+//
+//     if (loadUrl.length > 0 && loadUrl !== '#') {
+//       $.ajax({
+//         type: 'GET',
+//         url: loadUrl,
+//         data: getLastParameters('dispatchedDate'),
+//         error: function(jqXHR, status, error) {
+//           $(thisEle.attr('data-target')).html(jqXHR.responseText);
+//         },
+//         success: function(response) {
+//           $(thisEle.attr('data-target')).html(response);
+//           thisEle.attr('href', '#');
+//           // triggerCriterionChange($(thisEle));
+//         }
+//       });
+//     } else {
+//       setTimeout(function() {
+//         $(window).resize();
+//       }, 500);
+//     }
+//
+//     thisEle.tab('show');
+//     return false;
+//   });
+// }
 
 function getLastParameters(dateParam) {
   var qryParams = {
@@ -81,7 +81,7 @@ function addDataRequest(evt, dt, node, config) {
   BootstrapDialog.show({
     title: '新增...',
     message: requestAction4BootstrapDialog({
-      url: contextPath + '/spTask/create',
+      url: server.ctxPath + '/spTask/create',
       callback: addDataRequested
     }, null, getLastParameters())
   });
@@ -89,7 +89,7 @@ function addDataRequest(evt, dt, node, config) {
 
 function prepareUrl(actionType) {
   return function() {
-    return contextPath + '/spTask/' + actionType + getQueryString();
+    return server.ctxPath + '/spTask/' + actionType + getQueryString();
   }
 }
 
@@ -98,7 +98,7 @@ function renderDisplayHint4DataTables(settings, start, end, max, total, pre) {
 }
 
 function createDataTable() {
-  $.ajax.fake.registerWebservice(contextPath + '/api/spTasks.json', function(req) {
+  $.ajax.fake.registerWebservice(server.ctxPath + '/api/spTasks.json', function(req) {
     // empty DT data
     return {
       draw: req.draw,
@@ -114,7 +114,7 @@ function createDataTable() {
     serverSide: true,
     deferRender: true,
     ajax: {
-      url: contextPath + '/api/spTasks.json',
+      url: server.ctxPath + '/api/spTasks.json',
       data: function(params, settings) {
         settings.ajax.fake = !(assignProjectList.val() || false);
         return $.extend({}, $.fn.dataTable.defaults.ajax.data(params, settings), getLastParameters());
@@ -133,7 +133,7 @@ function createDataTable() {
     infoCallback: renderDisplayHint4DataTables,
     initComplete: function(settings, data) { // this == DataTable()
       initialized4DataTables(settings, data);
-      resizeDataTablesInSecs(spTaskDataTable);
+      resizeDataTablesInSecs(settings.oInstance.DataTable());
     },
     extButtons: {
       // copy: true
@@ -207,7 +207,7 @@ function loadProjectInfo(ele) {
         BootstrapDialog.show({
           title: '專案',
           message: requestAction4BootstrapDialog({
-              url: contextPath + '/project/show'
+              url: server.ctxPath + '/project/show'
             }, projectId) // GET method
         });
       }
@@ -237,9 +237,9 @@ function createProjectCombo(ele) {
   var combo = assignProjectList.data('combobox');
   loadProjectInfo(combo.$element);
 
-  if (server.projectId) {
+  if (serverParams.projectId) {
     combo.$element.val($.map(combo.map, function(val, desc) {
-      return val == server.projectId ? desc : null;
+      return val == serverParams.projectId ? desc : null;
     }));
     combo.lookup().select();
   }
@@ -252,7 +252,7 @@ function createProjectCombo(ele) {
 
 function createDatePicker() {
   workedDatePicker.data('DateTimePicker').date(
-    server.workedDate ? moment(server.workedDate) : moment().transform('YYYY-MM-DD 00:00:00.000')
+    serverParams.workedDate ? moment(serverParams.workedDate) : moment().transform('YYYY-MM-DD 00:00:00.000')
   );
 
   workedDatePicker.datetimepicker().on('dp.change', function(e) {
@@ -265,7 +265,7 @@ function initializeSelectFields() {
   createDatePicker()
 
   chainAjaxCall({
-    url: contextPath + '/api/projects.json',
+    url: server.ctxPath + '/api/projects.json',
     method: 'GET',
     cache: true,
     async: false,
@@ -284,7 +284,7 @@ function initializeSelectFields() {
     }
 
     return chainAjaxCall({
-      url: contextPath + '/api/projects.json',
+      url: server.ctxPath + '/api/projects.json',
       method: 'GET',
       cache: true,
       async: false,
@@ -304,7 +304,7 @@ function initializeSelectFields() {
     }
 
     return chainAjaxCall({
-      url: contextPath + '/project',
+      url: server.ctxPath + '/project',
       method: 'GET',
       async: false,
       headers: {
@@ -318,7 +318,7 @@ function initializeSelectFields() {
 
     } else {
       createProjectCombo($(promise.data))
-      createTabs();
+      handleTabs(getLastParameters, 'dispatchedDate');
     }
   });
 }

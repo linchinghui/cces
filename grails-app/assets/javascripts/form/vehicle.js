@@ -4,34 +4,34 @@
 var vehicleList;
 var nextMonthDate = moment().add(1, 'months');
 
-function createTabs() {
-  $('.content a[data-toggle="mtab"]').click(function(e) {
-    e.preventDefault();
-    var thisEle = $(this);
-    var loadUrl = thisEle.attr('href');
-
-    if (loadUrl.length > 0 && loadUrl !== '#') {
-      $.ajax({
-        type: 'GET',
-        url: loadUrl,
-        error: function(jqXHR, status, error) {
-          $(thisEle.attr('data-target')).html(jqXHR.responseText);
-        },
-        success: function(response) {
-          $(thisEle.attr('data-target')).html(response);
-          thisEle.attr('href', '#');
-        }
-      });
-    } else {
-      setTimeout(function() {
-        $(window).resize();
-      }, 500);
-    }
-
-    thisEle.tab('show');
-    return false;
-  });
-}
+// function handleTabs() {
+//   $('.content a[data-toggle="mtab"]').click(function(e) {
+//     e.preventDefault();
+//     var thisEle = $(this);
+//     var loadUrl = thisEle.attr('href');
+//
+//     if (loadUrl.length > 0 && loadUrl !== '#') {
+//       $.ajax({
+//         type: 'GET',
+//         url: loadUrl,
+//         error: function(jqXHR, status, error) {
+//           $(thisEle.attr('data-target')).html(jqXHR.responseText);
+//         },
+//         success: function(response) {
+//           $(thisEle.attr('data-target')).html(response);
+//           thisEle.attr('href', '#');
+//         }
+//       });
+//     } else {
+//       setTimeout(function() {
+//         $(window).resize();
+//       }, 500);
+//     }
+//
+//     thisEle.tab('show');
+//     return false;
+//   });
+// }
 
 function removeDataRequested(result) {
   reloadDataTables(vehicleList);
@@ -49,7 +49,7 @@ function addDataRequest(evt, dt, node, config) {
   BootstrapDialog.show({
     title: '新增...',
     message: requestAction4BootstrapDialog({
-      url: contextPath + '/vehicle/create',
+      url: server.ctxPath + '/vehicle/create',
       callback: addDataRequested
     })
   });
@@ -61,11 +61,11 @@ function createDataTable() {
     serverSide: true,
     deferRender: true,
     ajax: {
-      url: contextPath + '/api/vehicles.json'
+      url: server.ctxPath + '/api/vehicles.json'
     },
     initComplete: function(settings, data) { // this == DataTable()
       initialized4DataTables(settings, data);
-      resizeDataTablesInSecs(vehicleList);
+      resizeDataTablesInSecs(settings.oInstance.DataTable());
     },
     extButtons: {
       copy: true
@@ -77,14 +77,14 @@ function createDataTable() {
     columns: [ //0
       renderDefaultAlterationCellWithId4DataTables({
         show: {
-          url: contextPath + '/vehicle/show'
+          url: server.ctxPath + '/vehicle/show'
         },
         edit: {
-          url: contextPath + '/vehicle/edit',
+          url: server.ctxPath + '/vehicle/edit',
           callback: modifyDataRequested
         },
         delete: {
-          url: contextPath + '/vehicle/delete',
+          url: server.ctxPath + '/vehicle/delete',
           callback: removeDataRequested
         }
       }), { //1

@@ -19,7 +19,7 @@ function addBrandDataRequest(evt, dt, node, config) {
   BootstrapDialog.show({
     title: '新增...',
     message: requestAction4BootstrapDialog({
-      url: contextPath + '/vehicleBrand/create',
+      url: server.ctxPath + '/vehicleBrand/create',
       callback: addBrandDataRequested
     })
   });
@@ -31,11 +31,11 @@ function createBrandDataTable() {
     serverSide: true,
     deferRender: true,
     ajax: {
-      url: contextPath + '/api/vehicleBrands.json'
+      url: server.ctxPath + '/api/vehicleBrands.json'
     },
     initComplete: function(settings, data) { // this == DataTable()
       initialized4DataTables(settings, data);
-      resizeDataTablesInSecs(vehicleBrandList);
+      resizeDataTablesInSecs(settings.oInstance.DataTable());
     },
     extButtons: {
       copy: true
@@ -47,11 +47,11 @@ function createBrandDataTable() {
     columns: [ //0
       renderDefaultAlterationCellWithId4DataTables({
         edit: {
-          url: contextPath + '/vehicleBrand/edit',
+          url: server.ctxPath + '/vehicleBrand/edit',
           callback: modifyBrandDataRequested
         },
         delete: {
-          url: contextPath + '/vehicleBrand/delete',
+          url: server.ctxPath + '/vehicleBrand/delete',
           callback: removeBrandDataRequested
         }
       }), { //1

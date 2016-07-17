@@ -5,8 +5,8 @@ var mSupplierList;
 
 function getSupplierParameters() {
   return {
-    embed: serverParams.embed,
-    materialId: serverParams.materialId
+    embed: serverParams2.embed,
+    materialId: serverParams2.materialId
   }
 }
 
@@ -26,7 +26,7 @@ function addDetailDataRequest(evt, dt, node, config) {
   BootstrapDialog.show({
     title: '新增...',
     message: requestAction4BootstrapDialog({
-      url: contextPath + '/materialSupplier/create',
+      url: server.ctxPath + '/materialSupplier/create',
       callback: addDetailDataRequested
     }, null, getSupplierParameters())
   });
@@ -34,17 +34,17 @@ function addDetailDataRequest(evt, dt, node, config) {
 
 function prepareUrl(actionType) {
   return function() {
-    return contextPath + '/materialSupplier/' + actionType + (serverParams.embed ? '?' + $.param(serverParams) : '');
+    return server.ctxPath + '/materialSupplier/' + actionType + (serverParams2.embed ? '?' + $.param(serverParams2) : '');
   }
 }
 
 function renderDisplayHint4DataTables(settings, start, end, max, total, pre) {
-  return serverParams.noEdit ? '' : '<span class="small pull-right text-danger">新增相同供應商＋廠牌的材料時，視為修改</span>';
+  return serverParams2.noEdit ? '' : '<span class="small pull-right text-danger">新增相同供應商＋廠牌的材料時，視為修改</span>';
 }
 
 function createDetailDataTable() {
   var dataCols = [ //0
-    renderDefaultAlterationCellWithId4DataTables(serverParams.noEdit ? {} : {
+    renderDefaultAlterationCellWithId4DataTables(serverParams2.noEdit ? {} : {
       edit: {
         url: prepareUrl('edit'),
         callback: modifyDetailDataRequested
@@ -85,7 +85,7 @@ function createDetailDataTable() {
     }
   ];
 
-  if (serverParams.embed) {
+  if (serverParams2.embed) {
     dataCols.splice(1, 1);
   }
 
@@ -94,21 +94,21 @@ function createDetailDataTable() {
     serverSide: true,
     deferRender: true,
     ajax: {
-      url: contextPath + '/api/materialSuppliers.json',
+      url: server.ctxPath + '/api/materialSuppliers.json',
       data: function(params, settings) {
         return $.extend({}, $.fn.dataTable.defaults.ajax.data(params, settings), getSupplierParameters());
       }
     },
     infoCallback: renderDisplayHint4DataTables,
-    // initComplete: serverParams.embed ? null : function(settings, data) { // this == DataTable()
+    // initComplete: serverParams2.embed ? null : function(settings, data) { // this == DataTable()
     initComplete: function(settings, data) { // this == DataTable()
       initialized4DataTables(settings, data);
-      resizeDataTablesInSecs(mSupplierList);
+      resizeDataTablesInSecs(settings.oInstance.DataTable());
     },
     extButtons: {
       copy: true
     },
-    buttons: serverParams.noEdit ? [] : [{
+    buttons: serverParams2.noEdit ? [] : [{
       text: '新增',
       action: addDetailDataRequest
     }],
@@ -119,7 +119,7 @@ function createDetailDataTable() {
   };
 
   mSupplierList = $('#list-materialSupplier').DataTable(
-    serverParams.embed ? $.extend({
+    serverParams2.embed ? $.extend({
       dom: 'Bftri'
     }, dataSettings) : dataSettings
   ).buttons().disable();

@@ -4,10 +4,10 @@
 var vehicleMilageList;
 
 function createCriterionListener() {
-  if (serverParams.embed) {
+  if (serverParams2.embed) {
     $(window).on('criterionChanged', function(e) {
-      serverParams.projectId = e.state.projectId;
-      serverParams.dispatchedDate = e.state.workedDate;
+      serverParams2.projectId = e.state.projectId;
+      serverParams2.dispatchedDate = e.state.workedDate;
       reloadDataTables(vehicleMilageList);
     });
   }
@@ -15,9 +15,9 @@ function createCriterionListener() {
 
 function getMilageParameters() {
   return {
-    embed: serverParams.embed,
-    projectId: serverParams.projectId,
-    dispatchedDate: serverParams.dispatchedDate.replace(/\//g, '-')
+    embed: serverParams2.embed,
+    projectId: serverParams2.projectId,
+    dispatchedDate: serverParams2.dispatchedDate.replace(/\//g, '-')
   }
 }
 
@@ -37,7 +37,7 @@ function addMilageRequest(evt, dt, node, config) {
   BootstrapDialog.show({
     title: '新增...',
     message: requestAction4BootstrapDialog({
-      url: contextPath + '/vehicleMilage/create',
+      url: server.ctxPath + '/vehicleMilage/create',
       callback: addMilageRequested
     }, null, getMilageParameters())
   });
@@ -45,7 +45,7 @@ function addMilageRequest(evt, dt, node, config) {
 
 function prepareUrl(actionType) {
   return function() {
-    return contextPath + '/vehicleMilage/' + actionType + (serverParams.embed ? '?' + $.param(getMilageParameters()) : '');
+    return server.ctxPath + '/vehicleMilage/' + actionType + (serverParams2.embed ? '?' + $.param(getMilageParameters()) : '');
   }
 }
 
@@ -74,7 +74,7 @@ function createMilageTable() {
     }
   ];
 
-  if (serverParams.embed) {
+  if (serverParams2.embed) {
     dataCols.splice(1, 2);
   }
 
@@ -83,25 +83,25 @@ function createMilageTable() {
     serverSide: true,
     deferRender: true,
     ajax: {
-      url: contextPath + '/api/vehicleMilages.json',
+      url: server.ctxPath + '/api/vehicleMilages.json',
       data: function(params, settings) {
-        settings.ajax.fake = serverParams.embed && !(serverParams.projectId || false);
+        settings.ajax.fake = serverParams2.embed && !(serverParams2.projectId || false);
         return $.extend({}, $.fn.dataTable.defaults.ajax.data(params, settings), getMilageParameters());
       },
       onDone: function() {
-        if (serverParams.embed && !(serverParams.projectId || false)) {
+        if (serverParams2.embed && !(serverParams2.projectId || false)) {
           vehicleMilageList.buttons().disable();
         }
       },
       onReloadClick: function(event) {
-          return (!serverParams.embed || serverParams.projectId && true);
+          return (!serverParams2.embed || serverParams2.projectId && true);
         }
         // ,onReloadClicked: function() {
         // }
     },
     initComplete: function(settings, data) { // this == DataTable()
       initialized4DataTables(settings, data);
-      resizeDataTablesInSecs(vehicleMilageList);
+      resizeDataTablesInSecs(settings.oInstance.DataTable());
     },
     extButtons: {
       copy: true
@@ -127,7 +127,7 @@ function createMilageTable() {
   });
 
   vehicleMilageList = $('#list-vehicleMilage').DataTable(
-    serverParams.embed ? $.extend({
+    serverParams2.embed ? $.extend({
       dom: 'Bftri'
     }, dataSettings) : dataSettings
   ).buttons().disable();
