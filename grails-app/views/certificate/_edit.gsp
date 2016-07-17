@@ -7,38 +7,44 @@
     <g:set var="modalPage" value="${true}" scope="request"/> <%--
     <g:set var="deferredScript" value="???" scope="request"/> --%>
 </g:else>
-<g:set var="functionService" bean="functionService"/>
-<g:set var="pageTitle" value="${functionService.get('certification')?.description + '-設定'}"/>
+<g:set var="actionTitle" value="${pageTitle}-${type=='C' ? '新增' : type=='U' ? '編輯' : ''}"/>
 <g:set var="submitMehtod" value="${type=='C' ? 'POST' : type=='U' ? 'PUT' : ''}"/>
 <!DOCTYPE html>
 <html>
     <head>
         <meta name="layout" content="main" />
-        <title>CCES - ${pageTitle}</title>
-        <asset:stylesheet src="form/certification"/>
+        <asset:stylesheet src="form/certificate"/>
     </head>
     <body>
         <div class="container" role="main">
             <div class="panel panel-info"><g:if test="${modalPage}">
                 <div class="panel-heading">
-                    <div class="panel-title">${pageTitle}</div>
+                    <div class="panel-title">${actionTitle}</div>
                 </div></g:if>
-                <div class="panel-body"> <%--
-                    <section class="content-header">
-                        <g:render template="/layouts/server-message" bean="${assignment}"/>
-                    </section> --%>
+                <div class="panel-body">
                     <section class="content">
-                        <g:form resource="${certification}" method="${submitMehtod}" role="form" class="form-horizontal" name="certificationForm">
-                        <g:if test="${certification}">
+                        <g:form resource="${certificate}" method="${submitMehtod}" role="form" class="form-horizontal" name="certificateForm">
+                        <g:if test="${certificate}">
                             <g:if test="${_csrf?.parameterName}">
                               <input name='${_csrf?.parameterName}' type='hidden' value='${_csrf?.token}'/>
                             </g:if>
                             <fieldset class="form-group">
-                                <f:with bean="certification">
-                                    <f:field property="title" label="證照" />
+                                <f:with bean="certificate">
+									<g:if test="${type=='C' && params?.embed!='true'}">
+										<f:field property="emp" label="員工" />
+									</g:if>
+									<g:else>
+										<f:display property="emp" label="員工" />
+									</g:else>
+									<g:if test="${type=='C'}">
+										<f:field property="category" label="證照類別" />
+									</g:if>
+									<g:else>
+										<f:display property="category" label="證照類別" />
+									</g:else>
+									<f:field property="title" label="證照名稱" />
                                     <f:field property="examDate" label="考取年月" widget="date" />
-                                    <f:field property="expiryDate" label="有效年月" widget="date" />
-                                    <f:field property="reExamDate" label="回訓日期" widget="date" />
+                                    <f:field property="expiryDate" label="有效年月|回訓日期" widget="date" />
                                     <f:field property="copied" label="證照影本繳交日" widget="date" />
                                 </f:with>
                             </fieldset>
@@ -53,12 +59,11 @@
         </div>
 <asset:script type='text/javascript'><%-- deferred JS here --%>
 $(function() {
-    var editForm = $('#certificationForm');
+    var editForm = $('#certificateForm');
     $('.bootstrap-dialog-title').html('${pageTitle}');
-    <g:render template="/layouts/client-message" bean="${certification}"/>
-    <g:render template="/layouts/client-submit" model="[formVar: 'editForm']"/>
+    <g:render template="/layouts/client-message" bean="${certificate}"/>
     <g:render template="/layouts/client-render" model="[formVar: 'editForm']"/>
-    $('input[type=text],textarea').filter(':enabled:visible:first').each( function(idx,ele) { $(ele).focus(); } );
+	<g:render template="/layouts/client-submit" model="[formVar: 'editForm']"/>
 });
 </asset:script>
     </body>

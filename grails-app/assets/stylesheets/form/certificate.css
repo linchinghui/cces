@@ -1,0 +1,10 @@
+/*
+*= require_self
+*/
+.modal .panel .panel-body {
+  padding-bottom: 120px;
+}
+
+#certificateForm .col-xs-6 {
+  padding-left: 0;
+}

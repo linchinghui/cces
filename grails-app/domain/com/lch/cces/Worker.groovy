@@ -30,19 +30,18 @@ class Worker {
 
 	@BindingFormat("yyyy/MM/dd'Z'")
 	Date				diplomaCopied	// 畢業證書影本繳交日
-	String				diplomaPhoto		// 畢業證書影本
+	String				diplomaPhoto	// 畢業證書影本
 
 	@BindingFormat("yyyy/MM/dd'Z'")
 	Date				oorCopied		// 退伍令(Order of Retirement)影本繳交日
-	String				oorPhoto			// 退伍令影本
+	String				oorPhoto		// 退伍令影本
 
 	@BindingFormat("yyyy/MM/dd'Z'")
 	Date				gdlCopied		// 駕照(General Driving License)影本繳交日
 	String				gdlPhoto		// 駕照影本
 
 	static transients = ['avatarPhoto', 'idCardPhoto', 'nhiIcCardPhoto', 'diplomaPhoto', 'oorPhoto', 'gdlPhoto']
-
-	// static hasMany = [certifications: Certification]
+	static hasMany = [certificates: Certificate]
 
 	static constraints = {
 		empNo			blank: false, nullable: false, maxSize: 10, unique: true
