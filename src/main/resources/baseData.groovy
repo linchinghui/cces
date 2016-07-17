@@ -16,11 +16,15 @@ base.functionList = [
 	[name: 'privilege', description: '作業授權-權限'],
 
 	[name: 'worker', description: '員工資料-員工'],
+	[name: 'certificate', description: '員工資料-相關證照', aided: true],
+	[name: 'certificateCategory', description: '證照資料-證照類別'],
+	[name: 'certificateOrgan', description: '證照資料-發照幾構', aided: true],
 	[name: 'vehicle', description: '車輛資料-車輛'],
 	[name: 'vehicleBrand', description: '車輛資料-廠牌', aided: true],
-	[name: 'supplier', description: '供應商資料-供應商'],
+//	[name: 'supplier', description: '供應商資料-供應商'],
+	[name: 'supplier', description: '材料表-供應商', aided: true],
 	[name: 'material', description: '材料表-材料'],
-	[name: 'materialCategory', description: '材料表-類型', aided: true],
+	[name: 'materialCategory', description: '材料表-類別', aided: true],
 	[name: 'materialSupplier', description: '材料表-供應來源', aided: true],
 
 	[name: 'revenue', description: '收款資料'],

@@ -14,9 +14,10 @@ aaa.menuGroups = [
 	    [controller: 'role', icon: 'fa fa-unlock']
 	]],
 	[group: 'filing', description:'資料建檔', icon:'fa fa-files-o', items: [
+		// [controller: 'certificateCategory', icon: 'fa fa-certificate'],
 		[controller: 'worker', icon: 'fa fa-user'],
 		[controller: 'vehicle', icon: 'fa fa-bus'],
-		[controller: 'supplier', icon: 'fa fa-ambulance'],
+		// [controller: 'supplier', icon: 'fa fa-ambulance'],
 		[controller: 'material', icon: 'fa fa-clipboard']
 	]],
 	[group: 'project', description:'專案管理', icon:'fa fa-product-hunt', items: [
