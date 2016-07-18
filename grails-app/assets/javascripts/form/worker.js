@@ -36,7 +36,7 @@ function createDetailTab() {
 }
 
 function renderDisplayHint4DataTables(settings, start, end, max, total, pre) {
-  return '<span class="small pull-right text-danger">點選後，可檢視證照資料</span>';
+  return '<span class="small pull-right text-danger">點選後，可於下方檢視證照資料</span>';
 }
 
 function removeDataRequested(result) {
