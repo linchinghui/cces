@@ -16,11 +16,11 @@ class Material {
 	BigDecimal			price			// 價格
 
 	static hasMany = [suppliers: Supplier]
-
-	// String			supplier		// 供應商
-	// String			contactPhoneNo	// 聯絡電號
-	// @BindingFormat("yyyy/MM/dd'Z'")
-	// Date				registeredDate	// 登錄日期
+//TODO: to be removed
+	String			supplier		// 供應商
+	String			contactPhoneNo	// 聯絡電號
+	@BindingFormat("yyyy/MM/dd'Z'")
+	Date				registeredDate	// 登錄日期
 
 	static constraints = {
 		category		blank: false, nullable: false
@@ -33,10 +33,10 @@ class Material {
 		price			blank: true, nullable: true, size: 0..999999, min: BigDecimal.ZERO
 
 		suppliers		joinTable: [key: 'material_id', column: 'supplier_id'], lazy: true // false
-
-		// supplier		blank: true, nullable: true, maxSize: 40
-		// contactPhoneNo	blank: true, nullable: true, maxSize: 12
-		// registeredDate	blank: false, nullable: false
+//TODO: to be removed
+		supplier		blank: true, nullable: true, maxSize: 40
+		contactPhoneNo	blank: true, nullable: true, maxSize: 12
+		registeredDate	blank: false, nullable: false
 	}
 
 	static mapping = {

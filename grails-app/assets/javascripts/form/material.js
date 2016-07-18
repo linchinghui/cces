@@ -64,7 +64,7 @@ function createDetailTab() {
 // }
 
 function renderDisplayHint4DataTables(settings, start, end, max, total, pre) {
-  return '<span class="small pull-right text-danger">點選後, 可檢視材料供應設定</span>';
+  return '<span class="small pull-right text-danger">點選後, 可於下方檢視材料供應設定</span>';
 }
 
 function removeDataRequested(result) {
@@ -151,15 +151,15 @@ function createDataTable() {
         data: 'unit'
       }, { //8
         data: 'price'
-          // },{ //9
-          //   orderable: false,
-          //   data: 'supplier'
-          // },{ //10
-          //   orderable: false,
-          //   data: 'contactPhoneNo'
-          // },{ //11
-          //   render: renderDate4DataTables(),
-          //   data: 'registeredDate'
+      },{ //9
+        orderable: false,
+        data: 'supplier'
+      },{ //10
+        orderable: false,
+        data: 'contactPhoneNo'
+      },{ //11
+        render: renderDate4DataTables(),
+        data: 'registeredDate'
       }
     ],
     order: [

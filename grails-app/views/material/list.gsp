@@ -45,10 +45,10 @@
                             <th>其他</th>
                             <th>數量</th>
                             <th>單位</th>
-                            <th>價格</th><%--
+                            <th>價格</th>
                             <th>供應商</th>
                             <th>電話</th>
-                            <th>登錄日期</th>--%>
+                            <th>登錄日期</th>
                           </tr>
                         </thead>
                         <tbody>
@@ -61,10 +61,10 @@
                             <th>n/a</th>
                             <td>1</td>
                             <td>個</td>
-                            <td>100</td><%--
+                            <td>100</td>
                             <td>supplier</td>
                             <td>04-449449</td>
-                            <td>2016/01/02</td>--%>
+                            <td>2016/01/02</td>
                           </tr>
                         </tbody>
                       </table>
@@ -75,9 +75,7 @@
                 <div id="tab2" class="tab-pane fade">
                   <div class="box">
                     <div class="box-header"></div> <%--
-                    <div class="box-header panel panel-default">
-                      <h3 class="box-title">${pageTitle}</h3>
-                    </div> --%>
+                    <div class="box-header panel panel-default"><h3 class="box-title">${pageTitle}</h3></div> --%>
                     <div class="box-body">
                       <span class="ajax-loader">請稍候&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
                     </div>
