@@ -6,7 +6,7 @@
     );
 %></g:if>
 <g:else>
-    <g:set var="embed" value="${params?.embed=='true'}" scope="request"/>
+    <g:set var="embed" value="${params?.embed=='true' || params['cb']}" scope="request"/>
     <g:set var="dialogPage" value="${true}" scope="request"/>
     <g:set var="selfStyle" value="${true}" scope="request"/>
     <%
