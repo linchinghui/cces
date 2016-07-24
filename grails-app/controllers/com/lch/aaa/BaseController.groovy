@@ -1,6 +1,7 @@
 package com.lch.aaa
 
 import grails.converters.*
+import grails.gorm.*
 import grails.rest.RestfulController
 import grails.transaction.Transactional
 import static org.springframework.http.HttpStatus.*
@@ -15,12 +16,12 @@ abstract class BaseController<T> extends RestfulController<T> {
 		super(type) // super(getClass().getTypeParameters()[0].getGenericDeclaration()) ?
 	}
 
-	protected T saveResource(T resource) {
-		resource.save flush: true
+	protected T saveResource(T instance) {
+		instance.save flush: true
 	}
 
-	protected deleteResource(T resource) {
-		resource.delete flush: true
+	protected deleteResource(T instance) {
+		instance.delete flush: true
 	}
 
 	protected String getDeletPage() {
@@ -270,6 +271,7 @@ abstract class BaseController<T> extends RestfulController<T> {
 	/*
 	* ----- R -----
 	*/
+	@Override
 	def index(Integer max) {
 		def specActionName = request.getHeader('X-CCES-ACTION')
 
@@ -327,6 +329,41 @@ abstract class BaseController<T> extends RestfulController<T> {
 			}
 		}
 	}
+
+	@Override
+	protected List<T> listAllResources(Map params) {
+		def colMeta = resource.constrainedProperties
+		def columns = colMeta*.key
+		def searchParams = params?.findAll { param ->
+			(param.key.startsWith('s:') && param.value?.toString()?.size() > 0)
+		}
+
+		// if (searchParams.size() <= 0) {
+		// 	return super.resource.list(params)
+		// }
+
+		new DetachedCriteria(super.resource).build {
+			searchParams?.each { param ->
+				if (param.key.startsWith('s:') &&
+						param.value?.toString()?.size() > 0) {
+					def col = param.key.split('s:')[-1]
+
+					if (col in columns) {
+						def colType = colMeta.find {
+					    it.key == col
+						}
+						if (colType !=null ) {
+							if (colType.value.propertyType.package.name.startsWith('com.lch')) {
+								ilike "${col}.id", param.value?.toLowerCase()
+							} else {
+								ilike "$col", param.value?.toLowerCase()
+							}
+						}
+					}
+				}
+			}
+		}.list(params)
+  }
 
 	def show() {
 		if (! isReadAuthorized()) {
