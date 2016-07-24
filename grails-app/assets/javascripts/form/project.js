@@ -77,9 +77,8 @@ function createDataTable() {
     ajax: {
       url: server.ctxPath + '/api/projects.json'
     },
-    initComplete: function(settings, data) { // this == DataTable()
+    initComplete: function(settings, data) {
       initialized4DataTables(settings, data);
-      resizeDataTablesInSecs(settings.oInstance.DataTable());
     },
     extButtons: {
       copy: true
@@ -153,6 +152,8 @@ function createDataTable() {
     order: [
         [1, 'asc']
       ] // prev: 'aaSorting'
-
-  }).buttons().disable();
+  })
+	.buttons()
+	.disable()
+	;
 }

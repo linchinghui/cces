@@ -98,10 +98,8 @@ function createDetailDataTable() {
       }
     },
     // infoCallback: renderDisplayHint4DataTables,
-    // initComplete: serverParams2.embed ? null : function(settings, data) { // this == DataTable()
-    initComplete: function(settings, data) { // this == DataTable()
+    initComplete: /*serverParams2.embed ? null :*/ function(settings, data) {
       initialized4DataTables(settings, data);
-      resizeDataTablesInSecs(settings.oInstance.DataTable());
     },
     extButtons: {
       copy: true
@@ -120,5 +118,9 @@ function createDetailDataTable() {
     serverParams2.embed ? $.extend({
       dom: 'Bftri'
     }, dataSettings) : dataSettings
-  ).buttons().disable();
+  )
+	.buttons()
+	.disable()
+	;
+
 }

@@ -23,10 +23,9 @@ function createDataTable() {
     ajax: {
       url: server.ctxPath + '/api/functions.json'
     },
-	infoCallback: renderDisplayHint4DataTables,
+		infoCallback: renderDisplayHint4DataTables,
     initComplete: function(settings, data) {
       initialized4DataTables(settings, data);
-      resizeDataTablesInSecs(settings.oInstance.DataTable());
     },
     extButtons: {
       copy: true
@@ -47,6 +46,8 @@ function createDataTable() {
     order: [
         [2, 'asc']
       ] // prev: 'aaSorting'
-
-  }).buttons().disable();
+	})
+	.buttons()
+	.disable()
+	;
 }

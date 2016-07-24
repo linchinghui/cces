@@ -38,9 +38,8 @@ function createDataTable() {
       url: server.ctxPath + '/api/revenues.json'
     },
     infoCallback: renderDisplayHint4DataTables,
-    initComplete: function(settings, data) { // this == DataTable()
+    initComplete: function(settings, data) {
       initialized4DataTables(settings, data);
-      resizeDataTablesInSecs(settings.oInstance.DataTable());
     },
     extButtons: {
       copy: true
@@ -83,6 +82,8 @@ function createDataTable() {
     order: [
         [4, 'desc']
       ] // prev: 'aaSorting'
-
-  }).buttons().disable();
+  })
+	.buttons()
+	.disable()
+	;
 }

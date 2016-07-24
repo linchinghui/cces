@@ -106,7 +106,6 @@ function createDataTable() {
     infoCallback: renderDisplayHint4DataTables,
     initComplete: function(settings, data) {
       initialized4DataTables(settings, data);
-      resizeDataTablesInSecs(settings.oInstance.DataTable());
       // detailSec.empty();
     },
     extButtons: {
@@ -165,6 +164,8 @@ function createDataTable() {
     order: [
         [1, 'asc']
       ] // prev: 'aaSorting'
-
-  }).buttons().disable();
+	})
+	.buttons()
+	.disable()
+	;
 }

@@ -99,9 +99,8 @@ function createMilageTable() {
         // ,onReloadClicked: function() {
         // }
     },
-    initComplete: function(settings, data) { // this == DataTable()
+    initComplete: function(settings, data) {
       initialized4DataTables(settings, data);
-      resizeDataTablesInSecs(settings.oInstance.DataTable());
     },
     extButtons: {
       copy: true
@@ -130,5 +129,8 @@ function createMilageTable() {
     serverParams2.embed ? $.extend({
       dom: 'Bftri'
     }, dataSettings) : dataSettings
-  ).buttons().disable();
+  )
+	.buttons()
+	.disable()
+	;
 }

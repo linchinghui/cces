@@ -57,9 +57,8 @@ function createDataTable() {
       }
     },
     infoCallback: renderDisplayHint4DataTables,
-    initComplete: function(settings, data) { // this == DataTable()
+    initComplete: function(settings, data) {
       initialized4DataTables(settings, data);
-      resizeDataTablesInSecs(settings.oInstance.DataTable());
       // detailSec.empty();
     },
     extButtons: {
@@ -83,5 +82,8 @@ function createDataTable() {
       }
     ]
 
-  }).buttons().disable();
+  })
+	.buttons()
+	.disable()
+	;
 }

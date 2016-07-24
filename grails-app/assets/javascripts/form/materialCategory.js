@@ -35,7 +35,6 @@ function createCatDataTable() {
     },
     initComplete: function(settings, data) {
       initialized4DataTables(settings, data);
-	  resizeDataTablesInSecs(settings.oInstance.DataTable());
     },
     extButtons: {
       copy: true
@@ -64,6 +63,8 @@ function createCatDataTable() {
     order: [
         [1, 'asc']
       ] // prev: 'aaSorting'
-
-  }).buttons().disable();
+	})
+	.buttons()
+	.disable()
+	;
 }

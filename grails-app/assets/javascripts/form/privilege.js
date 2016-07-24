@@ -78,9 +78,8 @@ function createDetailDataTable() {
         return $.extend(serverParams2, $.fn.dataTable.defaults.ajax.data(params, settings));
       }
     },
-    initComplete: serverParams2.embed ? null : function(settings, data) { // this == DataTable()
+    initComplete: serverParams2.embed ? null : function(settings, data) {
       initialized4DataTables(settings, data);
-      resizeDataTablesInSecs(settings.oInstance.DataTable());
     },
     extButtons: {
       copy: true
@@ -103,5 +102,8 @@ function createDetailDataTable() {
         action: addDetailDataRequest
       }]
     }, dataSettings)
-  ).buttons().disable();
+  )
+	.buttons()
+	.disable()
+	;
 }
