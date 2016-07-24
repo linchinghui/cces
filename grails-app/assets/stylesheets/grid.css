@@ -1,6 +1,6 @@
 /*
-*= require plugins/datatables-all
-** require plugins/datatables
+** require plugins/datatables-all
+*= require plugins/datatables
 *= require_self
 */
 /*
@@ -27,6 +27,15 @@
   padding-top: 0px;
 }
 
+.dataTables_filter {
+  visibility: hidden;
+}
+/*
+.dataTables_filter input {
+	visibility: visible;
+	margin: 2px;
+}
+*/
 .dataTables_scrollBody::-webkit-scrollbar {
   -webkit-appearance: none;
 }
@@ -130,4 +139,8 @@ div.dt-buttons.btn-group {
     width: -moz-max-content;
     width: max-content;
   }
+}
+
+.dtr-title .search-input {
+  display: none;
 }
