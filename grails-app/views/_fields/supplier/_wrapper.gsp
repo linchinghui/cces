@@ -5,7 +5,13 @@
     <g:each in="${com.lch.cces.Supplier.list()}">
       <option value="${it.id}" ${it==value?'selected':''}>${it.code}-${it.name}</option>
     </g:each>
-  </select>
+  </select><%--
+  <g:select name="${property}" value="${value}" required="${required}" class="combobox"
+	from="${com.lch.cces.Supplier.list()}"
+	noSelection="${['':'供應商代碼或名稱關鍵字']}"
+	optionValue='${{"${it.code}-${it.name}"}}'
+	optionKey="id" />
+--%>
 </div>
 <asset:script type='text/javascript'><%-- deferred JS here --%>
 $(function() {

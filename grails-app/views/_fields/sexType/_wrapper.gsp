@@ -5,7 +5,13 @@
     <g:each in="${com.lch.cces.SexType.values()}">
       <option value="${it.name()}" ${it==value?'selected':''}>${it}</option>
   </g:each>
-  </select>
+  </select><%--
+  <g:select name="${property}" value="${value}" required="${required}" class="combobox"
+	from="${com.lch.cces.SexType.values()}"
+	noSelection="${['':'M:男 F:女']}"
+	optionValue='${{it}}'
+	optionKey='${{it.name()}}' />
+--%>
 </div>
 <asset:script type='text/javascript'><%-- deferred JS here --%>
 $(function() {

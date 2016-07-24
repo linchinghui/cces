@@ -5,7 +5,13 @@
     <g:each in="${com.lch.cces.Certificate.list()}">
       <option value="${it.id}" ${it==value?'selected':''}>(${it.id}) ${it.name}</option>
     </g:each>
-  </select>
+  </select><%--
+  <g:select name="${property}" value="${value}" required="${required}" class="combobox"
+	from="${com.lch.cces.Certificate.list()}"
+	noSelection="${['':'證照ID或名稱關鍵字']}"
+	optionValue='${{"(${it.id}) ${it.name}"}}'
+	optionKey="id" />
+--%>
 </div>
 <asset:script type='text/javascript'><%-- deferred JS here --%>
 $(function() {

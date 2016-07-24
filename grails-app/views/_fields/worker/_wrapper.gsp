@@ -5,7 +5,13 @@
     <g:each in="${com.lch.cces.Worker.list()}">
       <option value="${it.id}" ${it==value?'selected':''}>${it.empNo}-${it.empName}</option>
     </g:each>
-  </select>
+  </select><%--
+  <g:select name="${property}" value="${value}" required="${required}" class="combobox"
+	from="${com.lch.cces.Worker.list()}"
+	noSelection="${['':'員工編號或姓名關鍵字']}"
+	optionValue='${{"${it.empNo}-${it.empName}"}}'
+	optionKey="id" />
+--%>
 </div>
 <asset:script type='text/javascript'><%-- deferred JS here --%>
 $(function() {
