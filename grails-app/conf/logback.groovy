@@ -78,7 +78,10 @@ appender('CCES', FileAppender) { // RollingFileAppender
   }
 }
 
-['com.lch', 'grails.app.controllers.AAAInterceptor', 'grails.app.controllers.com.lch', 'grails.app.services.com.lch'].each {
+// ['com.lch', 'grails.app.interceptors.AAAInterceptor', 'grails.app.controllers.com.lch', 'grails.app.services.com.lch'].each {
+['com.lch', 'grails.app.controllers.com.lch', 'grails.app.services.com.lch',
+ 'AAAInterceptor', 'grails.app.controllers.AAAInterceptor'].each
+{
   logger(it, (config.log.cces.level ?: WARN), ['CCES'], false)
 }
 
