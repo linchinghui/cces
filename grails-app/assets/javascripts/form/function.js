@@ -4,50 +4,49 @@
 var functionList;
 
 function removeDataRequested(result) {
-  reloadDataTables(functionList);
+	reloadDataTables(functionList);
 }
 
 function modifyDataRequested(result, editForm) {
-  reloadDataTables(functionList);
+	reloadDataTables(functionList);
 }
 
 function renderDisplayHint4DataTables(settings, start, end, max, total, pre) {
-  return '<span class="small pull-right text-danger">作業名稱: { 選單名稱 } [ - { 作業標頭 } ]</span>';
+	return '<span class="small pull-right text-danger">作業名稱: { 選單名稱 } [ - { 作業標頭 } ]</span>';
 }
 
 function createDataTable() {
-  functionList = $('#list-function').DataTable({
-    processing: true,
-    serverSide: true,
-    deferRender: true,
-    ajax: {
-      url: server.ctxPath + '/api/functions.json'
-    },
-		infoCallback: renderDisplayHint4DataTables,
-    initComplete: function(settings, data) {
-      initialized4DataTables(settings, data);
-    },
-    extButtons: {
-      copy: true
-    },
-    buttons: [],
-    columns: [ //0
-      renderDefaultAlterationCellWithId4DataTables({
-        edit: {
-          url: server.ctxPath + '/function/edit',
-          callback: modifyDataRequested
-        }
-      }), { //1
-        data: 'name'
-      }, { //2
-        data: 'description'
-      }
-    ],
-    order: [
-        [2, 'asc']
-      ] // prev: 'aaSorting'
-	})
-	.buttons()
-	.disable()
-	;
+	functionList = $('#list-function').DataTable({
+			processing: true,
+			serverSide: true,
+			deferRender: true,
+			ajax: {
+				url: server.ctxPath + '/api/functions.json'
+			},
+			infoCallback: renderDisplayHint4DataTables,
+			initComplete: function(settings, data) {
+				initialized4DataTables(settings, data);
+			},
+			extButtons: {
+				copy: true
+			},
+			buttons: [],
+			columns: [ //0
+				renderDefaultAlterationCellWithId4DataTables({
+					edit: {
+						url: server.ctxPath + '/function/edit',
+						callback: modifyDataRequested
+					}
+				}), { //1
+					data: 'name'
+				}, { //2
+					data: 'description'
+				}
+			],
+			order: [
+					[2, 'asc']
+				] // prev: 'aaSorting'
+		})
+		.buttons()
+		.disable();
 }
