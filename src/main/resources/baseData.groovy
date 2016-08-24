@@ -18,7 +18,7 @@ base.functionList = [
 	[name: 'worker', description: '員工資料-員工'],
 	[name: 'certificate', description: '員工資料-相關證照', aided: true],
 	[name: 'certificateCategory', description: '證照資料-證照類別'],
-	[name: 'certificateOrgan', description: '證照資料-發照幾構', aided: true],
+	[name: 'certificateOrgan', description: '證照資料-證照發照機構', aided: true],
 	[name: 'vehicle', description: '車輛資料-車輛'],
 	[name: 'vehicleBrand', description: '車輛資料-廠牌', aided: true],
 //	[name: 'supplier', description: '供應商資料-供應商'],
@@ -30,7 +30,8 @@ base.functionList = [
 	[name: 'revenue', description: '收款資料'],
 
 	[name: 'project', description: '專案表-專案'],
-	[name: 'assignment', description: '人員配置-本週人員派工'],
+	[name: 'assignment', description: '人員配置-人員派工(週)'],
+//	[name: 'dispose', description: '人員配置-本月人員配置', aided: true],
 	[name: 'task', description: '一般施作紀錄'],
 	[name: 'spTask', description: '園區施作紀錄-人員'],
 	[name: 'vehicleMilage', description: '園區施作紀錄-用車', aided: true]
