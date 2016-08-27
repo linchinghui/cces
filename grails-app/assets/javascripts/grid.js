@@ -16,7 +16,7 @@ function reloadDataTables(dataTable, arg) {
 		dataTable.ajax.reload(function() { // dataTable.columns.adjust().ajax.reload(null, arg && true);
 			setTimeout(function() {
 				$(window).trigger('resize'); //, {dataTable: dataTable});
-			}, 500);
+			}, 600);
 		}, arg && true);
 	}
 }
@@ -36,6 +36,12 @@ function renderCheck4DataTables(data, type, row, meta) {
 		data;
 }
 
+function renderRadio4DataTables(data, type, row, meta) {
+	return ((data == true || data == false) && (type == 'display' || type == 'filter')) ?
+		renderRadio(data) :
+		data;
+}
+
 function disableProcessing4DataTables(dataTable) { //settings) {
 	var settings = dataTable.settings()[0];
 	settings.oInstance._fnProcessingDisplay(settings, false);
@@ -47,8 +53,13 @@ function transformServerResult4DataTables(dataTable) { //settings) {
 		alertMessage(response, jqXHR);
 		// var dataTable = settings.oInstance.DataTable();
 		// settings.oInstance._fnAjaxUpdateDraw(response);
-		dataTable.settings()[0].oInstance._fnAjaxUpdateDraw(response);
-
+		dataTable.settings()[0].oInstance._fnAjaxUpdateDraw(
+			jQuery.isArray(response) ? {
+				recordsTotal: 0,
+				recordsFiltered: 0,
+				data: []
+			} : response
+		);
 		if (dataTable.context[0].ajax.onDone) {
 			dataTable.context[0].ajax.onDone();
 		}
@@ -57,7 +68,7 @@ function transformServerResult4DataTables(dataTable) { //settings) {
 
 function transformServerError4DataTables(dataTable) { //settings) {
 	return transformServerError(function() {
-		disableProcessing4DataTables(dataTable);//settings);
+		disableProcessing4DataTables(dataTable); //settings);
 		// var dataTable = settings.oInstance.DataTable();
 		renderAjaxButtons4DataTables(dataTable);
 
@@ -161,7 +172,7 @@ function addQueryButtons4Init(dataTable) { //settings) {
 			text: '取消',
 			action: function(evt, dt, node, conf) {
 				dt.context[0].jqXHR.abort && dt.context[0].jqXHR.abort(); // dataTable.context[0].jqXHR.abort();
-				disableProcessing4DataTables(dataTable);//settings);
+				disableProcessing4DataTables(dataTable); //settings);
 			}
 		}]
 	});
@@ -171,10 +182,10 @@ function addQueryButtons4Init(dataTable) { //settings) {
 	var ajax = dataTable.context[0].ajax;
 
 	if (ajax && typeof ajax.success === 'undefined') {
-		ajax.success = transformServerResult4DataTables(dataTable);//settings);
+		ajax.success = transformServerResult4DataTables(dataTable); //settings);
 	}
 	if (ajax && typeof ajax.error === 'undefined') {
-		ajax.error = transformServerError4DataTables(dataTable);//settings);
+		ajax.error = transformServerError4DataTables(dataTable); //settings);
 	}
 }
 
@@ -314,16 +325,19 @@ function addSearchCapability(dataTable) {
 		var that = this;
 
 		$(searchClass, this.header()).each(function(idx, ele) {
-			ele.placeholder = '搜尋關鍵字';
+			var placeholder = ele.parentElement.getAttribute('placeholder');
+			placeholder = /*'搜尋' +*/ (placeholder ? placeholder : '關鍵字');
+			ele.placeholder = placeholder;
 			$(ele).typeWatch({
 				wait: 750,
-				captureLength: 2,
+				captureLength: 1,
 				highlight: true,
 
 				callback: function(value) {
 					if (that.search() !== value) {
+
 						dataTable.context[0].oPreviousSearch.sSearch = value;
-						this.placeholder = value ? value : '搜尋關鍵字';
+						this.placeholder = value ? value : placeholder;
 						this.value = "";
 						that.search(value, true).draw();
 					}
@@ -355,14 +369,16 @@ function initialized4DataTables(settings, response) {
 
 $.extend(true, $.fn.dataTable.defaults, {
 	dom: 'Bftrpi',
-	fixedHeader: true,
 	pageLength: 10,
 	searching: true, //false,
 	// stateSave: true, // would cause 'sort' no work ?
-	select: {
-		info: false,
-		style: 'single'
-	},
+	// select: {
+	// 	info: false,
+	// 	style: 'single'
+	// },
+	select: false,
+	fixedHeader: true,
+	scrollYInner: '100%',
 	scrollY: '58vh', //300,
 	scrollCollapse: true,
 	responsive: {
@@ -399,20 +415,20 @@ $.extend(true, $.fn.dataTable.defaults, {
 			};
 			$.each(params.columns, function() {
 				if (this.search && this.search.value != "") {
-					srvParams['s:'+this.data] = this.search.regex ? '%' + this.search.value + '%' :
-					this.search.value;
+					srvParams['s:' + this.data] = this.search.regex ? '%' + this.search.value + '%' :
+						this.search.value;
 				}
 			});
 			return srvParams;
 		}
 	},
 	drawCallback: function(settings) {
-		if (settings.bFiltered) {
-			var searchVal = this.api().search();
-			if (searchVal !== '') {
-				$(this.api().table().container()).find('table td').highlight(searchVal);
-			}
-		}
+		// if (settings.bFiltered) {
+		// 	var searchVal = this.api().search();
+		// 	if (searchVal !== '') {
+		// 		$(this.api().table().container()).find('table td').highlight(searchVal);
+		// 	}
+		// }
 		renderAjaxButtons4DataTables(settings.oInstance.DataTable());
 	}
 });
@@ -430,7 +446,7 @@ $.fn.dataTable.ext.errMode = function(settings, tn, errors) {
 			delete settings['bDestroying'];
 
 			if (jqXHR.status == 401) {
-				disableProcessing4DataTables(dataTable);//settings);
+				disableProcessing4DataTables(dataTable); //settings);
 				$('.dataTables_empty').html('<i class="fa fa-exclamation-triangle"></i>&nbsp;無作業權限');
 
 			} else {
