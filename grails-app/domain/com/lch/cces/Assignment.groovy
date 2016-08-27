@@ -28,13 +28,13 @@ class Assignment implements Serializable, Comparable<Assignment> {
 		project		blank: false, nullable: false
 		year		blank: false, nullable: false, size: 4
 		week		blank: false, nullable: false, size: 2, range:1..53 // min: 1, max: 53
+		// d0		blank: true, nullable: true
 		// d1		blank: true, nullable: true
 		// d2		blank: true, nullable: true
 		// d3		blank: true, nullable: true
 		// d4		blank: true, nullable: true
 		// d5		blank: true, nullable: true
 		// d6		blank: true, nullable: true
-		// d7		blank: true, nullable: true
 	}
 
 
@@ -45,7 +45,7 @@ class Assignment implements Serializable, Comparable<Assignment> {
 	// }
 
 	public String toString() {
-		"${employee?.id}:${project?.id}:${year}.${week}(${d0?'S':'_'}${d1?'M':'_'}${d2?'T':'_'}${d3?'W':'_'}${d4?'T':'_'}${d5?'F':'_'}${d6?'S':'_'})"
+		"${employee?.id}:${project?.id}:${year}.${week}=${d0?'S':'_'}${d1?'M':'_'}${d2?'T':'_'}${d3?'W':'_'}${d4?'T':'_'}${d5?'F':'_'}${d6?'S':'_'}"
 	}
 
 	public int compareTo(def other) {

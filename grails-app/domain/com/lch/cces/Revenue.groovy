@@ -18,7 +18,7 @@ class Revenue {
 
 	static constraints = {
 		project		blank: false, nullable: false
-		invoieNo	blank: false, nullable: false, unique: true
+		invoieNo	blank: false, nullable: false, maxSize: 10, unique: true
 		invoiceDate	blank: false, nullable: false
 		recordDate	blank: true, nullable: true, validator: { val, obj ->
 			def isOK = obj.id == null || val == null || val >= obj.invoiceDate
@@ -40,5 +40,9 @@ class Revenue {
 	static mapping = {
 		version		false
 		sort		'id'
+	}
+
+	public String toString() {
+		"${project.id}-${invoieNo}"
 	}
 }

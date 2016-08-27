@@ -36,7 +36,8 @@ class Material {
 //TODO: to be removed
 		supplier		blank: true, nullable: true, maxSize: 40
 		contactPhoneNo	blank: true, nullable: true, maxSize: 12
-		registeredDate	blank: false, nullable: false
+		// registeredDate	blank: false, nullable: false
+		registeredDate	blank: true, nullable: true
 	}
 
 	static mapping = {
@@ -44,11 +45,11 @@ class Material {
 		sort			'id'
 	}
 
-	// def beforeInsert() {
-	// 	if (registeredDate == null) {
-	// 		registeredDate = new Date()
-	// 	}
-	// }
+	def beforeInsert() {
+		if (registeredDate == null) {
+			registeredDate = new Date()
+		}
+	}
 
 	public String toString() {
 		"${name}"

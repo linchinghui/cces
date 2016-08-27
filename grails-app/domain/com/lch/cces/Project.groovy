@@ -9,7 +9,7 @@ class Project {
 	String			id				// primary key, 一律小寫
 	String			code			// 專案代碼, alias of id
 	String			description		// 專案名稱
-	String			constructNo		// 機台型號 (註: 使用原序號欄位)
+	String			constructNo		// 機台編號 (註: 使用原序號欄位)
 	String			constructPlace	// 工程地點
 	String			projectKind		// 工作型態
 	ProjectType		projectType		// 工作型態 (for input/display)
@@ -34,6 +34,8 @@ class Project {
     	code			blank: false, nullable: false, maxSize: 10, unique: true
 		description		blank: false, nullable: false, maxSize: 40
 		constructNo		blank: true, nullable: true, maxSize: 20
+		// TODO
+		constructNo		blank: false, nullable: false, maxSize: 20, unique: true
 		constructPlace	blank: false, nullable: false, maxSize: 40
 		projectKind		blank: false, nullable: false, inList: ProjectType*.id
 		projectType		blank: false, nullable: false
@@ -87,6 +89,6 @@ class Project {
 	}
 
 	public String toString() {
-		"${description}"
+		"($id) ${description}"
 	}
 }

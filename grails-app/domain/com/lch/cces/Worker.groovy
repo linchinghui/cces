@@ -108,6 +108,6 @@ class Worker {
 	}
 
 	public String toString() {
-		"${empName}"
+		"($id) ${empName}"
 	}
 }
