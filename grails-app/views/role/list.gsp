@@ -7,7 +7,7 @@
         <asset:stylesheet src="form/role"/> --%>
     </head>
     <body>
-      <div class="content-wrapper" role="main"> <%--
+    <div class="content-wrapper" role="main"> <%--
         <section class="content-header">
           <g:render template="/layouts/server-message" bean="${role}"/>
         </section> --%>
@@ -42,16 +42,16 @@
             </div>
           </div>
         </section>
-      </div>
+    </div>
 <asset:script type='text/javascript'><%-- deferred JS here --%>
 var serverParams = {
-  detailLink: '${createLink([controller:"privilege", action:"index"])}'
+	detailLink: '${createLink([controller:"privilege", action:"index"])}'
 };
 
 $(function() {
-  <g:render template="/layouts/client-message" bean="${role}"/>
-  createDetailTab();
-  createDataTable();
+	<g:render template="/layouts/client-message"/>
+	createDetailTab();
+	createDataTable();
 });
 </asset:script>
     </body>

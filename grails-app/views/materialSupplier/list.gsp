@@ -11,92 +11,58 @@
 </g:if>
 	</head>
 	<body>
-<g:if test="${embedPage}">
-		<div class="row">
-			<div class="col-xs-12">
-				<ul class="nav nav-tabs">
-					<li class="active"><a href="#" data-target="#" data-toggle="tab"><big>${pageTitle}</big></a></li>
-				</ul>
-			 	<div class="box">
-					<div class="box-header"></div>
-					<div class="box-body">
-						<table id="list-materialSupplier" class="table table-bordered table-hover">
-							<thead>
-							<tr>
-								<th></th>
-								<th>供應商</th>
-								<th>購買日期</th>
-								<th>購買價格</th>
-								<th>廠牌</th>
-								<th>業務員</th>
-								<th>電話</th>
-								<th>傳真電話</th>
-							  </tr>
-							</thead>
-							<tbody>
-							<tr>
-								<td></td>
-								<td></td>
-								<td></td>
-								<td></td>
-								<td></td>
-								<td></td>
-								<td></td>
-								<td></td>
-							</tr>
-							</tbody>
-						</table>
-					</div>
-				</div>
-			</div>
-		</div>
+<g:if test="${! embedPage}">
+	<div class="content-wrapper" role="main">
+		<section class="content">
 </g:if>
-<g:else>
-		<div class="content-wrapper" role="main">
-			<section class="content">
-				<div class="row">
-					<div class="col-xs-12">
-						<ul class="nav nav-tabs">
-							<li class="active"><a href="#" data-target="#" data-toggle="tab"><big>${pageTitle}</big></a></li>
-						</ul>
-						<div class="box">
-							<div class="box-header"></div>
-							<div class="box-body">
-								<table id="list-materialSupplier" class="table table-bordered table-hover">
-									<thead>
-									<tr>
-										<th></th>
-										<th>材料</th>
-										<th>供應商</th>
-										<th>購買日期</th>
-										<th>購買價格</th>
-										<th>廠牌</th>
-										<th>業務員</th>
-										<th>電話</th>
-										<th>傳真電話</th>
-									</tr>
-									</thead>
-									<tbody>
-									<tr>
-										<td></td>
-										<td>Test Material</td>
-										<td>Test Supplier</td>
-										<td>2016/06/01</td>
-										<td>100.0</td>
-										<td>Test Brand</td>
-										<td>William Hunag</td>
-										<td></td>
-										<td></td>
-									</tr>
-									</tbody>
-								</table>
-							</div>
+			<div class="row">
+				<div class="col-xs-12">
+					<ul class="nav nav-tabs">
+						<li class="active"><a href="#" data-target="#" data-toggle="tab"><big>${pageTitle}</big></a></li>
+					</ul>
+					<div class="box">
+						<div class="box-header"></div>
+						<div class="box-body">
+							<table id="list-materialSupplier" class="table table-bordered table-hover">
+								<thead>
+								<tr>
+									<th></th>
+<g:if test="${! embedPage}">
+									<th>材料</th>
+</g:if>
+									<th>供應商</th>
+									<th>購買日期</th>
+									<th>購買價格</th>
+									<th>廠牌</th>
+									<th>業務員</th>
+									<th>電話</th>
+									<th>傳真電話</th>
+								</tr>
+								</thead>
+								<tbody>
+								<tr>
+									<td></td>
+<g:if test="${! embedPage}">
+									<td>Test Material</td>
+</g:if>
+									<td>Test Supplier</td>
+									<td>2016/06/01</td>
+									<td>100.0</td>
+									<td>Test Brand</td>
+									<td>William Hunag</td>
+									<td></td>
+									<td></td>
+								</tr>
+								</tbody>
+							</table>
 						</div>
 					</div>
 				</div>
-			</section>
-		</div>
-</g:else>
+			</div>
+<g:if test="${! embedPage}">
+		</section>
+	</div>
+</g:if>
 <asset:script type='text/javascript'><%-- deferred JS here --%>
 var serverParams2 = {
 	embed: ${embedPage},
@@ -104,6 +70,7 @@ var serverParams2 = {
 };
 
 $(function() {
+	<g:render template="/layouts/client-message"/>
 	createDetailDataTable();
 });
 </asset:script>
