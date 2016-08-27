@@ -2,7 +2,9 @@
 *= require_self
 */
 .modal .panel .panel-body {
-  padding-bottom: 120px;
+  /*padding-top: 20px;*/
+  /*padding-bottom: 100px;*/
+  padding-bottom: 116px;
 }
 
 #certificateForm .col-xs-6 {

@@ -98,6 +98,7 @@
 
 .box .box-header {
   padding-top: 0;
+  /*padding-bottom: 0;*/
 }
 
 .wrapper, .container {

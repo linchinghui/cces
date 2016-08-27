@@ -28,7 +28,8 @@
 }
 
 .dataTables_filter {
-  visibility: hidden;
+  /*visibility: hidden;*/
+  display: none;
 }
 /*
 .dataTables_filter input {
@@ -58,12 +59,12 @@
   background-color: #ffffff;
   border-radius: 10px;
 }
-
+/*
 table.dataTable thead th:first-child.sorting_desc:after,
 table.dataTable thead th:first-child.sorting_asc:after {
   visibility: hidden;
 }
-
+*/
 table.dataTable tbody td .fa-info,
 table.dataTable tbody td .fa-times,
 table.dataTable tbody td .fa-pencil {

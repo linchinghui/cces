@@ -1,3 +1,10 @@
 /*
 *= require_self
 */
+.modal .panel .panel-body {
+  padding-bottom: 44px;
+}
+
+input#functionCombo + ul.typeahead {
+  max-height: 560%;
+}
