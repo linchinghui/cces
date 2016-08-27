@@ -33,14 +33,15 @@
                             </g:if>
                             <fieldset class="form-group">
                                 <f:with bean="privilege">
-                                    <%-- <g:if test="${type=='C'}">
+                                    <g:if test="${type=='C' && params?.embed!='true'}">
                                         <f:field property="role" label="作業角色" />
                                         <f:field property="function" label="作業項目" />
                                     </g:if>
-                                    <g:else> --%>
+                                    <g:else>
                                         <f:display property="role" label="作業角色" />
                                         <f:display property="function" label="作業項目" />
-                                    <%-- </g:else> --%>
+                                    </g:else>
+									<br>
                                     <f:field property="canRead" label="可讀" />
                                     <f:field property="canWrite" label="可寫" />
                                     <f:field property="canDelete" label="可刪" />
