@@ -219,7 +219,7 @@ abstract class BaseController<T> extends RestfulController<T> {
 		}
 	}
 
-	protected def void notFound() {
+	protected void notFound() {
 		commonWarning(NOT_FOUND, '資料不存在')
 	}
 
@@ -284,16 +284,23 @@ abstract class BaseController<T> extends RestfulController<T> {
 		}
 	}
 
+	protected Map arrangeModel4ListView() {
+		null
+	}
+
 	private def list(max) {
+		// def criteria
+
 		boolean hasReadAuth = isReadAuthorized()
 		if (! hasReadAuth) {
 			unAuthorized()
 			// return
+		// } else { // TODO : using ThreadLocal to ref in listAllResources() and countResources()
+			// TODO: resolveParameters(params)
+			// criteria = createListCriteria(params)
 		}
 
 		params.max = Math.min(max ?: 10, 100)
-		def countName = "${resourceName}Count".toString()
-		// def listName = "${resourceName}List".toString() // "${resourceName}List" to represent dataList by default
 		// Thread.currentThread().sleep(1000)
 		// flash.error="test flash"
 		// response.status = 404
@@ -303,6 +310,7 @@ abstract class BaseController<T> extends RestfulController<T> {
 
 			if (params?.draw) { // integrate with DataTables JS
 				def dataCount = hasReadAuth ? countResources() : java.math.BigInteger.ZERO
+
 				respond (
 					// message: 'TEST',
 					// warning: ['TEST','Hey'],
@@ -318,9 +326,18 @@ abstract class BaseController<T> extends RestfulController<T> {
 			}
 
 		} else {
+			// def listName = "${resourceName}List".toString()
+			def countName = "${resourceName}Count".toString()
+
 			if (params?.format in ['all', 'form', null]) { // (params?.format != null || request.format != 'all')
-				// just render viewer (and use ajax to access data above)
-				render view: 'list' //, model: [ (listName): dataList, (countName): dataCount ]
+				def renderModel = arrangeModel4ListView()
+
+				if (renderModel) {
+					render view: 'list', model: renderModel // [ (listName): dataList, (countName): dataCount ]
+
+				} else { // just render viewer (and use ajax to access data above)
+					render view: 'list'
+				}
 
 			} else {
 				def dataList = hasReadAuth ? listAllResources(params) : []
@@ -344,15 +361,14 @@ abstract class BaseController<T> extends RestfulController<T> {
 
 		new DetachedCriteria(super.resource).build {
 			searchParams?.each { param ->
-				if (param.key.startsWith('s:') &&
-						param.value?.toString()?.size() > 0) {
+				if (param.key.startsWith('s:') && param.value?.toString()?.size() > 0) {
 					def col = param.key.split('s:')[-1]
 
 					if (col in columns) {
 						def colType = colMeta.find {
-					    it.key == col
+					    	it.key == col
 						}
-						if (colType !=null ) {
+						if (colType != null) {
 							if (colType.value.propertyType.package.name.startsWith('com.lch')) {
 								ilike "${col}.id", param.value?.toLowerCase()
 							} else {
@@ -363,7 +379,7 @@ abstract class BaseController<T> extends RestfulController<T> {
 				}
 			}
 		}.list(params)
-  }
+	}
 
 	def show() {
 		if (! isReadAuthorized()) {
