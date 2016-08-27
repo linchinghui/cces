@@ -85,7 +85,7 @@ class MaterialSupplierController extends BaseController<MaterialSupplier> {
 
         } else {
             // redirect action: 'create', params: params
-			      def url = g.createLink action: 'create', params: params
+			def url = g.createLink action: 'create', params: params
             redirect url: url
         }
     }
