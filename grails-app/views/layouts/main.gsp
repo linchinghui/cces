@@ -21,7 +21,7 @@ var server = {
     <asset:deferredScripts/>
 </g:if>
 <g:else>
-<!doctype html>
+<!DOCTYPE html>
     <html lang="en" class="no-js">
         <head><%--
             <g:layoutHead/>--%>
@@ -35,14 +35,16 @@ var server = {
             <g:if test="${! selfStyle}">
                 <asset:stylesheet src="skin/almsaeedstudio"/>
             </g:if>
-            <g:layoutHead/>
-			<g:javascript>
+            <g:layoutHead/><%--
+			<g:if test="${! exception}">--%>
+				<g:javascript>
 var server = {
 ctxPath: '${request.contextPath}'<g:if test="${_csrf?.parameterName}">,
 xHeader: '${_csrf?.headerName.encodeAsBase64()}',
 xToken: '${_csrf?.token.encodeAsBase64()}'</g:if>
 };
-			</g:javascript><%--
+				</g:javascript><%--
+			</g:if>--%><%--
 <!--[if lt IE 9]>
 <asset:javascript src="iefix/html5shiv-3.7.3"/>
 <asset:javascript src="iefix/respond-1.4.2"/>
