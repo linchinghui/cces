@@ -32,7 +32,7 @@ if (typeof jQuery !== 'undefined') {
 
 	$.ajaxSetup({
 		beforeSend: function(xhr) {
-			if (server['xHeader']) {
+			if (server && server['xHeader']) {
 				xhr.setRequestHeader(Base64.decode(server.xHeader), Base64.decode(server.xToken));
 			}
 		},
@@ -47,8 +47,11 @@ if (typeof jQuery !== 'undefined') {
 	});
 
 	(function($) {
-		// $('#spinner').ajaxStart(function() { $(this).fadeIn(); }).ajaxStop(function() { $(this).fadeOut(); });
-
+		// $('#spinner').ajaxStart(function() {
+		// 	$(this).fadeIn();
+		// }).ajaxStop(function() {
+		// 	$(this).fadeOut();
+		// });
 		$('.treeview-menu a').click(function() {
 			if (!/\&sc=/.test(this.href)) {
 				if ($('body').hasClass('sidebar-collapse')) {
@@ -203,15 +206,16 @@ function transformServerResult(callbackFn) {
 
 function transformServerError(callbackFn) {
 	return function(jqXHR, status, message) {
-		// reply-code of jqXHR.status, major message or reply-message of jqXHR.statusText
-		alertMessage(
-			jqXHR.status < 500 && { // jqXHR.status == 0 && {
-				warning: (jqXHR.responseJSON && jqXHR.responseJSON.warning || jqXHR.responseText || message)
-			} || {
-				errors: (jqXHR.responseJSON && jqXHR.responseJSON.errors || jqXHR.responseText || message)
-			},
-			jqXHR);
-
+		if (! jqXHR.getResponseHeader('X-CCES-NoAlert')) {
+			// reply-code of jqXHR.status, major message or reply-message of jqXHR.statusText
+			alertMessage(
+				jqXHR.status < 500 && { // jqXHR.status == 0 && {
+					warning: (jqXHR.responseJSON && jqXHR.responseJSON.warning || jqXHR.responseText || message)
+				} || {
+					errors: (jqXHR.responseJSON && jqXHR.responseJSON.errors || jqXHR.responseText || message)
+				},
+				jqXHR);
+		}
 		if (callbackFn) {
 			callbackFn.call(this, message);
 		}
@@ -237,9 +241,12 @@ var Chainable = function Chainable() {
 
 function chainPassCall(delivery) {
 	var dfd = new jQuery.Deferred();
-	dfd.resolve({
+	dfd.resolve(delivery ? {
 		rc: delivery.rc,
 		data: delivery.data
+	} : {
+		rc: 0,
+		data: null
 	});
 
 	return dfd.promise(Chainable());
@@ -317,7 +324,7 @@ function requestAction4BootstrapDialog(action, dataKey, params) {
 function renderCheckBox4GrailsFieldContain(contain) {
 	var chkBox = contain.find('input[type="checkbox"]');
 	var I = contain.find('i');
-	var strI = renderCheckBox(chkBox.val() && /on|true/i.test(chkBox.prop('checked')));
+	var strI = renderCheckBox(chkBox.val() && /^(t(|rue)|on)$/i.test(chkBox.prop('checked')));
 
 	if (I.length) {
 		I.replaceWith(strI);
@@ -328,14 +335,18 @@ function renderCheckBox4GrailsFieldContain(contain) {
 }
 
 function renderCheckBox(data) {
-	return (data == true || data == 'true') ? '<i class="fa fa-check-square-o"></i>' :
-		(data == false || data == 'false') ? '<i class="fa fa-square-o"></i>' : data;
+	return (data == true || /^(t(|rue)|on)$/i.test(data)) ? '<i class="fa fa-check-square-o"></i>' :
+		(data == false || /^(f(|alse)|off)$/i.test(data)) ? '<i class="fa fa-square-o"></i>' : data;
+}
+function renderRadio(data) {
+	return (data == true || /^(t(|rue)|on)$/i.test(data)) ? '<i class="fa fa-circle"></i>' :
+		(data == false || /^(f(|alse)|off)$/i.test(data)) ? '<i class="fa fa-circle-thin"></i>' : data;
 }
 
 /*---------
   handlers
  ----------*/
-function handleTabs(dataCallback, callbackParams) {
+function handleTabs(dataCallback, extraParams) {
 	$('.content a[data-toggle="mtab"]').click(function(e) {
 		e.preventDefault();
 		var thisEle = $(this);
@@ -348,7 +359,7 @@ function handleTabs(dataCallback, callbackParams) {
 				url: loadUrl.split('?')[0],
 				data: (
 					dataCallback ?
-					dataCallback(callbackParams ? callbackParams : $.convertParamsFromQueryStr(loadUrl)) :
+					dataCallback(extraParams ? extraParams : $.convertParamsFromQueryStr(loadUrl)) :
 					$.convertParamsFromQueryStr(loadUrl)
 				),
 				error: function(jqXHR, status, error) {
