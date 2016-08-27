@@ -8,7 +8,13 @@
 //  require plugins/fastclick
 //= require plugins/jquery.mask
 //= require plugins/jquery.typewatch
-//= require plugins/jquery.highlight
+//  require plugins/jquery.highlight
 
 // BootstrapDialog.configDefaultOptions({
 // });
+
+function clearCombobox(object) {
+	var combobox = object.data('combobox');
+	combobox.clearTarget();
+	combobox.clearElement();
+}
