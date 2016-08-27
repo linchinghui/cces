@@ -7,7 +7,7 @@
         <asset:stylesheet src="form/vehicle"/> --%>
     </head>
     <body>
-      <div class="content-wrapper" role="main"> <%--
+    <div class="content-wrapper" role="main"> <%--
         <section class="content-header">
           <g:render template="/layouts/server-message" bean="${vehicle}"/>
         </section> --%>
@@ -36,10 +36,10 @@
                         <thead>
                           <tr>
                             <th></th>
-                            <th>車號</th>
+                            <th><span class="search-input"><input type="text" size="10"><br></span>車號</th>
                             <th>驗車<span class="hidden-xs">日期</span></th>
                             <th><span class="hidden-xs">定檢</span>期限</th>
-                            <th>廠牌</th>
+                            <th><span class="search-input" placeholder="代碼"><input type="text" size="10"><br></span>廠牌</th>
                             <th>型號</th>
                             <th>備註</th>
                           </tr>
@@ -75,12 +75,12 @@
             </div>
           </div>
         </section>
-      </div>
+    </div>
 <asset:script type='text/javascript'><%-- deferred JS here --%>
 $(function() {
-  <g:render template="/layouts/client-message" bean="${vehicle}"/>
-  createDataTable();
-  handleTabs();
+	<g:render template="/layouts/client-message"/>
+	createDataTable();
+	handleTabs();
 });
 </asset:script>
     </body>

@@ -11,33 +11,8 @@
 </g:if>
 	</head>
 	<body>
-<g:if test="${embedPage}">
-		<div class="box">
-			<div class="box-header"></div>
-			<div class="box-body">
-				<table id="list-certificateCategory" class="table table-bordered table-hover">
-					<thead>
-					<tr>
-						<th></th>
-						<th>類別代碼</th>
-						<th>類別名稱</th>
-						<th>永久有效</th>
-					</tr>
-					</thead>
-					<tbody>
-					<tr>
-						<td></td>
-						<td>test</td>
-						<td>TEST</td>
-						<td>false</td>
-					</tr>
-					</tbody>
-				</table>
-			</div>
-		</div>
-</g:if>
-<g:else>
-		<div class="content-wrapper" role="main">
+<g:if test="${! embedPage}">
+	<div class="content-wrapper" role="main">
 		<section class="content">
 		  <div class="row">
 			<div class="col-xs-12">
@@ -53,6 +28,7 @@
 				</ul>
 				<div class="tab-content">
 					<div id="tab1" class="tab-pane fade in active">
+</g:if>
 						<div class="box">
 							<div class="box-header"></div>
 							<div class="box-body">
@@ -76,6 +52,7 @@
 								</table>
 							</div>
 						</div>
+<g:if test="${! embedPage}">
 					</div>
 					<div id="tab2" class="tab-pane fade">
 	                  <div class="box">
@@ -92,11 +69,11 @@
 			</div>
 		  </div>
 		</section>
-	  </div>
-</g:else>
+	</div>
+</g:if>
 <asset:script type='text/javascript'><%-- deferred JS here --%>
 $(function() {
-	<g:render template="/layouts/client-message" bean="${certificateCategory}"/>
+	<g:render template="/layouts/client-message"/>
 	createCatDataTable();
 <g:if test="${! embedPage}">
 	handleTabs();

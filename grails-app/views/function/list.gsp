@@ -7,7 +7,7 @@
         <asset:stylesheet src="form/function"/> --%>
     </head>
     <body>
-      <div class="content-wrapper" role="main"> <%--
+    <div class="content-wrapper" role="main"> <%--
         <section class="content-header">
           <g:render template="/layouts/server-message" bean="${function}"/>
         </section> --%>
@@ -44,11 +44,11 @@
             </div>
           </div>
         </section>
-      </div>
+    </div>
 <asset:script type='text/javascript'><%-- deferred JS here --%>
 $(function() {
-  <g:render template="/layouts/client-message" bean="${function}"/>
-  createDataTable();
+	<g:render template="/layouts/client-message"/>
+	createDataTable();
 });
 </asset:script>
     </body>

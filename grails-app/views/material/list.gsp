@@ -7,7 +7,7 @@
         <asset:stylesheet src="form/material"/> --%>
     </head>
     <body>
-      <div class="content-wrapper" role="main"> <%--
+    <div class="content-wrapper" role="main"> <%--
         <section class="content-header">
           <g:render template="/layouts/server-message" bean="${material}"/>
         </section> --%>
@@ -38,9 +38,9 @@
                         <thead>
                           <tr>
                             <th></th>
-                            <th><span class="hidden-xs hidden-sm hidden-md">材料</span>類別</th>
-                            <th><span class="hidden-xs hidden-sm hidden-md">材料</span>名稱</th>
-                            <th>尺寸<%--<br class="hidden-xs">規格--%></th>
+                            <th><span class="search-input" placeholder="代碼"><input type="text" size="10"><br></span><span class="hidden-xs hidden-sm hidden-md">材料</span>類別</th>
+                            <th><span class="search-input"><input type="text" size="20"><br></span><span class="hidden-xs hidden-sm hidden-md">材料</span>名稱</th>
+                            <th><span class="search-input"><input type="text" size="10"><br></span>尺寸<%--<br class="hidden-xs">規格--%></th>
                             <th>材質</th>
                             <th>其他</th>
                             <th>數量</th>
@@ -93,18 +93,18 @@
             </div>
           </div>
         </section>
-      </div>
+    </div>
 <asset:script type='text/javascript'><%-- deferred JS here --%>
 var serverParams = {<%--
-  detailLink: '${createLink([controller:"materialSupplier", action:"index", params: (_csrf?.parameterName ? [(_csrf?.parameterName):_csrf?.token]: [])])}'--%>
-  detailLink: '${createLink([controller:"materialSupplier", action:"index"])}'
+	detailLink: '${createLink([controller:"materialSupplier", action:"index", params: (_csrf?.parameterName ? [(_csrf?.parameterName):_csrf?.token]: [])])}'--%>
+	detailLink: '${createLink([controller:"materialSupplier", action:"index"])}'
 };
 
 $(function() {
-  <g:render template="/layouts/client-message" bean="${material}"/>
-  createDetailTab();
-  createDataTable();
-  handleTabs();
+	<g:render template="/layouts/client-message"/>
+	createDetailTab();
+	createDataTable();
+	handleTabs();
 });
 </asset:script>
     </body>

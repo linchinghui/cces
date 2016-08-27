@@ -19,9 +19,9 @@
 			  <thead>
 				<tr>
 				  <th></th>
-				  <th><span class="hidden-xs hidden-sm hidden-md">供應商</span>代碼</th>
-				  <th><span class="hidden-xs hidden-sm hidden-md">供應商</span>名稱</th>
-				  <th>統<span class="hidden-xs hidden-sm hidden-md">一</span>編<span class="hidden-xs hidden-sm hidden-md">號</span></th>
+				  <th><span class="search-input"><input type="text" size="10"><br></span><span class="hidden-xs hidden-sm hidden-md">供應商</span>代碼</th>
+				  <th><span class="search-input"><input type="text" size="20"><br></span><span class="hidden-xs hidden-sm hidden-md">供應商</span>名稱</th>
+				  <th><span class="search-input"><input type="text" size="8"><br></span>統<span class="hidden-xs hidden-sm hidden-md">一</span>編<span class="hidden-xs hidden-sm hidden-md">號</span></th>
 				  <th>電話</th>
 				  <th>傳真<span class="hidden-xs hidden-sm hidden-md">電話</span></th>
 				  <th><span class="hidden-xs hidden-sm hidden-md">電子郵件</span>信箱</th>
@@ -97,8 +97,8 @@
 </g:else>
 <asset:script type='text/javascript'><%-- deferred JS here --%>
 $(function() {
-  <g:render template="/layouts/client-message" bean="${supplier}"/>
-  createDataTable();
+	<g:render template="/layouts/client-message"/>
+	createDataTable();
 });
 </asset:script>
     </body>

@@ -7,7 +7,7 @@
         <asset:stylesheet src="form/project"/>
     </head>
     <body>
-      <div class="content-wrapper" role="main"> <%--
+    <div class="content-wrapper" role="main"> <%--
         <section class="content-header">
           <g:render template="/layouts/server-message" bean="${project}"/>
         </section> --%>
@@ -27,22 +27,22 @@
                     <thead>
                       <tr>
                         <th rowspan="2"/>
-                        <th rowspan="2">
+                        <th rowspan="2"><span class="search-input"><input type="text" size="8"><br></span>
                             <span class="hidden-md visible-lg">專案<br></span>代碼
                         </th>
-                        <th rowspan="2">
+                        <th rowspan="2"><span class="search-input"><input type="text" size="8"><br></span>
                             <span class="hidden-sm visible-md visible-lg">專案<br></span>名稱
                         </th>
-                        <th rowspan="2">
-                            機台<span class="hidden-sm visible-md visible-lg">型號</span>
+                        <th rowspan="2"><span class="search-input"><input type="text" size="8"><br></span>
+                            機台<span class="hidden-sm visible-md visible-lg">編號</span>
                         </th>
-                        <th rowspan="2">
+                        <th rowspan="2"><span class="search-input"><input type="text" size="8"><br></span>
                             <span class="hidden-sm visible-md visible-lg">工程<br></span>地點
                         </th>
                         <th rowspan="2">
                             <span class="hidden-sm visible-md visible-lg">工作<br></span>型態
                         </th>
-                        <th rowspan="2">
+                        <th rowspan="2"><span class="search-input" placeholder="編碼"><input type="text" size="3"><br></span>
                             施作<span class="hidden-sm visible-md visible-lg">方式</span>
                         </th>
                         <th colspan="2">
@@ -90,12 +90,12 @@
             </div>
           </div>
         </section>
-      </div>
+    </div>
 <asset:script type='text/javascript'><%-- deferred JS here --%>
 $(function() {
-  <g:render template="/layouts/client-message" bean="${project}"/>
-  initializeConstrctTypes();
-  createDataTable();
+	<g:render template="/layouts/client-message"/>
+	initializeRelatedFields();
+	createDataTable();
 });
 </asset:script>
     </body>

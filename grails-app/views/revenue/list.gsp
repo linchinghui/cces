@@ -7,7 +7,7 @@
         <asset:stylesheet src="form/revenue"/>
     </head>
     <body>
-      <div class="content-wrapper" role="main"> <%--
+    <div class="content-wrapper" role="main"> <%--
         <section class="content-header">
           <g:render template="/layouts/server-message" bean="${revenue}"/>
         </section> --%>
@@ -27,8 +27,8 @@
                     <thead>
                       <tr>
                         <th></th>
-                        <th>專案</th>
-                        <th>發票號碼</th>
+                        <th><span class="search-input"><input type="text" size="10"><br></span>專案</th>
+                        <th><span class="search-input"><input type="text" size="10"><br></span>發票號碼</th>
                         <th>發票日期</th>
                         <th>入帳日期</th><%--
                         <th>調改日期</th>
@@ -52,11 +52,11 @@
             </div>
           </div>
         </section>
-      </div>
+    </div>
 <asset:script type='text/javascript'><%-- deferred JS here --%>
 $(function() {
-  <g:render template="/layouts/client-message" bean="${revenue}"/>
-  createDataTable();
+	<g:render template="/layouts/client-message"/>
+	createDataTable();
 });
 </asset:script>
     </body>

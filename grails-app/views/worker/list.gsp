@@ -7,7 +7,7 @@
         <asset:stylesheet src="form/worker"/> --%>
     </head>
     <body>
-      <div class="content-wrapper" role="main"> <%--
+    <div class="content-wrapper" role="main"> <%--
         <section class="content-header">
           <g:render template="/layouts/server-message" bean="${worker}"/>
         </section> --%>
@@ -38,8 +38,8 @@
 	                      <thead>
 	                        <tr>
 	                          <th></th>
-	                          <th><span class="hidden-xs">員工</span>編號</th>
-	                          <th>姓名</th>
+	                          <th><span class="search-input"><input type="text" size="8"><br></span><span class="hidden-xs">員工</span>編號</th>
+	                          <th><span class="search-input"><input type="text" size="10"><br></span>姓名</th>
 	                          <th>性別</th>
 	                          <th>到職<span class="hidden-xs">日</span></th>
 	                          <th>離職<span class="hidden-xs">日</span></th>
@@ -92,17 +92,17 @@
             </div>
           </div>
         </section>
-      </div>
+    </div>
 <asset:script type='text/javascript'><%-- deferred JS here --%>
 var serverParams = {
-  detailLink: '${createLink([controller:"certificate", action:"index"])}'
+	detailLink: '${createLink([controller:"certificate", action:"index"])}'
 };
 
 $(function() {
-  <g:render template="/layouts/client-message" bean="${worker}"/>
-  createDetailTab();
-  createDataTable();
-  handleTabs();
+	<g:render template="/layouts/client-message"/>
+	createDetailTab();
+	createDataTable();
+	handleTabs();
 });
 </asset:script>
     </body>

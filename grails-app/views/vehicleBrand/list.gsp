@@ -35,7 +35,7 @@
               </div>
 </g:if>
 <g:else>
-      <div class="content-wrapper" role="main">
+    <div class="content-wrapper" role="main">
         <section class="content">
           <div class="row">
             <div class="col-xs-12">
@@ -66,12 +66,12 @@
             </div>
           </div>
         </section>
-      </div>
+    </div>
 </g:else>
 <asset:script type='text/javascript'><%-- deferred JS here --%>
 $(function() {
-  <g:render template="/layouts/client-message" bean="${vehicleBrand}"/>
-  createBrandDataTable();
+	<g:render template="/layouts/client-message"/>
+	createBrandDataTable();
 });
 </asset:script>
     </body>
