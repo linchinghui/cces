@@ -41,6 +41,7 @@
                                     </g:else>
                                     <f:field property="description" label="作業名稱" widget-placeholder="ext: 材料表-供應商" />
 									<div class="small text-danger">格式: { 選單名稱 } [ - { 作業標頭 } ]</div>
+									<div class="small text-danger">例如: 人員配置 - 人員派工(週)</div>
                                 </f:with>
                             </fieldset>
                             <fieldset class="buttons">
