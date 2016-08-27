@@ -35,6 +35,9 @@
 									</g:if>
 									<g:else>
 										<f:display property="emp" label="員工" />
+										<g:if test="${type=='C'}">
+											<input name='emp.id' type='hidden' value='${certificate.emp?.id}'/>
+										</g:if>
 									</g:else>
 									<g:if test="${type=='C'}">
 										<f:field property="category" label="證照類別" />
@@ -44,6 +47,7 @@
 									</g:else>
 									<f:field property="title" label="證照名稱" />
                                     <f:field property="examDate" label="考取年月" widget="date" />
+									<br>
                                     <f:field property="expiryDate" label="有效年月|回訓日期" widget="date" />
                                     <f:field property="copied" label="證照影本繳交日" widget="date" />
                                 </f:with>
