@@ -4,7 +4,7 @@
 	alertMessage({message: "${flash.message}"});
 </g:if>
 <g:if test="${flash.errors}">
-	alertMessage({errors: "${flash.errors}"});
+	alertError({errors: "${flash.errors}"});
 </g:if>
 <g:hasErrors bean="${it}">
 var errors = [
