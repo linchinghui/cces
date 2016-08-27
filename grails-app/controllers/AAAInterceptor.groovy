@@ -11,6 +11,8 @@ class AAAInterceptor {
     }
 
     boolean before() {
+		log.trace "X-Requested-With: ${request.getHeader('X-Requested-With')}"
+		log.trace "starts with API: ${request.requestURI.startsWith("${request.contextPath}/$NAMESPACE_API/")}"
         request['isAjax'] = request.getHeader('X-Requested-With') == 'XMLHttpRequest' &&
                             request.requestURI.startsWith("${request.contextPath}/$NAMESPACE_API/")
 
@@ -82,6 +84,7 @@ class AAAInterceptor {
             ) || (
                 ! request.isRequestedSessionIdValid())
             ) {
+				log.info "may has no authentication! (request.isRequestedSessionIdValid())"
                 // redirect(mapping: 'home', params: params)
                 // return
                 request.getSession(false)?.invalidate()
