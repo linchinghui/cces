@@ -1,25 +1,18 @@
 /*
+*= require assignCommon
 *= require_self
 *= require ../skin/clndr-cces
 */
+.weekContainer {
+  padding: 10px 0 0px 5px;
+}
+
+@media screen and (max-width: 404px) {
+  .weekContainer {
+    padding: 10px 7% 0px 7%;
+  }
+}
 /*
-.assignProject  {
-width: 100%;
-height: 32px;
-border: 1px inset #d2d6de;
-}
-*/
-.projectContainer {
-  max-width: 320px;
-  padding-left: 5px;
-  margin-bottom: 5px;
-}
-
-.projectContainer .glyphicon-info-sign {
-  top: 0;
-  border-left-width: 0;
-}
-
 .weekContainer {
   padding-right: 0;
 }
@@ -27,7 +20,7 @@ border: 1px inset #d2d6de;
 .weekContainer.col-sm-6 {
   padding-left: 5px;
 }
-/*
+
 .assignWeek {
 max-width: 198px;
 max-width: 177px;
@@ -36,7 +29,7 @@ margin: 30px auto;
 */
 .clndr-grid .week-previous,
 .clndr-grid .week-next {
-  padding: 4px 5px;	
+  padding: 4px 5px;
 }
 
 .assignDay .input-group {
@@ -49,7 +42,7 @@ margin: 30px auto;
 }
 
 #list-assignment_info.dataTables_info {
-  padding-top: 4px;
+  padding-top: 0px;
 }
 
 #list-assignment_info .head {
