@@ -7,7 +7,7 @@
         <asset:stylesheet src="form/spTask"/>
     </head>
     <body>
-      <div class="content-wrapper" role="main"> <%--
+    <div class="content-wrapper" role="main"> <%--
         <section class="content-header">
           <g:render template="/layouts/server-message" bean="${spTask}"/>
         </section> --%>
@@ -15,13 +15,19 @@
           <div class="row">
             <div class="col-xs-12">
               <div class="clearfix">
-                <div class="projectContainer col-sm-6 col-xs-12">
+                <div class="projectContainer col-sm-5 col-xs-12">
                   <label for="project">專案:</label>
                   <div class="assignProject form-control" data-placeholder="專案代碼或名稱關鍵字">
                     <span class="text-center"><span class="ajax-loader">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></span>
                   </div>
                 </div>
-                <div class="dateContainer col-sm-6 col-xs-12">
+				<div class="constNoContainer col-sm-3 col-xs-12">
+                  <label for="project" class="hidden-xs">機台:</label>
+                  <div class="assignConstNo form-control" data-placeholder="機台編號">
+                    <span class="text-center"><span class="ajax-loader">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></span>
+                  </div>
+			  	</div>
+                <div class="dateContainer col-sm-3 col-xs-12">
                   <f:field property="workedDate" label="施作日期:" widget="date" />
                 </div>
               </div>
@@ -85,18 +91,19 @@
             </div>
           </div>
         </section>
-      </div>
+    </div>
 <asset:script type='text/javascript'><%-- deferred JS here --%>
 var serverParams = {
-  projectId: '${params?.projectId}',
-  workedDate: '${params?.workedDate}'
+	constructNo: '${params?.constructNo}',
+	projectId: '${params?.projectId}',
+	workedDate: '${params?.workedDate}'
 };
 
 $(function() {
-  <g:render template="/layouts/client-message" bean="${spTask}"/>
-  initializeSelectFields();
-  initializeSpTasks();
-  $('input[type=text],textarea').filter(':enabled:visible:first').focus();
+	<g:render template="/layouts/client-message"/>
+	initializeSelectFields();
+	initializeSpTasks();
+	$('input[type=text],textarea').filter(':enabled:visible:first').focus();
 });
 </asset:script>
     </body>
