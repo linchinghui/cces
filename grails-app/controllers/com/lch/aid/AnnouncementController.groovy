@@ -28,6 +28,14 @@ class AnnouncementController extends BaseController<Announcement> {
         def dataList = hasReadAuth ? Announcement.where {
             announcedDate <= (today + 1)
             revokedDate >= today
+
+			if (params?.functionId) {
+				function {
+					id == params.functionId
+				}
+			} else {
+				function == null
+			}
         }.list(params) : []
 
         def dataCount = hasReadAuth ? dataList.size() : java.math.BigInteger.ZERO

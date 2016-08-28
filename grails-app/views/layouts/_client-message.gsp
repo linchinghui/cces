@@ -1,5 +1,27 @@
 <%-- place this in script tag: --%><%--
 <g:if test="${actionName != 'show'}">--%>
+chainAjaxCall({
+	url: server.ctxPath + '/api/announcements.json',
+	method: 'GET',
+	cache: false,
+	async: true,
+	headers: {
+		'X-CCES-NoAlert': true,
+		'X-CCES-ACTION': 'upToDate'
+	},
+	data: {
+		functionId: '${controllerName}'
+	}
+
+}).done(function(promise) {
+	if (promise.rc == 1 || promise.data.recordsTotal < 1) {
+		return;
+	}
+
+	$.each(promise.data.data, function(idx, ele) {
+		$.notify(moment(ele.announcedDate).format('YYYY/MM/DD ') + ele.description);
+	});
+});
 <g:if test="${flash.message}">
 	alertMessage({message: "${flash.message}"});
 </g:if>

@@ -1,18 +1,20 @@
 package com.lch.aid
 
+import com.lch.aaa.Function
 import grails.rest.Resource
 import org.grails.databinding.BindingFormat
 
 @Resource(uri = '/api/announcements', superClass = AnnouncementController)
 class Announcement {
 
+	String				description		// 告示內容
 	@BindingFormat("yyyy/MM/dd'T'HH:mm:ss'Z'")
 	Date				announcedDate	// 公告日期
 	@BindingFormat("yyyy/MM/dd'Z'")
 	Date				revokedDate		// 撤榜日期
 	@BindingFormat("yyyy/MM/dd'Z'")
 	Date				createdDate		// 資料建立日期
-	String				description		// 告示內容
+	Function			function		// 特定作業
 
 	static constraints = {
 		description		blank: false, nullable: false, maxSize: 200
@@ -25,6 +27,7 @@ class Announcement {
 			return isOK
 		}
 		createdDate		blank: false, nullable: false
+		function		blank: true, nullable: true
 	}
 
 	static mapping = {

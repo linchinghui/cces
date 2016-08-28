@@ -29,7 +29,8 @@
 						</th>
                         <th>公告<span class="hidden-xs">日期</span></th>
                         <th>撤榜<span class="hidden-xs">日期</span></th>
-                        <th>建立<span class="hidden-xs">日期</span></th>
+						<th>建立<span class="hidden-xs">日期</span></th>
+						<th><span class="hidden-xs">特定</span>作業</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -38,7 +39,8 @@
                         <td></td>
                         <td></td>
                         <td></td>
-                        <td></td>
+						<td></td>
+						<td></td>
                       </tr>
                     </tbody>
                   </table>

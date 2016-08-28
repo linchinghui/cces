@@ -35,6 +35,7 @@
                                     <f:display property="announcedDate" label="公告日期" wrapper="datetime" />
                                     <f:display property="revokedDate" label="撤榜日期" wrapper="date" /><%--
                                     <f:display property="createdDate" label="建立日期" wrapper="date" />--%>
+									<f:display property="function" label="特定作業" />
                                 </f:with>
                             </fieldset>
                         </g:if>

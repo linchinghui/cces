@@ -1,6 +1,7 @@
 //= require plugins/js.cookie
 //= require plugins/jquery.ajax.fake
 //= require plugins/bootstrap-dialog
+//= require plugins/bootstrap-notify
 //= require plugins/bootstrap-select
 //= require plugins/bootstrap-combobox
 //  require plugins/bootstrap-jasny
@@ -12,6 +13,11 @@
 
 // BootstrapDialog.configDefaultOptions({
 // });
+
+$.notifyDefaults({
+	type: 'warning',
+	mouse_over: 'pause'
+});
 
 function clearCombobox(object) {
 	var combobox = object.data('combobox');

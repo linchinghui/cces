@@ -42,6 +42,7 @@
                                     <g:else>
                                         <f:display property="createdDate" label="建立日期" wrapper="date" />
                                     </g:else>
+									<f:field property="function" label="特定作業" />
                                 </f:with>
                             </fieldset>
                             <fieldset class="buttons">
