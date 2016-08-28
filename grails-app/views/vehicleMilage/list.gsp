@@ -11,21 +11,6 @@
 </g:if>
     </head>
     <body>
-                        <th>車輛</th>
-                        <th><span class="hidden-xs">里程(</span>公里<span class="hidden-xs">)</span></th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr>
-                        <td></td>
-                        <td>AB-123</td>
-                        <td>123</td>
-                      </tr>
-                    </tbody>
-                  </table>
-                </div>
-              </div>
-
 <g:if test="${! embedPage}">
     <div class="content-wrapper" role="main">
         <section class="content">

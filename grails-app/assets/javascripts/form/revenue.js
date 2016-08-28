@@ -26,7 +26,7 @@ function addDataRequest(evt, dt, node, config) {
 }
 
 function renderDisplayHint4DataTables(settings, start, end, max, total, pre) {
-	return '<span class="small pull-right text-danger">(相同專案可新增多筆發票)</span>';
+	return '<span class="small pull-right text-danger">(同一專案可新增多筆發票)</span>';
 }
 
 function createDataTable() {

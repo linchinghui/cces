@@ -52,7 +52,7 @@ function renderDisplayHint4DataTables(settings, start, end, max, total, pre) {
 		return `<span>${projType}=${typeDesc}</span>`;
 	}).join(',&nbsp;&nbsp;');
 
-	return `<br><span class="small pull-right text-danger">[施作方式]編碼:&nbsp;${str}</span>`;
+	return `<br><span class="small pull-right text-danger">施作方式的編碼:&nbsp;${str}</span>`;
 }
 
 function removeDataRequested(result) {

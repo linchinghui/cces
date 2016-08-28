@@ -37,34 +37,8 @@ function createDetailTab() {
 	});
 }
 
-// function handleTabs() {
-//   $('.content a[data-toggle="mtab"]').click(function(e) {
-//     e.preventDefault();
-//     var thisEle = $(this);
-//     var loadUrl = thisEle.attr('href');
-//
-//     if (loadUrl.length > 0 && loadUrl !== '#') {
-//       $(thisEle.attr('data-target')).load(loadUrl, function(response, status, jqXHR) {
-//         if (jqXHR.status >= 400) {
-//           $(thisEle.attr('data-target')).html(jqXHR.responseText);
-//
-//         } else {
-//           thisEle.attr('href', '#');
-//         }
-//       });
-//     } else {
-// 		setTimeout(function() {
-// 		  $(window).trigger('resize'); //Object('material' / 'materialCategory')
-// 		}, 500);
-//     }
-//
-//     thisEle.tab('show');
-//     return false;
-//   });
-// }
-
 function renderDisplayHint4DataTables(settings, start, end, max, total, pre) {
-	return '<span class="small pull-right text-danger">點選後, 可於下方檢視材料供應設定</span>';
+	return '<span class="small pull-right text-danger">點選後, 可於下方檢視材料的供應設定</span>';
 }
 
 function removeDataRequested(result) {
