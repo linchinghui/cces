@@ -15,7 +15,8 @@ class Vehicle {
 	String				note			// 備註
 
 	static constraints = {
-		plateNo			blank: false, nullable: false, maxSize: 10, unique: true //, validator: { val, obj ->
+		plateNo			blank: false, nullable: false, maxSize: 10 //, unique: true // PK is unique already
+		//, validator: { val, obj ->
 		// 	val in ['A','B']
 		// }
 		brand			blank: false, nullable: false

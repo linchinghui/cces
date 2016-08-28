@@ -11,7 +11,7 @@ class CertificateCategory {
 	Boolean			permanent = false	// 永久有效
 
     static constraints = {
-		code		blank: false, nullable: false, maxSize: 20, unique: true
+		code		blank: false, nullable: false, maxSize: 20 //, unique: true // PK is unique already
 		description	blank: false, nullable: false, maxSize: 100
 		permanent	blank: true, nullable: true
     }

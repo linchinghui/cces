@@ -10,7 +10,7 @@ class VehicleBrand {
 	String			description	// 廠牌名稱
 
 	static constraints = {
-		name		blank: false, nullable: false, maxSize: 20, unique: true
+		name		blank: false, nullable: false, maxSize: 20 //, unique: true // PK is unique already
 		description	blank: false, nullable: false, maxSize: 40
 	}
 

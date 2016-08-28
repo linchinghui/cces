@@ -12,7 +12,7 @@ class PersistentLogins {
 
     static constraints = {
 		username	blank: false, nullable: false, maxSize: 64
-		series		blank: false, nullable: false, maxSize: 64, unique: true
+		series		blank: false, nullable: false, maxSize: 64 //, unique: true // PK is unique already
 		tokenValue	blank: false, nullable: false, maxSize: 64
 		date		blank: false, nullable: false
 	}

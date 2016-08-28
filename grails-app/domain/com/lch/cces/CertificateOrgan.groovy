@@ -10,7 +10,7 @@ class CertificateOrgan {
 	String			description			// 機構名稱
 
     static constraints = {
-		code		blank: false, nullable: false, maxSize: 20, unique: true
+		code		blank: false, nullable: false, maxSize: 20 //, unique: true // PK is unique already
 		description	blank: false, nullable: false, maxSize: 100
     }
 

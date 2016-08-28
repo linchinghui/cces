@@ -18,7 +18,7 @@ class User {
 	static hasMany = [roles: Role]
 
 	static constraints = {
-		username	blank: false, nullable: false, maxSize: 10, unique: true
+		username	blank: false, nullable: false, maxSize: 10 //, unique: true // PK is unique already
 		fullname	blank: true, nullable: true, maxSize: 10
 		password	blank: false, nullable: false, maxSize: 250
 	}
