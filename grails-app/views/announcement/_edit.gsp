@@ -42,7 +42,9 @@
                                     <g:else>
                                         <f:display property="createdDate" label="建立日期" wrapper="date" />
                                     </g:else>
-									<f:field property="function" label="特定作業" />
+									<f:field property="function" label="特定作業">
+									</f:field>
+									<span class="small text-danger">選擇特定作業時, 會於該作業中提示公告內容</span>
                                 </f:with>
                             </fieldset>
                             <fieldset class="buttons">
