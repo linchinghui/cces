@@ -4,3 +4,7 @@
 .modal .panel .panel-body {
   padding-bottom: 176px;
 }
+
+#functionCombo + ul.typeahead {
+  height: 18em;
+}
