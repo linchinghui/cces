@@ -84,7 +84,7 @@ class AAAInterceptor {
             ) || (
                 ! request.isRequestedSessionIdValid())
             ) {
-				log.info "may has no authentication! (request.isRequestedSessionIdValid())"
+				log.info "may has no authentication! (session invalid:${request.isRequestedSessionIdValid()})"
                 // redirect(mapping: 'home', params: params)
                 // return
                 request.getSession(false)?.invalidate()
