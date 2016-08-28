@@ -21,7 +21,7 @@ class Supplier {
 	// Date				createdDate		// 建檔日期
 
 	static constraints = {
-		code			blank: false, nullable: false, maxSize: 10, unique: true
+		code			blank: false, nullable: false, maxSize: 10 //, unique: true // PK is unique already
 		name			blank: false, nullable: false, maxSize: 40
 		ubn				blank: false, nullable: false, maxSize: 8
 		phoneNo			blank: true, nullable: true, maxSize: 12

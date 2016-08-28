@@ -15,7 +15,7 @@ class Role implements Comparable<Role> {
 	static hasMany = [privileges: Privilege]
 
 	static constraints = {
-		code		blank: false, nullable: false, maxSize: 12, unique: true
+		code		blank: false, nullable: false, maxSize: 12 //, unique: true // PK is unique already
 		description	blank: false, nullable: false, maxSize: 10
 	}
 

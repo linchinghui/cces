@@ -44,7 +44,7 @@ class Worker {
 	static hasMany = [certificates: Certificate]
 
 	static constraints = {
-		empNo			blank: false, nullable: false, maxSize: 10, unique: true
+		empNo			blank: false, nullable: false, maxSize: 10 //, unique: true // PK is unique already
 		empName			blank: false, nullable: false, maxSize: 10
 		sex				blank: false, nullable: false
 		employedDate	blank: false, nullable: false

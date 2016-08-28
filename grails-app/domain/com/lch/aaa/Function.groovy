@@ -11,7 +11,7 @@ class Function {
 	Boolean			aided = false	// 輔助型作業
 
 	static constraints = {
-		name		blank: false, nullable: false, maxSize: 20, unique: true
+		name		blank: false, nullable: false, maxSize: 20 //, unique: true // PK is unique already
 		description	blank: false, nullable: false, maxSize: 100
 		aided		blank: true, nullable: true
 	}
