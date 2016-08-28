@@ -54,7 +54,7 @@ function renderDisplayHint4DataTables(settings, start, end, max, total, pre) {
 	if (isHiddenFilter) { // not really hide info-text, show it
 		dtHeadInfo.removeClass('text-hide');
 	}
-	return `<div class="head">${msg}</div><div class="foot small text-danger">新增相同人員時，視為修改</div>`;
+	return '<div class="head">' + msg + '</div><div class="foot small text-danger">新增相同人員時，視為修改</div>';
 }
 
 function removeDataRequested(result) {
