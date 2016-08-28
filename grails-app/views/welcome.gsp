@@ -1,6 +1,4 @@
 <g:set var="deferredScript" value="welcome" scope="request"/>
-<g:set var="functionService" bean="functionService"/>
-<g:set var="pageTitle" value="${functionService.get('announcement')?.description}"/>
 <!DOCTYPE html>
 <html>
 <head>
@@ -17,7 +15,7 @@
             <div class="row">
             <div class="col-xs-12">
                 <ul class="nav nav-tabs">
-                  <li class="active"><a href="#" data-target="#" data-toggle="tab"><big>${pageTitle}</big></a></li>
+                  <li class="active"><a href="#" data-target="#" data-toggle="tab"><big>${functionService.get('announcement')}</big></a></li>
                 </ul>
                 <div class="box">
                 <div class="box-header"></div> <%--
@@ -49,6 +47,7 @@
     </div>
 <asset:script type='text/javascript'><%-- deferred JS here --%>
 $(function() {
+  <g:render template="/layouts/client-message" bean="${null}"/>
   createDataTable();
 });
 </asset:script>

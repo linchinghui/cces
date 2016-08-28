@@ -44,6 +44,7 @@ class Application extends GrailsAutoConfiguration implements EnvironmentAware {
 	public static final String PARAMETER_TARGET_URL = '_tu_'
 
 	public static final String PAGE_HOME = '/'
+	public static final String PAGE_WELCOME = '/welcome'
 	public static final String PAGE_LOGIN = '/login'
 	public static final String PAGE_EXPIRED = PAGE_LOGIN+'?expired'
 	public static final String PAGE_LOGOUT = '/logout'
@@ -93,7 +94,7 @@ class Application extends GrailsAutoConfiguration implements EnvironmentAware {
 	@Override
 	void setEnvironment(org.springframework.core.env.Environment environment) {
 		def config = loadConfiguration('application.groovy')
-		println "config file : ${config.configFile}"
+		println "\nconfig file : ${config.configFile}\n"
 		environment.propertySources.addFirst(new MapPropertySource(config.configFile.toString(), config))
 	}
 }

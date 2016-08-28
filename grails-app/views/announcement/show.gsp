@@ -7,13 +7,10 @@
     <g:set var="modalPage" value="${true}" scope="request"/> <%--
     <g:set var="deferredScript" value="???" scope="request"/> --%>
 </g:else>
-<g:set var="functionService" bean="functionService"/>
-<g:set var="pageTitle" value="${functionService.get('announcement')?.description}"/>
 <!DOCTYPE html>
 <html>
     <head>
         <meta name="layout" content="main" />
-        <title>CCES - ${pageTitle}</title>
         <asset:stylesheet src="form/announcement"/>
     </head>
     <body>
@@ -34,10 +31,11 @@
                             </g:if>
                             <fieldset class="form-group">
                                 <f:with bean="announcement">
-                                    <f:display property="description" label="告示內容" />
+                                    <f:display property="description" label="公告內容" />
                                     <f:display property="announcedDate" label="公告日期" wrapper="datetime" />
                                     <f:display property="revokedDate" label="撤榜日期" wrapper="date" /><%--
                                     <f:display property="createdDate" label="建立日期" wrapper="date" />--%>
+									<f:display property="function" label="特定作業" />
                                 </f:with>
                             </fieldset>
                         </g:if>

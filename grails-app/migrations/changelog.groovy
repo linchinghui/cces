@@ -3,4 +3,7 @@ databaseChangeLog = {
     include file: 'change-diff-20160410.groovy'
     include file: 'change-diff-20160425.groovy'
     include file: 'change-diff-20160508.groovy'
+    include file: 'change-diff-20160706.groovy'
+	include file: 'change-diff-20160706u.groovy'
+    include file: 'change-diff-20160718.groovy'
 }

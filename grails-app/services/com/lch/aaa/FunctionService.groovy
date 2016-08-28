@@ -8,6 +8,11 @@ import grails.plugin.cache.CacheEvict
 //@Transactional(readOnly = true)
 class FunctionService {
 
+	String getPageTitle(String id) {
+		def desc = get(id)?.description
+		return desc ? desc.split('-')[-1] : ''
+	}
+
 	// @Cacheable('function')
 	Function get(String id) {
 		return Function.get(id?.toLowerCase())

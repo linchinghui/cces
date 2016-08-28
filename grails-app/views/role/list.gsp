@@ -1,17 +1,13 @@
-<%--<g:set var="embedPage" value="${params?.embed=='true'}" scope="request"/>--%>
 <g:set var="deferredScript" value="form/role" scope="request"/>
-<g:set var="functionService" bean="functionService"/>
-<g:set var="pageTitle" value="${functionService.get('role')?.description}"/>
 <!DOCTYPE html>
 <html>
     <head>
         <meta name="layout" content="main" />
-        <title>CCES - ${pageTitle}</title>
         <asset:stylesheet src="grid"/> <%--
         <asset:stylesheet src="form/role"/> --%>
     </head>
     <body>
-      <div class="content-wrapper" role="main"> <%--
+    <div class="content-wrapper" role="main"> <%--
         <section class="content-header">
           <g:render template="/layouts/server-message" bean="${role}"/>
         </section> --%>
@@ -46,16 +42,16 @@
             </div>
           </div>
         </section>
-      </div>
+    </div>
 <asset:script type='text/javascript'><%-- deferred JS here --%>
-var server = {
-  detailLink: '${createLink([controller:"privilege", action:"index"])}'
+var serverParams = {
+	detailLink: '${createLink([controller:"privilege", action:"index"])}'
 };
 
 $(function() {
-  <g:render template="/layouts/client-message" bean="${role}"/>
-  createDetailTab();
-  createDataTable();
+	<g:render template="/layouts/client-message"/>
+	createDetailTab();
+	createDataTable();
 });
 </asset:script>
     </body>

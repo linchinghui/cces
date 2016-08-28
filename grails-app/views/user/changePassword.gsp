@@ -6,15 +6,13 @@
 <g:else>
     <g:set var="modalPage" value="${true}" scope="request"/>
 </g:else>
-<g:set var="pageTitle" value="密碼變更"/>
+<g:set var="actionTitle" value="密碼變更"/>
 <g:set var="chPwdLink" value="${createLink(controller:PAGE_PASSWORD-'/')}"/>
 <!DOCTYPE html>
 <html>
 <head>
   <meta name="layout" content="model"/>
-  <title>CCES - ${pageTitle}</title>
-  <asset:stylesheet src="changePassword"/>
-<%--
+  <asset:stylesheet src="changePassword"/><%--
   <asset:javascript src="changePassword"/> --%>
 <%-- this page style here:
   <style type="text/css" media="screen">
@@ -29,7 +27,7 @@
       <div class="panel panel-info">
 		<g:if test="${modalPage}">
 		    <div class="panel-heading">
-		        <div class="panel-title">${pageTitle}<button class="close">×</button></div>
+		        <div class="panel-title">${actionTitle}<button class="close">×</button></div>
 		    </div>
 		</g:if>
         <div class="panel-body">
@@ -86,17 +84,17 @@
 <asset:script type='text/javascript'><%-- deferred JS here --%>
 $(function() {
 <g:if test="${dialogPage}">
-	$('.bootstrap-dialog-title').html('${pageTitle}');
+	$('.bootstrap-dialog-title').html('${actionTitle}');
 </g:if>
 <g:if test="${modalPage}">
 	$('button.close').click(function(e){
         window.location.href = "${params[PARAMETER_TARGET_URL]?:createLink(mapping:'home')}";
 	});
 </g:if>
-  $('input[name=password]').focus();
-<%--
-	$('button[name=cancel]').click(function(e){
-        e.preventDefault();
+	$('input[name=password]').focus();<%--
+
+	$('button[name=cancel]').click(function(evt){
+        evt.preventDefault();
 	});
 --%><%--
 	function encodePwd() {
@@ -108,14 +106,14 @@ $(function() {
 			}
 		});
 	}
-	// $('#form-password').submit(function(e) {
+	// $('#form-password').submit(function(evt) {
 	// 	console.log(this);
-	// 	e.preventDefault();
+	// 	evt.preventDefault();
 	// 	return false;
 	// });
 
-	// $('form button[type=submit]').click(function(e){
-	//	e.preventDefault();
+	// $('form button[type=submit]').click(function(evt){
+	//	evt.preventDefault();
 
 	// 	var jqxhr = $.ajax({
 	// 		type: 'POST',
@@ -135,7 +133,6 @@ $(function() {
 	// 	});
 	// });
 --%>
-    $('input[type=text],textarea').filter(':enabled:visible:first').focus();
 });
 </asset:script>
 </body>

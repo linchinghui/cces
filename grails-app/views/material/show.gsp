@@ -3,17 +3,15 @@
     <g:set var="selfStyle" value="${true}" scope="request"/>
 </g:if>
 <g:else>
-    <g:set var="modalPage" value="${true}" scope="request"/> <%--
-    <g:set var="deferredScript" value="???" scope="request"/> --%>
+    <g:set var="modalPage" value="${true}" scope="request"/><%--
+	<asset:javascript src="form/materialSupplier"/>--%>
 </g:else>
-<g:set var="functionService" bean="functionService"/>
-<g:set var="pageTitle" value="${functionService.get('material')?.description}"/>
 <!DOCTYPE html>
 <html>
     <head>
         <meta name="layout" content="main" />
-        <title>CCES - ${pageTitle}</title>
         <asset:stylesheet src="form/material"/>
+		<asset:javascript src="form/materialSupplier"/>
     </head>
     <body>
         <div class="container" role="main">
@@ -33,20 +31,66 @@
                             </g:if>
                             <fieldset class="form-group">
                                 <f:with bean="material">
-                                    <f:display property="category" label="類型" />
-                                    <f:display property="name" label="名稱" />
-                                    <f:display property="spec" label="尺寸 | 規格" />
-                                    <f:display property="unit" label="單位" />
-                                    <f:display property="quantity" label="數量" />
-                                    <f:display property="price" label="價格" />
+                                    <f:display property="category" label="林料類型" />
+                                    <f:display property="name" label="材料名稱" />
+                                    <f:display property="dimension" label="尺寸" />
+                                    <f:display property="texture" label="材質" />
+                                    <f:display property="spec" label="其他" /><%--label="尺寸 | 規格" />--%>
+                                    <div class="col-xs-6"><f:display property="quantity" label="數量" /></div>
+                                    <div class="col-xs-6"><f:display property="unit" label="單位" /></div>
+                                    <f:display property="price" label="價格" /><%--
                                     <f:display property="supplier" label="供應商" />
                                     <f:display property="contactPhoneNo" label="電話" />
-                                    <f:display property="registeredDate" label="登錄日期" wrapper="date" />
+                                    <f:display property="registeredDate" label="登錄日期" wrapper="date" />--%>
                                 </f:with>
                             </fieldset>
                         </g:if>
                         </g:form>
+					</section><%--
+					<section class="content">
+						<div class="row">
+							<div class="col-xs-12">
+								<ul class="nav nav-tabs">
+									<li class="active"><a href="#" data-target="#" data-toggle="tab"><big>${functionService.get('materialSupplier')?.description}</big></a></li>
+								</ul>
+								<div class="box">
+									<div class="box-header"></div>
+									<div class="box-body">
+										<table id="list-materialSupplier2" class="table table-bordered table-hover">
+											<thead>
+											<tr>
+												<th></th>
+												<th>供應商</th>
+												<th>購買日期</th>
+												<th>購買價格</th>
+												<th>廠牌</th>
+												<th>業務員</th>
+												<th>電話</th>
+												<th>傳真電話</th>
+											  </tr>
+											</thead>
+											<tbody>
+											<tr>
+												<td></td>
+												<td></td>
+												<td></td>
+												<td></td>
+												<td></td>
+												<td></td>
+												<td></td>
+												<td></td>
+											</tr>
+											</tbody>
+										</table>
+									</div>
+								</div>
+							</div>
+						</div>
                     </section>
+                    <g:render template="/materialSupplier/list" model="[
+						'pageTitle': functionService.get('materialSupplier')?.description,
+						'params': ['noEdit': true, 'materialId': material.id]
+					]"/>--%>
                 </div>
             </div>
         </div>

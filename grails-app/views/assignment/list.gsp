@@ -1,41 +1,46 @@
-<g:set var="deferredScript" value="form/assignment" scope="request"/><%--
-<g:set var="functionService" bean="functionService"/>
-<g:set var="pageTitle" value="${functionService.get('assignment')?.description}"/>--%>
-<g:set var="pageTitle" value="本週人員派工"/>
+<g:set var="deferredScript" value="form/assignment" scope="request"/>
 <!DOCTYPE html>
 <html>
     <head>
         <meta name="layout" content="main" />
-        <title>CCES - ${pageTitle}</title>
         <asset:stylesheet src="grid"/>
         <asset:stylesheet src="form/assignment"/>
     </head>
     <body>
-      <div class="content-wrapper" role="main"> <%--
+    <div class="content-wrapper" role="main"> <%--
         <section class="content-header">
           <g:render template="/layouts/server-message" bean="${spTask}"/>
         </section> --%>
         <section class="content">
           <div class="row">
             <div class="col-xs-12">
-              <div class="clearfix">
-                <div class="projectContainer col-sm-6 col-xs-12">
+              <div class="clearfix ">
+                <div class="projectContainer col-sm-5 col-xs-12">
                   <label for="project" class="hidden-xs">專案:</label>
-                  <div class="assignProject form-control">
+                  <div class="assignProject form-control" data-placeholder="專案代碼或名稱關鍵字">
                     <span class="text-center"><span class="ajax-loader">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></span>
                   </div>
                 </div>
+				<div class="constNoContainer col-sm-3 col-xs-12">
+                  <label for="project" class="hidden-xs">機台:</label>
+                  <div class="assignConstNo form-control" data-placeholder="機台編號">
+                    <span class="text-center"><span class="ajax-loader">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></span>
+                  </div>
+			  	</div><%--
                 <div class="weekContainer col-sm-6 col-xs-12">
                   <div class="assignWeek">
                     <span class="text-center"><span class="ajax-loader">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></span>
                   </div>
-                </div>
+			  	</div>--%>
               </div>
               <ul class="nav nav-tabs">
-                <li>
-                  <a data-toggle="mtab" data-target="#tab1" href="${createLink(action:'index', params:[embed:true,month:Calendar.instance.get(Calendar.MONTH)])}">
-                    <big>本月人員配置</big>
-                  </a>
+                <li><%--
+					<a data-toggle="mtab" data-target="#tab1" href="${createLink(controller:'dispose', action:'index', params:[embed:true,month:Calendar.instance.get(Calendar.MONTH)])}">
+	                  <big>${functionService.getPageTitle('dispose')}</big>
+				  </a>--%>
+					<a data-toggle="mtab" data-target="#tab1" href="${createLink(action:'index', params:[embed:true,month:Calendar.instance.get(Calendar.MONTH)])}">
+	                  <big>人員配置(月)</big>
+	                </a>
                 </li>
                 <li class="active">
                   <a data-toggle="mtab" data-target="#tab2" href="#"><big>${pageTitle}</big></a>
@@ -46,7 +51,7 @@
                   <div class="box">
                     <div class="box-header"></div> <%--
                     <div class="box-header panel panel-default">
-                      <h3 class="box-title">${pageTitle}</h3>
+                      <h3 class="box-title">${actionTitle}</h3>
                     </div> --%>
                     <div class="box-body">
                       <span class="ajax-loader">請稍候&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
@@ -55,12 +60,12 @@
                 </div>
                 <div id="tab2" class="tab-pane fade in active">
                   <div class="box">
-                    <div class="box-header"><%--
-                      <div class="projectContainer">
-                        <div class="assignProject form-control">
-                          <span class="text-center"><span class="ajax-loader">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></span>
-                        </div>
-                      </div>--%>
+                    <div class="box-header">
+					  <div class="weekContainer col-sm-6 col-xs-12">
+						<div class="assignWeek">
+						  <span class="text-center"><span class="ajax-loader">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></span>
+						</div>
+					  </div>
                     </div>
                     <div class="box-body">
                       <table id="list-assignment" class="table table-bordered table-hover">
@@ -100,21 +105,22 @@
             </div>
           </div>
         </section>
-      </div>
+    </div>
 <asset:script type='text/javascript'><%-- deferred JS here --%>
-var server = {
-  pageTitle: '${pageTitle}',
-  calendarTemplate: '<g:resource dir="static/assignment" file="calendar.tmpl" />',
-  year: ${params?.year?:'null'},
-  week: ${params?.week?:'null'},
-  project: '${params?.project}'
+var serverParams = {
+	pageTitle: '${actionTitle}',
+	calendarTemplate: '<g:resource dir="static/assignment" file="calendar.tmpl" />',
+	year: ${params?.year?:'null'},
+	week: ${params?.week?:'null'},
+	constructNo: '${params?.constructNo}',
+	projectId: '${params?.projectId}'
 };
 
 $(function() {
-  <g:render template="/layouts/client-message" bean="${assignment}"/>
-  initializeSelectFields();
-  initializeAssignments();
-  $('input[type=text],textarea').filter(':enabled:visible:first').focus();
+	<g:render template="/layouts/client-message"/>
+	initializeSelectFields();
+	initializeAssignments();
+	$('input[type=text],textarea').filter(':enabled:visible:first').focus();
 });
 </asset:script>
     </body>

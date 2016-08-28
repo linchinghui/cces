@@ -34,8 +34,8 @@ class BootStrap {
 	}
 
     private initDb(ctx) {
-		// log.info "initialize database ..."
-		println "initialize database ..."
+		log.info "initialize database ..."
+		// println "initialize database ..."
 
 		def initData = Application.loadConfiguration('baseData.groovy')
 
@@ -53,8 +53,8 @@ class BootStrap {
 				r = new Role(code: entry.key, description: entry.value)
 				r.save(flush: true)
 
-				// log.info "create default Role: $r"
-				println "create default Role: $r"
+				log.info "create default Role: $r"
+				// println "create default Role: $r"
 			}
 
 			switch (r.type) {
@@ -88,6 +88,7 @@ class BootStrap {
 				if (! u) {
 					u = new User(
 						username: user,
+						fullname: user.toUpperCase(),
 						password: user,
 						enabled: true,
 						accountExpired: false,
@@ -129,8 +130,8 @@ class BootStrap {
 					aided: func.aided ?: false
 				).save(flush: true)
 
-				// log.info "create Function: ${func.name}"
-				println "create Function: ${func.name}"
+				log.info "create Function: ${func.name}"
+				// println "create Function: ${func.name}"
 			}
 		}
 

@@ -6,6 +6,7 @@
 .fileinput .thumbnail {
   margin-bottom: 0;
 }
+
 .fileinput-new.thumbnail,
 .fileinput-exists.thumbnail,
 .fileinput-preview.thumbnail {

@@ -1,6 +1,6 @@
 <%@ page import="static com.lch.aaa.Application.*" %>
 <%@ page import="com.lch.aaa.*"%>
-<g:set var="authService" bean="authenticationService"/>
+<%-- <g:set var="authService" bean="authenticationService"/> --%>
 <g:set var="lastException" value="${authService.lastException}" scope="request"/>
 <g:set var="modalPage" value="${true}" scope="request"/>
 <g:set var="loginLink" value="${createLink(controller:PAGE_LOGIN-'/')}"/>
@@ -25,7 +25,7 @@
     <div id="box-login" class="col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2 col-xs-10 col-xs-offset-1">
       <div class="panel panel-info">
         <div class="panel-heading">
-          <div class="panel-title">請登入</div>
+          <div class="panel-title">登入</div>
 <%-- TODO
           <div id="label-forgot"><a href="#">密碼忘記了?</a></div>
 --%>
@@ -35,10 +35,10 @@
               <div class='alert alert-danger'>${lastException.message}</div>
           </g:if>
 
-          <form name="form-signin" class="form-horizontal" role="form" action="${loginLink}" method='POST'>
+          <form name="form-signin" class="form-horizontal" role="form" action="${loginLink}" method='POST'><%-- enctype="multipart/form-data">
             <g:if test="${_csrf?.parameterName}">
               <input name='${_csrf?.parameterName}' type='hidden' value='${_csrf?.token}'/>
-            </g:if>
+		  </g:if>--%>
             <div class="input-group col-lg-offset-2 col-md-offset-2 col-sm-offset-2 col-xs-offset-1 col-lg-8 col-md-8 col-sm-8 col-xs-10">
               <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
               <input id="username" class="form-control" name="username" value="" placeholder="Username" type="text">
@@ -89,11 +89,10 @@
           <g:if test="${lastException}">
               <div class='alert alert-danger'>${lastException.message}</div>
           </g:if>--%>
-          <form name="form-signup" class="form-horizontal" role="form" action='/signup' method='POST'>
+          <form name="form-signup" class="form-horizontal" role="form" action='/signup' method='POST'><%-- enctype="multipart/form-data">
             <g:if test="${_csrf?.parameterName}">
               <input name='${_csrf?.parameterName}' type='hidden' value='${_csrf?.token}'/>
-            </g:if>
-
+		  </g:if>--%>
             <div class="form-group">
               <label for="email" class="col-md-3 control-label">Email</label>
               <div class="col-md-8">
@@ -115,7 +114,7 @@
             <div class="form-group">
               <label for="icode" class="col-md-3 control-label">Invitation Code</label>
               <div class="col-md-8">
-                <input class="form-control" name="icode" placeholder="Invitation Code   " type="text">
+                <input class="form-control" name="icode" placeholder="Invitation Code" type="text">
               </div>
             </div>--%>
             <div class="form-group"><%-- Button --%>

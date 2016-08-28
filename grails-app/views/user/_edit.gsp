@@ -7,21 +7,19 @@
     <g:set var="modalPage" value="${true}" scope="request"/> <%--
     <g:set var="deferredScript" value="form/user" scope="request"/> --%>
 </g:else>
-<g:set var="functionService" bean="functionService"/>
-<g:set var="pageTitle" value="${functionService.get('user')?.description}-${type=='C' ? '新增' : type=='U' ? '編輯' : ''}"/>
+<g:set var="actionTitle" value="${pageTitle}-${type=='C' ? '新增' : type=='U' ? '編輯' : ''}"/>
 <g:set var="submitMehtod" value="${type=='C' ? 'POST' : type=='U' ? 'PUT' : ''}"/>
 <!DOCTYPE html>
 <html>
     <head>
         <meta name="layout" content="main" />
-        <title>CCES - ${pageTitle}</title>
         <asset:stylesheet src="form/user"/>
     </head>
     <body>
         <div class="container" role="main">
             <div class="panel panel-info"><g:if test="${modalPage}">
                 <div class="panel-heading">
-                    <div class="panel-title">${pageTitle}</div>
+                    <div class="panel-title">${actionTitle}</div>
                 </div></g:if>
                 <div class="panel-body"> <%--
                     <section class="content-header">
@@ -36,12 +34,12 @@
                             <fieldset class="form-group">
                                 <f:with bean="user">
                                     <g:if test="${type=='C'}">
-                                        <f:field property="username" label="登入帳號" widget-placeholder="輸入英文字母" />
+                                        <f:field property="username" label="登入帳號" widget-placeholder="英文字母(不含符號)" />
                                     </g:if>
                                     <g:else>
                                         <f:display property="username" label="登入帳號" />
                                     </g:else>
-                                    <f:field property="fullname" label="姓名" widget-placeholder="輸入中英文姓名" />
+                                    <f:field property="fullname" label="姓名" />
                                     <g:if test="${type=='C'}">
                                         <f:field property="password" label="密碼">
                                             <g:passwordField name="password"/>
@@ -65,24 +63,22 @@
         </div>
 <asset:script type='text/javascript'><%-- deferred JS here --%>
 $(function() {
-    var editForm = $('#userForm');
-<%-- 1. title --%>
-    $('.bootstrap-dialog-title').html('${pageTitle}');
-<%-- 2. message --%>
-    <g:render template="/layouts/client-message" bean="${user}"/>
-<%-- 3. form variable and submit delegation --%>
-    <g:render template="/layouts/client-submit" model="['formVar':'editForm']"/>
-<%-- 4: pre-render--%>
+    var editForm = $('#userForm');<%--
+ 1. title --%>
+    $('.bootstrap-dialog-title').html('${actionTitle}');<%--
+ 2. message --%>
+    <g:render template="/layouts/client-message" bean="${user}"/><%--
+ 3: pre-render--%>
     <g:if test="${type=='C'}">
-        editForm.find('div.fieldcontain input[name="password"]').prop('required',true);
+    editForm.find('div.fieldcontain input[name="password"]').prop('required',true);
     </g:if>
     <g:else>
-        editForm.find('div.fieldcontain').has('input[name="password"]').remove();
-    </g:else>
-<%-- 5: render and transform --%>
-    <g:render template="/layouts/client-render" model="[formVar: 'editForm', renderCheckbox: true]"/>
-<%-- 6: post-render--%>
-    $('input[type=text],textarea').filter(':enabled:visible:first').each( function(idx,ele) { $(ele).focus(); } );
+    editForm.find('div.fieldcontain').has('input[name="password"]').remove();
+    </g:else><%--
+ 4: render and transform --%>
+    <g:render template="/layouts/client-render" model="[formVar: 'editForm', renderCheckbox: true]"/><%--
+ 5. form variable and submit delegation & post-render --%>
+    <g:render template="/layouts/client-submit" model="['formVar':'editForm']"/>
 });
 </asset:script>
     </body>

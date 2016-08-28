@@ -1,16 +1,13 @@
 <g:set var="deferredScript" value="form/user" scope="request"/>
-<g:set var="functionService" bean="functionService"/>
-<g:set var="pageTitle" value="${functionService.get('user')?.description}"/>
 <!DOCTYPE html>
 <html>
     <head>
         <meta name="layout" content="main" />
-        <title>CCES - ${pageTitle}</title>
         <asset:stylesheet src="grid"/>
         <asset:stylesheet src="form/user"/>
     </head>
     <body>
-      <div class="content-wrapper" role="main"> <%--
+    <div class="content-wrapper" role="main"> <%--
         <section class="content-header">
           <g:render template="/layouts/server-message" bean="${user}"/>
         </section> --%>
@@ -30,8 +27,8 @@
                     <thead>
                       <tr>
                         <th></th>
-                        <th><span class="hidden-xs">登入</span>帳號</th>
-                        <th>姓名</th>
+                        <th><span class="search-input"><input type="text" size="10"><br></span><span class="hidden-xs">登入</span>帳號</th>
+                        <th><span class="search-input"><input type="text" size="10"><br></span>姓名</th>
                         <th><span class="hidden-xs">作業</span>角色</th>
                         <th><span class="hidden-xs">可</span>登入</th>
                         <th><span class="hidden-xs">已</span>鎖住</th>
@@ -57,12 +54,12 @@
             </div>
           </div>
         </section>
-      </div>
+    </div>
 <asset:script type='text/javascript'><%-- deferred JS here --%>
 $(function() {
-  <g:render template="/layouts/client-message" bean="${user}"/>
-  initializeRoleTypes();
-  createDataTable();
+	<g:render template="/layouts/client-message"/>
+	initializeRoleTypes();
+	createDataTable();
 });
 </asset:script>
     </body>

@@ -6,13 +6,10 @@
     <g:set var="modalPage" value="${true}" scope="request"/> <%--
     <g:set var="deferredScript" value="???" scope="request"/> --%>
 </g:else>
-<g:set var="functionService" bean="functionService"/>
-<g:set var="pageTitle" value="${functionService.get('function')?.description}"/>
 <!DOCTYPE html>
 <html>
     <head>
         <meta name="layout" content="main" />
-        <title>CCES - ${pageTitle}</title>
         <asset:stylesheet src="form/function"/>
     </head>
     <body>
@@ -33,8 +30,8 @@
                             </g:if>
                             <fieldset class="form-group">
                                 <f:with bean="function">
-                                    <f:display property="name" label="代碼" />
-                                    <f:display property="description" label="作業項目" />
+                                    <f:display property="name" label="作業代碼" />
+                                    <f:display property="description" label="作業名稱" />
                                 </f:with>
                             </fieldset>
                         </g:if>

@@ -2,9 +2,14 @@
 *= require_self
 */
 .content {
-	min-height: 520px !important;
+  min-height: 520px !important;
 }
+
+#workerForm .col-xs-6 {
+  padding-left: 0;
+}
+
 .employedDate > input {
 	/*font-weight: bold;*/
-	color: blue;
+  color: blue;
 }

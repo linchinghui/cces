@@ -7,21 +7,19 @@
     <g:set var="modalPage" value="${true}" scope="request"/> <%--
     <g:set var="deferredScript" value="???" scope="request"/> --%>
 </g:else>
-<g:set var="functionService" bean="functionService"/>
-<g:set var="pageTitle" value="${functionService.get('privilege')?.description + '-設定'}"/>
+<g:set var="actionTitle" value="${pageTitle}-設定"/>
 <g:set var="submitMehtod" value="${type=='C' ? 'POST' : type=='U' ? 'PUT' : ''}"/>
 <!DOCTYPE html>
 <html>
     <head>
         <meta name="layout" content="main" />
-        <title>CCES - ${pageTitle}</title>
         <asset:stylesheet src="form/privilege"/>
     </head>
     <body>
         <div class="container" role="main">
             <div class="panel panel-info"><g:if test="${modalPage}">
                 <div class="panel-heading">
-                    <div class="panel-title">${pageTitle}</div>
+                    <div class="panel-title">${actionTitle}</div>
                 </div></g:if>
                 <div class="panel-body"> <%--
                     <section class="content-header">
@@ -35,7 +33,7 @@
                             </g:if>
                             <fieldset class="form-group">
                                 <f:with bean="privilege">
-                                    <g:if test="${type=='C'}">
+                                    <g:if test="${type=='C' && params?.embed!='true'}">
                                         <f:field property="role" label="作業角色" />
                                         <f:field property="function" label="作業項目" />
                                     </g:if>
@@ -43,6 +41,7 @@
                                         <f:display property="role" label="作業角色" />
                                         <f:display property="function" label="作業項目" />
                                     </g:else>
+									<br>
                                     <f:field property="canRead" label="可讀" />
                                     <f:field property="canWrite" label="可寫" />
                                     <f:field property="canDelete" label="可刪" />
@@ -60,10 +59,10 @@
 <asset:script type='text/javascript'><%-- deferred JS here --%>
 $(function() {
     var editForm = $('#privilegeForm');
-    $('.bootstrap-dialog-title').html('${pageTitle}');
+    $('.bootstrap-dialog-title').html('${actionTitle}');
     <g:render template="/layouts/client-message" bean="${privilege}"/>
-    <g:render template="/layouts/client-submit" model="[formVar: 'editForm']"/>
     <g:render template="/layouts/client-render" model="[formVar: 'editForm', renderCheckbox: true]"/>
+	<g:render template="/layouts/client-submit" model="[formVar: 'editForm']"/>
 });
 </asset:script>
     </body>

@@ -7,13 +7,10 @@
     <g:set var="modalPage" value="${true}" scope="request"/> <%--
     <g:set var="deferredScript" value="???" scope="request"/> --%>
 </g:else>
-<g:set var="functionService" bean="functionService"/>
-<g:set var="pageTitle" value="${functionService.get('project')?.description}"/>
 <!DOCTYPE html>
 <html>
     <head>
         <meta name="layout" content="main" />
-        <title>CCES - ${pageTitle}</title>
         <asset:stylesheet src="form/project"/>
     </head>
     <body>
@@ -35,12 +32,13 @@
                             <fieldset class="form-group">
                                 <f:with bean="project">
                                     <f:display property="code" label="專案代碼" />
-                                    <f:display property="description" label="專案名稱 | 機台型號" />
-                                    <f:display property="constructNo" label="序號" />
+                                    <f:display property="description" label="專案名稱" />
+                                    <f:display property="constructNo" label="機台型號" />
                                     <f:display property="constructPlace" label="工程地點" />
+                                    <f:display property="projectType" label="工作型態" />
                                     <f:display property="constructType" label="施作方式" />
-                                    <f:display property="durationBegin" label="期程-開始" wrapper="date" />
-                                    <f:display property="durationEnd" label="期程-結束" wrapper="date" />
+                                    <div class="col-xs-6"><f:display property="durationBegin" label="期程-開始" wrapper="date" /></div>
+                                    <div class="col-xs-6"><f:display property="durationEnd" label="期程-結束" wrapper="date" /></div>
                                     <f:display property="contact" label="合約 | 委外編號" />
                                     <f:display property="customer" label="甲方" />
                                     <f:display property="contactPerson" label="聯絡人" />

@@ -4,154 +4,132 @@
 var vehicleMilageList;
 
 function createCriterionListener() {
-  if (serverParams.embed) {
-    $(window).on('criterionChanged', function (e) {
-      serverParams.projectId = e.state.projectId;
-      serverParams.dispatchedDate = e.state.workedDate;
-      reloadDataTables(vehicleMilageList);
-    });
-  }
+	if (serverParams2.embed) {
+		$(window).on('criterionChanged', function(e) {
+			serverParams2.projectId = e.state.projectId;
+			serverParams2.dispatchedDate = e.state.workedDate;
+			reloadDataTables(vehicleMilageList);
+		});
+	}
 }
 
 function getMilageParameters() {
-  return {
-    embed: serverParams.embed,
-    projectId: serverParams.projectId,
-    dispatchedDate: serverParams.dispatchedDate.replace(/\//g,'-')
-  }
+	return {
+		embed: serverParams2.embed,
+		projectId: serverParams2.projectId,
+		dispatchedDate: serverParams2.dispatchedDate.replace(/\//g, '-')
+	}
 }
 
-function getQueryMilageString() {
-  return (serverParams.embed ? '?' + $.param(getMilageParameters()) : '');
+function removeMilageRequested(result) {
+	reloadDataTables(vehicleMilageList);
 }
 
-function removeMilageRequested (result) {
-  reloadDataTables(vehicleMilageList);
+function modifyMilageRequested(result, editForm) {
+	reloadDataTables(vehicleMilageList);
 }
 
-function modifyMilageRequested (result, editForm) {
-  reloadDataTables(vehicleMilageList);
+function addMilageRequested(result, editForm) {
+	reloadDataTables(vehicleMilageList);
 }
 
-function addMilageRequested (result, editForm) {
-  reloadDataTables(vehicleMilageList);
-}
-
-function addMilageRequest (evt, dt, node, config) {
-  BootstrapDialog.show({
-    title: '新增...',
-    message: requestAction4BootstrapDialog({
-      url: contextPath+'/vehicleMilage/create',
-      callback: addMilageRequested
-    }, null, getMilageParameters())
-  });
+function addMilageRequest(evt, dt, node, config) {
+	BootstrapDialog.show({
+		title: '新增...',
+		message: requestAction4BootstrapDialog({
+			url: server.ctxPath + '/vehicleMilage/create',
+			callback: addMilageRequested
+		}, null, getMilageParameters())
+	});
 }
 
 function prepareUrl(actionType) {
-  return function() {
-    return contextPath + '/vehicleMilage/' + actionType + getQueryString();
-  }
+	return function() {
+		return server.ctxPath + '/vehicleMilage/' + actionType + (serverParams2.embed ? '?' + $.param(getMilageParameters()) : '');
+	}
 }
 
 function createMilageTable() {
-  var qryStr = getQueryMilageString();
+	var dataCols = [ //0
+		renderDefaultAlterationCellWithId4DataTables({
+			edit: {
+				url: prepareUrl('edit'),
+				callback: modifyMilageRequested
+			},
+			delete: {
+				title: '清除...',
+				url: prepareUrl('delete'),
+				callback: removeMilageRequested
+			}
+		}), { //1
+			data: 'project'
+		}, { //2
+			render: renderDate4DataTables(),
+			data: 'dispatchedDate'
+		}, { //3
+			data: 'vehicle'
+		}, { //4
+			orderable: false,
+			data: 'km'
+		}
+	];
 
-  var dataCols = [ //0
-      renderDefaultAlterationCellWithId4DataTables({
-        edit: {
-          url: prepareUrl('edit'),
-          callback: modifyMilageRequested
-        }
-        ,delete:  {
-          title: '清除...',
-          url: prepareUrl('delete'),
-          callback: removeMilageRequested
-        }
-      })
-    ];
+	if (serverParams2.embed) {
+		dataCols.splice(1, 2);
+	}
 
-  if (! serverParams.embed) {
-    dataCols.push(
-      { //1
-        data: 'project'
-      });
-    dataCols.push(
-      { //2
-        render: renderDate4DataTables(),
-        data: 'dispatchedDate'
-      });
-  }
+	var dataSettings = {
+		processing: true,
+		serverSide: true,
+		deferRender: true,
+		ajax: {
+			url: server.ctxPath + '/api/vehicleMilages.json',
+			data: function(params, settings) {
+				settings.ajax.fake = serverParams2.embed && !(serverParams2.projectId || false);
+				return $.extend({}, $.fn.dataTable.defaults.ajax.data(params, settings), getMilageParameters());
+			},
+			onDone: function() {
+				if (serverParams2.embed && !(serverParams2.projectId || false)) {
+					vehicleMilageList.buttons().disable();
+				}
+			},
+			onReloadClick: function(event) {
+					return (!serverParams2.embed || serverParams2.projectId && true);
+				}
+				// ,onReloadClicked: function() {
+				// }
+		},
+		initComplete: function(settings, data) {
+			initialized4DataTables(settings, data);
+		},
+		extButtons: {
+			copy: true
+		},
+		buttons: [{
+			text: '新增',
+			action: addMilageRequest
+		}],
+		columns: dataCols,
+		order: [
+				[1, 'asc']
+			] // prev: 'aaSorting'
+	};
 
-  dataCols.push(
-    { //3
-      data: 'vehicle'
-    },{ //4
-      orderable: false,
-      data: 'km'
-    });
+	$.ajax.fake.registerWebservice('/api/vehicleMilages.json', function(req) {
+		// empty DT data
+		return {
+			draw: req.draw,
+			recordsTotal: 0,
+			recordsFiltered: 0,
+			data: []
+		};
+	});
 
-  var dataSettings = {
-      processing: true,
-      serverSide: true,
-      deferRender: true,
-      ajax: {
-        url: contextPath+'/api/vehicleMilages.json',
-        data: function(params, settings) {
-          settings.ajax.fake = serverParams.embed && ! (serverParams.projectId || false);
-
-          return $.extend({
-              draw: params.draw,
-              max: params.length,
-              offset: params.start,
-              sort: (params.order ? settings.aoColumns[params.order[0].column].data : 'id'),
-              order: (params.order ? params.order[0].dir : 'asc')
-            }, getMilageParameters() );
-        },
-        onDone: function() {
-          if (serverParams.embed && ! (serverParams.projectId || false)) {
-            vehicleMilageList.buttons().disable();
-          }
-        },
-        onReloadClick: function(event) {
-          return (! serverParams.embed || serverParams.projectId && true);
-        }
-        // ,onReloadClicked: function() {
-        // }
-      },
-      initComplete: function (settings, data) { // this == DataTable()
-        initialized4DataTables(settings, data);
-        $(window).resize(function() {
-          vehicleMilageList.columns.adjust().responsive.recalc();
-        });
-        // TODO
-        setTimeout(function(){ $(window).resize(); }, 500);
-      },
-      extButtons: {
-        copy: true
-      },
-      buttons: [
-        {text: '新增', action: addMilageRequest}
-      ],
-      columns: dataCols,
-      order: [[1,'asc']] // prev: 'aaSorting'
-    };
-
-  $.ajax.fake.registerWebservice('/api/vehicleMilages.json', function(req) {
-    // empty DT data
-    return {
-      draw: req.draw,
-      recordsTotal: 0,
-      recordsFiltered: 0,
-      data: []
-    };
-  });
-
-  vehicleMilageList = $('#list-vehicleMilage').DataTable(
-    serverParams.embed ? $.extend({}, {
-          dom: 'Bftri',
-          pageLength: 100,
-          scrollY: true
-        }, dataSettings)
-      : dataSettings
-    ).buttons().disable();
+	vehicleMilageList = $('#list-vehicleMilage').DataTable(
+			serverParams2.embed ? $.extend({
+				dom: 'Bftri'
+			}, dataSettings) : dataSettings
+		)
+		.buttons()
+		.disable();
 }

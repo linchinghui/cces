@@ -7,21 +7,19 @@
     <g:set var="modalPage" value="${true}" scope="request"/> <%--
     <g:set var="deferredScript" value="???" scope="request"/> --%>
 </g:else>
-<g:set var="functionService" bean="functionService"/>
-<g:set var="pageTitle" value="${functionService.get('worker')?.description}-${type=='C' ? '新增' : type=='U' ? '編輯' : ''}"/>
+<g:set var="actionTitle" value="${pageTitle}-${type=='C' ? '新增' : type=='U' ? '編輯' : ''}"/>
 <g:set var="submitMehtod" value="${type=='C' ? 'POST' : type=='U' ? 'PUT' : ''}"/>
 <!DOCTYPE html>
 <html>
     <head>
         <meta name="layout" content="main" />
-        <title>CCES - ${pageTitle}</title>
         <asset:stylesheet src="form/worker"/>
     </head>
     <body>
         <div class="container" role="main">
             <div class="panel panel-info"><g:if test="${modalPage}">
                 <div class="panel-heading">
-                    <div class="panel-title">${pageTitle}</div>
+                    <div class="panel-title">${actionTitle}</div>
                 </div></g:if>
                 <div class="panel-body"> <%--
                     <section class="content-header">
@@ -36,18 +34,18 @@
                             <fieldset class="form-group">
                                 <f:with bean="worker">
                                     <g:if test="${type=='C'}">
-                                        <f:field property="empNo" label="員工編號" widget-placeholder="輸入(不含符號的)英文字母" />
+                                        <f:field property="empNo" label="員工編號" widget-placeholder="英文字母(不含符號)" />
                                     </g:if>
                                     <g:else>
                                         <f:display property="empNo" label="員工編號" />
                                     </g:else>
-                                    <f:field property="empName" label="姓名" widget-placeholder="輸入中英文說明" />
+                                    <f:field property="empName" label="姓名" />
                                     <f:field property="sex" label="姓別" />
-                                    <f:field property="employedDate" label="到職日" widget="date" value="${type=='C'?java.util.Calendar.instance:worker.employedDate}"/>
-                                    <f:field property="resignedDate" label="離職日" widget="date" />
+                                    <div class="col-xs-6"><f:field property="employedDate" label="到職日" widget="date" value="${type=='C'?java.util.Calendar.instance:worker.employedDate}"/></div>
+                                    <div class="col-xs-6"><f:field property="resignedDate" label="離職日" widget="date" /></div>
                                     <f:field property="avatarCopied" label="大頭照繳交日" widget="date" />
-                                    <f:field property="idCardCopied" label="身分證影本繳交日" widget="date" />
-                                    <f:field property="nhiIcCardCopied" label="健保卡影本繳交日" widget="date" />
+                                    <div class="col-xs-6"><f:field property="idCardCopied" label="身分證影本繳交日" widget="date" /></div>
+                                    <div class="col-xs-6"><f:field property="nhiIcCardCopied" label="健保卡影本繳交日" widget="date" /></div>
                                     <f:field property="diplomaCopied" label="畢業證書影本繳交日" widget="date" />
                                     <f:field property="oorCopied" label="退伍令影本繳交日" widget="date" />
                                     <f:field property="gdlCopied" label="駕照影本繳交日" widget="date" />
@@ -65,11 +63,10 @@
 <asset:script type='text/javascript'><%-- deferred JS here --%>
 $(function() {
     var editForm = $('#workerForm');
-    $('.bootstrap-dialog-title').html('${pageTitle}');
+    $('.bootstrap-dialog-title').html('${actionTitle}');
     <g:render template="/layouts/client-message" bean="${worker}"/>
-    <g:render template="/layouts/client-submit" model="[formVar: 'editForm']"/>
     <g:render template="/layouts/client-render" model="[formVar: 'editForm']"/>
-    $('input[type=text],textarea').filter(':enabled:visible:first').each( function(idx,ele) { $(ele).focus(); } );
+	<g:render template="/layouts/client-submit" model="[formVar: 'editForm']"/>
 });
 </asset:script>
     </body>

@@ -5,7 +5,12 @@
   <g:each in="${com.lch.aaa.Role.list()}">
     <option value="${it.id}" ${it.id in value*.id ? 'selected' : ''}>${it.description}</option>
   </g:each>
-  </select>
+  </select><%--
+  <g:select name="${property}" value="${value}" multiple="true" class="selectpicker"
+	from="${com.lch.aaa.Role.list()}"
+	optionValue="description"
+	optionKey="id" />
+--%>
 </div>
 <asset:script type='text/javascript'><%-- deferred JS here --%>
 $(function() {

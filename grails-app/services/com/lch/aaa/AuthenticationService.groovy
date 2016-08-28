@@ -1,5 +1,6 @@
 package com.lch.aaa
 
+// import grails.plugin.cache.Cacheable
 import grails.transaction.Transactional
 import grails.util.Holders
 import org.grails.web.util.WebUtils
@@ -36,9 +37,11 @@ class AuthenticationService {
 		]}
 	}
 
+	// @CachePut(value='currPrivilege', key='#applicationContext.authenticationService.principal')
 	def getPrivileges() {
+		// log.debug ("retrieving privileges with roles ...")
 		def session = WebUtils.retrieveGrailsWebRequest().session
-		// def roles = SCH.context?.authentication?.authorities?.collect { // BUG!
+		// def roles = SCH.context?.authentication?.authorities?.collect { // BUG?
 		def roles = session['SPRING_SECURITY_CONTEXT']?.authentication?.authorities?.collect {
 			roleService.get(it.authority)
 		}

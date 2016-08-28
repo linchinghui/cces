@@ -6,13 +6,10 @@
     <g:set var="modalPage" value="${true}" scope="request"/> <%--
     <g:set var="deferredScript" value="???" scope="request"/> --%>
 </g:else>
-<g:set var="functionService" bean="functionService"/>
-<g:set var="pageTitle" value="${functionService.get('supplier')?.description}"/>
 <!DOCTYPE html>
 <html>
     <head>
         <meta name="layout" content="main" />
-        <title>CCES - ${pageTitle}</title>
         <asset:stylesheet src="form/supplier"/>
     </head>
     <body>
@@ -33,8 +30,13 @@
                             </g:if>
                             <fieldset class="form-group">
                                 <f:with bean="supplier">
-                                    <f:display property="code" label="代碼" />
+                                    <f:display property="code" label="供應商代碼" />
                                     <f:display property="name" label="供應商名稱" />
+                                    <f:display property="ubn" label="統一編號" />
+                                    <f:display property="phoneNo" label="電話" />
+                                    <f:display property="faxNo" label="傳真" />
+                                    <f:display property="email" label="電子郵件" />
+                                    <f:display property="contact" label="聯絡人" />
                                     <f:display property="contactPhoneNo" label="聯絡電話" />
                                 </f:with>
                             </fieldset>

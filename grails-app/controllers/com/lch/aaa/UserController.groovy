@@ -12,6 +12,13 @@ class UserController extends BaseController<User> {
 		super(User)
 	}
 
+  def update() {
+		if (params && params.roles == null) {
+			params.roles = []
+		}
+		super.update()
+	}
+
 	def changePassword() {
 		if (super.authenticationService.isLoggedIn()) {
 			flash?.clear()

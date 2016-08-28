@@ -6,7 +6,7 @@
     );
 %></g:if>
 <g:else>
-    <g:set var="embed" value="${params?.embed=='true'}" scope="request"/>
+    <g:set var="embed" value="${params?.embed=='true' || params['cb']}" scope="request"/>
     <g:set var="dialogPage" value="${true}" scope="request"/>
     <g:set var="selfStyle" value="${true}" scope="request"/>
     <%
@@ -15,11 +15,11 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>CCES - Page Not Found</title>
         <meta name="layout" content="main"/>
+        <title>CCES - Page Not Found</title>
         <asset:stylesheet src="notfound"/>
         <g:if test="${! embed}">
-            <asset:javascript src="jquery-2.2.0.min.js"/>
+            <asset:javascript src="jquery-2.2.4.js"/>
         </g:if>
     </head>
     <body>

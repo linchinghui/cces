@@ -21,7 +21,7 @@ class UrlMappings {
         '404'               (view: PAGE_NOTFOUND)
         '406'               (view: PAGE_ERROR)
         '500'               (view: PAGE_ERROR)
-        '500'               (view: '/welcome', exception: CookieTheftException)
+        '500'               (view: PAGE_WELCOME, exception: CookieTheftException)
         '503'               (view: PAGE_MAINTENANCE)
         "$PAGE_DENY"        (view: PAGE_DENY)
         "$PAGE_NOTFOUND"    (view: PAGE_NOTFOUND)

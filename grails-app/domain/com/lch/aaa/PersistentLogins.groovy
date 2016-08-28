@@ -2,21 +2,21 @@ package com.lch.aaa
 
 class PersistentLogins {
 
-	String		id
-	String		username	// alias of id
-	String		series
-	String		tokenValue
-	Date		date
+	String			id
+	String			username	// alias of id
+	String			series
+	String			tokenValue
+	Date			date
 
 //	static transients = ['series']
-	
+
     static constraints = {
 		username	blank: false, nullable: false, maxSize: 64
 		series		blank: false, nullable: false, maxSize: 64, unique: true
 		tokenValue	blank: false, nullable: false, maxSize: 64
 		date		blank: false, nullable: false
 	}
-	
+
 	static mapping = {
 		version		false
 		sort		'date'

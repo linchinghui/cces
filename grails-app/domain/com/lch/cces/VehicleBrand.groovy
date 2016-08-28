@@ -5,14 +5,14 @@ import grails.rest.Resource
 @Resource(uri = '/api/vehicleBrands', superClass = VehicleBrandController)
 class VehicleBrand {
 
-	String		id			// primary key, 一律大寫
-	String		name		// 類別代碼, alias of id
-	String		description	// 類別名稱
+	String			id			// primary key, 一律大寫
+	String			name		// 廠牌代碼, alias of id
+	String			description	// 廠牌名稱
 
-    static constraints = {
+	static constraints = {
 		name		blank: false, nullable: false, maxSize: 20, unique: true
 		description	blank: false, nullable: false, maxSize: 40
-    }
+	}
 
 	static mapping = {
 		version		false

@@ -1,5 +1,6 @@
 /*
-*= require plugins/datatables-all
+** require plugins/datatables-all
+*= require plugins/datatables
 *= require_self
 */
 /*
@@ -26,30 +27,44 @@
   padding-top: 0px;
 }
 
+.dataTables_filter {
+  /*visibility: hidden;*/
+  display: none;
+}
+/*
+.dataTables_filter input {
+	visibility: visible;
+	margin: 2px;
+}
+*/
 .dataTables_scrollBody::-webkit-scrollbar {
   -webkit-appearance: none;
 }
+
 .dataTables_scrollBody::-webkit-scrollbar:vertical {
   width: 10px;
 }
+
 .dataTables_scrollBody::-webkit-scrollbar:horizontal {
   height: 10px;
 }
+
 .dataTables_scrollBody::-webkit-scrollbar-thumb {
   background-color: rgba(0, 0, 0, .25);
   border-radius: 4px;
   border: 1px solid #ffffff;
 }
+
 .dataTables_scrollBody::-webkit-scrollbar-track {
   background-color: #ffffff;
   border-radius: 10px;
 }
-
+/*
 table.dataTable thead th:first-child.sorting_desc:after,
 table.dataTable thead th:first-child.sorting_asc:after {
   visibility: hidden;
 }
-
+*/
 table.dataTable tbody td .fa-info,
 table.dataTable tbody td .fa-times,
 table.dataTable tbody td .fa-pencil {
@@ -85,9 +100,11 @@ table.dataTable tbody td .fa-pencil.disabled {
 table.dataTable tbody td .fa-info:not(.disabled) {
   color: blue;
 }
+
 table.dataTable tbody td .fa-pencil:not(.disabled) {
   color: GoldenRod;
 }
+
 table.dataTable tbody td .fa-times:not(.disabled) {
   color: red;
 }
@@ -123,4 +140,8 @@ div.dt-buttons.btn-group {
     width: -moz-max-content;
     width: max-content;
   }
+}
+
+.dtr-title .search-input {
+  display: none;
 }

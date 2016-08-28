@@ -2,13 +2,13 @@ package com.lch.aaa
 
 class PrivilegeController extends BaseController<Privilege> {
 
-		static namespace = Application.NAMESPACE_API
+	static namespace = Application.NAMESPACE_API
 
     def privilegeService
 
-		PrivilegeController() {
-			super(Privilege)
-		}
+	PrivilegeController() {
+		super(Privilege)
+	}
 
     private void resolveParameters(params) {
         def compIds = params?.id?.split('\\|')

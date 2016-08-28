@@ -7,13 +7,10 @@
     <g:set var="modalPage" value="${true}" scope="request"/> <%--
     <g:set var="deferredScript" value="???" scope="request"/> --%>
 </g:else>
-<g:set var="functionService" bean="functionService"/>
-<g:set var="pageTitle" value="${functionService.get('worker')?.description}"/>
 <!DOCTYPE html>
 <html>
     <head>
         <meta name="layout" content="main" />
-        <title>CCES - ${pageTitle}</title>
         <asset:stylesheet src="form/worker"/>
     </head>
     <body>
@@ -37,11 +34,11 @@
                                     <f:display property="empNo" label="員工編號" />
                                     <f:display property="empName" label="姓名" />
                                     <f:display property="sex" label="性別" />
-                                    <f:display property="employedDate" label="到職日" wrapper="date" />
-                                    <f:display property="resignedDate" label="離職日" wrapper="date" />
+                                    <div class="col-xs-6"><f:display property="employedDate" label="到職日" wrapper="date" /></div>
+                                    <div class="col-xs-6"><f:display property="resignedDate" label="離職日" wrapper="date" /></div>
                                     <f:display property="avatarCopied" label="大頭照繳交日" wrapper="date" />
-                                    <f:display property="idCardCopied" label="身分證影本繳交日" wrapper="date" />
-                                    <f:display property="nhiIcCardCopied" label="健保卡影本繳交日" wrapper="date" />
+                                    <div class="col-xs-6"><f:display property="idCardCopied" label="身分證影本繳交日" wrapper="date" /></div>
+                                    <div class="col-xs-6"><f:display property="nhiIcCardCopied" label="健保卡影本繳交日" wrapper="date" /></div>
                                     <f:display property="diplomaCopied" label="畢業證書影本繳交日" wrapper="date" />
                                     <f:display property="oorCopied" label="退伍令影本繳交日" wrapper="date" />
                                     <f:display property="gdlCopied" label="駕照影本繳交日" wrapper="date" />

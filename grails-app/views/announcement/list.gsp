@@ -1,16 +1,13 @@
 <g:set var="deferredScript" value="form/announcement" scope="request"/>
-<g:set var="functionService" bean="functionService"/>
-<g:set var="pageTitle" value="${functionService.get('announcement')?.description}"/>
 <!DOCTYPE html>
 <html>
     <head>
         <meta name="layout" content="main" />
-        <title>CCES - ${pageTitle}</title>
         <asset:stylesheet src="grid"/> <%--
         <asset:stylesheet src="form/announcement"/> --%>
     </head>
     <body>
-      <div class="content-wrapper" role="main"> <%--
+    <div class="content-wrapper" role="main"> <%--
         <section class="content-header">
           <g:render template="/layouts/server-message" bean="${announcement}"/>
         </section> --%>
@@ -22,18 +19,18 @@
                 </ul>
               <div class="box">
                 <div class="box-header"></div> <%--
-                <div class="box-header panel panel-default">
-                  <h3 class="box-title">${pageTitle}</h3>
-                </div> --%>
+                <div class="box-header panel panel-default"><h3 class="box-title">${pageTitle}</h3></div> --%>
                 <div class="box-body">
                   <table id="list-announcement" class="table table-bordered table-hover">
                     <thead>
                       <tr>
                         <th></th>
-                        <th><span class="hidden-xs">告示</span>內容</th>
+                        <th><span class="search-input"><input type="text"><br></span>公告</span>內容
+						</th>
                         <th>公告<span class="hidden-xs">日期</span></th>
                         <th>撤榜<span class="hidden-xs">日期</span></th>
-                        <th>建立<span class="hidden-xs">日期</span></th>
+						<th>建立<span class="hidden-xs">日期</span></th>
+						<th><span class="hidden-xs">特定</span>作業</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -42,7 +39,8 @@
                         <td></td>
                         <td></td>
                         <td></td>
-                        <td></td>
+						<td></td>
+						<td></td>
                       </tr>
                     </tbody>
                   </table>
@@ -51,11 +49,11 @@
             </div>
           </div>
         </section>
-      </div>
+    </div>
 <asset:script type='text/javascript'><%-- deferred JS here --%>
 $(function() {
-  <g:render template="/layouts/client-message" bean="${announcement}"/>
-  createDataTable();
+	<g:render template="/layouts/client-message"/>
+	createDataTable();
 });
 </asset:script>
     </body>

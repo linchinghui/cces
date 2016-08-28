@@ -4,11 +4,15 @@ import org.springframework.security.core.context.SecurityContextHolder
 
 class AAAInterceptor {
 
+    def pages = PAGES_PERMITTED - PAGE_HOME
+
     AAAInterceptor() {
         matchAll() // .excludes uri: ~/????/
     }
 
     boolean before() {
+		log.trace "X-Requested-With: ${request.getHeader('X-Requested-With')}"
+		log.trace "starts with API: ${request.requestURI.startsWith("${request.contextPath}/$NAMESPACE_API/")}"
         request['isAjax'] = request.getHeader('X-Requested-With') == 'XMLHttpRequest' &&
                             request.requestURI.startsWith("${request.contextPath}/$NAMESPACE_API/")
 
@@ -31,8 +35,7 @@ class AAAInterceptor {
             params['format'] = request.format
         }
 
-        log.debug "${request.method} params : ${params}"
-        log.debug "request.format: ${request.format}"
+        log.debug "${request.method}(format:${request.format}) params : ${params}"
 
         if (session['SPRING_SECURITY_CONTEXT']?.authentication &&
             SecurityContextHolder.context.authentication == null
@@ -46,6 +49,21 @@ class AAAInterceptor {
         if ((request.forwardURI - request.contextPath) == PAGE_LOGIN && request.queryString == null) {
             session['SPRING_SECURITY_LAST_EXCEPTION'] = null
         }
+
+        if (model != null) {
+            def canSkip = pages.find {
+                view?.startsWith(it)
+            }
+
+            if (canSkip == null) {
+                model += [
+                    'functionService': grailsApplication.mainContext.functionService,
+                    'authService': grailsApplication.mainContext.authenticationService,
+                    'pageTitle' : params?.controller ? grailsApplication.mainContext.functionService.getPageTitle(params?.controller)?.toString() : ''
+                ]
+            }
+        }
+
         true
     }
 
@@ -66,6 +84,7 @@ class AAAInterceptor {
             ) || (
                 ! request.isRequestedSessionIdValid())
             ) {
+				log.info "may has no authentication! (request.isRequestedSessionIdValid())"
                 // redirect(mapping: 'home', params: params)
                 // return
                 request.getSession(false)?.invalidate()
