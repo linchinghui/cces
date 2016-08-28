@@ -1,6 +1,18 @@
 <%-- place this in script tag: --%><%--
 <g:if test="${actionName != 'show'}">--%>
+$.ajax.fake.registerWebservice(server.ctxPath + '/api/announcements.json',
+	function(req) {
+		// empty DT data
+		return {
+			draw: req.draw,
+			recordsTotal: 0,
+			recordsFiltered: 0,
+			data: []
+		};
+	});
+
 chainAjaxCall({
+	fake: '${controllerName}' == '',
 	url: server.ctxPath + '/api/announcements.json',
 	method: 'GET',
 	cache: false,
