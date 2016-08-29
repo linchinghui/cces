@@ -51,24 +51,25 @@ abstract class BaseController<T> extends RestfulController<T> {
 	/*
 	 * authentication and authorization
 	 */
-	protected final def retrievePrivileges() {
-		request['privileges'] ?: ( request['privileges'] =
-			authenticationService.privileges.find {
+	private boolean isAuthorized(property) {
+		def privileges = request['privileges'] ?: ( request['privileges'] =
+			authenticationService.privileges.findAll {
 				it.function.id == resourceName.toLowerCase() // by resource
 			}
 		)
+		true in privileges*."$property"
 	}
 
-	protected def boolean isReadAuthorized() {
-		retrievePrivileges()?.canRead
+	protected boolean isReadAuthorized() {
+		isAuthorized 'canRead'
 	}
 
-	protected def boolean isWriteAuthorized() {
-		retrievePrivileges()?.canWrite
+	protected boolean isWriteAuthorized() {
+		isAuthorized 'canWrite'
 	}
 
-	protected def boolean isDeleteAuthorized() {
-		retrievePrivileges()?.canDelete
+	protected boolean isDeleteAuthorized() {
+		isAuthorized 'canDelete'
 	}
 
 	private def unAuthorized() {

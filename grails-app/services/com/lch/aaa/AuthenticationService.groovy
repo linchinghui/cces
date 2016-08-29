@@ -39,14 +39,16 @@ class AuthenticationService {
 
 	// @CachePut(value='currPrivilege', key='#applicationContext.authenticationService.principal')
 	def getPrivileges() {
-		// log.debug ("retrieving privileges with roles ...")
 		def session = WebUtils.retrieveGrailsWebRequest().session
 		// def roles = SCH.context?.authentication?.authorities?.collect { // BUG?
 		def roles = session['SPRING_SECURITY_CONTEXT']?.authentication?.authorities?.collect {
 			roleService.get(it.authority)
 		}
 
-		roles ? privilegeService.listByRoles(roles*.id) : []
+		log.trace ("authorities' roles: $roles")
+		def privileges = roles ? privilegeService.listByRoles(roles*.id) : []
+		log.trace ("authorities' privileges: $privileges")
+		return privileges
 	}
 
 	def getLastException() {
