@@ -19,7 +19,7 @@ buildscript {
     }
 }
 
-version '1.3.2'
+version '1.3.3'
 group 'cces'
 
 apply plugin: 'war'
@@ -224,6 +224,11 @@ assets {
 // // from '/var/www/cces/assets'
 }
 
+processResources {
+	exclude '**/*.unminified.js'
+	exclude '**/*.less'
+	exclude '**/iefix'
+}
 // ----- for plug-in creation -----
 // 	sourceSets {
 // 		main {

@@ -49,7 +49,7 @@ function initializeRelatedFields() {
 
 function renderDisplayHint4DataTables(settings, start, end, max, total, pre) {
 	var str = $.map(projectTypes, function(typeDesc, projType) {
-		return `<span>${projType}=${typeDesc}</span>`;
+		return '<span>' + projType + '=' + typeDesc + '</span>';
 	}).join(',&nbsp;&nbsp;');
 
 	return '<br><span class="small pull-right text-danger">施作方式的編碼:&nbsp;' + str + '</span>';

@@ -10,10 +10,10 @@ public enum DefaultRoleType {
 	private static class RoleTypeHolder {
 		static List<String> roleIds
 		static List<String> roleNames
-		
+
 		static {
 			roleIds = DefaultRoleType.values()*.getId()
-			roleNames = DefaultRoleType.values()*.name()	
+			roleNames = DefaultRoleType.values()*.name()
 		}
 	}
 
@@ -21,7 +21,7 @@ public enum DefaultRoleType {
 	static List<String> ordinals() {
 		return RoleTypeHolder.roleIds
 	}
-	
+
 	@CompileStatic
 	static List<String> names() {
 		return RoleTypeHolder.roleNames
@@ -32,10 +32,10 @@ public enum DefaultRoleType {
 		def type = salvage(role.code)
 		return type ?: ROLE_USER
 	}
-	
+
 	/*
 	 * type : 0 ~ 2 ; default=0
-	 * type : 'A', 'F', 'U' ; default='U'
+	 * type : 'S', 'F', 'U' ; default='U'
 	 * type : 'ROLE_SUPERVISOR', 'ROLE_FILING', 'ROLE_USER' ; default='ROLE_USER'
 	 */
 	@CompileStatic
@@ -45,7 +45,7 @@ public enum DefaultRoleType {
 		}
 
 //		return DefaultRoleType.valueOf(code)
-		
+
 		String val = type as String
 		int idx = -1
 
@@ -70,9 +70,9 @@ public enum DefaultRoleType {
 
 		return values()[idx]
 	}
-	
+
 	/*
-	 * 
+	 *
 	 */
 	private String id
 

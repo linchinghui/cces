@@ -24,7 +24,7 @@ class Material {
 
 	static constraints = {
 		category		blank: false, nullable: false
-		name			blank: false, nullable: false, maxSize: 20 // 2016-06-06 commented: , unique: true
+		name			blank: false, nullable: false, maxSize: 20 //, unique: true // PK is unique already
 		dimension		blank: true, nullable: true, maxSize: 100
 		texture			blank: true, nullable: true, maxSize: 100
 		spec			blank: true, nullable: true, maxSize: 100
