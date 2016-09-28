@@ -31,7 +31,7 @@ chainAjaxCall({
 	}
 
 	$.each(promise.data.data, function(idx, ele) {
-		$.notify(moment(ele.announcedDate).format('YYYY/MM/DD ') + ele.description);
+		$.notify(moment(ele.announcedDate).format('YYYY/MM/DD') + ':<br>' + ele.description);
 	});
 });
 <g:if test="${flash.message}">
