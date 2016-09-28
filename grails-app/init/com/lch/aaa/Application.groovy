@@ -55,6 +55,7 @@ class Application extends GrailsAutoConfiguration implements EnvironmentAware {
 	public static final String PAGE_MAINTENANCE = '/maintain'
 	// public static final String PAGE_SIGNUP = '/signup'
 	// public static final String PAGE_ABOUT = '/about'
+	// public static final String PAGE_MONITOR = '/mon'
 
 	public static final String[] PAGES_PERMITTED = [ // excludes: login and logout
 		PAGE_HOME, PAGE_PASSWORD, PAGE_DENY, PAGE_NOTFOUND, PAGE_ERROR, PAGE_MAINTENANCE
@@ -65,10 +66,11 @@ class Application extends GrailsAutoConfiguration implements EnvironmentAware {
 		// for v3.0:
 		// GrailsApp.run(Application, args)
 		// for v3.1:
-		def app = new GrailsApp(Application) {
+		new GrailsApp(Application) {
 			@Override
 			protected void printBanner(org.springframework.core.env.Environment environment) {
-				println '''
+				def configs = environment.propertySources.applicationConfigurationProperties
+				println """
 	▄████████  ▄████████    ▄████████    ▄████████
 	███    ███ ███    ███   ███    ███   ███    ███
 	███    █▀  ███    █▀    ███    █▀    ███    █▀
@@ -77,10 +79,10 @@ class Application extends GrailsAutoConfiguration implements EnvironmentAware {
 	███    █▄  ███    █▄    ███    █▄           ███
 	███    ███ ███    ███   ███    ███    ▄█    ███
 	████████▀  ████████▀    ██████████  ▄████████▀
-'''
+
+	v${configs.getProperty('info.app.version')} based-on Grails v${configs.getProperty('info.app.grailsVersion')}"""
 			}
-		}
-		app.run(args)
+		}.run(args)
 	}
 
     public static ConfigObject loadConfiguration(String configFile) { //, grails.util.Environment env = null) {

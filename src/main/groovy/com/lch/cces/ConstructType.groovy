@@ -44,7 +44,7 @@ public enum ConstructType {
 		return Holder.map
 	}
 
-	@CompileStatic
+	// @CompileStatic
 	static ConstructType salvage(def type) {
 		if (type == null) {
 			return null

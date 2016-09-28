@@ -38,7 +38,7 @@ public enum DefaultRoleType {
 	 * type : 'S', 'F', 'U' ; default='U'
 	 * type : 'ROLE_SUPERVISOR', 'ROLE_FILING', 'ROLE_USER' ; default='ROLE_USER'
 	 */
-	@CompileStatic
+	// @CompileStatic
 	static DefaultRoleType salvage(def type) {
 		if (type == null) {
 			return null

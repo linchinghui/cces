@@ -93,14 +93,14 @@ environments:
                 jdbcInterceptors: ConnectionState;StatementCache(max=200) #ConnectionState
                 defaultTransactionIsolation: 2 # TRANSACTION_READ_COMMITTED
 ---
----
-grails:
-    profile: web
-    codegen:
-        defaultPackage: com.lch.cces
-    spring:
-        transactionManagement:
-            proxies: false
+# ---
+# grails:
+#     profile: web
+#     codegen:
+#         defaultPackage: com.lch.cces
+#     spring:
+#         transactionManagement:
+#             proxies: false
 info:
     app:
         name: '@info.app.name@'
@@ -113,6 +113,12 @@ spring:
 
 ---
 grails:
+    profile: web
+    codegen:
+        defaultPackage: com.lch.cces
+    spring:
+        transactionManagement:
+            proxies: false
     mime:
         disable:
             accept:
@@ -152,6 +158,9 @@ grails:
         defaultScope: singleton
     converters:
         encoding: UTF-8
+        # domain:
+        #     include:
+        #         class: true
     views:
         default:
             codec: html
@@ -163,11 +172,6 @@ grails:
                 scriptlets: html
                 taglib: none
                 staticparts: none
-endpoints:
-    jmx:
-        unique-names: true
----
-grails:
     gorm:
         failOnError: true
     resources:
@@ -187,6 +191,42 @@ grails:
     #             name: 'materialCategory'
     #         - cache:
     #             name: 'vehicleBrand'
-
+---
+endpoints:
+    enabled: false
+    info:
+        enabled: true
+    health:
+        enabled: true
+    shutdown:
+        enabled: true
+    jmx:
+        unique-names: true
+# ---
+# grails:
+#     gorm:
+#         failOnError: true
+#     resources:
+#         # --- for issue #9908 ---
+#         pattern: '/**'
+#     cache:
+#         enabled: true
+#         # clearAtStartup: true
+#     #     config:
+#     #         - cache:
+#     #             name: 'function'
+#     #         - cache:
+#     #             name: 'privilege'
+#     #         - cache:
+#     #             name: 'role'
+#     #         - cache:
+#     #             name: 'materialCategory'
+#     #         - cache:
+#     #             name: 'vehicleBrand'
+# ---
 # server:
 #     contextPath: '/cces'
+# ---
+# crash:
+#     web:
+#         enabled: true

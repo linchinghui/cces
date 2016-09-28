@@ -26,7 +26,8 @@ class UrlMappings {
         "$PAGE_DENY"        (view: PAGE_DENY)
         "$PAGE_NOTFOUND"    (view: PAGE_NOTFOUND)
         "$PAGE_ERROR"       (view: PAGE_ERROR)
-        "$PAGE_MAINTENANCE" (view: PAGE_MAINTENANCE)
+		"$PAGE_MAINTENANCE" (view: PAGE_MAINTENANCE)
+		// "$PAGE_MONITOR" 	(view: PAGE_MONITOR)
 
         def restControllers = Holders.grailsApplication.controllerClasses.findAll {
             GrailsClassUtils.getStaticPropertyValue(it.clazz, 'namespace') == NAMESPACE_API

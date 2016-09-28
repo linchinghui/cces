@@ -87,9 +87,10 @@ class SecurityConfigurer extends WebSecurityConfigurerAdapter {
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-		def devIgnoreConsole = '/console/**'
-		def devIgnoreDbConsole = '/dbconsole/**'
-
+		def csrfIgnores1 = [PAGE_LOGIN, PAGE_LOGOUT] as String[]
+		def csrfIgnores2 = ['/info', '/health'] as String[]
+		// def csrfIgnores3 = ['/shutdown', PAGE_MONITOR, '/crash', '/console/**', '/dbconsole/**'] as String[]
+		def csrfIgnores3 = ['/shutdown', '/console/**', '/dbconsole/**'] as String[]
 
 		// def config = new ConfigSlurper().parse(new ClassPathResource("security-config.groovy").URL)
 		def config = Holders.grailsApplication?.config
@@ -114,13 +115,15 @@ class SecurityConfigurer extends WebSecurityConfigurerAdapter {
 
 		http
 			.csrf()
-				.ignoringAntMatchers(PAGE_LOGIN, PAGE_LOGOUT, devIgnoreConsole, devIgnoreDbConsole)
+				.ignoringAntMatchers(csrfIgnores1)
+				.ignoringAntMatchers(csrfIgnores2)
+				.ignoringAntMatchers(csrfIgnores3)
 			.and()
 		// http//.addFilter(???)
 			.authorizeRequests()
 				.antMatchers(PAGES_PERMITTED).permitAll()
-				// .antMatchers('/api/announcements.json').permitAll()
-				.antMatchers(devIgnoreConsole, devIgnoreDbConsole).hasRole(DefaultRoleType.ROLE_SUPERVISOR.springSecurityRoleName())
+				.antMatchers(csrfIgnores2).permitAll()
+				.antMatchers(csrfIgnores3).hasRole(DefaultRoleType.ROLE_SUPERVISOR.springSecurityRoleName())
 				.anyRequest().authenticated()
 			.and()
 				.formLogin()

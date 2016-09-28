@@ -38,7 +38,7 @@ public enum ProjectType {
 		return Holder.map
 	}
 
-	@CompileStatic
+	// @CompileStatic
 	static ProjectType salvage(def type) {
 		if (type == null) {
 			return null
