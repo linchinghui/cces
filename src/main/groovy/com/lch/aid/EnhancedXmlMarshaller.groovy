@@ -1,4 +1,4 @@
-package com.lch.aaa
+package com.lch.aid
 
 import grails.util.Holders
 import org.grails.web.converters.marshaller.xml.DomainClassMarshaller

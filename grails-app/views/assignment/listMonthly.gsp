@@ -3,8 +3,9 @@
 <%
 	def calendar = Calendar.instance
 	if (params?.month) {
-		calendar.set(Calendar.MONTH, params.month as int)
+		calendar.set(Calendar.MONTH, ((params.month as int) - 1))
 	}
+	def thisMonth = calendar.get(Calendar.MONTH)
 	def lastDayOfMonth = calendar.getActualMaximum(Calendar.DAY_OF_MONTH)
 %>
 <!DOCTYPE html>
@@ -39,8 +40,8 @@
               </div>
               <ul class="nav nav-tabs">
                 <li class="active">
-					<a data-toggle="mtab" data-target="#tab1" href="${createLink(action:'index', params:[embed:true, month:calendar.get(Calendar.MONTH)])}">
-                      <big>人員配置(月)</big>
+					<a data-toggle="mtab" data-target="#tab1" href="#">
+                      <big>人員配置(${thisMonth+1}月)</big>
                     </a>
                 </li>
               </ul>
@@ -88,7 +89,7 @@
 var serverParams2 = {
 	embed: ${embedPage},
 	employeeId: '${params?.employeeId}',
-	month: ${params?.month?:'null'},
+	month: ${thisMonth},
 	lastDayOfMonth: ${lastDayOfMonth}
 };
 <g:if test="${! embedPage}">

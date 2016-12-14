@@ -12,7 +12,7 @@ $.ajax.fake.registerWebservice(server.ctxPath + '/api/announcements.json',
 	});
 
 chainAjaxCall({
-	fake: '${controllerName}' == '',
+	fake: '${controllerName}' == '' || /(create|edit|delete)/i.test('${actionName}'),
 	url: server.ctxPath + '/api/announcements.json',
 	method: 'GET',
 	cache: false,

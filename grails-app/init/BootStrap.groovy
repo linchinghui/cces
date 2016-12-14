@@ -1,13 +1,15 @@
 import com.lch.aaa.*
-
-import grails.rest.render.json.*
+import com.lch.aid.*
 import grails.util.*
+import grails.rest.render.json.*
+import grails.rest.render.xml.*
 import grails.converters.JSON
-import org.grails.web.json.JSONException
-import org.grails.web.converters.marshaller.ObjectMarshaller
-import org.grails.web.converters.marshaller.json.DateMarshaller
-import org.grails.web.converters.exceptions.ConverterException
-import org.springframework.core.io.ClassPathResource
+import grails.converters.XML
+// import org.grails.web.json.JSONException
+// import org.grails.web.converters.marshaller.ObjectMarshaller
+// import org.grails.web.converters.marshaller.json.DateMarshaller
+// import org.grails.web.converters.exceptions.ConverterException
+// import org.springframework.core.io.ClassPathResource
 
 class BootStrap {
 
@@ -154,6 +156,22 @@ class BootStrap {
 	 * XML, JSON Marshallers<br>
 	 */
 	private registerMarshaller() {
+		// JSON.registerObjectMarshaller(Person) {
+		// 		// ...
+		// 	}
+		// XML.registerObjectMarshaller(Person) {
+		// 		// ...
+		// 	}
+		XML.registerObjectMarshaller(com.lch.cces.Photo) {
+				it.toString()
+			}
+		// JSON.registerObjectMarshaller(SexType) { sex ->
+		// 	return sex.toString()
+		// }
+		// XML.registerObjectMarshaller(SexType) { sex, xml ->
+		//  return sex.toString()
+		// }
+
 		// grails.converters.JSON.registerObjectMarshaller(java.sql.Timestamp) {
 		// 	// return it ? (it.time as String) : null
 		// 	// return it?.format("dd-MM-yyyy")
@@ -169,27 +187,35 @@ class BootStrap {
 		// 		}
 		// 	}
 		// }, 1)
-		grails.converters.JSON.registerObjectMarshaller(
+
+		JSON.registerObjectMarshaller(
+			new EnumJsonMarshaller()
+				.addSupportPackage('com.lch.cces')
+				, 3)
+		XML.registerObjectMarshaller(
+			new EnumXmlMarshaller()
+				.addSupportPackage('com.lch.cces')
+				, 4)
+		JSON.registerObjectMarshaller(
 			new EnhancedJsonMarshaller()
 				.addExclude('password')
 				.addExclude('handler')
 				// .addExclude('constructType')
-				, 2)
-		grails.converters.XML.registerObjectMarshaller(
+				, 5)
+		XML.registerObjectMarshaller(
 			new EnhancedXmlMarshaller()
 				.addExclude('password')
 				// .addExclude('constructType')
-				, 3)
-		// grails.converters.JSON.registerObjectMarshaller(
+				, 6)
+		// JSON.registerObjectMarshaller(
 		// 	new CollectionJsonMarshaller()
-		// 		/*.addSupportPackage(...)*/
-		// 		, 4)
-		grails.converters.XML.registerObjectMarshaller(
+		//		.addSupportPackage('com.lch.aaa') // default
+		// 		, 7)
+		XML.registerObjectMarshaller(
 			new CollectionXmlMarshaller()
-				/*.addSupportPackage(...)*/
-				, 5)
+				// .addSupportPackage('com.lch.aaa') // default
+				, 8)
 	}
-
 
 	/*
 	 * for development only<br>

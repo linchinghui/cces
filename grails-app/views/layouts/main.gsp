@@ -39,7 +39,8 @@ var server = {
 			<g:if test="${! exception}">--%>
 				<g:javascript>
 var server = {
-ctxPath: '${request.contextPath}'<g:if test="${_csrf?.parameterName}">,
+ctxPath: '${request.contextPath}',
+imgPath: '${grails.util.Holders.grailsApplication.config.cces.images.uriPrefix}'<g:if test="${_csrf?.parameterName}">,
 xHeader: '${_csrf?.headerName.encodeAsBase64()}',
 xToken: '${_csrf?.token.encodeAsBase64()}'</g:if>
 };

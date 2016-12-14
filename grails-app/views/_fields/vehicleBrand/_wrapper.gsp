@@ -5,13 +5,7 @@
     <g:each in="${com.lch.cces.VehicleBrand.list()}">
       <option value="${it.id}" ${it==value?'selected':''}>${it.name}-${it.description}</option>
     </g:each>
-  </select><%--
-  <g:select name="${property}" value="${value}" required="${required}" class="combobox"
-	from="${com.lch.cces.VehicleBrand.list()}"
-	noSelection="${['':'廠牌代碼或名稱關鍵字']}"
-	optionValue='${{"${it.name}-${it.description}"}}'
-	optionKey="id" />
---%>
+  </select>
 </div>
 <asset:script type='text/javascript'><%-- deferred JS here --%>
 $(function() {

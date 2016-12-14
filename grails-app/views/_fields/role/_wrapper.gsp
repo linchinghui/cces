@@ -6,13 +6,7 @@
       <option value="${it.id}" ${it==value?'selected':''}>${it.empNo}-${it.empName}</option>--%>
       <option value="${it.id}" ${it==value?'selected':''}>${it.id}-${it.description}</option>
     </g:each>
-  </select><%--
-  <g:select name="${property}" value="${value}" required="${required}" class="combobox"
-	from="${com.lch.cces.Worker.list()}"
-	noSelection="${['':'角色代碼或名稱關鍵字']}"
-	optionValue='${{"${it.empNo}-${it.empName}"}}'
-	optionKey="id" />
---%>
+  </select>
 </div>
 <asset:script type='text/javascript'><%-- deferred JS here --%>
 $(function() {

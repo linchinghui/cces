@@ -1,6 +1,6 @@
 //= require ../grid
 //= require_self
-
+//= require ../picture
 var workerList;
 var detailSec = $('.detail');
 
@@ -103,6 +103,9 @@ function createDataTable() {
 					width: '44px',
 					data: 'empName'
 				}, { //3
+					render: function(data, type, row, meta) {
+						return ((type === 'display' || type === 'filter') ? serverParams.sexTypes[data] : data);
+					},
 					orderable: false,
 					width: '34px',
 					data: 'sex'

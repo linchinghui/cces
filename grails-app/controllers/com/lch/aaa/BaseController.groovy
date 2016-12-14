@@ -24,7 +24,7 @@ abstract class BaseController<T> extends RestfulController<T> {
 		instance.delete flush: true
 	}
 
-	protected String getDeletPage() {
+	protected String getDeletePage() {
 		return '/layouts/deleted'
 	}
 
@@ -88,7 +88,7 @@ abstract class BaseController<T> extends RestfulController<T> {
 			if (request.getHeader('callback') || params?.cb) {
 				log.trace ("$replyCode @ callback")
 				if (actionName == 'delete') {
-					render template: getDeletPage(), model: [callback: params.cb, result: [id: params.id, status: replyCode.value(), message: message]]
+					render template: getDeletePage(), model: [callback: params.cb, result: [id: params.id, status: replyCode.value(), message: message]]
 
 				} else {
 					response.status = replyCode.value()
@@ -290,15 +290,10 @@ abstract class BaseController<T> extends RestfulController<T> {
 	}
 
 	private def list(max) {
-		// def criteria
-
 		boolean hasReadAuth = isReadAuthorized()
 		if (! hasReadAuth) {
 			unAuthorized()
 			// return
-		// } else { // TODO : using ThreadLocal to ref in listAllResources() and countResources()
-			// TODO: resolveParameters(params)
-			// criteria = createListCriteria(params)
 		}
 
 		params.max = Math.min(max ?: 10, 100)
@@ -521,7 +516,7 @@ abstract class BaseController<T> extends RestfulController<T> {
 		// 配合 JS
 		if (params?.cb) {
 			// log.debug ("delete() done @ callback")
-			render template: getDeletPage(),
+			render template: getDeletePage(),
 			model: [callback: params.cb, result: [id: params.id, status: NO_CONTENT.value(), message: '已刪除']]
 
 		} else {

@@ -6,7 +6,7 @@ class AAAInterceptor {
 
     def pages = PAGES_PERMITTED - PAGE_HOME
 
-    AAAInterceptor() {
+	AAAInterceptor() {
         matchAll() // .excludes uri: ~/????/
     }
 

@@ -8,6 +8,7 @@ class UrlMappings {
 
     static mappings = {
 
+		"/images/**"		(controller: 'images', action: 'download')
         "/$controller/$action?/$id?(.$format)?" {
             constraints {
                 // apply constraints here
@@ -35,7 +36,8 @@ class UrlMappings {
 
         restControllers.each { ctrl ->
             def resourceName = ctrl.logicalPropertyName
-            resourceName = (resourceName[-1] == 'y') ? (resourceName - ~/y$/ + 'ies') : (resourceName + 's')
+            resourceName =	resourceName[-1] == 'y' ? (resourceName - ~/y$/ + 'ies') :
+							resourceName.endsWith('ch') ? (resourceName + 'es') : (resourceName + 's')
             "/api/$resourceName" (resources: ctrl.logicalPropertyName, namespace: NAMESPACE_API)
         }
     }

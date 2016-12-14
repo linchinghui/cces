@@ -1,0 +1,16 @@
+/*
+*= require plugins/bootstrap-jasny
+*= require_self
+*/
+.fileinput .thumbnail {
+  margin-bottom: 0;
+  /*text-align:center;*/
+}
+
+.fileinput-new.thumbnail,
+.fileinput-exists.thumbnail,
+.fileinput-preview.thumbnail {
+  padding: 0;
+  width: 52px;
+  height: 34px;
+}

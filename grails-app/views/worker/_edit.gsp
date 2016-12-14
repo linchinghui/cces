@@ -1,4 +1,5 @@
 <%@ page import="static com.lch.aaa.Application.*" %>
+<%@ page import="java.util.Calendar" %>
 <g:if test="${params['cb']}">
     <g:set var="dialogPage" value="${true}" scope="request"/>
     <g:set var="selfStyle" value="${true}" scope="request"/>
@@ -13,7 +14,7 @@
 <html>
     <head>
         <meta name="layout" content="main" />
-        <asset:stylesheet src="form/worker"/>
+		<asset:stylesheet src="form/worker"/>
     </head>
     <body>
         <div class="container" role="main">
@@ -26,7 +27,7 @@
                         <g:render template="/layouts/server-message" bean="${worker}"/>
                     </section> --%>
                     <section class="content">
-                        <g:form resource="${worker}" method="${submitMehtod}" role="form" class="form-horizontal" name="workerForm">
+                        <g:uploadForm resource="${worker}" method="${submitMehtod}" role="form" class="form-horizontal" name="workerForm">
                         <g:if test="${worker}">
                             <g:if test="${_csrf?.parameterName}">
                               <input name='${_csrf?.parameterName}' type='hidden' value='${_csrf?.token}'/>
@@ -39,31 +40,42 @@
                                     <g:else>
                                         <f:display property="empNo" label="員工編號" />
                                     </g:else>
-                                    <f:field property="empName" label="姓名" />
-                                    <f:field property="sex" label="姓別" />
-                                    <div class="col-xs-6"><f:field property="employedDate" label="到職日" widget="date" value="${type=='C'?java.util.Calendar.instance:worker.employedDate}"/></div>
-                                    <div class="col-xs-6"><f:field property="resignedDate" label="離職日" widget="date" /></div>
-                                    <f:field property="avatarCopied" label="大頭照繳交日" widget="date" />
-                                    <div class="col-xs-6"><f:field property="idCardCopied" label="身分證影本繳交日" widget="date" /></div>
-                                    <div class="col-xs-6"><f:field property="nhiIcCardCopied" label="健保卡影本繳交日" widget="date" /></div>
-                                    <f:field property="diplomaCopied" label="畢業證書影本繳交日" widget="date" />
-                                    <f:field property="oorCopied" label="退伍令影本繳交日" widget="date" />
-                                    <f:field property="gdlCopied" label="駕照影本繳交日" widget="date" />
+                                    <div class="col-xs-6"><f:field property="empName" label="姓名" /></div>
+									<div class="col-xs-6"><f:field property="sex" label="姓別" /></div>
+			<div class="col-xs-6"><f:field property="employedDate" label="到職日" widget="date" value="${type=='C'?Calendar.instance:worker.employedDate}"/></div>
+            <div class="col-xs-6"><f:field property="resignedDate" label="離職日" widget="date" /></div>
+            <div class="col-xs-6"><f:field property="avatarCopied" label="大頭照繳交日" widget="date" /></div>
+			<div class="col-xs-6"><f:field property="avatarPhoto" label="大頭照" widget="photo" /></div>
+			<div class="col-xs-6"><f:field property="idCardCopied" label="身分證影本繳交日" widget="date" /></div>
+			<div class="col-xs-6"><f:field property="idCardPhoto" label="身分證影本" widget="photo" /></div>
+            <div class="col-xs-6"><f:field property="nhiIcCardCopied" label="健保卡影本繳交日" widget="date" /></div>
+			<div class="col-xs-6"><f:field property="nhiIcCardPhoto" label="健保卡影本" widget="photo" /></div>
+            <div class="col-xs-6"><f:field property="diplomaCopied" label="畢業證書影本繳交日" widget="date" /></div>
+			<div class="col-xs-6"><f:field property="diplomaPhoto" label="畢業證書影本" widget="photo" /></div>
+            <div class="col-xs-6"><f:field property="oorCopied" label="退伍令影本繳交日" widget="date" /></div>
+			<div class="col-xs-6"><f:field property="oorPhoto" label="退伍令影本" widget="photo" /></div>
+			<div class="col-xs-6"><f:field property="gdlCopied" label="駕照影本繳交日" widget="date" /></div>
+			<div class="col-xs-6"><f:field property="gdlPhoto" label="駕照影本" widget="photo" /></div>
                                 </f:with>
                             </fieldset>
                             <fieldset class="buttons">
                                 <input class="save btn btn-success" type="submit" value="確認" />
                             </fieldset>
                         </g:if>
-                        </g:form>
+                        </g:uploadForm>
                     </section>
                 </div>
             </div>
         </div>
+<asset:javascript src="picture"/>
 <asset:script type='text/javascript'><%-- deferred JS here --%>
 $(function() {
     var editForm = $('#workerForm');
     $('.bootstrap-dialog-title').html('${actionTitle}');
+<%-- fix: PUT not support for Spring
+	$('input[type="submit"]').click(function() {
+		editForm.method='POST';
+	}); --%>
     <g:render template="/layouts/client-message" bean="${worker}"/>
     <g:render template="/layouts/client-render" model="[formVar: 'editForm']"/>
 	<g:render template="/layouts/client-submit" model="[formVar: 'editForm']"/>

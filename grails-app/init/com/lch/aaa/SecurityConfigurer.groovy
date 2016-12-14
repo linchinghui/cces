@@ -6,10 +6,9 @@ import com.lch.aaa.DefaultRoleType
 import grails.util.*
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.annotation.Qualifier
-//import org.springframework.boot.autoconfigure.security.SecurityProperties
+import org.springframework.boot.autoconfigure.security.SecurityProperties
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
-//import org.springframework.core.annotation.Order
 import org.springframework.core.io.ClassPathResource
 import org.springframework.security.authentication.AuthenticationManager
 import org.springframework.security.authentication.AuthenticationProvider
@@ -22,18 +21,22 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity
 import org.springframework.security.config.annotation.web.builders.WebSecurity
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter
+// import org.springframework.security.web.access.intercept.FilterSecurityInterceptor
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler
 import org.springframework.security.web.authentication.RememberMeServices
 import org.springframework.security.web.authentication.SavedRequestAwareAuthenticationSuccessHandler
 import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository
 import org.springframework.security.web.authentication.rememberme.PersistentTokenBasedRememberMeServices
 // import org.springframework.security.web.authentication.session.SessionAuthenticationStrategy
+// import org.springframework.security.web.context.SecurityContextPersistenceFilter
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher
+// import org.springframework.web.filter.DelegatingFilterProxy
+// import org.springframework.core.annotation.Order
 
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
-//@Order(SecurityProperties.ACCESS_OVERRIDE_ORDER)
+// @Order(SecurityProperties.ACCESS_OVERRIDE_ORDER)
 class SecurityConfigurer extends WebSecurityConfigurerAdapter {
 
 	/*
@@ -81,6 +84,7 @@ class SecurityConfigurer extends WebSecurityConfigurerAdapter {
 			// .debug(true)
 			.ignoring()
 			// .antMatchers('/**/favicon.ico', '/error', '/css/**', '/js/**', '/images/**') // '/**/*\\.{(js|css|gif|jpg|jpeg|png)}'
+			.antMatchers('/images/**')
 			.antMatchers('/assets/**', '/static/**')
 			.antMatchers('/api/announcements.json*')
 	}
@@ -88,7 +92,7 @@ class SecurityConfigurer extends WebSecurityConfigurerAdapter {
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		def csrfIgnores1 = [PAGE_LOGIN, PAGE_LOGOUT] as String[]
-		def csrfIgnores2 = ['/info', '/health'] as String[]
+		def csrfIgnores2 = ['/info', '/health', '/pick/**'] as String[]
 		// def csrfIgnores3 = ['/shutdown', PAGE_MONITOR, '/crash', '/console/**', '/dbconsole/**'] as String[]
 		def csrfIgnores3 = ['/shutdown', '/console/**', '/dbconsole/**'] as String[]
 
@@ -119,7 +123,6 @@ class SecurityConfigurer extends WebSecurityConfigurerAdapter {
 				.ignoringAntMatchers(csrfIgnores2)
 				.ignoringAntMatchers(csrfIgnores3)
 			.and()
-		// http//.addFilter(???)
 			.authorizeRequests()
 				.antMatchers(PAGES_PERMITTED).permitAll()
 				.antMatchers(csrfIgnores2).permitAll()

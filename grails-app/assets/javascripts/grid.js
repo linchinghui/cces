@@ -266,7 +266,7 @@ function renderDefaultAlterationCellWithId4DataTables(requestActions) {
 		orderable: false,
 		data: 'id',
 		width: (actionsLen == 3 ? '76px' : actionsLen == 2 ? '52px' : '28px'),
-		render: function(data, type, full) {
+		render: function(data, type, row, meta) {
 			return (requestActions.show ? '<span><i class="fa fa-fw fa-info"></i></span>&nbsp;' : '') + (requestActions.edit ?
 				'<span><i class="fa fa-fw fa-pencil"></i></span>&nbsp;' : '') + (requestActions.delete ?
 				'<span><i class="fa fa-fw fa-times"></i></span>' : '') + '<span style="display: inline;"></span>';

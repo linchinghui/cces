@@ -20,11 +20,6 @@
 			<attribute name="FROM_GRADLE_MODEL" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="src" path="grails-app/migrations">
-		<attributes>
-			<attribute name="FROM_GRADLE_MODEL" value="true"/>
-		</attributes>
-	</classpathentry>
 	<classpathentry kind="src" path="grails-app/controllers">
 		<attributes>
 			<attribute name="FROM_GRADLE_MODEL" value="true"/>
@@ -36,6 +31,11 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="src" path="grails-app/init">
+		<attributes>
+			<attribute name="FROM_GRADLE_MODEL" value="true"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="src" path="grails-app/lib">
 		<attributes>
 			<attribute name="FROM_GRADLE_MODEL" value="true"/>
 		</attributes>
@@ -66,11 +66,6 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="src" path="src/test/groovy">
-		<attributes>
-			<attribute name="FROM_GRADLE_MODEL" value="true"/>
-		</attributes>
-	</classpathentry>
-	<classpathentry kind="src" path="src/integration-test/groovy">
 		<attributes>
 			<attribute name="FROM_GRADLE_MODEL" value="true"/>
 		</attributes>

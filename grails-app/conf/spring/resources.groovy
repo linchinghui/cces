@@ -1,4 +1,5 @@
 import com.lch.aaa.*
+import com.lch.aid.*
 import grails.rest.render.xml.XmlRenderer
 import grails.rest.render.json.JsonRenderer
 import org.springframework.boot.context.embedded.FilterRegistrationBean
@@ -16,6 +17,9 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 // import org.springframework.security.web.authentication.session.ConcurrentSessionControlStrategy
 // import org.springframework.security.web.authentication.session.ConcurrentSessionControlAuthenticationStrategy
 // import org.springframework.security.web.session.ConcurrentSessionFilter
+import org.springframework.web.multipart.commons.CommonsMultipartResolver
+// import org.springframework.web.multipart.support.StandardServletMultipartResolver
+// import javax.servlet.http.HttpServletRequest
 
 // Place your Spring DSL code here
 beans = {
@@ -52,4 +56,11 @@ beans = {
 
 	// sessionRegistry(SessionRegistryImpl)
 	// sessionAuthenticationStrategy(ConcurrentSessionControlAuthenticationStrategy, ref('sessionRegistry'))
+
+	// multipartResolver(CommonsMultipartResolver) {
+	// 	// ~2MB
+	// 	maxUploadSize = 2500000
+	// 	maxInMemorySize = 2500000
+	// }
+	multipartResolver(EnhancedMultipartResolver)
 }

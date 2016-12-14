@@ -11,15 +11,16 @@ public enum ProjectType {
 
 	private static class Holder {
 		static List<String> ids
-		static List<String> names
+		// static List<String> names
 		static Map<String, String> map
 
 		static {
-			map = ProjectType.values().inject([:]) { res, itm ->
+			def valList = ProjectType.values()
+			ids = valList*.getId()
+			// names = valList*.name()
+			map = valList.inject([:]) { res, itm ->
 				res += [(itm.id): itm.desc]
 			}
-			ids = ProjectType.values()*.getId()
-			names = ProjectType.values()*.name()
 		}
 	}
 
@@ -28,10 +29,10 @@ public enum ProjectType {
 		return Holder.ids
 	}
 
-	@CompileStatic
-	static List<String> names() {
-		return Holder.names
-	}
+	// @CompileStatic
+	// static List<String> names() {
+	// 	return Holder.names
+	// }
 
 	@CompileStatic
 	static Map<String, String> map() {
@@ -77,7 +78,12 @@ public enum ProjectType {
 		this.id
 	}
 
+	String getLabel() {
+		"$id-$desc"
+	}
+
 	public String toString() {
-		"$desc"
+		// "$desc"
+		"$id"
 	}
 }

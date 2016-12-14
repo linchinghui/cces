@@ -31,7 +31,7 @@ def groupName = params?.group ? new String(params?.group?.decodeBase64()) : null
                   <% flash[(menuItem.controller)]=function.description %> --%>
                   <g:if test="${! function.aided || authService.privileges.find { it.function.id == menuItem.controller }}">
                     <li class="${controllerName == menuItem.controller ? 'active' : ''}">
-                      <g:link controller="${menuItem.controller}" params="${[group: menuGroup.group.encodeAsBase64()]}">
+                      <g:link controller="${menuItem.controller}" params="${[group: menuGroup.group.encodeAsBase64()]+ (menuItem.params?:[:])}">
                         <i class="${menuItem.icon}"></i><span>${function.description?.split('-')[0]}</span>
                       </g:link>
                     </li>

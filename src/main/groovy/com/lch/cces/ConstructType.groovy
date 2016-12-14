@@ -12,19 +12,19 @@ public enum ConstructType {
 
 	private static class Holder {
 		static List<String> ids
-		static List<String> names
+		// static List<String> names
 		// static List<Map<String, String>> map
 		static Map<String, String> map
 
 		static {
+			ids = ConstructType.values()*.getId()
+			// names = ConstructType.values()*.name()
 			// map = ConstructType.values().collect {
 			// 	[(it.id): it.desc]
 			// }
 			map = ConstructType.values().inject([:]) { res, itm ->
 				res += [(itm.id): itm.desc]
 			}
-			ids = ConstructType.values()*.getId()
-			names = ConstructType.values()*.name()
 		}
 	}
 
@@ -33,10 +33,10 @@ public enum ConstructType {
 		return Holder.ids
 	}
 
-	@CompileStatic
-	static List<String> names() {
-		return Holder.names
-	}
+	// @CompileStatic
+	// static List<String> names() {
+	// 	return Holder.names
+	// }
 
 	@CompileStatic
 	// static List<Map<String, String>> map() {
@@ -83,7 +83,12 @@ public enum ConstructType {
 		this.id
 	}
 
+	String getLabel() {
+		"$id-$desc"
+	}
+
 	public String toString() {
-		"$desc"
+		// "$desc"
+		"$id"
 	}
 }

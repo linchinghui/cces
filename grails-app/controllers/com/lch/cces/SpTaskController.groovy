@@ -47,9 +47,10 @@ static namespace = Application.NAMESPACE_API
 		resolveParameters(params)
 
 		return SpTask.where {
-			if (params?.projectId)  { project.id  == params.projectId }
-			if (params?.workedDate) { workedDate  == params.parsedDate }
-			if (params?.employeeId) { employee.id == params.employeeId }
+			if (params?.projectId)   { project.id  == params.projectId }
+			if (params?.workedDate)  { workedDate  == params.parsedDate }
+			if (params?.employeeId)  { employee.id == params.employeeId }
+			if (params?.constructNo) { equipment   == params.constructNo }
 		}.list(params)
 	}
 
@@ -103,7 +104,7 @@ static namespace = Application.NAMESPACE_API
 	private void prepareDefaultValue(props) {
 		if (props.project) {
 		if (! props.constructPlace) props.constructPlace = props.project.constructPlace
-		if (! props.equipment     ) props.equipment      = props.project.description
+		if (! props.equipment     ) props.equipment      = props.project.constructNo // bug: description
 		// if (! props.constructCode ) props.constructCode  = props.project.constructCode
 		if (! props.constructType ) props.constructType  = props.project.constructType // substitute of constructCode
 		// if (! props.note          ) props.note           = props.project.note

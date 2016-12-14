@@ -1,11 +1,11 @@
-package com.lch.aaa
+package com.lch.aid
 
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 
 trait ClassNameless<T> {
 	private static Logger log = LoggerFactory.getLogger(ClassNameless.class)
-	
+
 	def excludes = ['class'] // no classname by default
 	
 	T addExclude(def exclude) {

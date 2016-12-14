@@ -1,9 +1,11 @@
 /*
 *= require_self
 */
-
 #materialForm .col-xs-6 {
   padding-left: 0;
+}
+#list-material.table > tbody > tr > td {
+  padding-right: 4px;
 }
 /*
 .registeredDate > input {

@@ -2,7 +2,7 @@
 .settings/
 build/
 bin/
-notes/
+_notes/
 .asscache
 manifest.yml
 .classpath

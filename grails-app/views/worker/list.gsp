@@ -43,12 +43,12 @@
 	                          <th>性別</th>
 	                          <th>到職<span class="hidden-xs">日</span></th>
 	                          <th>離職<span class="hidden-xs">日</span></th>
-	                          <th>大頭照<span class="hidden-xs hidden-sm"><br class=" hidden-md"/>繳交日</span></th>
-	                          <th>身分證<span class="hidden-xs hidden-sm">影本<br class=" hidden-md"/>繳交日</span></th>
-	                          <th>健保卡<span class="hidden-xs hidden-sm">影本<br class=" hidden-md"/>繳交日</span></th>
-	                          <th>畢業證書<span class="hidden-xs hidden-sm">影本<br class=" hidden-md"/>繳交日</span></th>
-	                          <th>退伍令<span class="hidden-xs hidden-sm">影本<br class=" hidden-md"/>繳交日</span></th>
-	                          <th>駕照<span class="hidden-xs hidden-sm">影本<br class=" hidden-md"/>繳交日</span></th>
+	                          <th>大頭照<span class="hidden-xs hidden-sm"><br class=" hidden-md"/></span></th>
+	                          <th>身分證<span class="hidden-xs hidden-sm">影本<br class=" hidden-md"/></span></th>
+	                          <th>健保卡<span class="hidden-xs hidden-sm">影本<br class=" hidden-md"/></span></th>
+	                          <th>畢業證書<span class="hidden-xs hidden-sm">影本<br class=" hidden-md"/></span></th>
+	                          <th>退伍令<span class="hidden-xs hidden-sm">影本<br class=" hidden-md"/></span></th>
+	                          <th>駕照<span class="hidden-xs hidden-sm">影本<br class=" hidden-md"/></span></th>
 	                        </tr>
 	                      </thead>
 	                      <tbody>
@@ -59,12 +59,12 @@
 	                          <td>男</td>
 	                          <td>2016/1/2</td>
 	                          <td></td>
-	                          <td>2016/1/2</td>
-	                          <td>2016/1/2</td>
-	                          <td>2016/1/2</td>
-	                          <td>2016/1/2</td>
-	                          <td>2016/1/2</td>
-	                          <td>2016/1/2</td>
+	                          <td></td>
+	                          <td></td>
+	                          <td></td>
+	                          <td></td>
+	                          <td></td>
+	                          <td></td>
 	                        </tr>
 	                      </tbody>
 	                    </table>
@@ -95,6 +95,7 @@
     </div>
 <asset:script type='text/javascript'><%-- deferred JS here --%>
 var serverParams = {
+	sexTypes: JSON.parse('${(com.lch.cces.SexType.map() as grails.converters.JSON).encodeAsJavaScript()}'),
 	detailLink: '${createLink([controller:"certificate", action:"index"])}'
 };
 

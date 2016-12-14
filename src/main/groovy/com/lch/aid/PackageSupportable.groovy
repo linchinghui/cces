@@ -1,4 +1,4 @@
-package com.lch.aaa
+package com.lch.aid
 
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
@@ -23,7 +23,7 @@ trait PackageSupportable {
 	}
 
 	boolean isPackageSupport(Package pkg) {
-		return pkg == null ? false : isPackageSupport(pkg.name) 
+		return pkg == null ? false : isPackageSupport(pkg.name)
 	}
 
 	boolean isPackageSupport(String pkgName) {

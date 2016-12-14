@@ -22,7 +22,7 @@ aaa.menuGroups = [
 	]],
 	[group: 'project', description:'專案管理', icon:'fa fa-product-hunt', items: [
 		[controller: 'project', icon: 'fa fa-wpforms'], // fa-list-ol
-		[controller: 'assignment', icon: 'fa fa-calendar-check-o'],
+		[controller: 'assignment', icon: 'fa fa-calendar-check-o', params: [by: 'p']],
 		[controller: 'task', icon: 'fa fa-gavel'],
 		[controller: 'spTask', icon: 'fa fa-building-o']
 	]],
@@ -38,6 +38,6 @@ aaa.rememberMe.validitySeconds = 604800 // 7 days
 cces.images = [
 	// size: 500000,
 	uriPrefix: '/images',
-	persistFolder: (grails.util.Environment.developmentMode ? '/tmp' : '/var/www/cces'),
+	persistFolder: (grails.util.Environment.developmentMode ? '/tmp' : '/var/www/cces/images'),
 	useCache: true
 ]

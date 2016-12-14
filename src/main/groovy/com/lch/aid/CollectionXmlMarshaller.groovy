@@ -1,4 +1,4 @@
-package com.lch.aaa
+package com.lch.aid
 
 import java.lang.reflect.ParameterizedType
 import org.grails.web.converters.marshaller.xml.CollectionMarshaller

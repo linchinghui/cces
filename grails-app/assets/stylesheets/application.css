@@ -135,3 +135,7 @@
   width: auto;
   padding-left: 0;
 }
+
+.input-group label {
+  margin-top: 5px;
+}

@@ -1,4 +1,4 @@
-package com.lch.aaa
+package com.lch.aid
 
 import grails.util.Holders
 import grails.converters.JSON
@@ -43,16 +43,19 @@ class EnhancedJsonMarshaller extends DomainClassMarshaller /*implements ClassNam
 				writer.key(field)
 
 				if (fieldValue instanceof Collection) {
-					writer.array()
-					try {
-						fieldValue.each { o1 ->
-							writer.object()
-							writer.key('id').value(o1.id)
-							writer.endObject()
+						writer.array()
+						try {
+							fieldValue.each { o1 ->
+								writer.object()
+								try {
+									writer.key('id').value(o1.id)
+								} finally {
+									writer.endObject()
+								}
+							}
+						} finally {
+							writer.endArray()
 						}
-					} finally {
-						writer.endArray()
-					}
 				} else {
 					writer.value(fieldValue)
 				}

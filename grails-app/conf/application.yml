@@ -154,8 +154,16 @@ grails:
     urlmapping:
         cache:
             maxsize: 1000
+    web:
+        disable:
+            multipart: false
     controllers:
         defaultScope: singleton
+        # upload:
+        #     # maxFileSize:    2500000
+        #     # maxRequestSize: 2500000
+        #     maxInMemorySize:    2500000
+        #     maxUploadSize: 2500000
     converters:
         encoding: UTF-8
         # domain:
@@ -174,6 +182,11 @@ grails:
                 staticparts: none
     gorm:
         failOnError: true
+        # default:
+        #     mapping:
+        #         - 'user-type' :
+        #             type: com.lch.cces.PhotoUserType
+        #             class: com.lch.cces.Photo
     resources:
         # --- for issue #9908 ---
         pattern: '/**'

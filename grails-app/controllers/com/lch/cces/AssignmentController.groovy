@@ -6,17 +6,22 @@ import grails.gorm.DetachedCriteria
 class AssignmentController extends BaseController<Assignment> {
 
     static namespace = Application.NAMESPACE_API
+	private static final String KEY_CRITERIA_ARRANGE = 'arrangeCriteria'
+	private static final String KEY_PARAM_ARRANGE = 'arrangeWeek'
 
-    AssignmentController() {
+	/*
+	 * CRUD
+	 */
+	AssignmentController() {
         super(Assignment)
     }
 
     def index(Integer max) {
         if (params?.month != null) {
-          listMonthly(max)
+			listMonthly(max)
 
         } else {
-          super.index(max)
+			super.index(max)
         }
     }
 
@@ -44,8 +49,17 @@ class AssignmentController extends BaseController<Assignment> {
         }
     }
 
+    protected final List<Assignment> listAllResources(Map params) {
+        listAllAssignments(params)
+    }
+
+    protected final Assignment queryForResource(Serializable id) {
+        listAllAssignments(params)[0]
+    }
+
     private List<Assignment> listAllAssignments(params) {
-        log.trace "list assignment(s): ${params}"
+        if (log.isTraceEnabled()) log.trace "list assignment(s): ${params}"
+
         resolveParameters(params)
 
         return Assignment.where {
@@ -64,17 +78,6 @@ class AssignmentController extends BaseController<Assignment> {
                 if (params?.d6) { d6 == params.d6 }
             }
         }.list(params)
-    }
-
-	/*
-	 * method override
-	 */
-    protected final List<Assignment> listAllResources(Map params) {
-        listAllAssignments(params)
-    }
-
-    protected final Assignment queryForResource(Serializable id) {
-        listAllAssignments(params)[0]
     }
 
     protected final Assignment createResource(Map params) {
@@ -121,7 +124,8 @@ class AssignmentController extends BaseController<Assignment> {
      * project sum-up info
      */
     def sumup() {
-        log.trace "assignment sum-up: ${params}"
+        if (log.isTraceEnabled()) log.trace "assignment sum-up: ${params}"
+
         resolveParameters(params)
         boolean hasReadAuth = isReadAuthorized()
         if (! hasReadAuth) {
@@ -146,7 +150,7 @@ class AssignmentController extends BaseController<Assignment> {
         (1..7).inject([]) { result, no ->
             calendar.setWeekDate(year, week, no)
 
-            def cnt = countAssignmentBy(year, week, no)
+            def cnt = countAssignmentsBy(year, week, no)
             if (cnt > 0) {
                 def obj = [date: calendar.time.format('yyyy-MM-dd'), title: cnt]
                 result += obj
@@ -156,7 +160,7 @@ class AssignmentController extends BaseController<Assignment> {
         }
     }
 
-    private def countAssignmentBy(year, week, dayNo) {
+    private def countAssignmentsBy(year, week, dayNo) {
 		new DetachedCriteria(Assignment).count {
 			projections {
                 groupProperty('year')
@@ -180,33 +184,30 @@ class AssignmentController extends BaseController<Assignment> {
     }
 
 	/*
-	 * list monthly dispose
+	 * list monthly arrangement  *-- no CUD --*
 	 */
     private def listMonthly(max) {
-		def disposeCriteria
-
         boolean hasReadAuth = isReadAuthorized()
         if (! hasReadAuth) {
             unAuthorized()
             // return
 		} else {
 			resolveMonthlyParameters(params)
-			disposeCriteria = createMonthlyCriteria(params)
+			createMonthlyCriteria(params)
 		}
 
 		params.max = Math.min(max ?: 10, 100)
-		def countName = "${resourceName}Count".toString()
 
 		if (isAjax()) {
-			def dataList = hasReadAuth ? listMonthlyAssignments(params, disposeCriteria) : []
+			def dataList = hasReadAuth ? listMonthlyArrangement(params) : []
 
 			if (params?.draw) { // integrate with DataTables JS
-				def dataCount = hasReadAuth ? countMonthlyAssignments(/*params,*/ disposeCriteria) : java.math.BigInteger.ZERO
+				def dataCount = hasReadAuth ? countMonthlyArrangement() : java.math.BigInteger.ZERO
 
 				respond (
 					draw: params.draw,
 					recordsTotal: dataCount,
-					recordsFiltered: dataList.size(),
+					recordsFiltered: dataList.size(), // TODO
 					data: dataList
 				)
 
@@ -215,12 +216,14 @@ class AssignmentController extends BaseController<Assignment> {
 			}
 
 		} else {
+			def countName = "${resourceName}Count".toString()
+
 			if (params?.format in ['all', 'form', null]) {
 				render view: 'listMonthly' //, model: [ (resourceName): createResource() ]
 
 			} else {
-				def dataList = hasReadAuth ? listMonthlyAssignments(params, disposeCriteria) : []
-				def dataCount = hasReadAuth ? countMonthlyAssignments(/*params,*/ disposeCriteria) : java.math.BigInteger.ZERO
+				def dataList = hasReadAuth ? listMonthlyArrangement(params) : []
+				def dataCount = hasReadAuth ? countMonthlyArrangement() : java.math.BigInteger.ZERO
 				respond dataList, model: [ (countName): dataCount ]
 			}
 		}
@@ -245,12 +248,14 @@ class AssignmentController extends BaseController<Assignment> {
 		criteriaEnd['week'] = calendar.get(Calendar.WEEK_OF_YEAR)
 		criteriaEnd['d'] = calendar.get(Calendar.DAY_OF_WEEK)
 
-		params['criteria-dp'] = [begin: criteriaBegin, end:criteriaEnd]
-		log.trace "1.dispose criteria: ${params['criteria-dp']}"
+		request[KEY_PARAM_ARRANGE] = [begin: criteriaBegin, end:criteriaEnd]
+
+		if (log.isTraceEnabled()) log.trace "1.arrange criteria: ${request[KEY_PARAM_ARRANGE]}"
 	}
 
-	private def createMonthlyCriteria(params) {
-		return {
+
+	private void createMonthlyCriteria(params) {
+		request[KEY_CRITERIA_ARRANGE] = {
 			if (params?.projectId) {
 				project {
 					eq ('id', params.projectId)
@@ -269,17 +274,19 @@ class AssignmentController extends BaseController<Assignment> {
 			if (params?.year) {
 				eq ('year', params.year as int)
 			}
-			if (params['criteria-dp']) {
-				between ('week', params['criteria-dp'].begin.week, params['criteria-dp'].end.week)
+
+			def arrangeRange = request[KEY_PARAM_ARRANGE]
+			if (arrangeRange) {
+				between ('week', arrangeRange.begin.week, arrangeRange.end.week)
 			}
 		}
 	}
 
-    private def listMonthlyAssignments(params, disposeCriteria) {
-        log.trace "2.list assignment(s) monthly: ${params}"
+    private def listMonthlyArrangement(params) {
+        if (log.isTraceEnabled()) log.trace "2.list monthly arrangement"
 
 		Assignment.where(
-			disposeCriteria
+			request[KEY_CRITERIA_ARRANGE]
 
 		).list {
 			if (params?.max) { max(params.max) }
@@ -291,28 +298,30 @@ class AssignmentController extends BaseController<Assignment> {
 			it."${params?.sort ? params?.sort : 'employee'}"
 
 		}.collect {
-			transformMonthly(it, params['criteria-dp'])
+			transformMonthly(it)
 		}
     }
 
-	private def transformMonthly(personalDispose, criteria) {
+	private def transformMonthly(personalArranged) {
 		def calendar = Calendar.instance
+		def criteria = request[KEY_PARAM_ARRANGE]
 		def lastWeek = criteria.begin.week
-		def employee = personalDispose.key
+		def employee = personalArranged.key
 		def baseFields = [id: '', employee: employee.toString()] // [id: employee.id, employee: employee.empName]
-        def lastDispose = personalDispose.value[-1]
-		log.trace "3.personal dispose: ${lastDispose}"
+        def lastArranged = personalArranged.value[-1]
 
-        def disposes = personalDispose.value + ( lastDispose.week < criteria.end.week ?
+		if (log.isTraceEnabled()) log.trace "3.personal arrange: ${lastArranged}"
+
+        def arrangement = personalArranged.value + ( lastArranged.week < criteria.end.week ?
             new Assignment(
-				employee: lastDispose.employee,
-				project: lastDispose.project,
-				year: lastDispose.year,
+				employee: lastArranged.employee,
+				project: lastArranged.project,
+				year: lastArranged.year,
 				week: criteria.end.week)
             : []
 		)
 
-        disposes.inject(baseFields) { result, assign ->
+        arrangement.inject(baseFields) { result, assign ->
 			(lastWeek..assign.week).step(1) { week ->
             	((week <= criteria.begin.week ? criteria.begin.d : 1) ..
 				 (week >= criteria.end.week   ? criteria.end.d   : 7)).each { day ->
@@ -325,9 +334,13 @@ class AssignmentController extends BaseController<Assignment> {
         }
 	}
 
-    private def countMonthlyAssignments(/*params,*/ disposeCriteria) {
-		log.trace "4.count assignment(s) monthly: ${params}"
-		new DetachedCriteria(Assignment).where( disposeCriteria	).count {
+    private def countMonthlyArrangement() {
+		if (log.isTraceEnabled()) log.trace "4.count monthly arrangement"
+
+		new DetachedCriteria(Assignment).where(
+			request[KEY_CRITERIA_ARRANGE]
+
+		).count {
             projections {
                 groupProperty('year')
                 groupProperty('employee')

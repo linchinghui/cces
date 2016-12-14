@@ -4,7 +4,7 @@
 //= require plugins/bootstrap-notify
 //= require plugins/bootstrap-select
 //= require plugins/bootstrap-combobox
-//  require plugins/bootstrap-jasny
+//  require picture - XXX - plugins/bootstrap-jasny
 //= require_self
 //  require plugins/fastclick
 //= require plugins/jquery.mask

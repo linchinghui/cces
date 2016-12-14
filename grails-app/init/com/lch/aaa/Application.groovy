@@ -95,8 +95,9 @@ class Application extends GrailsAutoConfiguration implements EnvironmentAware {
 
 	@Override
 	void setEnvironment(org.springframework.core.env.Environment environment) {
-		def config = loadConfiguration('application.groovy')
+		def config = loadConfiguration('config.groovy')
 		println "\nconfig file : ${config.configFile}\n"
 		environment.propertySources.addFirst(new MapPropertySource(config.configFile.toString(), config))
 	}
+
 }
