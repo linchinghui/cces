@@ -9,3 +9,4 @@ bin/
 *.pptx
 manifest.yml
 notes/
+grails-app/migrations/change-20160329.groovy
