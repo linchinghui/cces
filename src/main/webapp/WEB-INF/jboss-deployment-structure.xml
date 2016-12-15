@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jboss-deployment-structure xmlns="urn:jboss:deployment-structure:1.1">
+  <deployment>
+    <exclusions>
+      <module name="javaee.api"/>
+      <module name="javax.validation.api"/>
+      <module name="javax.faces.api"/>
+      <module name="org.hibernate.validator"/>
+  </exclusions><!--
+	<resources>
+	  <resource-root path="WEB-INF/lib/bcprov-jdk15on-1.49.jar" use-physical-code-source="true"/>
+	</resources>
+	<resources>
+	  <resource-root path="WEB-INF/lib/bcpkix-jdk15on-1.49.jar" use-physical-code-source="true"/>
+  </resources>-->
+  </deployment>
+</jboss-deployment-structure>
