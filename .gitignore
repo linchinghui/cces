@@ -6,8 +6,5 @@ _notes/
 .asscache
 manifest.yml
 .classpath
-.jsbeautifyrc_
-
 grails-app/migrations/change-diff-20160706-tuned.groovy
-
 grails-app/migrations/change-diff-20160706u2.groovy
