@@ -34,7 +34,7 @@ environments:
             username: 'linchinghui'
             password: 'cces168'
             dbCreate: none
-            url: 'jdbc:mysql://192.168.0.201:3306/cces?useUnicode=true&characterEncoding=UTF-8&useSSL=false'
+            url: 'jdbc:mysql://localhost:3306/cces?useUnicode=true&characterEncoding=UTF-8&useSSL=false'
             properties:
                 jmxEnabled: true
                 initialSize: 5
@@ -159,11 +159,11 @@ grails:
             multipart: false
     controllers:
         defaultScope: singleton
-        # upload:
-        #     # maxFileSize:    2500000
-        #     # maxRequestSize: 2500000
-        #     maxInMemorySize:    2500000
-        #     maxUploadSize: 2500000
+        upload:
+            maxFileSize:    2500000
+            maxRequestSize: 2500000
+            # maxInMemorySize:    2500000
+            # maxUploadSize: 2500000
     converters:
         encoding: UTF-8
         # domain:

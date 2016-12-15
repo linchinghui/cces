@@ -9,6 +9,6 @@ $('.photo.fileinput-new .thumbnail, .photo.fileinput-exists .thumbnail').has('im
 		// message: requestAction4BootstrapDialog({
 		// 	url: server.ctxPath + server.imgPath + '/' + fileName
 		// }) // GET method
-		message: '<img src="' + server.ctxPath + server.imgPath + '/' + fileName + '" />'
+		message: '<img width="100%" height="100%" src="' + server.ctxPath + server.imgPath + '/' + fileName + '" />'
 	});
 });
