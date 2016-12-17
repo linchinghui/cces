@@ -113,11 +113,10 @@ class ImageHelper {
 		def fileExt = MimeTypeUtils.parseMimeType(multipartFile.contentType).subtype
         def fileNameAry = fileName.split('\\.')
 		def fileNameLast = ('.' + fileNameAry[-1]) - ('.' + fileExt)
-
-		if (fileNameLast.size() > 0) {
-			fileNameAry[-1] = fileNameLast.substring(1) + '.' + fileExt
-			fileName = fileNameAry.join('.')
+		if (!(fileNameAry[-1] ==~ /jp(e|)g|png/)) {
+			fileNameAry[-1] += ('.' + fileExt)
 		}
+		fileName = fileNameAry.join('.')
 
         def imageFile = new File(dirName, fileName)
 		def fos = null

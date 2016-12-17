@@ -1,10 +1,13 @@
 <%--<label for="${property}">${label}</label> --%>
 <div class="photo fileinput fileinput-new" data-provides="fileinput">
-    <span class="fileinput-new thumbnail" ${value && value.toString() ? 'data-field='+value.uri.encodeAsURL() : ''}>
-		<g:if test="${value && value.toString()}">
+	<g:if test="${value && value.toString()}">
+		<span class="fileinput-new thumbnail" data-field="${value.uri}"><%--.encodeAsURL()--%>
 			<img data-src="holder.js/44x44" src="data:image/${value.toString().split('\\.')[-1]};base64,${value.thumbnailBase64}"/>
-		</g:if>
-	</span>
+		</span>
+	</g:if>
+	<g:else>
+		<span class="fileinput-new thumbnail"></span>
+	</g:else>
     <span class="fileinput-preview fileinput-exists thumbnail"></span>
 	<span>
 		<%-- TODO: delete pic on server:

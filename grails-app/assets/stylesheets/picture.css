@@ -14,3 +14,19 @@
   width: 52px;
   height: 34px;
 }
+/*
+.image-dialog .modal-dialog {
+  width: 90%;
+}
+
+.image-dialog .modal-body {
+  padding: 0;
+}
+*/
+.image-dialog .bootstrap-dialog-message {
+  padding: 0;
+}
+
+.image-dialog .bootstrap-dialog-message {
+  text-align: center;
+}
