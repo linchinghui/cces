@@ -120,6 +120,11 @@ static namespace = Application.NAMESPACE_API
 			props.project = Project.get(params.projectId)
 			props.remove('projectId')
 		}
+		if (props.project == null &&
+			params?.constructNo &&
+			params?.constructNo != 'null') {
+			props.project = Project.findByConstructNo(params.constructNo)
+		}
 		if (params.workedDate &&
 			params?.workedDate != 'null') {
 			props.workedDate = params.parsedDate
