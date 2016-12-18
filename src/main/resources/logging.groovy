@@ -1,0 +1,10 @@
+log.dir = '/tmp'
+// log.sys.level = ch.qos.logback.classic.Level.DEBUG
+// log.sys.level = ch.qos.logback.classic.Level.INFO
+log.sys.level = ch.qos.logback.classic.Level.WARN
+// log.cces.level = ch.qos.logback.classic.Level.WARN
+// log.cces.level = ch.qos.logback.classic.Level.TRACE
+// log.cces.level = ch.qos.logback.classic.Level.DEBUG
+log.cces.level = ch.qos.logback.classic.Level.INFO
+// log.sql.show = true
+// log.sql.type.show = true
