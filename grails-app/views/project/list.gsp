@@ -39,7 +39,7 @@
                         <th rowspan="2"><span class="search-input"><input type="text" size="8"><br></span>
                             <span class="hidden-sm visible-md visible-lg">工程<br></span>地點
                         </th>
-                        <th rowspan="2">
+                        <th rowspan="2"><span class="search-input" placeholder="編碼"><input type="text" size="3"><br></span>
                             <span class="hidden-sm visible-md visible-lg">工作<br></span>型態
                         </th>
                         <th rowspan="2"><span class="search-input" placeholder="編碼"><input type="text" size="3"><br></span>

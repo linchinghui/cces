@@ -2,6 +2,7 @@ package com.lch.cces
 
 import groovy.transform.CompileStatic
 
+// 工作型態
 public enum ProjectType {
 	HOURLY('點工'),
 	SOLICIT('攬工'),

@@ -2,6 +2,7 @@ package com.lch.cces
 
 import groovy.transform.CompileStatic
 
+// 施作方式
 public enum ConstructType {
 	ELEVATE('高架'),
 	ASSEMBLE('組裝'),
