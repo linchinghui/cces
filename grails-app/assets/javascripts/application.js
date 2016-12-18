@@ -52,10 +52,10 @@ if (typeof jQuery !== 'undefined') {
 		// }).ajaxStop(function() {
 		// 	$(this).fadeOut();
 		// });
-		$('.treeview-menu a').click(function() {
+		$('.treeview-menu a, a.logo').click(function() {
 			if (!/\&sc=/.test(this.href)) {
 				if ($('body').hasClass('sidebar-collapse')) {
-					this.href += '&sc=true';
+					this.href += (this.href.charAt(this.href.length-1)=='/' ? '?' : '&') + 'sc=true';
 				}
 			}
 		});
