@@ -84,8 +84,8 @@ function createDataTable() {
 					orderable: false,
 					data: 'description'
 				}
-			]
-
+			],
+			order: []
 		})
 		.buttons()
 		.disable();

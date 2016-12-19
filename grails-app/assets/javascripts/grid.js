@@ -410,8 +410,8 @@ $.extend(true, $.fn.dataTable.defaults, {
 				draw: params.draw,
 				max: params.length,
 				offset: params.start,
-				sort: (params.order ? settings.aoColumns[params.order[0].column].data : 'id'),
-				order: (params.order ? params.order[0].dir : 'asc')
+				sort: (params.order && params.order.length>0 ? settings.aoColumns[params.order[0].column].data : 'id'),
+				order: (params.order && params.order.length>0 ? params.order[0].dir : 'asc')
 			};
 			$.each(params.columns, function() {
 				if (this.search && this.search.value != "") {

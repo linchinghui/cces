@@ -96,7 +96,8 @@ function createDetailDataTable() {
 				dom: 'Bftri',
 				pageLength: 100,
 				scrollY: true,
-				buttons: []
+				buttons: [],
+				order: []
 			} : {
 				buttons: [{
 					text: '新增',

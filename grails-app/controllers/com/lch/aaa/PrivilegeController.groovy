@@ -52,7 +52,9 @@ class PrivilegeController extends BaseController<Privilege> {
                         role.id == theRole?.id
                         function.id == func.id
                     }.id()
-                }
+				}
+			}.list {
+				order('description')
             }.collect {
                 new Privilege(role: null/*theRole*/, function: it, canRead:false, canWrite: false)
             }

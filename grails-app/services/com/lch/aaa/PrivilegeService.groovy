@@ -31,7 +31,19 @@ class PrivilegeService {
                 // }
                 // params.remove('functionId')
             }
-        }.list(params)
+        }.list{ // (params)
+			if (params?.max) { max(params.max) }
+			if (params?.offset) { offset(params.offset as int) }
+			if (params?.sort) {
+				order(
+					(params.sort=='id' ? 'role.id' : params.sort),
+					(params?.order ? params.order : 'asc')
+				)
+				if (! params?.sort.startsWith('function')) {
+					order('function.description')
+				}
+			}
+		}
 	}
 
 	@Transactional
