@@ -31,9 +31,9 @@ class Project {
 	static transients = ['projectType', 'constructType']
 
     static constraints = {
-    	code			blank: false, nullable: false, maxSize: 10 //, unique: true // PK is unique already
+    	code			blank: false, nullable: false, maxSize: 20 //, unique: true // PK is unique already
 		description		blank: false, nullable: false, maxSize: 40
-		constructNo		blank: false, nullable: false, maxSize: 20, unique: true
+		constructNo		blank: true, nullable: true, maxSize: 20, unique: true
 		constructPlace	blank: false, nullable: false, maxSize: 40
 		projectKind		blank: false, nullable: false, inList: ProjectType*.id
 		projectType		blank: false, nullable: false
