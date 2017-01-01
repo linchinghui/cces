@@ -34,7 +34,7 @@ environments:
             username: 'linchinghui'
             password: 'cces168'
             dbCreate: none
-            url: 'jdbc:mysql://localhost:3306/cces?useUnicode=true&characterEncoding=UTF-8&useSSL=false'
+            url: 'jdbc:mysql://60.249.21.250:3306/cces?useUnicode=true&characterEncoding=UTF-8&useSSL=false'
             properties:
                 jmxEnabled: true
                 initialSize: 5
