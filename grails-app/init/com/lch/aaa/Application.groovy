@@ -85,12 +85,38 @@ class Application extends GrailsAutoConfiguration implements EnvironmentAware {
 		}.run(args)
 	}
 
-    public static ConfigObject loadConfiguration(String configFile) { //, grails.util.Environment env = null) {
-    	// parse(new ClassPathResource(configFile).URL)
-		def location = System.getProperty('app.config.location', 'classpath:.') + '/' + configFile
-		def resource = new DefaultResourceLocator().findResourceForURI(location)
-		def config = resource ? new ConfigSlurper(/*env ? env.name : grails.util.Environment.current.name*/).parse(resource.getURL()) : [:]
+	private static String getConfigurationFolder() {
+		def configDir = System.getProperty('config.location', System.properties['user.dir'])
+		new File(configDir).mkdirs()
+		return configDir
+	}
+
+    public static ConfigObject loadConfiguration(String configPath) { //, grails.util.Environment env = null) {
+		def location = getConfigurationFolder() + '/' + configPath
+		def configFile = new File(location)
+		def isNew = ! configFile.exists()
+		def resource = new DefaultResourceLocator().findResourceForURI(isNew ? ('classpath:./' + configPath) : 'file:' + location)
+		def config = resource ? new ConfigSlurper(/*env ? env.name : grails.util.Environment.current.name*/).parse(resource.getURL()) : new ConfigObject()
+
+		if (isNew) { // clone from default
+			saveConfiguration(configPath, config)
+		}
 		return config
+	}
+
+	public static void saveConfiguration(String configPath, ConfigObject config) {
+		new File(getConfigurationFolder() + '/' + configPath).withWriter { writer ->
+			config.writeTo(writer)
+		}
+	}
+
+	public static void saveConfiguration(String configPath, Map props) {
+		def configNew = new ConfigObject()
+		configNew.putAll(props?:[:])
+		def config = loadConfiguration(configPath)
+		config.merge(configNew)
+
+		saveConfiguration(configPath, config)
 	}
 
 	@Override
