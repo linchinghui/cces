@@ -146,7 +146,7 @@ function addExternalButtons4Init(dataTable) {
 		}
 
 		var ctnWrapper = dataTable.table().container();
-		$(ctnWrapper).find('.dt-buttons.btn-group').after(btnsGrp);
+		$($(ctnWrapper).find('.dt-buttons.btn-group')[0]).after(btnsGrp);
 	}
 }
 
