@@ -2,6 +2,7 @@ package com.lch.aaa
 
 import grails.boot.GrailsApp
 import grails.boot.config.GrailsAutoConfiguration
+import grails.util.Environment
 import org.grails.core.io.DefaultResourceLocator
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration
 import org.springframework.context.annotation.Bean
@@ -86,7 +87,7 @@ class Application extends GrailsAutoConfiguration implements EnvironmentAware {
 	}
 
 	private static String getConfigurationFolder() {
-		def configDir = System.getProperty('config.location', System.properties['user.dir'])
+		def configDir = System.getProperty('app.config.location', System.properties['user.dir'])
 		new File(configDir).mkdirs()
 		return configDir
 	}
@@ -122,7 +123,7 @@ class Application extends GrailsAutoConfiguration implements EnvironmentAware {
 	@Override
 	void setEnvironment(org.springframework.core.env.Environment environment) {
 		def config = loadConfiguration('config.groovy')
-		println "\nconfig file : ${config.configFile}\n"
+		println "\nconfig : ${config.configFile}\n"
 		environment.propertySources.addFirst(new MapPropertySource(config.configFile.toString(), config))
 	}
 
