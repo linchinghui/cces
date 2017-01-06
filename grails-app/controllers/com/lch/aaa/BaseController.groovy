@@ -43,11 +43,11 @@ abstract class BaseController<T> extends RestfulController<T> {
 	/*
 	 * helper
 	 */
-	final boolean isAjax() {
+	protected final boolean isAjax() {
 		request['isAjax'] // request.getHeader('X-Requested-With') == 'XMLHttpRequest'
 	}
 
-	def final addError = { field, message ->
+	protected def final addError = { field, message ->
 		if (flash.errors) {
 			flash.errors.put(field, message)
 		} else {
@@ -55,7 +55,7 @@ abstract class BaseController<T> extends RestfulController<T> {
 		}
 	}
 
-	def final addMessage = { message ->
+	protected def final addMessage = { message ->
 		flash.message = message
 	}
 
@@ -77,7 +77,7 @@ abstract class BaseController<T> extends RestfulController<T> {
 	/*
 	 * commons
 	 */
-	def commonWarning(replyCode, message) {
+	private def commonWarning(replyCode, message) {
 		if (isAjax()) {
 			log.trace ("$replyCode @ isAjax()")
 			render status: replyCode
