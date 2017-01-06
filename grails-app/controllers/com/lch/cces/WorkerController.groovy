@@ -6,7 +6,7 @@ class WorkerController extends BaseController<Worker> {
 
     static namespace = Application.NAMESPACE_API
 
-    WorkerController() {
+	WorkerController() {
         super(Worker)
     }
 

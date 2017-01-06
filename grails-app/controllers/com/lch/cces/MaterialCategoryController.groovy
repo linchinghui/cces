@@ -8,7 +8,7 @@ class MaterialCategoryController extends BaseController<MaterialCategory> {
 
     def materialCategoryService
 
-    MaterialCategoryController() {
+	MaterialCategoryController() {
         super(MaterialCategory)
     }
 
