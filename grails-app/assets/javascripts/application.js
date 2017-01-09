@@ -278,17 +278,20 @@ function chainAjaxCall(ajaxParams) {
   action in dialog
  ------------------*/
 function requestAction4BootstrapDialog(action, dataKey, params) {
-
 	return function(dialog) {
 		var closeFn = 'cb' + dialog.getId().split('-')[0];
 		// 1: BootstrapDialog.dialogs[' + dialog.getId() + '].close
 		// 2: action.callback.name
-		window[closeFn] = function(content) {
+		window[closeFn] = function(content, form) {
 			dialog.close();
 			if (typeof action.callback !== 'undefined') {
-				action.callback.call(null, content);
+				action.callback.call(null, content, form);
 			}
 		};
+		if (typeof action.url === 'undefined') {
+			window[closeFn].call(null, { id: dataKey });
+			return;
+		}
 
 		var theUrl = ($.isFunction(action.url) ? action.url.call() : action.url).split('?');
 		var actionUrl = theUrl[0] + (dataKey ? ('/' + encodeURI(dataKey)) : '');

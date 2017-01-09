@@ -44,7 +44,7 @@ function renderRadio4DataTables(data, type, row, meta) {
 
 function disableProcessing4DataTables(dataTable) { //settings) {
 	var settings = dataTable.settings()[0];
-	settings.oInstance._fnProcessingDisplay(settings, false);
+	settings.oInstance._fnProcessingDisplay(false);
 }
 
 function transformServerResult4DataTables(dataTable) { //settings) {
@@ -79,19 +79,32 @@ function transformServerError4DataTables(dataTable) { //settings) {
 }
 
 function renderAjaxButtons4DataTables(dataTable, isInit) {
-	dataTable.buttons().enable();
-	var btnsContainer = $(dataTable.table().container());
-	var cancelBtn = btnsContainer.find('a:contains("取消")').hide();
-	var reloadBtn = btnsContainer.find('a:contains("重查")').show();
+	var buttons = dataTable.buttons().enable().each(function (button) {
+		if (button.node.text == '取消') {
+			button.inst.disable(button.node);
+		}
+	});
 
 	if (isInit) {
-		reloadBtn.on('click', function() {
-			cancelBtn.show();
-			$(this).hide();
+		var btnsContainer = $(dataTable.table().container());
+
+		btnsContainer.find('a:contains("重查")').on('click', function() {
+			buttons.each(function (button) {
+				if (button.node.text == '重查') {
+					button.inst.disable(button.node);
+				} else if (button.node.text == '取消') {
+					button.inst.enable(button.node);
+				}
+			});
 		});
-		cancelBtn.on('click', function() {
-			reloadBtn.show();
-			$(this).hide();
+		btnsContainer.find('a:contains("取消")').on('click', function() {
+			buttons.each(function (button) {
+				if (button.node.text == '取消') {
+					button.inst.disable(button.node);
+				} else if (button.node.text == '重查') {
+					button.inst.enable(button.node);
+				}
+			});
 		});
 	}
 }
@@ -163,12 +176,7 @@ function addQueryButtons4Init(dataTable) { //settings) {
 					reloadDataTables(dt, ajaxConf.onReloadClicked);
 				}
 			}
-		}]
-	});
-	$(dataTable.table().container()).prepend(btns.dom.container[0]);
-
-	btns = new $.fn.dataTable.Buttons(dataTable, {
-		buttons: [{
+		},{
 			text: '取消',
 			action: function(evt, dt, node, conf) {
 				dt.context[0].jqXHR.abort && dt.context[0].jqXHR.abort(); // dataTable.context[0].jqXHR.abort();
@@ -178,13 +186,24 @@ function addQueryButtons4Init(dataTable) { //settings) {
 	});
 	$(dataTable.table().container()).prepend(btns.dom.container[0]);
 
-	renderAjaxButtons4DataTables(dataTable, true);
-	var ajax = dataTable.context[0].ajax;
+	// btns = new $.fn.dataTable.Buttons(dataTable, {
+	// 	buttons: [{
+	// 		text: '取消',
+	// 		action: function(evt, dt, node, conf) {
+	// 			dt.context[0].jqXHR.abort && dt.context[0].jqXHR.abort(); // dataTable.context[0].jqXHR.abort();
+	// 			disableProcessing4DataTables(dataTable); //settings);
+	// 		}
+	// 	}]
+	// });
+	// $(dataTable.table().container()).prepend(btns.dom.container[0]);
 
-	if (ajax && typeof ajax.success === 'undefined') {
+	renderAjaxButtons4DataTables(dataTable, true);
+
+	var ajax = dataTable.context[0].ajax;
+	if (typeof ajax.success === 'undefined') {
 		ajax.success = transformServerResult4DataTables(dataTable); //settings);
 	}
-	if (ajax && typeof ajax.error === 'undefined') {
+	if (typeof ajax.error === 'undefined') {
 		ajax.error = transformServerError4DataTables(dataTable); //settings);
 	}
 }
@@ -351,16 +370,20 @@ function initialized4DataTables(settings, response) {
 	$.fn.dataTable.ext.errMode = 'none';
 	var dataTable = settings.oInstance ? settings.oInstance.DataTable() : settings.DataTable();
 	addExternalButtons4Init(dataTable);
-	addQueryButtons4Init(dataTable); //settings);
-	// addSearchHighlight(dataTable);
 
-	if (typeof response == 'undefined') {
-		dataTable.clear().draw();
-	} else {
-		alertMessage(response, dataTable.context[0].jqXHR);
-	}
-	if (dataTable.context[0].ajax.onDone) { // settings.ajax.onDone
-		dataTable.context[0].ajax.onDone();
+	var ajax = dataTable.context[0].ajax;
+	if (ajax) {
+		addQueryButtons4Init(dataTable); //settings);
+		// addSearchHighlight(dataTable);
+
+		if (typeof response == 'undefined') {
+			dataTable.clear().draw();
+		} else {
+			alertMessage(response, dataTable.context[0].jqXHR);
+		}
+		if (ajax.onDone) {
+			ajax.onDone();
+		}
 	}
 
 	resizeDataTablesInSecs(dataTable);
