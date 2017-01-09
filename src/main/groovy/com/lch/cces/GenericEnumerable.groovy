@@ -6,6 +6,9 @@ package com.lch.cces
 
 // @SelfType(Enum)
 trait GenericEnumerable<T extends Enum<T>> {
+	static String label() {
+		return 'NA'
+	}
 
 	static int keyLength() {
 		return 1

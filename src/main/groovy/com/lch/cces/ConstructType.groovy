@@ -2,8 +2,10 @@ package com.lch.cces
 
 // import groovy.transform.CompileStatic
 
-// 施作方式
 public enum ConstructType implements GenericEnumerable<ConstructType> {
+	static String label() {
+		'施作方式'
+	}
 	// // ELEVATE('高架'),
 	// // ASSEMBLE('組裝'),
 	// // INSTALL('裝機'),
