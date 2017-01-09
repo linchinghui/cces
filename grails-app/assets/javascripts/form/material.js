@@ -87,7 +87,6 @@ function createDataTable() {
 				// detailSec.empty();
 			},
 			extButtons: {
-				collapse: true,
 				copy: true
 			},
 			buttons: [{

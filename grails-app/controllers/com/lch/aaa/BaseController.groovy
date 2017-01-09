@@ -103,8 +103,8 @@ abstract class BaseController<T> extends RestfulController<T> {
 						log.trace ("$message! redirect to $url")
 						redirect url: url
 					} else {
-						flash.errors += ';操作將轉回首頁'
-						log.trace ("$message! redirect to HOME")
+						flash.errors += '! 操作將轉回首頁.'
+						// log.trace flash.errors
 						redirect mapping: 'home'
 					}
 				} else {
@@ -514,8 +514,7 @@ abstract class BaseController<T> extends RestfulController<T> {
 		// 配合 JS
 		if (params?.cb) {
 			// log.debug ("delete() done @ callback")
-			render template: getDeletePage(),
-			model: [callback: params.cb, result: [id: params.id, status: NO_CONTENT.value(), message: '已刪除']]
+			render template: getDeletePage(), model: [callback: params.cb, result: [id: params.id, status: NO_CONTENT.value(), message: '已刪除']]
 
 		} else {
 			if (params?.format || request.format != 'all') {
