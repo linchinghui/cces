@@ -44,7 +44,7 @@ class BootStrap {
 			def configObject = Application.loadConfiguration(it)
 			def config = configObject.entrySet().first()
 			def className = config.key.capitalize()
-			def clazz = ClassLoader.systemClassLoader.loadClass('com.lch.cces.' + className)
+			def clazz = Class.forName('com.lch.cces.' + className)
 			config.value.each {
 				DynamicEnumMaker.add(clazz, it.name, [it.desc] as Object[])
 			}
