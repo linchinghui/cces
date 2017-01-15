@@ -1,7 +1,10 @@
 
 package com.lch.cces
 
-// import java.lang.reflect.*
+import java.lang.reflect.*
+// import org.codehaus.groovy.runtime.typehandling.DefaultTypeTransformation
+// import org.slf4j.Logger
+import org.slf4j.LoggerFactory
 // import groovy.transform.SelfType
 
 // @SelfType(Enum)
@@ -14,17 +17,13 @@ trait GenericEnumerable<T extends Enum<T>> {
 		return 1
 	}
 
-	static def ordinals() {
-		return this.values()*.getId()
-	}
-
 	static def map() {
 		return this.values().inject([:]) { res, itm ->
 			res += [(itm.id): itm.desc]
 		}
 	}
 
-	static <T extends Enum<T>> T salvage(def type) {
+	static <T extends Enum<T>> T salvage(def type, Class<T> classType) {
 		if (type == null) {
 			return null
 		}
@@ -33,22 +32,23 @@ trait GenericEnumerable<T extends Enum<T>> {
 		int idx = -1
 
 		if (val.size() <= keyLength()) {
-			idx = ordinals().findIndexOf {
+			idx = this.values()*.getId().findIndexOf {
 				it == val.toUpperCase()
 			}
 		} else {
 			try {
-				return (val.toUpperCase() as T)
+				// return (T) DefaultTypeTransformation.castToType(val.toUpperCase(), classType)
+				return (T) Enum.valueOf(classType, val.toUpperCase())
 			} catch (e) {
+				LoggerFactory.getLogger(classType).error e.message
 				// by default: idx == -1
 			}
 		}
-		return idx >=0 ? this.values()[idx] : null;
+
+		return idx >=-1 ? this.values()[idx] : null;
 	}
 
-	/*
-	 *
-	 */
+
 	String id
 	String desc
 
@@ -65,17 +65,8 @@ trait GenericEnumerable<T extends Enum<T>> {
 		"$id-$desc"
 	}
 
-	public String toString() {
-		"$id" // "$desc"
-	}
-
-	// private Class<T> inferedClass
-	//
-    // public Class<T> getGenericClass() {
-    //     inferedClass ?: (
-    //         /*Type*/def mySUper = getClass().getGenericSuperclass()
-    //         /*Type*/def myType = ((ParameterizedType)mySUper).getActualTypeArguments()[0]
-    //         inferedClass = Class.forName(myType.toString().split(" ")[1])
-    //     )
-    // }
+// TODO: testing ...
+	// public String toString() {
+	// 	"$id" // "$desc"
+	// }
 }
