@@ -239,8 +239,5 @@ class BootStrap {
 	 */
     private initForDevelopment(ctx) {
 
-//		println DefaultRoleType.ordinals()
-//		println DefaultRoleType.names()
-
 	}
 }

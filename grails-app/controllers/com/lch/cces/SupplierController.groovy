@@ -6,7 +6,7 @@ class SupplierController extends BaseController<Supplier> {
 
     static namespace = Application.NAMESPACE_API
 
-    SupplierController() {
+	SupplierController() {
         super(Supplier)
     }
 }

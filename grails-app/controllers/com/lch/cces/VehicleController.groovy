@@ -6,7 +6,7 @@ class VehicleController extends BaseController<Vehicle> {
 
     static namespace = Application.NAMESPACE_API
 
-    VehicleController() {
+	VehicleController() {
         super(Vehicle)
     }
 }

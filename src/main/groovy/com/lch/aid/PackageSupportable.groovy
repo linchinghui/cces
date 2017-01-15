@@ -1,10 +1,9 @@
 package com.lch.aid
 
-import org.slf4j.Logger
+// import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 
 trait PackageSupportable {
-	private static Logger log = LoggerFactory.getLogger(PackageSupportable.class)
 
 	def private static final DEFAULT_PACKAGE_SHORT_NAME = PackageSupportable.class.package.name.split('\\.')[-1]
 	def private static final DEFAULT_PACKAGE_PREFIX = PackageSupportable.class.package.name - ~/$DEFAULT_PACKAGE_SHORT_NAME$/
@@ -14,7 +13,7 @@ trait PackageSupportable {
 	Object addSupportPackage(String pkgName) {
 		packageNames.add(pkgName - ~/^$DEFAULT_PACKAGE_PREFIX/)
 		packageNames.toUnique()
-		log.info "construct Marshaler for packages : $packageNames"
+		LoggerFactory.getLogger(PackageSupportable.class).info "construct Marshaler for packages : $packageNames"
 		return this
 	}
 

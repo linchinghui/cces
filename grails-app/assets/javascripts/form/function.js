@@ -11,9 +11,9 @@ function modifyDataRequested(result, editForm) {
 	reloadDataTables(functionList);
 }
 
-function renderDisplayHint4DataTables(settings, start, end, max, total, pre) {
-	return '<span class="small pull-right text-danger">作業名稱: { 選單名稱 } [ - { 作業標頭 } ]</span>';
-}
+// function renderDisplayHint4DataTables(settings, start, end, max, total, pre) {
+// 	return '<span class="small pull-right text-danger">作業名稱: { 選單名稱 } [ - { 作業標頭 } ]</span>';
+// }
 
 function createDataTable() {
 	functionList = $('#list-function').DataTable({
@@ -23,7 +23,10 @@ function createDataTable() {
 			ajax: {
 				url: server.ctxPath + '/api/functions.json'
 			},
-			infoCallback: renderDisplayHint4DataTables,
+			language: {
+				info: '<span class="small pull-right text-danger">作業名稱: { 選單名稱 } [ - { 作業標頭 } ]</span>'
+			},
+			// infoCallback: renderDisplayHint4DataTables,
 			initComplete: function(settings, data) {
 				initialized4DataTables(settings, data);
 			},

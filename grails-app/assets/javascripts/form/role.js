@@ -35,9 +35,9 @@ function createDetailTab() {
 	});
 }
 
-function renderDisplayHint4DataTables(settings, start, end, max, total, pre) {
-	return '<span class="small pull-right text-danger">點選後，可於下方檢視權限設定 (除系統管理者有預設權限外，其餘者須進行設定)</span>';
-}
+// function renderDisplayHint4DataTables(settings, start, end, max, total, pre) {
+// 	return '<span class="small pull-right text-danger">點選後，可於下方檢視權限設定 (除系統管理者有預設權限外，其餘者須進行設定)</span>';
+// }
 
 function modifyDataRequested(result, editForm) {
 	reloadDataTables(roleList);
@@ -60,7 +60,10 @@ function createDataTable() {
 					detailSec.empty();
 				}
 			},
-			infoCallback: renderDisplayHint4DataTables,
+			language: {
+				info: '<span class="small pull-right text-danger">點選後，可於下方檢視權限設定 (除系統管理者有預設權限外，其餘者須進行設定)</span>'
+			},
+			// infoCallback: renderDisplayHint4DataTables,
 			initComplete: function(settings, data) {
 				initialized4DataTables(settings, data);
 				// detailSec.empty();

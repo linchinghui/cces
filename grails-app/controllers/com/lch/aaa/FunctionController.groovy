@@ -10,7 +10,7 @@ class FunctionController extends BaseController<Function> {
 
     def functionService
 
-    FunctionController() {
+	FunctionController() {
         super(Function)
     }
 
@@ -20,13 +20,13 @@ class FunctionController extends BaseController<Function> {
       return Function.get(id?.toLowerCase())
     }
 
-  	@CachePut(value = 'function', key = '#function.id')
+	@CachePut(value = 'function', key = '#function.id')
     protected final Function saveResource(Function function) {
         // return functionService.save(function)
         function.save flush: true
     }
 
-  	@CacheEvict(value = 'function', key = '#function.id')
+	@CacheEvict(value = 'function', key = '#function.id')
     protected final deleteResource(Function function) {
         // functionService.delete(function)
         function.delete flush: true

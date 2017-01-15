@@ -9,13 +9,13 @@
 
 var searchClass = '.search-input input';
 
-function reloadDataTables(dataTable, arg) {
+function reloadDataTables(api, arg) {
 	if ($.isFunction(arg)) {
-		dataTable.ajax.reload(arg); // dataTable.columns.adjust().ajax.reload(arg);
+		api.ajax.reload(arg); // api.columns.adjust().ajax.reload(arg);
 	} else {
-		dataTable.ajax.reload(function() { // dataTable.columns.adjust().ajax.reload(null, arg && true);
+		api.ajax.reload(function() { // api.columns.adjust().ajax.reload(null, arg && true);
 			setTimeout(function() {
-				$(window).trigger('resize'); //, {dataTable: dataTable});
+				$(window).trigger('resize'); //, {dataTable: api});
 			}, 600);
 		}, arg && true);
 	}
@@ -42,63 +42,71 @@ function renderRadio4DataTables(data, type, row, meta) {
 		data;
 }
 
-function disableProcessing4DataTables(dataTable) { //settings) {
-	var settings = dataTable.settings()[0];
-	settings.oInstance._fnProcessingDisplay(settings, false);
+function disableProcessing4DataTables(api) {
+	var settings = api.settings()[0];
+	settings.oInstance._fnProcessingDisplay(false);
 }
 
-function transformServerResult4DataTables(dataTable) { //settings) {
+function transformServerResult4DataTables(api) {
 	return function(response, status, jqXHR) {
 		// JSON response, 'success' status, 200 of jqXHR.status, 'OK' of jqXHR.statusText
 		alertMessage(response, jqXHR);
-		// var dataTable = settings.oInstance.DataTable();
-		// settings.oInstance._fnAjaxUpdateDraw(response);
-		dataTable.settings()[0].oInstance._fnAjaxUpdateDraw(
+		api.settings()[0].oInstance._fnAjaxUpdateDraw(
 			jQuery.isArray(response) ? {
 				recordsTotal: 0,
 				recordsFiltered: 0,
 				data: []
 			} : response
 		);
-		if (dataTable.context[0].ajax.onDone) {
-			dataTable.context[0].ajax.onDone();
+		if (api.context[0].ajax.onDone) {
+			api.context[0].ajax.onDone();
 		}
 	}
 }
 
-function transformServerError4DataTables(dataTable) { //settings) {
+function transformServerError4DataTables(api) {
 	return transformServerError(function() {
-		disableProcessing4DataTables(dataTable); //settings);
-		// var dataTable = settings.oInstance.DataTable();
-		renderAjaxButtons4DataTables(dataTable);
-
-		if (dataTable.context[0].ajax.onDone) {
-			dataTable.context[0].ajax.onDone();
+		disableProcessing4DataTables(api);
+		renderAjaxButtons4DataTables(api);
+		if (api.context[0].ajax.onDone) {
+			api.context[0].ajax.onDone();
 		}
 	});
 }
 
-function renderAjaxButtons4DataTables(dataTable, isInit) {
-	dataTable.buttons().enable();
-	var btnsContainer = $(dataTable.table().container());
-	var cancelBtn = btnsContainer.find('a:contains("取消")').hide();
-	var reloadBtn = btnsContainer.find('a:contains("重查")').show();
+function renderAjaxButtons4DataTables(api, isInit) {
+	var buttons = api.buttons().enable().each(function(button) {
+		if (button.node.text == '取消') {
+			button.inst.disable(button.node);
+		}
+	});
 
 	if (isInit) {
-		reloadBtn.on('click', function() {
-			cancelBtn.show();
-			$(this).hide();
+		var btnsContainer = $(api.table().container());
+		btnsContainer.find('a:contains("重查")').on('click', function() {
+			buttons.each(function(button) {
+				if (button.node.text == '重查') {
+					button.inst.disable(button.node);
+				} else if (button.node.text == '取消') {
+					button.inst.enable(button.node);
+				}
+			});
 		});
-		cancelBtn.on('click', function() {
-			reloadBtn.show();
-			$(this).hide();
+		btnsContainer.find('a:contains("取消")').on('click', function() {
+			buttons.each(function(button) {
+				if (button.node.text == '取消') {
+					button.inst.disable(button.node);
+				} else if (button.node.text == '重查') {
+					button.inst.enable(button.node);
+				}
+			});
 		});
 	}
 }
 
-function addExternalButtons4Init(dataTable) {
+function addExternalButtons4Init(api) {
 	var extButtons = [];
-	var extButtonSettings = dataTable.context[0] ? dataTable.context[0].oInit.extButtons : {};
+	var extButtonSettings = api.context[0] ? api.context[0].oInit.extButtons : {};
 
 	if (!jQuery.isEmptyObject(extButtonSettings)) {
 		$.map(extButtonSettings, function(v, k) {
@@ -134,66 +142,70 @@ function addExternalButtons4Init(dataTable) {
 		});
 	}
 	if (!jQuery.isEmptyObject(extButtons)) {
-		var btns = new $.fn.DataTable.Buttons(dataTable, {
+		var btns = new $.fn.DataTable.Buttons(api, {
 			buttons: extButtons
 		});
-
 		var btnsGrp = btns.dom.container[0];
-		$(btnsGrp).addClass('pull-right');
 
+		$(btnsGrp).addClass('pull-right');
 		for (var i = 0; i < btns.s.buttons.length; i++) {
 			btns.disable(btns.s.buttons[i].node);
 		}
 
-		var ctnWrapper = dataTable.table().container();
+		var ctnWrapper = api.table().container();
 		$($(ctnWrapper).find('.dt-buttons.btn-group')[0]).after(btnsGrp);
 	}
 }
 
-function addQueryButtons4Init(dataTable) { //settings) {
-	// var dataTable = settings.oInstance ? settings.oInstance.DataTable() : settings.DataTable();
-	var btns = new $.fn.dataTable.Buttons(dataTable, {
+function addQueryButtons4Init(api) {
+	var btns = new $.fn.dataTable.Buttons(api, {
 		buttons: [{
 			text: '重查',
-			action: function(evt, dt, node, conf) {
+			action: function(evt, _api, node, conf) {
 				// $(evt.delegateTarget).hide();
-				var ajaxConf = dataTable.context[0].ajax;
+				var ajaxConf = _api.context[0].ajax;
 				var cont = ajaxConf.onReloadClick ? ajaxConf.onReloadClick(evt) : true;
 				if (cont) {
-					reloadDataTables(dt, ajaxConf.onReloadClicked);
+					reloadDataTables(_api, ajaxConf.onReloadClicked);
 				}
 			}
-		}]
-	});
-	$(dataTable.table().container()).prepend(btns.dom.container[0]);
-
-	btns = new $.fn.dataTable.Buttons(dataTable, {
-		buttons: [{
+		}, {
 			text: '取消',
-			action: function(evt, dt, node, conf) {
-				dt.context[0].jqXHR.abort && dt.context[0].jqXHR.abort(); // dataTable.context[0].jqXHR.abort();
-				disableProcessing4DataTables(dataTable); //settings);
+			action: function(evt, _api, node, conf) {
+				_api.context[0].jqXHR.abort && _api.context[0].jqXHR.abort();
+				disableProcessing4DataTables(_api);
 			}
 		}]
 	});
-	$(dataTable.table().container()).prepend(btns.dom.container[0]);
+	$(api.table().container()).prepend(btns.dom.container[0]);
 
-	renderAjaxButtons4DataTables(dataTable, true);
-	var ajax = dataTable.context[0].ajax;
+	// btns = new $.fn.api.Buttons(api, {
+	// 	buttons: [{
+	// 		text: '取消',
+	// 		action: function(evt, _api, node, conf) {
+	// 			_api.context[0].jqXHR.abort && _api.context[0].jqXHR.abort();
+	// 			disableProcessing4DataTables(_api);
+	// 		}
+	// 	}]
+	// });
+	// $(api.table().container()).prepend(btns.dom.container[0]);
 
-	if (ajax && typeof ajax.success === 'undefined') {
-		ajax.success = transformServerResult4DataTables(dataTable); //settings);
+	renderAjaxButtons4DataTables(api, true);
+
+	var ajax = api.context[0].ajax;
+	if (typeof ajax.success === 'undefined') {
+		ajax.success = transformServerResult4DataTables(api);
 	}
-	if (ajax && typeof ajax.error === 'undefined') {
-		ajax.error = transformServerError4DataTables(dataTable); //settings);
+	if (typeof ajax.error === 'undefined') {
+		ajax.error = transformServerError4DataTables(api);
 	}
 }
 
-// function addSearchHighlight(dataTable) {
-// 	dataTable.on('draw', function() {
-// 		var body = $(dataTable.table().body());
+// function addSearchHighlight(api) {
+// 	api.on('draw', function() {
+// 		var body = $(api.table().body());
 // 		body.unhighlight();
-// 		body.highlight(dataTable.search());
+// 		body.highlight(api.search());
 // 	});
 // }
 
@@ -255,7 +267,6 @@ function createInfoCellButtom(cellEle, dataKey, action) {
 		$(cellEle).addClass('disabled');
 		return;
 	}
-
 	createEditCellButtom(cellEle, dataKey, action /*, true*/ );
 }
 
@@ -274,6 +285,7 @@ function renderDefaultAlterationCellWithId4DataTables(requestActions) {
 		createdCell: function(cell, cellData, rowData, row, col) {
 			if (requestActions.show) {
 				var action = $.extend(true, {
+					delegate: cell,
 					type: 'show',
 					title: '資訊...',
 					selector: 'span i.fa-info',
@@ -284,6 +296,7 @@ function renderDefaultAlterationCellWithId4DataTables(requestActions) {
 			}
 			if (requestActions.edit) {
 				var action = $.extend(true, {
+					delegate: cell,
 					type: 'edit',
 					title: '編輯...',
 					selector: 'span i.fa-pencil',
@@ -294,6 +307,7 @@ function renderDefaultAlterationCellWithId4DataTables(requestActions) {
 			}
 			if (requestActions.delete) {
 				var action = $.extend(true, {
+					delegate: cell,
 					type: 'delete',
 					title: '刪除...',
 					selector: 'span i.fa-times',
@@ -306,22 +320,22 @@ function renderDefaultAlterationCellWithId4DataTables(requestActions) {
 	};
 }
 
-function resizeDataTablesInSecs(dataTable) {
+function resizeDataTablesInSecs(api) {
 	$(window).resize(function(evt, params) {
-		var dt = /*params ? params.dataTable :*/ dataTable;
+		var dt = /*params ? params.dataTable :*/ api;
 		dt.columns.adjust().responsive.recalc();
 	});
 	// TODO
 	// $(window).delay(500).trigger('resize', {
-	// ataTable: dataTable
+	// dataTable: api
 	// });
 	setTimeout(function() {
-		$(window).trigger('resize'); //, {dataTable: dataTable});
+		$(window).trigger('resize'); //, {dataTable: api});
 	}, 500);
 }
 
-function addSearchCapability(dataTable) {
-	dataTable.columns().every(function() {
+function addSearchCapability(api) {
+	api.columns().every(function() {
 		var that = this;
 
 		$(searchClass, this.header()).each(function(idx, ele) {
@@ -336,7 +350,7 @@ function addSearchCapability(dataTable) {
 				callback: function(value) {
 					if (that.search() !== value) {
 
-						dataTable.context[0].oPreviousSearch.sSearch = value;
+						api.context[0].oPreviousSearch.sSearch = value;
 						this.placeholder = value ? value : placeholder;
 						this.value = "";
 						that.search(value, true).draw();
@@ -349,22 +363,26 @@ function addSearchCapability(dataTable) {
 
 function initialized4DataTables(settings, response) {
 	$.fn.dataTable.ext.errMode = 'none';
-	var dataTable = settings.oInstance ? settings.oInstance.DataTable() : settings.DataTable();
-	addExternalButtons4Init(dataTable);
-	addQueryButtons4Init(dataTable); //settings);
-	// addSearchHighlight(dataTable);
+	var api = settings.oInstance ? settings.oInstance.DataTable() : settings.DataTable();
+	addExternalButtons4Init(api);
 
-	if (typeof response == 'undefined') {
-		dataTable.clear().draw();
-	} else {
-		alertMessage(response, dataTable.context[0].jqXHR);
-	}
-	if (dataTable.context[0].ajax.onDone) { // settings.ajax.onDone
-		dataTable.context[0].ajax.onDone();
+	var ajax = api.context[0].ajax;
+	if (ajax) {
+		addQueryButtons4Init(api);
+		// addSearchHighlight(api);
+
+		if (typeof response == 'undefined') {
+			api.clear().draw();
+		} else {
+			alertMessage(response, api.context[0].jqXHR);
+		}
+		if (ajax.onDone) {
+			ajax.onDone();
+		}
 	}
 
-	resizeDataTablesInSecs(dataTable);
-	addSearchCapability(dataTable);
+	resizeDataTablesInSecs(api);
+	addSearchCapability(api);
 }
 
 $.extend(true, $.fn.dataTable.defaults, {
@@ -410,8 +428,8 @@ $.extend(true, $.fn.dataTable.defaults, {
 				draw: params.draw,
 				max: params.length,
 				offset: params.start,
-				sort: (params.order && params.order.length>0 ? settings.aoColumns[params.order[0].column].data : 'id'),
-				order: (params.order && params.order.length>0 ? params.order[0].dir : 'asc')
+				sort: (params.order && params.order.length > 0 ? settings.aoColumns[params.order[0].column].data : 'id'),
+				order: (params.order && params.order.length > 0 ? params.order[0].dir : 'asc')
 			};
 			$.each(params.columns, function() {
 				if (this.search && this.search.value != "") {
@@ -429,24 +447,26 @@ $.extend(true, $.fn.dataTable.defaults, {
 		// 		$(this.api().table().container()).find('table td').highlight(searchVal);
 		// 	}
 		// }
-		renderAjaxButtons4DataTables(settings.oInstance.DataTable());
+		if (settings.ajax) {
+			renderAjaxButtons4DataTables(settings.oInstance.DataTable());
+		}
 	}
 });
 
 $.fn.dataTable.ext.errMode = function(settings, tn, errors) {
 	if (typeof settings !== 'undefined' && settings !== null) {
-		var dataTable = settings.oInstance.DataTable();
-		var jqXHR = dataTable.context[0].jqXHR;
-		// var tableContainer = $(dataTable.table().container());
+		var api = settings.oInstance.DataTable();
+		var jqXHR = api.context[0].jqXHR;
+		// var tableContainer = $(api.table().container());
 
 		if (jqXHR && jqXHR.status >= 400) {
 			// WTF v1.10.10: set bDestroying to invoke _fnReDraw()
 			settings.bDestroying = true;
-			dataTable.clear().draw();
+			api.clear().draw();
 			delete settings['bDestroying'];
 
 			if (jqXHR.status == 401) {
-				disableProcessing4DataTables(dataTable); //settings);
+				disableProcessing4DataTables(api);
 				$('.dataTables_empty').html('<i class="fa fa-exclamation-triangle"></i>&nbsp;無作業權限');
 
 			} else {
