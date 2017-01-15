@@ -7,7 +7,7 @@ class MaterialSupplierController extends BaseController<MaterialSupplier> {
 
     static namespace = Application.NAMESPACE_API
 
-    MaterialSupplierController() {
+	MaterialSupplierController() {
         super(MaterialSupplier)
     }
 

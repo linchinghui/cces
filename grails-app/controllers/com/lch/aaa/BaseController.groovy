@@ -10,43 +10,11 @@ import org.springframework.http.HttpHeaders
 // combine restful
 abstract class BaseController<T> extends RestfulController<T> {
 
-	def authenticationService
-
 	BaseController(Class<T> type) {
 		super(type) // super(getClass().getTypeParameters()[0].getGenericDeclaration()) ?
 	}
 
-	protected T saveResource(T instance) {
-		instance.save flush: true
-	}
-
-	protected deleteResource(T instance) {
-		instance.delete flush: true
-	}
-
-	protected String getDeletePage() {
-		return '/layouts/deleted'
-	}
-
-	/*
-	 * helper
-	 * TODO:
-	 */
-	protected final boolean isAjax() {
-		request['isAjax'] // request.getHeader('X-Requested-With') == 'XMLHttpRequest'
-	}
-
-	def final addError = { field, message ->
-		if (flash.errors) {
-			flash.errors.put(field, message)
-		} else {
-			flash.errors = [(field): message]
-		}
-	}
-
-	def final addMessage = { message ->
-		flash.message = message
-	}
+	def authenticationService
 
 	/*
 	 * authentication and authorization
@@ -54,7 +22,7 @@ abstract class BaseController<T> extends RestfulController<T> {
 	private boolean isAuthorized(property) {
 		def privileges = request['privileges'] ?: ( request['privileges'] =
 			authenticationService.privileges.findAll {
-				it.function.id == resourceName.toLowerCase() // by resource
+				it.function.id == this.resourceName.toLowerCase() // by resource
 			}
 		)
 		true in privileges*."$property"
@@ -72,13 +40,43 @@ abstract class BaseController<T> extends RestfulController<T> {
 		isAuthorized 'canDelete'
 	}
 
-	private def unAuthorized() {
-		commonWarning(UNAUTHORIZED, '無作業權限')
+	/*
+	 * helper
+	 */
+	protected final boolean isAjax() {
+		request['isAjax'] // request.getHeader('X-Requested-With') == 'XMLHttpRequest'
+	}
+
+	protected def final addError = { field, message ->
+		if (flash.errors) {
+			flash.errors.put(field, message)
+		} else {
+			flash.errors = [(field): message]
+		}
+	}
+
+	protected def final addMessage = { message ->
+		flash.message = message
 	}
 
 	/*
-	* commons
-	*/
+	 * inherent
+	 */
+	protected T saveResource(T instance) {
+		instance.save flush: true
+	}
+
+	protected deleteResource(T instance) {
+		instance.delete flush: true
+	}
+
+	protected String getDeletePage() {
+		return '/layouts/deleted'
+	}
+
+	/*
+	 * commons
+	 */
 	private def commonWarning(replyCode, message) {
 		if (isAjax()) {
 			log.trace ("$replyCode @ isAjax()")
@@ -87,14 +85,13 @@ abstract class BaseController<T> extends RestfulController<T> {
 		} else { // 配合 JS
 			if (request.getHeader('callback') || params?.cb) {
 				log.trace ("$replyCode @ callback")
+
 				if (actionName == 'delete') {
 					render template: getDeletePage(), model: [callback: params.cb, result: [id: params.id, status: replyCode.value(), message: message]]
-
 				} else {
 					response.status = replyCode.value()
 					render message
 				}
-
 			} else {
 				flash.errors = message
 				//	if (params?.format || request.format != 'all') {
@@ -106,8 +103,8 @@ abstract class BaseController<T> extends RestfulController<T> {
 						log.trace ("$message! redirect to $url")
 						redirect url: url
 					} else {
-						flash.errors += ';操作將轉回首頁'
-						log.trace ("$message! redirect to HOME")
+						flash.errors += '! 操作將轉回首頁.'
+						// log.trace flash.errors
 						redirect mapping: 'home'
 					}
 				} else {
@@ -220,16 +217,17 @@ abstract class BaseController<T> extends RestfulController<T> {
 		}
 	}
 
+	protected def unAuthorized() {
+		commonWarning(UNAUTHORIZED, '無作業權限')
+	}
+
 	protected void notFound() {
 		commonWarning(NOT_FOUND, '資料不存在')
 	}
 
 	/*
-	* CRUD
-	*/
-	/*
-	* ----- C -----
-	*/
+	 * ----- C -----
+	 */
 	def create() {
 		if (! isWriteAuthorized()) {
 			unAuthorized()
@@ -270,8 +268,8 @@ abstract class BaseController<T> extends RestfulController<T> {
 	}
 
 	/*
-	* ----- R -----
-	*/
+	 * ----- R -----
+	 */
 	@Override
 	def index(Integer max) {
 		def specActionName = request.getHeader('X-CCES-ACTION')
@@ -399,8 +397,8 @@ abstract class BaseController<T> extends RestfulController<T> {
 	}
 
 	/*
-	* ----- U -----
-	*/
+	 * ----- U -----
+	 */
 	def edit() {
 		// Thread.currentThread().sleep(1000)
 		// response.status = 501
@@ -459,8 +457,8 @@ abstract class BaseController<T> extends RestfulController<T> {
 	}
 
 	/*
-	* ----- D -----
-	*/
+	 * ----- D -----
+	 */
 	@Transactional
 	def delete() {
 		// log.debug ("delete() before permisson check")
@@ -516,8 +514,7 @@ abstract class BaseController<T> extends RestfulController<T> {
 		// 配合 JS
 		if (params?.cb) {
 			// log.debug ("delete() done @ callback")
-			render template: getDeletePage(),
-			model: [callback: params.cb, result: [id: params.id, status: NO_CONTENT.value(), message: '已刪除']]
+			render template: getDeletePage(), model: [callback: params.cb, result: [id: params.id, status: NO_CONTENT.value(), message: '已刪除']]
 
 		} else {
 			if (params?.format || request.format != 'all') {

@@ -25,9 +25,9 @@ function addDataRequest(evt, dt, node, config) {
 	});
 }
 
-function renderDisplayHint4DataTables(settings, start, end, max, total, pre) {
-	return '<span class="small pull-right text-danger text-right">公告日期後、撤榜日期前的資訊，會顯示於首頁中<br>選填特定作業時，公告內容將於進入該作業畫面時呈現</span>';
-}
+// function renderDisplayHint4DataTables(settings, start, end, max, total, pre) {
+// 	return '<span class="small pull-right text-danger text-right">公告日期後、撤榜日期前的資訊，會顯示於首頁中<br>選填特定作業時，公告內容將於進入該作業畫面時呈現</span>';
+// }
 
 function createDataTable() {
 	announcementList = $('#list-announcement').DataTable({
@@ -37,7 +37,10 @@ function createDataTable() {
 			ajax: {
 				url: server.ctxPath + '/api/announcements.json'
 			},
-			infoCallback: renderDisplayHint4DataTables,
+			language: {
+				info: '<span class="small pull-right text-danger text-right">公告日期後、撤榜日期前的資訊，會顯示於首頁中<br>選填特定作業時，公告內容將於進入該作業畫面時呈現</span>'
+			},
+			// infoCallback: renderDisplayHint4DataTables,
 			initComplete: function(settings, data) {
 				initialized4DataTables(settings, data);
 			},

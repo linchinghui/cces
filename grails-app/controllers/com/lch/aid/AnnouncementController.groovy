@@ -6,13 +6,13 @@ class AnnouncementController extends BaseController<Announcement> {
 
     static namespace = Application.NAMESPACE_API
 
-    AnnouncementController() {
+	AnnouncementController() {
         super(Announcement)
     }
 
-//     protected def boolean isReadAuthorized() {
-//         true
-//     }
+    // protected def boolean isReadAuthorized() {
+    //     true
+    // }
 
     def upToDate() { // for every body
         boolean hasReadAuth = true // isReadAuthorized()

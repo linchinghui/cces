@@ -8,7 +8,7 @@ class VehicleBrandController extends BaseController<VehicleBrand> {
 
     def vehicleBrandService
 
-    VehicleBrandController() {
+	VehicleBrandController() {
         super(VehicleBrand)
     }
 

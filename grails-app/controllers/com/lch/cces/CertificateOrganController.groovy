@@ -8,14 +8,14 @@ class CertificateOrganController extends BaseController<CertificateOrgan> {
 
     def certificateOrganService
 
-    CertificateOrganController() {
+	CertificateOrganController() {
         super(CertificateOrgan)
     }
 
     protected final CertificateOrgan queryForResource(id) {
     	return certificateOrganService.get(id)
     }
-	
+
     protected final CertificateOrgan saveResource(CertificateOrgan certificateOrgan) {
         return certificateOrganService.save(certificateOrgan)
     }
