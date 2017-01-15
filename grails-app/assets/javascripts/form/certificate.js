@@ -93,6 +93,9 @@ function createDetailDataTable() {
 				return $.extend({}, $.fn.dataTable.defaults.ajax.data(params, settings), getCertificateParameters());
 			}
 		},
+		// language: {
+		// 	info: (serverParams2.noEdit ? '' : '<span class="small pull-right text-danger">新增相同XXX＋XXX的證照時，視為修改</span>')
+		// },
 		// infoCallback: renderDisplayHint4DataTables,
 		initComplete: /*serverParams2.embed ? null :*/ function(settings, data) {
 			initialized4DataTables(settings, data);

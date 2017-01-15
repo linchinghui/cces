@@ -38,9 +38,9 @@ function prepareUrl(actionType) {
 	}
 }
 
-function renderDisplayHint4DataTables(settings, start, end, max, total, pre) {
-	return serverParams2.noEdit ? '' : '<span class="small pull-right text-danger">新增相同供應商＋廠牌的材料時，視為修改</span>';
-}
+// function renderDisplayHint4DataTables(settings, start, end, max, total, pre) {
+// 	return serverParams2.noEdit ? '' : '<span class="small pull-right text-danger">新增相同供應商＋廠牌的材料時，視為修改</span>';
+// }
 
 function createDetailDataTable() {
 	var dataCols = [ //0
@@ -99,7 +99,10 @@ function createDetailDataTable() {
 				return $.extend({}, $.fn.dataTable.defaults.ajax.data(params, settings), getSupplierParameters());
 			}
 		},
-		infoCallback: renderDisplayHint4DataTables,
+		language: {
+			info: (serverParams2.noEdit ? '' : '<span class="small pull-right text-danger">新增相同供應商＋廠牌的材料時，視為修改</span>')
+		},
+		// infoCallback: renderDisplayHint4DataTables,
 		initComplete: /*serverParams2.embed ? null :*/ function(settings, data) {
 			initialized4DataTables(settings, data);
 		},

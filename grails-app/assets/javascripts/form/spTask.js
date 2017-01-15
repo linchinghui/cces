@@ -66,9 +66,9 @@ function prepareUrl(actionType) {
 	}
 }
 
-function renderDisplayHint4DataTables(settings, start, end, max, total, pre) {
-	return '<span class="small pull-right text-danger">新增相同人員時，視為修改</span>';
-}
+// function renderDisplayHint4DataTables(settings, start, end, max, total, pre) {
+// 	return '<span class="small pull-right text-danger">新增相同人員時，視為修改</span>';
+// }
 
 function createDataTable() {
 	$.ajax.fake.registerWebservice(server.ctxPath + '/api/spTasks.json', function(req) {
@@ -102,7 +102,10 @@ function createDataTable() {
 					// ,onReloadClicked: function() {
 					// }
 			},
-			infoCallback: renderDisplayHint4DataTables,
+			language: {
+				info: '<span class="small pull-right text-danger">新增相同人員時，視為修改</span>'
+			},
+			// infoCallback: renderDisplayHint4DataTables,
 			initComplete: function(settings, data) {
 				initialized4DataTables(settings, data);
 			},

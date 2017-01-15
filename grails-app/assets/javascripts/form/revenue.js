@@ -25,9 +25,9 @@ function addDataRequest(evt, dt, node, config) {
 	});
 }
 
-function renderDisplayHint4DataTables(settings, start, end, max, total, pre) {
-	return '<span class="small pull-right text-danger">(同一專案可新增多筆發票)</span>';
-}
+// function renderDisplayHint4DataTables(settings, start, end, max, total, pre) {
+// 	return '<span class="small pull-right text-danger">(同一專案可新增多筆發票)</span>';
+// }
 
 function createDataTable() {
 	revenueList = $('#list-revenue').DataTable({
@@ -37,7 +37,10 @@ function createDataTable() {
 			ajax: {
 				url: server.ctxPath + '/api/revenues.json'
 			},
-			infoCallback: renderDisplayHint4DataTables,
+			language: {
+				info: '<span class="small pull-right text-danger">(同一專案可新增多筆發票)</span>'
+			},
+			// infoCallback: renderDisplayHint4DataTables,
 			initComplete: function(settings, data) {
 				initialized4DataTables(settings, data);
 			},
