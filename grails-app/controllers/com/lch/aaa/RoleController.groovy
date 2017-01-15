@@ -6,7 +6,7 @@ class RoleController extends BaseController<Role> {
 
     def roleService
 
-    RoleController() {
+	RoleController() {
         super(Role)
     }
 

@@ -6,13 +6,12 @@ import grails.converters.*
 class UserController extends BaseController<User> {
 
 	static namespace = NAMESPACE_API
-	// static allowedMethods = [save: 'POST', update: 'PUT', patch: 'PATCH', delete: 'DELETE', changePassword: ['GET', 'POST']]
 
 	UserController() {
 		super(User)
 	}
 
-  def update() {
+	def update() {
 		if (params && params.roles == null) {
 			params.roles = []
 		}
@@ -38,12 +37,13 @@ class UserController extends BaseController<User> {
 					render ((flash?.errors ? [error: flash.errors.newPassword] : [message: 'OK']) as JSON)
 					return
 				}
-				// else: render message or error on changePassword.gsp
 			}
 
 		} else {
 			render view: PAGE_ERROR, model: [message: '未登入! 不支援此操作.']
 			return
 		}
+
+		render view: 'changePassword'
 	}
 }

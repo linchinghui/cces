@@ -6,7 +6,7 @@ class ProjectController extends BaseController<Project> {
 
     static namespace = Application.NAMESPACE_API
 
-    ProjectController() {
+	ProjectController() {
         super(Project)
     }
 

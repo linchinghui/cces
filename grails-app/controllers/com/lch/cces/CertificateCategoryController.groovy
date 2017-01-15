@@ -8,7 +8,7 @@ class CertificateCategoryController extends BaseController<CertificateCategory> 
 
     def certificateCategoryService
 
-    CertificateCategoryController() {
+	CertificateCategoryController() {
         super(CertificateCategory)
     }
 

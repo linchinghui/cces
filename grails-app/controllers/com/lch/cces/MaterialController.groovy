@@ -6,7 +6,7 @@ class MaterialController extends BaseController<Material> {
 
     static namespace = Application.NAMESPACE_API
 
-    MaterialController() {
+	MaterialController() {
         super(Material)
     }
 }

@@ -6,7 +6,7 @@ class RevenueController extends BaseController<Revenue> {
 
     static namespace = Application.NAMESPACE_API
 
-    RevenueController() {
+	RevenueController() {
         super(Revenue)
     }
 }

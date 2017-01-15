@@ -37,9 +37,9 @@ function createDetailTab() {
 	});
 }
 
-function renderDisplayHint4DataTables(settings, start, end, max, total, pre) {
-	return '<span class="small pull-right text-danger">點選後, 可於下方檢視材料的供應設定</span>';
-}
+// function renderDisplayHint4DataTables(settings, start, end, max, total, pre) {
+// 	return '<span class="small pull-right text-danger">點選後, 可於下方檢視材料的供應設定</span>';
+// }
 
 function removeDataRequested(result) {
 	reloadDataTables(materialList);
@@ -81,13 +81,15 @@ function createDataTable() {
 					detailSec.empty();
 				}
 			},
-			infoCallback: renderDisplayHint4DataTables,
+			language: {
+				info: '<span class="small pull-right text-danger">點選後, 可於下方檢視材料的供應設定</span>'
+			},
+			// infoCallback: renderDisplayHint4DataTables,
 			initComplete: function(settings, data) {
 				initialized4DataTables(settings, data);
 				// detailSec.empty();
 			},
 			extButtons: {
-				collapse: true,
 				copy: true
 			},
 			buttons: [{

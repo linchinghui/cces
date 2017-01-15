@@ -1,5 +1,6 @@
 import com.lch.aaa.*
 import com.lch.aid.*
+import com.lch.cces.*
 import grails.util.*
 import grails.rest.render.json.*
 import grails.rest.render.xml.*
@@ -14,6 +15,7 @@ import grails.converters.XML
 class BootStrap {
 
     def init = { servletContext ->
+		setupDynamicEnum()
 
 		Environment.executeForCurrentEnvironment {
 			production {
@@ -33,6 +35,21 @@ class BootStrap {
 
 	def destroy = {
 
+	}
+
+	private setupDynamicEnum() {
+		[	'projectType.groovy',
+			'constructType.groovy'
+		].each {
+			def configObject = Application.loadConfiguration(it)
+			def config = configObject.entrySet().first()
+			def className = config.key.capitalize()
+			def clazz = ClassLoader.systemClassLoader.loadClass('com.lch.cces.' + className)
+			config.value.each {
+				DynamicEnumMaker.add(clazz, it.name, [it.desc] as Object[])
+			}
+			println "enum ${className} : ${configObject.configFile}"
+		}
 	}
 
     private initDb(ctx) {
@@ -221,9 +238,6 @@ class BootStrap {
 	 * for development only<br>
 	 */
     private initForDevelopment(ctx) {
-
-//		println DefaultRoleType.ordinals()
-//		println DefaultRoleType.names()
 
 	}
 }

@@ -7,26 +7,6 @@ public enum DefaultRoleType {
 
 	public static final String PREFIX = 'ROLE_'
 
-	private static class RoleTypeHolder {
-		static List<String> roleIds
-		static List<String> roleNames
-
-		static {
-			roleIds = DefaultRoleType.values()*.getId()
-			roleNames = DefaultRoleType.values()*.name()
-		}
-	}
-
-	@CompileStatic
-	static List<String> ordinals() {
-		return RoleTypeHolder.roleIds
-	}
-
-	@CompileStatic
-	static List<String> names() {
-		return RoleTypeHolder.roleNames
-	}
-
 	@CompileStatic
 	static DefaultRoleType salvage(Role role) {
 		def type = salvage(role.code)
@@ -53,7 +33,7 @@ public enum DefaultRoleType {
 			idx = type as int
 
 		} else if (val.size() == 1) {
-			idx = ordinals().findIndexOf{ it == val }
+			idx = DefaultRoleType.values()*.getId().findIndexOf { it == val }
 
 		} else {
 			try {
