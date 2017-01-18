@@ -22,7 +22,7 @@ class SpTask implements Serializable, Comparable<SpTask> {
 		employee        blank: false, nullable: false
 		constructPlace  blank: true, nullable: true, maxSize: 40
 		equipment       blank: true, nullable: true
-		constructCode   blank: true, nullable: true, inList: ConstructType*.id
+		constructCode   blank: true, nullable: true, inList: ConstructType.values()*.id
 		// constructType  blank: true, nullable: true
 		note            blank: true, nullable: true, maxSize: 255
 	}
