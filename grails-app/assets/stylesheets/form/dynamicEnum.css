@@ -1,0 +1,8 @@
+/*
+*= require_self
+*/
+.dataTable tr td:nth-child(2),
+.dataTable tr td:nth-child(2) form,
+.dataTable tr td:nth-child(2) input {
+  width: 100px;
+}
