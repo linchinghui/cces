@@ -35,9 +35,9 @@ class Project {
 		description		blank: false, nullable: false, maxSize: 40
 		constructNo		blank: true, nullable: true, maxSize: 20, unique: true
 		constructPlace	blank: false, nullable: false, maxSize: 40
-		projectKind		blank: false, nullable: false, inList: ProjectType*.id
+		projectKind		blank: false, nullable: false, inList: ProjectType.values()*.id
 		projectType		blank: false, nullable: false
-		constructCode	blank: false, nullable: false, inList: ConstructType*.id
+		constructCode	blank: false, nullable: false, inList: ConstructType.values()*.id
 		constructType	blank: false, nullable: false
 		durationBegin	blank: true, nullable: true
 		durationEnd		blank: true, nullable: true, validator: { val, obj ->

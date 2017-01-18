@@ -19,7 +19,7 @@ buildscript {
     }
 }
 
-version '1.4.4'
+version '1.4.5'
 group 'cces'
 
 apply plugin: 'war'
@@ -210,24 +210,32 @@ configurations {
 }
 
 assets {
+	// true = dir: assets/ , false = dir: WEB-INF/classes/assets/
 	developmentRuntime = System.properties['grails.env']?.startsWith('dev') ? true : false
-	// developmentRuntime = true  // dir: assets/
-	// developmentRuntime = false // dir: WEB-INF/classes/assets/
 	// enableSourceMaps = false
-// enableDigests = true
-// skipNonDigests = false
-// // skipNonDigests = true
-// // enableGzip = true
-// enableGzip = false
-//
-// configOptions = [:]
-	minifyOptions = [
-		// optimizationLevel: 'SIMPLE',
-		excludes: ['**/*.map', '**/*.unminified.js', '**/*.less', '**/iefix']
+	// enableDigests = true
+	// skipNonDigests = false // true
+	// enableGzip = true // false
+	configOptions = [
+		:
+		// less: [
+        //     compiler: 'standard'
+		// ]
+		// babel: [
+		// 	enabled: true,
+		// 	processJsFiles: true  // add if you want to transpile '*.js'
+		// ]
 	]
-//
-// excludes = ['**/*.unminified.js', '**/*.less', '**/iefix']
-// // from '/var/www/cces/assets'
+	minifyOptions = [
+		:
+		// externs: ???
+        // languageMode: 'ES6',
+        // targetLanguage: 'ES5_STRICT',
+		// optimizationLevel: 'SIMPLE' //'ADVANCED'
+	]
+	// includes = []
+	excludes = ['**/*.map', '**/*.unminified.js', '**/*.less', '**/iefix']
+	// from '/var/www/cces/assets'
 }
 
 processResources {

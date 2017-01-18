@@ -9,12 +9,13 @@ import org.slf4j.LoggerFactory
 
 // @SelfType(Enum)
 trait GenericEnumerable<T extends Enum<T>> {
-	static String label() {
-		return 'NA'
-	}
-
-	static int keyLength() {
-		return 1
+	static String label() { return 'NA' }
+	static int keyLength() { return 1 }
+	static def constraints() {
+		return [
+			'name': ['label': '代碼', 'required': true, 'maxSize': 10, 'minSize': keyLength()],
+			'desc': ['label': '說明', 'required': true, 'maxSize': 20]
+		]
 	}
 
 	static def map() {
@@ -48,7 +49,6 @@ trait GenericEnumerable<T extends Enum<T>> {
 		return idx >=-1 ? this.values()[idx] : null;
 	}
 
-
 	String id
 	String desc
 
@@ -65,7 +65,6 @@ trait GenericEnumerable<T extends Enum<T>> {
 		"$id-$desc"
 	}
 
-// TODO: testing ...
 	// public String toString() {
 	// 	"$id" // "$desc"
 	// }
