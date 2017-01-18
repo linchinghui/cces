@@ -40,15 +40,17 @@ class BootStrap {
 	private setupDynamicEnum() {
 		[	'projectType.groovy',
 			'constructType.groovy'
-		].each {
-			def configObject = Application.loadConfiguration(it)
-			def config = configObject.entrySet().first()
-			def className = config.key.capitalize()
-			def clazz = Class.forName('com.lch.cces.' + className)
-			config.value.each {
-				DynamicEnumMaker.add(clazz, it.name, [it.desc] as Object[])
-			}
-			println "enum ${className} : ${configObject.configFile}"
+		].each { filePath ->
+			// def configObject = Application.loadConfiguration(filePath)
+			// def config = configObject.entrySet().first()
+			// def className = config.key.capitalize()
+			// def clazz = Class.forName('com.lch.cces.' + className)
+			// config.value.each {
+			// 	DynamicEnumMaker.add(clazz, it.name, [it.desc] as Object[])
+			// }
+			// println "enum ${className} : ${configObject.configFile}"
+			def configObject = DynamicEnumMaker.loadFrom(filePath)
+			println "load enum-type from ${configObject.configFile}"
 		}
 	}
 

@@ -7,18 +7,8 @@ public enum ProjectType implements GenericEnumerable<ProjectType> {
 	// ORIGINAL('委外'),
 	// OTHER('其他');
 
-	static constraints = {
-		name	blank: false, nullable: false, maxSize: 10
-		desc	blank: false, nullable: false, maxSize: 20
-	}
-
-	static String label() {
-		'工作型態'
-	}
-
-	static int keyLength() {
-		return 3
-	}
+	static String label() { return '工作型態' }
+	static int keyLength() { return 3 }
 
 	static ProjectType salvage(def type) {
 		salvage(type, ProjectType)

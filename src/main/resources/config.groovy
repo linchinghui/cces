@@ -14,6 +14,7 @@ aaa.menuGroups = [
 	    [controller: 'role', icon: 'fa fa-unlock']
 	]],
 	[group: 'filing', description:'資料建檔', icon:'fa fa-files-o', items: [
+		[controller: 'dynamicEnum', icon: 'fa fa-list-ol'],
 		// [controller: 'certificateCategory', icon: 'fa fa-certificate'],
 		[controller: 'worker', icon: 'fa fa-user'],
 		[controller: 'vehicle', icon: 'fa fa-bus'],
@@ -21,7 +22,7 @@ aaa.menuGroups = [
 		[controller: 'material', icon: 'fa fa-clipboard']
 	]],
 	[group: 'project', description:'專案管理', icon:'fa fa-product-hunt', items: [
-		[controller: 'project', icon: 'fa fa-wpforms'], // fa-list-ol
+		[controller: 'project', icon: 'fa fa-wpforms'],
 		[controller: 'assignment', icon: 'fa fa-calendar-check-o', params: [by: 'p']],
 		[controller: 'task', icon: 'fa fa-gavel'],
 		[controller: 'spTask', icon: 'fa fa-building-o']
