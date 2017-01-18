@@ -15,6 +15,7 @@ base.functionList = [
 	[name: 'role', description: '作業授權-角色'],
 	[name: 'privilege', description: '作業授權-權限'],
 
+	[name: 'dynamicEnum', description: '代碼'],
 	[name: 'worker', description: '員工資料-員工'],
 	[name: 'certificate', description: '員工資料-相關證照', aided: true],
 	[name: 'certificateCategory', description: '證照資料-證照類別'],
