@@ -2,10 +2,29 @@ package com.lch.aid
 
 import java.lang.reflect.*
 import sun.reflect.*
+import com.lch.aaa.*
 
 class DynamicEnumMaker {
 	private static class Holder {
 		static def reflectionFactory = ReflectionFactory.reflectionFactory
+	}
+
+	public static final String ENUM_PACKAGE = 'com.lch.cces.'
+
+	public static void reloadFrom(filePath, clazz) {
+		/*DynamicEnumMaker.*/clear(clazz)
+		/*DynamicEnumMaker.*/loadFrom(filePath)
+	}
+
+	public static def loadFrom(filePath) {
+		def configObject = Application.loadConfiguration(filePath)
+		def config = configObject.entrySet().first()
+		def className = config.key.capitalize()
+		def clazz = Class.forName(ENUM_PACKAGE + className)
+		config.value.each {
+			/*DynamicEnumMaker.*/add(clazz, it.name, [it.desc] as Object[])
+		}
+		return configObject
 	}
 
 	// @SuppressWarnings("unchecked")

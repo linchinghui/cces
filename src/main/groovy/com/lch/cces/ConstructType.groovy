@@ -8,13 +8,8 @@ public enum ConstructType implements GenericEnumerable<ConstructType> {
 	// TUBE('爐管'),
 	// OTHER('其他');
 
-	static String label() {
-		'施作方式'
-	}
-
-	static int keyLength() {
-		return 4
-	}
+	static String label() { return '施作方式' }
+	static int keyLength() { return 4 }
 
 	static ConstructType salvage(def type) {
 		salvage(type, ConstructType)
