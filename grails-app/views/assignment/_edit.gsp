@@ -61,13 +61,13 @@
                                     </g:else>
                                     <div class="assignDay">
                                         <label>人力配置</label><br>
-                                        <g:each var="i" in="${0..6}">
+                                        <g:each var="i" in="${0..6}"><%--
                                             <g:if test="${firstDate ? (firstDate + i < today) : false}">
                                                 <f:display property="d${i}" label="${day[i]}" />
                                             </g:if>
-                                            <g:else>
-                                                <f:field property="d${i}" label="${day[i]}" />
-                                            </g:else>
+                                            <g:else>--%>
+                                                <f:field property="d${i}" label="${day[i]}" /><%--
+                                            </g:else>--%>
                                         </g:each>
                                     </div>
                                 </f:with>
