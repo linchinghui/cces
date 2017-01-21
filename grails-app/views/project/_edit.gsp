@@ -40,16 +40,16 @@
                                         <f:display property="code" label="專案代碼" />
                                     </g:else>
                                     <f:field property="description" label="專案名稱" />
-                                    <f:field property="constructNo" label="機台型號" />
-                                    <f:field property="constructPlace" label="工程地點" />
-                                    <f:field property="projectType" label="工作型態" />
-                                    <f:field property="constructType" label="施作方式" />
+                                    <div class="col-xs-6"><f:field property="constructNo" label="機台型號" /></div>
+                                    <div class="col-xs-6"><f:field property="constructPlace" label="工程地點" /></div>
+                                    <div class="col-xs-6"><f:field property="projectType" label="工作型態" /></div>
+                                    <div class="col-xs-6"><f:field property="constructType" label="施作方式" /></div>
                                     <div class="col-xs-6"><f:field property="durationBegin" label="期程-開始" widget="date" /></div>
                                     <div class="col-xs-6"><f:field property="durationEnd" label="期程-結束" widget="date" /></div>
                                     <f:field property="contact" label="合約 | 委外編號" />
                                     <f:field property="customer" label="甲方" />
-                                    <f:field property="contactPerson" label="聯絡人" />
-                                    <f:field property="contactPhoneNo" label="手機" />
+                                    <div class="col-xs-6"><f:field property="contactPerson" label="聯絡人" /></div>
+                                    <div class="col-xs-6"><f:field property="contactPhoneNo" label="手機" /></div>
                                     <f:field property="note" label="備註" />
                                 </f:with>
                             </fieldset>
