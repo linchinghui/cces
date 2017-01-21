@@ -4,7 +4,7 @@
 *= require ../skin/clndr-cces
 */
 .weekContainer {
-  padding: 10px 0 0px 5px;
+  padding: 10px 0 0;
 }
 
 @media screen and (max-width: 404px) {
