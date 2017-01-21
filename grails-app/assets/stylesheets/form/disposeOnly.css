@@ -2,6 +2,18 @@
 *= require_self
 */
 
+.workerContainer {
+  max-width: 310px;
+  padding-top: 10px;
+  padding-left: 0px;
+}
+
+.workerContainer label {
+  /*float: left;*/
+  padding-top: 6px;
+  margin-right: 5px;
+}
+
 @media screen and (max-width: 480px) {
   #list-dispose_wrapper {
     padding-top: 10px;
@@ -10,19 +22,11 @@
   #tab1 .box .box-header {
     padding-bottom: 5px;
     float: left;
-	clear: right;
-    width: 80%;
+    clear: right;
+    /*width: 80%;*/
   }
-}
 
-.workerContainer {
-  max-width: 310px;
-  padding-top: 10px;
-  padding-left: 0px;
-}
-
-.workerContainer label {
-  float: left;
-  padding-top: 6px;
-  margin-right: 5px;
+  .workerContainer {
+    max-width: 340px;
+  }
 }
