@@ -2,6 +2,7 @@ package com.lch.cces
 
 import com.lch.aaa.*
 import grails.gorm.DetachedCriteria
+import java.util.Calendar
 
 class AssignmentController extends BaseController<Assignment> {
 
@@ -16,35 +17,41 @@ class AssignmentController extends BaseController<Assignment> {
         super(Assignment)
     }
 
-    def index(Integer max) {
-        if (params?.month != null) {
-			listMonthly(max)
+	@Override
+	def index(Integer max) {
+		def calendar = Calendar.instance
+		if (params?.year) {
+			calendar.set(Calendar.YEAR, (params.year as int))
+		}
+		if (params?.month) {
+			calendar.set(Calendar.MONTH, ((params.month as int) - 1))
+		}
+		request['assignMonth'] = calendar //new java.text.SimpleDateFormat('YYYY/MM').format(calendar.time)
+		request['assignMonthDays'] = calendar.getActualMaximum(Calendar.DAY_OF_MONTH)
 
-        } else {
-			super.index(max)
-        }
-    }
+		super.index(max)
+	}
 
     private void resolveParameters(params) {
         def compIds = params?.id?.split('\\|')
 
         if (compIds?.size() >= 1) {
             if (compIds[0] != 'null') {
-                if (params?.employeeId == null) {
-                    params['employeeId'] = compIds[0]
-                }
+                if (params?.projectId == null) {
+					params['projectId'] = compIds[0]
+				}
             } else {
                 params.remove('id') // to identify 'CREATE'
             }
 
-            if (compIds?.size() >= 2 && compIds[1] != 'null' && params?.projectId == null) {
-                params['projectId'] = compIds[1]
+			if (compIds?.size() >= 2 && compIds[1] != 'null' && params?.employeeId == null) {
+                params['employeeId'] = compIds[1]
             }
             if (compIds?.size() >= 3 && compIds[2] != 'null' && params?.year == null) {
                 params['year'] = compIds[2]
             }
-            if (compIds?.size() >= 4 && compIds[3] != 'null' && params?.week == null) {
-                params['week'] = compIds[3]
+            if (compIds?.size() >= 4 && compIds[3] != 'null' && params?.month == null) {
+                params['month'] = compIds[3]
             }
         }
     }
@@ -54,28 +61,58 @@ class AssignmentController extends BaseController<Assignment> {
     }
 
     protected final Assignment queryForResource(Serializable id) {
+		if (log.isTraceEnabled()) "query-4-resource: $id"
         listAllAssignments(params)[0]
     }
 
     private List<Assignment> listAllAssignments(params) {
         if (log.isTraceEnabled()) log.trace "list assignment(s): ${params}"
 
+		def searchParams = params?.findAll { param ->
+			(param.key.startsWith('s:') && param.value?.toString()?.size() > 0)
+		}
+
         resolveParameters(params)
 
         return Assignment.where {
-            if (params?.employeeId)  { employee.id         == params.employeeId }
 			if (params?.projectId)   { project.id          == params.projectId }
+			if (params?.employeeId)  { employee.id         == params.employeeId }
+			if (params?.'s:employee'){ employee.id         =~ params.'s:employee' }
 			if (params?.constructNo) { project.constructNo == params.constructNo }
             if (params?.year)        { year                == (params.year as int) }
-            if (params?.week)        { week                == (params.week as int) }
+            if (params?.month)       { month               == (params.month as int) }
             if (params._method != 'PUT') {
-                if (params?.d0) { d0 == params.d0 }
-                if (params?.d1) { d1 == params.d1 }
+				if (params?.d1) { d1 == params.d1 }
                 if (params?.d2) { d2 == params.d2 }
                 if (params?.d3) { d3 == params.d3 }
                 if (params?.d4) { d4 == params.d4 }
                 if (params?.d5) { d5 == params.d5 }
-                if (params?.d6) { d6 == params.d6 }
+				if (params?.d6) { d6 == params.d6 }
+				if (params?.d7) { d7 == params.d7 }
+				if (params?.d8) { d8 == params.d8 }
+				if (params?.d9) { d9 == params.d9 }
+				if (params?.d10) { d10 == params.d10 }
+				if (params?.d11) { d11 == params.d11 }
+                if (params?.d12) { d12 == params.d12 }
+                if (params?.d13) { d13 == params.d13 }
+                if (params?.d14) { d14 == params.d14 }
+                if (params?.d15) { d15 == params.d15 }
+				if (params?.d16) { d16 == params.d16 }
+				if (params?.d17) { d17 == params.d17 }
+				if (params?.d18) { d18 == params.d18 }
+				if (params?.d19) { d19 == params.d19 }
+				if (params?.d20) { d20 == params.d20 }
+				if (params?.d21) { d21 == params.d21 }
+                if (params?.d22) { d22 == params.d22 }
+                if (params?.d23) { d23 == params.d23 }
+                if (params?.d24) { d24 == params.d24 }
+                if (params?.d25) { d25 == params.d25 }
+				if (params?.d26) { d26 == params.d26 }
+				if (params?.d27) { d27 == params.d27 }
+				if (params?.d28) { d28 == params.d28 }
+				if (params?.d29) { d29 == params.d29 }
+				if (params?.d30) { d30 == params.d30 }
+				if (params?.d31) { d31 == params.d31 }
             }
         }.list(params)
     }
@@ -84,15 +121,15 @@ class AssignmentController extends BaseController<Assignment> {
         resolveParameters(params)
         def props = params
 
+		if (params?.projectId &&
+            params?.projectId != 'null') {
+            props.project = Project.get(params.projectId)
+            props.remove('projectId')
+        }
         if (params?.employeeId &&
             params?.employeeId != 'null') {
             props.employee = Worker.get(params.employeeId)
             props.remove('employeeId')
-        }
-        if (params?.projectId &&
-            params?.projectId != 'null') {
-            props.project = Project.get(params.projectId)
-            props.remove('projectId')
         }
 		if (params?.constructNo &&
             params?.constructNo != 'null') {
