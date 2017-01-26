@@ -31,7 +31,7 @@ base.functionList = [
 	[name: 'revenue', description: '收款資料'],
 
 	[name: 'project', description: '專案表-專案'],
-	[name: 'assignment', description: '人員配置-人員派工(週)'],
+	[name: 'assignment', description: '人員配置-派工'],
 //	[name: 'dispose', description: '人員配置-本月人員配置', aided: true],
 	[name: 'task', description: '一般施作紀錄'],
 	[name: 'spTask', description: '園區施作紀錄-人員'],

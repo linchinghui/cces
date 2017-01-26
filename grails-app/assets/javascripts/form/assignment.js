@@ -171,7 +171,7 @@ function createDataTable() {
 	}
 
 	assignList = assignListDiv.DataTable({
-			dom: 'B<"pull-right"i>ftrp',
+			// dom: 'B<"pull-right"i>ftrp',
 			processing: true,
 			serverSide: true,
 			deferRender: true,
