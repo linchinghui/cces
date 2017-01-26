@@ -59,6 +59,6 @@ class Supplier {
 	// }
 
 	public String toString() {
-		"${name}"
+		"($id) ${name}"
 	}
 }

@@ -13,12 +13,16 @@ function createCriterionListener() {
 	}
 }
 
-function getMilageParameters() {
-	return {
+function getMilageParameters(params) {
+	var qryParams = {
 		embed: serverParams2.embed,
 		projectId: serverParams2.projectId,
 		dispatchedDate: serverParams2.dispatchedDate.replace(/\//g, '-')
+	};
+	if (params) {
+		$.extend(qryParams, params);
 	}
+	return qryParams;
 }
 
 function removeMilageRequested(result) {
@@ -51,7 +55,7 @@ function prepareUrl(actionType) {
 
 function createMilageTable() {
 	var dataCols = [ //0
-		renderDefaultAlterationCellWithId4DataTables({
+		renderAlterationCellWithId4DataTables({
 			edit: {
 				url: prepareUrl('edit'),
 				callback: modifyMilageRequested
@@ -86,7 +90,8 @@ function createMilageTable() {
 			url: server.ctxPath + '/api/vehicleMilages.json',
 			data: function(params, settings) {
 				settings.ajax.fake = serverParams2.embed && !(serverParams2.projectId || false);
-				return $.extend({}, $.fn.dataTable.defaults.ajax.data(params, settings), getMilageParameters());
+				// return $.extend({}, $.fn.dataTable.defaults.ajax.data(params, settings), getMilageParameters());
+				return getMilageParameters($.fn.dataTable.defaults.ajax.data(params, settings));
 			},
 			onDone: function() {
 				if (serverParams2.embed && !(serverParams2.projectId || false)) {

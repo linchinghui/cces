@@ -3,8 +3,12 @@
 
 var privilegeList;
 
-function getPrivilegeParameters() {
-	return (serverParams2.embed) ? serverParams2 : null;
+function getPrivilegeParameters(params) {
+	var qryParams = $.extend({},(serverParams2.embed) ? serverParams2 : null);
+	if (params) {
+		$.extend(qryParams, params);
+	}
+	return qryParams;
 }
 
 function removeDetailDataRequested(result) {
@@ -37,7 +41,7 @@ function prepareUrl(actionType) {
 
 function createDetailDataTable() {
 	var dataCols = [ //0
-		renderDefaultAlterationCellWithId4DataTables({
+		renderAlterationCellWithId4DataTables({
 			edit: {
 				url: prepareUrl('edit'),
 				callback: modifyDetailDataRequested
@@ -78,8 +82,8 @@ function createDetailDataTable() {
 		ajax: {
 			url: server.ctxPath + '/api/privileges.json',
 			data: function(params, settings) {
-				// return $.extend(serverParams2, $.fn.dataTable.defaults.ajax.data(params, settings));
-				return $.extend({}, $.fn.dataTable.defaults.ajax.data(params, settings), getPrivilegeParameters());
+				return getPrivilegeParameters($.fn.dataTable.defaults.ajax.data(params, settings));
+				// return $.extend({}, $.fn.dataTable.defaults.ajax.data(params, settings), getPrivilegeParameters());
 			}
 		},
 		initComplete: serverParams2.embed ? null : function(settings, data) {
