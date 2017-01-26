@@ -44,7 +44,7 @@ function createBrandDataTable() {
 				action: addBrandDataRequest
 			}],
 			columns: [ //0
-				renderDefaultAlterationCellWithId4DataTables({
+				renderAlterationCellWithId4DataTables({
 					edit: {
 						url: server.ctxPath + '/vehicleBrand/edit',
 						callback: modifyBrandDataRequested

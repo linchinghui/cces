@@ -7,8 +7,6 @@
 //= require plugins/datatables
 //= require_self
 
-var searchClass = '.search-input input';
-
 function reloadDataTables(api, arg) {
 	if ($.isFunction(arg)) {
 		api.ajax.reload(arg); // api.columns.adjust().ajax.reload(arg);
@@ -104,7 +102,7 @@ function renderAjaxButtons4DataTables(api, isInit) {
 	}
 }
 
-function addExternalButtons4Init(api) {
+function addExternalButtons4DataTables(api) {
 	var extButtons = [];
 	var extButtonSettings = api.context[0] ? api.context[0].oInit.extButtons : {};
 
@@ -157,7 +155,7 @@ function addExternalButtons4Init(api) {
 	}
 }
 
-function addQueryButtons4Init(api) {
+function addQueryButtons4DataTables(api) {
 	var btns = new $.fn.dataTable.Buttons(api, {
 		buttons: [{
 			text: '重查',
@@ -270,10 +268,12 @@ function createInfoCellButtom(cellEle, dataKey, action) {
 	createEditCellButtom(cellEle, dataKey, action /*, true*/ );
 }
 
-function renderDefaultAlterationCellWithId4DataTables(requestActions) {
+function renderAlterationCellWithId4DataTables(requestActions) {
 	var actionsLen = Object.keys(requestActions).length;
 
-	return { // visible: false, className: 'hidden',
+	return {
+		// visible: false,
+		// className: 'control',
 		orderable: false,
 		data: 'id',
 		width: (actionsLen == 3 ? '76px' : actionsLen == 2 ? '52px' : '28px'),
@@ -283,6 +283,7 @@ function renderDefaultAlterationCellWithId4DataTables(requestActions) {
 				'<span><i class="fa fa-fw fa-times"></i></span>' : '') + '<span style="display: inline;"></span>';
 		},
 		createdCell: function(cell, cellData, rowData, row, col) {
+			cell['className'] = 'control';
 			if (requestActions.show) {
 				var action = $.extend(true, {
 					delegate: cell,
@@ -320,7 +321,7 @@ function renderDefaultAlterationCellWithId4DataTables(requestActions) {
 	};
 }
 
-function resizeDataTablesInSecs(api) {
+function resizeInSecs4DataTables(api) {
 	$(window).resize(function(evt, params) {
 		var dt = /*params ? params.dataTable :*/ api;
 		dt.columns.adjust().responsive.recalc();
@@ -334,22 +335,21 @@ function resizeDataTablesInSecs(api) {
 	}, 500);
 }
 
-function addSearchCapability(api) {
+function addSearchCapability4DataTables(api) {
 	api.columns().every(function() {
 		var that = this;
 
-		$(searchClass, this.header()).each(function(idx, ele) {
+		$('.search-input input', this.header()).each(function(idx, ele) {
 			var placeholder = ele.parentElement.getAttribute('placeholder');
 			placeholder = /*'搜尋' +*/ (placeholder ? placeholder : '關鍵字');
+
 			ele.placeholder = placeholder;
 			$(ele).typeWatch({
 				wait: 750,
 				captureLength: 1,
 				highlight: true,
-
 				callback: function(value) {
 					if (that.search() !== value) {
-
 						api.context[0].oPreviousSearch.sSearch = value;
 						this.placeholder = value ? value : placeholder;
 						this.value = "";
@@ -364,11 +364,11 @@ function addSearchCapability(api) {
 function initialized4DataTables(settings, response) {
 	$.fn.dataTable.ext.errMode = 'none';
 	var api = settings.oInstance ? settings.oInstance.DataTable() : settings.DataTable();
-	addExternalButtons4Init(api);
+	addExternalButtons4DataTables(api);
 
 	var ajax = api.context[0].ajax;
 	if (ajax) {
-		addQueryButtons4Init(api);
+		addQueryButtons4DataTables(api);
 		// addSearchHighlight(api);
 
 		if (typeof response == 'undefined') {
@@ -381,8 +381,8 @@ function initialized4DataTables(settings, response) {
 		}
 	}
 
-	resizeDataTablesInSecs(api);
-	addSearchCapability(api);
+	resizeInSecs4DataTables(api);
+	addSearchCapability4DataTables(api);
 }
 
 $.extend(true, $.fn.dataTable.defaults, {
@@ -423,7 +423,7 @@ $.extend(true, $.fn.dataTable.defaults, {
 		type: 'GET',
 		dataType: 'json',
 		contentType: 'application/json; charset=utf-8',
-		data: function(params, settings) {
+		data: function (params, settings) {
 			var srvParams = {
 				draw: params.draw,
 				max: params.length,
@@ -437,6 +437,7 @@ $.extend(true, $.fn.dataTable.defaults, {
 						this.search.value;
 				}
 			});
+
 			return srvParams;
 		}
 	},

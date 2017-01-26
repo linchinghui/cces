@@ -156,7 +156,7 @@ function createDataTable() {
 				action: saveDataRequest
 			}],
 			columns: [ //0
-				renderDefaultAlterationCellWithId4DataTables({
+				renderAlterationCellWithId4DataTables({
 					delete: {
 						url: createDeleteUrl,
 						callback: removeDataRequest
