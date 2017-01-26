@@ -35,7 +35,7 @@ function createDataTable() {
 			},
 			buttons: [],
 			columns: [ //0
-				renderDefaultAlterationCellWithId4DataTables({
+				renderAlterationCellWithId4DataTables({
 					edit: {
 						url: server.ctxPath + '/function/edit',
 						callback: modifyDataRequested

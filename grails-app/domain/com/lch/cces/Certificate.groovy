@@ -43,7 +43,7 @@ class Certificate { //implements Serializable, Comparable<Certificate> {
 
 	public String toString() {
 	// 	"${title}:${uri}"
-		"${examDate ? examDate.format('YYYY/MM ') : ''}$title"
+		"${examDate ? examDate.format('YYYY/MM ') : ''} $title"
 	}
 
 	// public int compareTo(def other) {

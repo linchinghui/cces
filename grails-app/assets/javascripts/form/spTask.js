@@ -13,15 +13,14 @@ var projectTypes;
 var constructTypes;
 var projectInfo;
 
-function getLastParameters(dateParam) {
+function getLastParameters(params) {
 	var qryParams = {
 		embed: true,
 		constructNo: assignConstNoList.val(),
 		projectId: assignProjectList.val(),
 		format: 'json'
 	}
-
-	qryParams[(dateParam ? dateParam : 'workedDate')] = workedDate.val(); //.replace(/\//g,'-')
+	qryParams[(params ? params : 'workedDate')] = workedDate.val(); //.replace(/\//g,'-')
 	return qryParams;
 }
 
@@ -89,7 +88,8 @@ function createDataTable() {
 				url: server.ctxPath + '/api/spTasks.json',
 				data: function(params, settings) {
 					settings.ajax.fake = !(assignProjectList.val() || assignConstNoList.val() || false);
-					return $.extend({}, $.fn.dataTable.defaults.ajax.data(params, settings), getLastParameters());
+					// return $.extend({}, $.fn.dataTable.defaults.ajax.data(params, settings), getLastParameters());
+					return getLastParameters($.fn.dataTable.defaults.ajax.data(params, settings));
 				},
 				onDone: function() {
 					if (!(assignProjectList.val() || assignConstNoList.val() || false)) {
@@ -117,7 +117,7 @@ function createDataTable() {
 				action: addDataRequest
 			}],
 			columns: [ //0
-				renderDefaultAlterationCellWithId4DataTables({
+				renderAlterationCellWithId4DataTables({
 					show: {
 						url: prepareUrl('show')
 					},

@@ -44,7 +44,7 @@ function createOrgDataTable() {
 				action: addOrgDataRequest
 			}],
 			columns: [ //0
-				renderDefaultAlterationCellWithId4DataTables({
+				renderAlterationCellWithId4DataTables({
 					edit: {
 						url: server.ctxPath + '/certificateOrgan/edit',
 						callback: modifyOrgDataRequested

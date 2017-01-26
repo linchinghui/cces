@@ -3,8 +3,12 @@
 
 var mCertificateList;
 
-function getCertificateParameters() {
-	return (serverParams2.embed) ? serverParams2 : null;
+function getCertificateParameters(params) {
+	var qryParams = $.extend({},(serverParams2.embed) ? serverParams2 : null);
+	if (params) {
+		$.extend(qryParams, params);
+	}
+	return qryParams;
 }
 
 function removeDetailDataRequested(result) {
@@ -41,7 +45,7 @@ function prepareUrl(actionType) {
 
 function createDetailDataTable() {
 	var dataCols = [ //0
-		renderDefaultAlterationCellWithId4DataTables(serverParams2.noEdit ? {} : {
+		renderAlterationCellWithId4DataTables(serverParams2.noEdit ? {} : {
 			edit: {
 				url: prepareUrl('edit'),
 				callback: modifyDetailDataRequested
@@ -90,7 +94,7 @@ function createDetailDataTable() {
 		ajax: {
 			url: server.ctxPath + '/api/certificates.json',
 			data: function(params, settings) {
-				return $.extend({}, $.fn.dataTable.defaults.ajax.data(params, settings), getCertificateParameters());
+				return getCertificateParameters($.fn.dataTable.defaults.ajax.data(params, settings));
 			}
 		},
 		// language: {

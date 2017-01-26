@@ -3,11 +3,12 @@
 
 var mSupplierList;
 
-function getSupplierParameters() {
-	return {
-		embed: serverParams2.embed,
-		materialId: serverParams2.materialId
+function getSupplierParameters(params) {
+	var qryParams = $.extend({},(serverParams2.embed) ? serverParams2 : null);
+	if (params) {
+		$.extend(qryParams, params);
 	}
+	return qryParams;
 }
 
 function removeDetailDataRequested(result) {
@@ -44,7 +45,7 @@ function prepareUrl(actionType) {
 
 function createDetailDataTable() {
 	var dataCols = [ //0
-		renderDefaultAlterationCellWithId4DataTables(serverParams2.noEdit ? {} : {
+		renderAlterationCellWithId4DataTables(serverParams2.noEdit ? {} : {
 			edit: {
 				url: prepareUrl('edit'),
 				callback: modifyDetailDataRequested
@@ -96,7 +97,8 @@ function createDetailDataTable() {
 		ajax: {
 			url: server.ctxPath + '/api/materialSuppliers.json',
 			data: function(params, settings) {
-				return $.extend({}, $.fn.dataTable.defaults.ajax.data(params, settings), getSupplierParameters());
+				return getSupplierParameters($.fn.dataTable.defaults.ajax.data(params, settings));
+				// return $.extend({}, $.fn.dataTable.defaults.ajax.data(params, settings), getSupplierParameters());
 			}
 		},
 		language: {

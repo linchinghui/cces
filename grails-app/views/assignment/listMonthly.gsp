@@ -51,7 +51,7 @@
 				  <asset:stylesheet src="form/disposeOnly"/>
                   <div class="box">
                     <div class="box-header">
-						<div class="workerContainer col-sm-6 col-xs-12">
+						<div class="workerContainer col-sm-6 col-xs-11">
 						  <label for="worker" class="hidden-xs">員工:</label>
 						  <div class="assignWorker form-control has-error" data-placeholder="員工編號或姓名關鍵字">
 							<span class="text-center"><span class="ajax-loader">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></span>

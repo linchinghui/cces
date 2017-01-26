@@ -75,7 +75,7 @@ function createDataTable() {
 				// {text: '新增', action: addDataRequest}
 			],
 			columns: [ //0
-				renderDefaultAlterationCellWithId4DataTables({
+				renderAlterationCellWithId4DataTables({
 					edit: {
 						url: server.ctxPath + '/role/edit',
 						callback: modifyDataRequested

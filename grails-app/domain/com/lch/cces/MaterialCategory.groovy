@@ -31,7 +31,7 @@ class MaterialCategory {
 	}
 
 	public String toString() {
-		"${description}"
+		"($id) ${description}"
 	}
 
 }
