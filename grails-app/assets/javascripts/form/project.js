@@ -102,7 +102,7 @@ function createDataTable() {
 				action: addDataRequest
 			}],
 			columns: [ //0
-				renderDefaultAlterationCellWithId4DataTables({
+				renderAlterationCellWithId4DataTables({
 					show: {
 						url: server.ctxPath + '/project/show'
 					},

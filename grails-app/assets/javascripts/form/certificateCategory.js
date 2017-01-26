@@ -44,7 +44,7 @@ function createCatDataTable() {
 				action: addCatDataRequest
 			}],
 			columns: [ //0
-				renderDefaultAlterationCellWithId4DataTables({
+				renderAlterationCellWithId4DataTables({
 					edit: {
 						url: server.ctxPath + '/certificateCategory/edit',
 						callback: modifyCatDataRequested

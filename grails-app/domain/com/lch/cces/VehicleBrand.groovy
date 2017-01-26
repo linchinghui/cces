@@ -31,7 +31,7 @@ class VehicleBrand {
 	}
 
 	public String toString() {
-		"${description}"
+		"($id) ${description}"
 	}
 
 }

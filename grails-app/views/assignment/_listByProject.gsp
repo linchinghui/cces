@@ -25,7 +25,7 @@
                   </div>
                 </div>
 				<div class="constNoContainer col-sm-3 col-xs-12">
-                  <label for="project" class="hidden-xs">機台:</label>
+                  <label for="constructNo" class="hidden-xs">機台:</label>
                   <div class="assignConstNo form-control" data-placeholder="機台編號">
                     <span class="text-center"><span class="ajax-loader">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></span>
                   </div>
@@ -111,7 +111,7 @@
     </div>
 <asset:script type='text/javascript'><%-- deferred JS here --%>
 var serverParams = {
-	pageTitle: '${actionTitle}',
+	pageTitle: '${pageTitle}',
 	calendarTemplate: '<g:resource dir="static/assignment" file="calendar.tmpl" />',
 	year: ${params?.year?:'null'},
 	week: ${params?.week?:'null'},

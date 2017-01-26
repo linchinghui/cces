@@ -20,7 +20,9 @@ $.notifyDefaults({
 });
 
 function clearCombobox(object) {
-	var combobox = object.data('combobox');
-	combobox.clearTarget();
-	combobox.clearElement();
+	setTimeout(function() {
+		var combobox = object.data('combobox');
+		combobox.clearTarget();
+		combobox.clearElement();
+	}, 250);
 }
