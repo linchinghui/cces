@@ -4,13 +4,13 @@ package com.lch.cces
 import com.lch.aid.DynamicEnumMaker
 
 public enum SexType implements GenericEnumerable<SexType> {
-	// MALE('男'),
-	// FEMALE('女');
+	MALE('男'),
+	FEMALE('女');
 
-	static {
-		DynamicEnumMaker.add(SexType, 'MALE', ['男'] as Object[])
-		DynamicEnumMaker.add(SexType, 'FEMALE', ['女'] as Object[])
-	}
+	// static {
+	// 	DynamicEnumMaker.add(SexType.class, 'MALE', ['男'] as Object[])
+	// 	DynamicEnumMaker.add(SexType.class, 'FEMALE', ['女'] as Object[])
+	// }
 
 	static SexType salvage(def type) {
 		salvage(type, SexType)

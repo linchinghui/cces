@@ -107,7 +107,9 @@ function createDataTable() {
 					data: 'empName'
 				}, { //3
 					render: function(data, type, row, meta) {
-						return ((type === 'display' || type === 'filter') ? serverParams.sexTypes[data] : data);
+						return ((type === 'display' || type === 'filter') ?
+							serverParams.sexType.types[data.substr(0, serverParams.sexType.keyLength)] :
+							data);
 					},
 					orderable: false,
 					width: '34px',

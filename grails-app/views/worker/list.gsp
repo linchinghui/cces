@@ -95,7 +95,10 @@
     </div>
 <asset:script type='text/javascript'><%-- deferred JS here --%>
 var serverParams = {
-	sexTypes: JSON.parse('${(com.lch.cces.SexType.map() as grails.converters.JSON).encodeAsJavaScript()}'),
+	sexType: {
+		keyLength: ${com.lch.cces.SexType.keyLength()},
+		types: JSON.parse('${(com.lch.cces.SexType.map() as grails.converters.JSON).encodeAsJavaScript()}')
+	},
 	detailLink: '${createLink([controller:"certificate", action:"index"])}'
 };
 
