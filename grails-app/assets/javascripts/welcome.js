@@ -17,7 +17,7 @@ function createDataTable() {
 			},
 			initComplete: function(settings, data) { // this == DataTable()
 				initialized4DataTables(settings, data);
-				resizeDataTablesInSecs(settings.oInstance.DataTable());
+				resizeInSecs4DataTables(settings.oInstance.DataTable());
 			},
 			extButtons: {
 				// copy: true
