@@ -1,12 +1,12 @@
 /*
+*= require ../picture
 *= require_self
 */
-.modal .panel .panel-body {
-  /*padding-top: 20px;*/
-  /*padding-bottom: 100px;*/
-  padding-bottom: 116px;
-}
 
 #certificateForm .col-xs-6 {
   padding-left: 0;
+}
+
+#certificateForm .input-group {
+  margin-bottom: 12px;
 }

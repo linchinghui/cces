@@ -15,18 +15,19 @@ class Certificate { //implements Serializable, Comparable<Certificate> {
 	Date				expiryDate	// 有效年月(回訓時間)
 	@BindingFormat("yyyy/MM/dd'Z'")
 	Date				copied		// 證照影本繳交日
-	String				photo		// 證照影本 URI
+	// String				photo		// 證照影本
+	Photo				photo		// 證照影本
 
-	static transients = ['photo']
+	// static transients = ['photo']
 
 	static constraints = {
-		emp				blank: false, nullable: false
-		category		blank: false, nullable: false
-		title			blank: false, nullable: false, maxSize: 40
-		examDate		blank: false, nullable: false
-		expiryDate		blank: true, nullable: true
-		copied			blank: true, nullable: true
-		photo			blank: true, nullable: true, maxSize: 40
+		emp			blank: false, nullable: false
+		category	blank: false, nullable: false
+		title		blank: false, nullable: false, maxSize: 40
+		examDate	blank: false, nullable: false
+		expiryDate	blank: true, nullable: true
+		copied		blank: true, nullable: true
+		photo		blank: true, nullable: true, maxSize: 40, type: PhotoUserType
 	}
 
 	static mapping = {
@@ -35,6 +36,50 @@ class Certificate { //implements Serializable, Comparable<Certificate> {
 
 		// TODO: 同一個 title 可能會有多個時期的認證 ?
 		// id			composite: ['emp', 'title']
+	}
+
+	private static def fieldNames = [ 'photo' ]
+
+	private beforeImages = []
+
+	def afterLoad() {
+		beforeImages = [photo]
+	}
+
+	private def recoverPhoto = { photo, idx ->
+		def mpf = photo?.multipartFile
+		if (mpf==null || mpf.isEmpty()) {
+			this."${fieldNames[idx]}" = beforeImages[idx]
+		}
+	}
+
+	def beforeUpdate() {
+		[photo].eachWithIndex { photo, idx ->
+			recoverPhoto(photo, idx)
+		}
+	}
+
+	private def persistImages() {
+		def obj = this
+
+		[photo].eachWithIndex { photo, idx ->
+			def mpf = photo?.multipartFile
+			if (mpf && ! mpf.isEmpty()) {
+				ImageHelper.persist(obj, photo.multipartFile)
+				def filename = beforeImages[idx]?.toString()
+				if (filename && filename != photo.toString()) {
+					ImageHelper.remove(obj, filename)
+				}
+			}
+		}
+	}
+
+	def afterInsert() {
+		persistImages()
+	}
+
+	def afterUpdate() {
+		persistImages()
 	}
 
 	// public String getId() {
