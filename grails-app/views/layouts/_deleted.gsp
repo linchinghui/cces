@@ -1,31 +1,17 @@
 <%! import grails.converters.JSON %>
-<%-- jQuery / Bootstrap / BootstrapDialog JS is required --%>
-<!DOCTYPE html>
+<%-- jQuery / Bootstrap / BootstrapDialog JS is required
+--%><!DOCTYPE html>
 <html>
   <head></head>
   <body>
     <g:render template="/layouts/server-message" bean="${null}"/>
     <script type='text/javascript'>
 window.onload = (function(){
-  var callbackFn = window["${new String(callback.decodeBase64())}"];
-
-  if (typeof callbackFn === 'function') {
-    var result = JSON.parse('${result as JSON}'.replace(/\&quot\;/g,'"'));
-    var dialogKeys = Object.keys(BootstrapDialog.dialogs);
-    var delay = (result.status >= 400) ? 4000 : (result.status == 200) ? 0 : 2500;
-
-    if (dialogKeys.length > 0) {
-      BootstrapDialog.dialogs[dialogKeys[0]].setType(
-        (result.status >= 400) ? BootstrapDialog.TYPE_DANGER : BootstrapDialog.TYPE_SUCCESS);
-	  if (result.message) {
-		BootstrapDialog.dialogs[dialogKeys[0]].getModalBody().html(result.message);
-	  }
-    }
-
-    setTimeout(function() {
-      callbackFn.call(null, result);
-    }, delay );
-  }
+	var callbackFnName = "${callback ? new String(callback.decodeBase64()) : ''}";
+	var callbackFn = (callbackFnName) ? window[callbackFnName] : null;
+	if (callbackFn) {
+		callbackFn.call(null, JSON.parse('${(result as JSON).encodeAsJavaScript()}'));
+	}
 })();
     </script>
   </body>
