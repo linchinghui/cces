@@ -3,8 +3,8 @@
 <html>
     <head>
         <meta name="layout" content="main" />
-        <asset:stylesheet src="grid"/> <%--
-        <asset:stylesheet src="form/worker"/> --%>
+        <asset:stylesheet src="grid"/>
+        <asset:stylesheet src="form/worker"/>
     </head>
     <body>
     <div class="content-wrapper" role="main"> <%--

@@ -1,4 +1,4 @@
-//* require ../grid
+//= require ../grid
 //= require_self
 
 var mCertificateList;

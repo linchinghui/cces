@@ -40,7 +40,11 @@ function createDetailTab() {
 // }
 
 function removeDataRequested(result) {
-	reloadDataTables(workerList);
+	alertMessage(result);
+	if (result && result.status <=400) {
+		reloadDataTables(workerList);
+		detailSec.empty();
+	}
 }
 
 function modifyDataRequested(result, editForm) {
