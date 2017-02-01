@@ -59,7 +59,9 @@ xToken: '${_csrf?.token.encodeAsBase64()}'</g:if>
                 <g:else>
                     <%-- <g:set var="authService" bean="authenticationService" scope="request"/> --%>
                     <g:render template="/layouts/main-header" />
-                    <g:render template="/layouts/main-sidebar" />
+					<g:if test="${! embedPage}">
+                    	<g:render template="/layouts/main-sidebar" />
+					</g:if>
                     <g:layoutBody />
                 </g:else>
             </div>

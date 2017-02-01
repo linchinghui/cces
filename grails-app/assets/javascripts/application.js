@@ -313,7 +313,6 @@ function requestAction4BootstrapDialog(action, dataKey, params) {
 					dialog.setType(BootstrapDialog.TYPE_DANGER);
 					dialog.setTitle(dialog.getTitle() + ' (code: ' + jqXHR.status + ')');
 					dialog.getModalBody().html(response ? response : jqXHR.statusText);
-
 				} else {
 					dialog.setType(BootstrapDialog.TYPE_PRIMARY);
 				}
