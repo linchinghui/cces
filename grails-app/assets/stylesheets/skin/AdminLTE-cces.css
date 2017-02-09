@@ -49,7 +49,7 @@ body {
   position: relative;
 }
 .layout-boxed {
-  background: url('../images/boxed-bg.jpg') repeat fixed;
+  background: url('/static/images/boxed-bg.jpg') repeat fixed;
 }
 /*
  * Content Wrapper - contains the main content
@@ -298,7 +298,7 @@ a:focus {
   padding: 0 15px;
   font-weight: 300;
   overflow: hidden;
-  background: url('../cces_logo.png') no-repeat 5% center;
+  background: url('/static/images/cces_logo.png') no-repeat 5% center;
   -webkit-background-size:50px 50px;
      -moz-background-size:50px 50px;
        -o-background-size:50px 50px;

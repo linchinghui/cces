@@ -7,14 +7,14 @@
 */
 
 .spinner {
-  background: url(../images/spinner.gif) 46% 50% no-repeat transparent;
+  background: url('../images/spinner.gif') 46% 50% no-repeat transparent;
   padding-left: 46%;
   text-indent: 10px;
   color: white;
 }
 
 .ajax-loader {
-  background: url('ajax-loader-small.gif') 100% 50% no-repeat;
+  background: url('/static/images/ajax-loader-small.gif') 100% 50% no-repeat;
 }
 /*
 .nav, div.scaffold-create, div.scaffold-list {

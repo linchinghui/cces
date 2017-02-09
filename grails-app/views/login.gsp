@@ -19,7 +19,11 @@
 <body>
   <div class="container" role="main">
     <div class="col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2">
-      <h3><asset:image src="cces_logo.png"/><span class="hidden-xs">&nbsp;工料成本估算系統</span></h3>
+      <h3><%--
+		<asset:image src="cces_logo.png"/>--%>
+		<g:img dir="static/images" file="cces_logo.png"/>
+		<span class="hidden-xs">&nbsp;工料成本估算系統</span>
+	  </h3>
     </div>
 
     <div id="box-login" class="col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2 col-xs-10 col-xs-offset-1">

@@ -62,14 +62,11 @@
 <%-- User Account: --%>
               <li class="dropdown user user-menu">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-<g:if test="${isLoggedIn}"><%--
-TODO: external resource here --%><%--
-                    <img class="user-image" src="../../images/user2-160x160.jpg"/>--%>
-                    <g:img class="user-image" dir="images" file="user2-160x160.jpg"/>
-                    <g:external uri="/images/user2-160x160.jpg"/>
+<g:if test="${isLoggedIn}">
+					<g:img class="user-image" dir="static/images" file="user2-160x160.jpg"/>
 </g:if>
 <g:else>
-                    <asset:image src="anonymous.png" class="user-image"/>
+					<g:img class="user-image" dir="static/images" file="anonymous.png"/>
 </g:else>
                   <span class="hidden-xs">${authService.principal}</span>
                 </a>
@@ -77,7 +74,7 @@ TODO: external resource here --%><%--
                   <li class="user-header">
                     <p>
                       <g:each in="${authService.authorities}">
-                          <small><span class="pull-left">${it.authority}</span><span class="pull-right">${it.description}</span></small><br>
+                        <small><span class="pull-left">${it.authority}</span><span class="pull-right">${it.description}</span></small><br>
                       </g:each>
                     </p>
                   </li><%-- Body
@@ -88,16 +85,16 @@ TODO: external resource here --%><%--
                   </li> --%><%-- Footer--%>
             	  <li class="user-footer">
 <g:if test="${isLoggedIn}">
-                      <div class="pull-left">
-                        <a id="changePassword" href="${chPwdLink}" class="btn btn-default">變更密碼</a>
-                      </div>
-                      <div class="pull-right">
-                        <a id="logout" href="${logoutLink}" class="btn btn-default">登出</a>
-                      </div>
+                    <div class="pull-left">
+                      <a id="changePassword" href="${chPwdLink}" class="btn btn-default">變更密碼</a>
+                    </div>
+                    <div class="pull-right">
+                      <a id="logout" href="${logoutLink}" class="btn btn-default">登出</a>
+                    </div>
 </g:if><g:else>
-                      <div class="pull-right">
-                        <a href="${loginLink}" class="btn btn-default">登入</a>
-                      </div>
+                    <div class="pull-right">
+                      <a href="${loginLink}" class="btn btn-default">登入</a>
+                    </div>
 </g:else>
                   </li>
                 </ul>
@@ -114,26 +111,21 @@ TODO: external resource here --%><%--
 <asset:script type='text/javascript'><%-- deferred JS here --%>
 $(function() {
   $('#logout').click(function(evt) {
-    evt.preventDefault();<%--
-    $('<form enctype="multipart/form-data">', {method: 'POST', action: evt.target.href})
-	  .appendTo(document.body)
-	  .append('<input type="hidden" name="${_csrf.parameterName}" value="'+Base64.decode(server.xToken)+'">')
-	  .submit();--%>
-	$('<form>', {method: 'POST', action: evt.target.href})
-  	  .appendTo(document.body)
-  	  .submit();
+    evt.preventDefault();
+	$('<form>' <%-- enctype="multipart/form-data" --%>
+		,{method: 'POST', action: evt.currentTarget.href})
+	  .appendTo(document.body)<%--
+	  .append('<input type="hidden" name="${_csrf.parameterName}" value="'+Base64.decode(server.xToken)+'">')--%>
+	  .submit();
   });
 
   $('#changePassword').click(function(evt) {
     evt.preventDefault();
-    window.location.href = evt.target.href + '?${PARAMETER_TARGET_URL}=' + decodeURI(window.location.pathname);
-<%--
-  // AJAX way:
-    BootstrapDialog.show({
-      // title: action.title,
-      message: requestAction4BootstrapDialog({url: evt.target.href})
-    });
---%>
+    window.location.href = evt.currentTarget.href + '?${PARAMETER_TARGET_URL}=' + decodeURI(window.location.pathname);<%--
+	// AJAX way:
+    BootstrapDialog.show({ // title: action.title,
+      message: requestAction4BootstrapDialog({url: evt.currentTarget.href})
+    });--%>
   });
 });
 </asset:script>

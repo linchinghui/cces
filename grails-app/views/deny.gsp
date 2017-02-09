@@ -14,8 +14,9 @@
         <asset:stylesheet src="deny"/>
     </head>
     <body>
-        <div class="error-details" role="main">
-            <asset:image src="shutter_stock.png" />
+        <div class="error-details" role="main"><%--
+            <asset:image src="shutter_stock.png" />--%>
+			<g:img dir="static/images" file="shutter_stock.png"/>
             <p>The page or journal you have not permission to access,</p>
             <p>and will redirect to welcome page in ${delaySeconds} seconds.</p>
         </div>
