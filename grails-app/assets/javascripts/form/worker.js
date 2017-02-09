@@ -64,7 +64,16 @@ function addDataRequest(evt, dt, node, config) {
 		})
 	});
 }
-
+function renderPhoto(colName) {
+	return function(data, type, row, meta) {
+		// var photoName = colName+'Photo';
+		// if (row[photoName]) {
+		// 	return renderThumbnail4DataTables.call().call(null, row[photoName], type, row, meta);
+		// } else {
+			return renderDate4DataTables.call().call(null, data, type, row, meta); // 'Copied'
+		// }
+	}
+}
 function createDataTable() {
 	workerList = $('#list-worker').DataTable({
 			select: {
@@ -126,27 +135,27 @@ function createDataTable() {
 					orderable: false,
 					data: 'resignedDate'
 				}, { //6
-					render: renderDate4DataTables(),
+					render: renderPhoto('avatar'),
 					orderable: false,
 					data: 'avatarCopied'
 				}, { //7
-					render: renderDate4DataTables(),
+					render: renderPhoto('idCard'),
 					orderable: false,
 					data: 'idCardCopied'
 				}, { //8
-					render: renderDate4DataTables(),
+					render: renderPhoto('nhiIcCard'),
 					orderable: false,
 					data: 'nhiIcCardCopied'
 				}, { //9
-					render: renderDate4DataTables(),
+					render: renderPhoto('diploma'),
 					orderable: false,
 					data: 'diplomaCopied'
 				}, { //10
-					render: renderDate4DataTables(),
+					render: renderPhoto('oor'),
 					orderable: false,
 					data: 'oorCopied'
 				}, { //11
-					render: renderDate4DataTables(),
+					render: renderPhoto('gdl'),
 					orderable: false,
 					data: 'gdlCopied'
 				}

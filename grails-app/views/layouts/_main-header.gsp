@@ -1,5 +1,6 @@
-<%@ page import="static com.lch.aaa.Application.*" %>
-<g:set var="isLoggedIn" value="${authService.isLoggedIn()}" />
+<%@ page import="static com.lch.aaa.Application.*" %><%--
+<%@ page import="org.springframework.security.core.context.SecurityContextHolder as SCH" %>--%>
+<g:set var="isLoggedIn" value="${authService.isLoggedIn()}"/>
 <g:set var="loginLink" value="${createLink(controller:PAGE_LOGIN-'/')}"/>
 <g:set var="logoutLink" value="${createLink(controller:PAGE_LOGOUT-'/')}"/>
 <g:set var="chPwdLink" value="${createLink(controller:PAGE_PASSWORD-'/')}"/>
@@ -62,8 +63,14 @@
 <%-- User Account: --%>
               <li class="dropdown user user-menu">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-<g:if test="${isLoggedIn}">
-					<g:img class="user-image" dir="static/images" file="user2-160x160.jpg"/>
+<g:if test="${isLoggedIn}"><%--
+	<g:set var="worker" value="${com.lch.cces.Worker.get(authService.principal.username)}"/>
+	<g:if test="${worker}">
+		<img class="user-image" src="data:image/${worker.avatarPhoto.toString().split('\\.')[-1]};base64,${worker.avatarPhoto.thumbnailBase64}"/>
+	</g:if>
+	<g:else>--%>
+					<g:img class="user-image" dir="static/images" file="user2-160x160.jpg"/><%--
+	</g:else>--%>
 </g:if>
 <g:else>
 					<g:img class="user-image" dir="static/images" file="anonymous.png"/>

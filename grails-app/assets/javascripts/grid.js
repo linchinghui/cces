@@ -27,6 +27,27 @@ function renderDate4DataTables(timeIncluded) {
 			data;
 	};
 }
+function renderThumbnail4DataTables() {
+	return function(data, type, row, meta) {
+		var rtn = data;
+		var flag = 'tc'+meta.col+'ed';
+
+		if ((data && (type == 'display' || type == 'filter')) && ! row[flag]) {
+			row[flag] = true;
+
+			rtn = $('<span/>').attr({
+				'class': 'fileinput-exists thumbnail',
+				'data-field': data
+			}).append(
+				$('<img/>').attr({
+					'data-src':'holder.js/44x44'
+				})
+			)[0].outerHTML;
+		}
+
+		return rtn;
+	};
+}
 
 function renderCheck4DataTables(data, type, row, meta) {
 	return ((data == true || data == false) && (type == 'display' || type == 'filter')) ?

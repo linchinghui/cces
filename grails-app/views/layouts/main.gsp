@@ -40,12 +40,18 @@ var server = {
 				<g:javascript>
 var server = {
 ctxPath: '${request.contextPath}',
-imgPath: '${grails.util.Holders.grailsApplication.config.cces.images.uriPrefix}'<g:if test="${_csrf?.parameterName}">,
-xHeader: '${_csrf?.headerName.encodeAsBase64()}',
-xToken: '${_csrf?.token.encodeAsBase64()}'</g:if>
+imgPath: '${grails.util.Holders.grailsApplication.config.cces.images.uriPrefix.image}',
+thumbPath: '${grails.util.Holders.grailsApplication.config.cces.images.uriPrefix.thumbnail}'
+<g:if test="${_csrf?.parameterName}">
+,xHeader: '${_csrf?.headerName.encodeAsBase64()}'
+,xToken: '${_csrf?.token.encodeAsBase64()}'
+</g:if>
 };
 				</g:javascript><%--
-			</g:if>--%><%--
+			</g:if>--%>
+			<g:if test="${modalPage}">
+				<asset:javascript src="jquery-2.2.4.js"/>
+			</g:if><%--
 <!--[if lt IE 9]>
 <asset:javascript src="iefix/html5shiv-3.7.3"/>
 <asset:javascript src="iefix/respond-1.4.2"/>

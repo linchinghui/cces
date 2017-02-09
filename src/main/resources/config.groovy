@@ -38,7 +38,10 @@ aaa.rememberMe.validitySeconds = 604800 // 7 days
 
 cces.images = [
 	// size: 500000,
-	uriPrefix: '/images',
+	uriPrefix: [
+		image: '/images',
+		thumbnail: '/thumbnails'
+	],
 	persistFolder: (grails.util.Environment.developmentMode ? '/tmp' : '/var/www/cces/images'),
 	useCache: true
 ]

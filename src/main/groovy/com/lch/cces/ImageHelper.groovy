@@ -15,21 +15,24 @@ class ImageHelper {
 
 	private static log = LoggerFactory.getLogger(ImageHelper)
 
-	private static def configHolder
+	private static def imagesConfig
 	private static final String THUMBNAIL_EXT = 'png'
 	private static final String THUMBNAIL_DIR = 'thumb'
 	private static int THUMBNAIL_WIDTH = 128
 	private static int THUMBNAIL_HEIGHT = 128
 
 	static {
-        configHolder = Holders.grailsApplication.config.cces.images ?: [
+        imagesConfig = Holders.grailsApplication.config.cces.images /*?: [
 			// size: 500000,
-			uriPrefix: '/images',
+			uriPrefix: [
+				image: '/images',
+				thumbnail: '/thumbnails'
+			],
             persistFolder: System.properties['user.dir'],
 			userCache: false
-        ]
+        ]*/
 
-        ImageIO.setUseCache(configHolder.useCache)
+        ImageIO.setUseCache(imagesConfig.useCache)
         new javax.media.jai.util.Range[1]
     }
 
@@ -44,7 +47,7 @@ class ImageHelper {
 			fileUri = lst.join('/')
 		}
 
-		def imageFile = new File(configHolder.persistFolder, fileUri)
+		def imageFile = new File(imagesConfig.persistFolder, fileUri)
 
 		if (imageFile.exists()) {
 			try {
@@ -106,7 +109,7 @@ class ImageHelper {
 		}
 
 		// ----- photo -----
-        def dirName = "${configHolder.persistFolder}/${delegate.class.simpleName}/${delegate.id}"
+        def dirName = "${imagesConfig.persistFolder}/${delegate.class.simpleName}/${delegate.id}"
         new File(dirName).mkdirs()
 
 		def fileName = multipartFile?.originalFilename // field: filename
@@ -174,7 +177,7 @@ class ImageHelper {
 		if (fileName == null) {
 			return
 		}
-        def dirName = "${configHolder.persistFolder}/${delegate.class.simpleName}/${delegate.id}"
+        def dirName = "${imagesConfig.persistFolder}/${delegate.class.simpleName}/${delegate.id}"
 
 		boolean isDeleted =  new File(dirName, fileName).delete()
 		if (! isDeleted) {
