@@ -63,19 +63,14 @@
 <%-- User Account: --%>
               <li class="dropdown user user-menu">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-<g:if test="${isLoggedIn}"><%--
-	<g:set var="worker" value="${com.lch.cces.Worker.get(authService.principal.username)}"/>
-	<g:if test="${worker}">
-		<img class="user-image" src="data:image/${worker.avatarPhoto.toString().split('\\.')[-1]};base64,${worker.avatarPhoto.thumbnailBase64}"/>
-	</g:if>
-	<g:else>--%>
-					<g:img class="user-image" dir="static/images" file="user2-160x160.jpg"/><%--
-	</g:else>--%>
-</g:if>
-<g:else>
-					<g:img class="user-image" dir="static/images" file="anonymous.png"/>
-</g:else>
-                  <span class="hidden-xs">${authService.principal}</span>
+				  <g:set var="workerInfo" value="${session['CCES_WORKER_INFO']}"/>
+				  <g:if test="${workerInfo.avatar instanceof String}">
+					<g:img class="user-image" dir="static/images" file="${workerInfo.avatar}"/>
+				  </g:if>
+				  <g:else>
+					<img class="user-image" src="data:image/${workerInfo.avatar.toString().split('\\.')[-1]};base64,${workerInfo.avatar.thumbnailBase64}"/>
+				  </g:else>
+				  <span class="hidden-xs">${workerInfo.name}<%--${authService.principal}--%></span>
                 </a>
                 <ul class="dropdown-menu">
                   <li class="user-header">

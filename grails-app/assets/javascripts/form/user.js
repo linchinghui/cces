@@ -33,7 +33,8 @@ function renderDisplayHint4DataTables(settings, start, end, max, total, pre) {
 		return '<span>' + roleId + '&nbsp;:&nbsp;' + roleDesc + '</span>';
 	}).join(',&nbsp;&nbsp;');
 
-	return '<span class="pull-right small visible-xs">' + rolesStr + '</span>';
+	return '<span class="pull-right small">帳號若與員工同, 姓名顯示以員工為主</span>'+
+		'<br><span class="pull-right small text-danger visible-xs">' + rolesStr + '</span>';
 }
 
 function renderRolesField4DataTables(data, type, row, meta) {

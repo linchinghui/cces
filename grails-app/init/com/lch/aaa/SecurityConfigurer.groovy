@@ -84,7 +84,7 @@ class SecurityConfigurer extends WebSecurityConfigurerAdapter {
 			// .debug(true)
 			.ignoring()
 			// .antMatchers('/**/favicon.ico', '/error', '/css/**', '/js/**', '/images/**') // '/**/*\\.{(js|css|gif|jpg|jpeg|png)}'
-			.antMatchers('/images/**')
+			.antMatchers('/images/**', '/thumbnails/**')
 			.antMatchers('/assets/**', '/static/**')
 			.antMatchers('/api/announcements.json*')
 	}

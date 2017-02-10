@@ -1,6 +1,8 @@
 import static com.lch.aaa.Application.*
+import com.lch.cces.Worker
 import grails.util.*
-import org.springframework.security.core.context.SecurityContextHolder
+import groovy.transform.Synchronized
+import org.springframework.security.core.context.SecurityContextHolder as SCH
 
 class AAAInterceptor {
 
@@ -37,15 +39,30 @@ class AAAInterceptor {
 
         log.debug "${request.method}(format:${request.format}) params : ${params}"
 
-        if (session['SPRING_SECURITY_CONTEXT']?.authentication &&
-            SecurityContextHolder.context.authentication == null
-        ) {
-            SecurityContextHolder.context.authentication = session['SPRING_SECURITY_CONTEXT'].authentication
+        if (session['SPRING_SECURITY_CONTEXT']?.authentication && SCH.context.authentication == null) {
+            SCH.context.authentication = session['SPRING_SECURITY_CONTEXT'].authentication
         }
         true
     }
 
+	@Synchronized
+	private def prepareWorkerInfo() {
+		if (session['CCES_WORKER_INFO']) {
+			return
+		}
+
+		def principal = grailsApplication.mainContext.authenticationService.principal
+		def worker = principal instanceof String ? null : Worker.get(principal.username)
+
+		session['CCES_WORKER_INFO'] = [
+			name: worker ? worker.empName : principal,
+			avatar: worker ? worker.avatarPhoto : (principal instanceof String ? 'anonymous' : principal.username)+'.png'
+		]
+	}
+
     boolean after() {
+		prepareWorkerInfo()
+
         if ((request.forwardURI - request.contextPath) == PAGE_LOGIN && request.queryString == null) {
             session['SPRING_SECURITY_LAST_EXCEPTION'] = null
         }
@@ -77,13 +94,8 @@ class AAAInterceptor {
         }
 
         // if (! response.isCommitted()) {
-            if ((
-                ! request['isAjax'] &&
-                response.status < 300 &&
-                SecurityContextHolder.context.authentication == null
-            ) || (
-                ! request.isRequestedSessionIdValid())
-            ) {
+		if ((! request['isAjax'] && response.status < 300 && SCH.context.authentication == null) || (
+			 ! request.isRequestedSessionIdValid())) {
 				log.info "may has no authentication! (session invalid:${request.isRequestedSessionIdValid()})"
                 // redirect(mapping: 'home', params: params)
                 // return
