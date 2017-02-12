@@ -57,7 +57,10 @@ function renderRolesField4DataTables(data, type, row, meta) {
 }
 
 function removeDataRequested(result) {
-	reloadDataTables(userList);
+	alertMessage(result);
+	if (result && result.status <=400) {
+		reloadDataTables(userList);
+	}
 }
 
 function modifyDataRequested(result, editForm) {

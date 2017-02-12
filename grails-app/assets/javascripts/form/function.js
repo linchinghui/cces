@@ -4,7 +4,10 @@
 var functionList;
 
 function removeDataRequested(result) {
-	reloadDataTables(functionList);
+	alertMessage(result);
+	if (result && result.status <=400) {
+		reloadDataTables(functionList);
+	}
 }
 
 function modifyDataRequested(result, editForm) {

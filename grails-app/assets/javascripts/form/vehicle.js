@@ -34,7 +34,10 @@ var nextMonthDate = moment().add(1, 'months');
 // }
 
 function removeDataRequested(result) {
-	reloadDataTables(vehicleList);
+	alertMessage(result);
+	if (result && result.status <=400) {
+		reloadDataTables(vehicleList);
+	}
 }
 
 function modifyDataRequested(result, editForm) {

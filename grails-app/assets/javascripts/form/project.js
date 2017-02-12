@@ -60,7 +60,10 @@ function renderDisplayHint4DataTables(settings, start, end, max, total, pre) {
 }
 
 function removeDataRequested(result) {
-	reloadDataTables(projectList);
+	alertMessage(result);
+	if (result && result.status <=400) {
+		reloadDataTables(projectList);
+	}
 }
 
 function modifyDataRequested(result, editForm) {

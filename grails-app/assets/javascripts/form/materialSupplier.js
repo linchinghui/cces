@@ -12,7 +12,10 @@ function getSupplierParameters(params) {
 }
 
 function removeDetailDataRequested(result) {
-	reloadDataTables(mSupplierList);
+	alertMessage(result);
+	if (result && result.status <=400) {
+		reloadDataTables(mSupplierList);
+	}
 }
 
 function modifyDetailDataRequested(result, editForm) {

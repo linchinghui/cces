@@ -12,7 +12,10 @@ function getCertificateParameters(params) {
 }
 
 function removeDetailDataRequested(result) {
-	reloadDataTables(mCertificateList);
+	alertMessage(result);
+	if (result && result.status <=400) {
+		reloadDataTables(mCertificateList);
+	}
 }
 
 function modifyDetailDataRequested(result, editForm) {

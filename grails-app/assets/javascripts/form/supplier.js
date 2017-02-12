@@ -4,7 +4,10 @@
 var supplierList;
 
 function removeDataRequested(result) {
-	reloadDataTables(supplierList);
+	alertMessage(result);
+	if (result && result.status <=400) {
+		reloadDataTables(supplierList);
+	}
 }
 
 function modifyDataRequested(result, editForm) {

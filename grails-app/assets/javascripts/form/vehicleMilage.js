@@ -26,7 +26,10 @@ function getMilageParameters(params) {
 }
 
 function removeMilageRequested(result) {
-	reloadDataTables(vehicleMilageList);
+	alertMessage(result);
+	if (result && result.status <=400) {
+		reloadDataTables(vehicleMilageList);
+	}
 }
 
 function modifyMilageRequested(result, editForm) {

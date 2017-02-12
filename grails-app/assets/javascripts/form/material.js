@@ -42,8 +42,11 @@ function createDetailTab() {
 // }
 
 function removeDataRequested(result) {
-	reloadDataTables(materialList);
-	// detailSec.empty();
+	alertMessage(result);
+	if (result && result.status <=400) {
+		reloadDataTables(materialList);
+		// detailSec.empty();
+	}
 }
 
 function modifyDataRequested(result, editForm) {

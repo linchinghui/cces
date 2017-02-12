@@ -4,7 +4,10 @@
 var vehicleBrandList;
 
 function removeBrandDataRequested(result) {
-	reloadDataTables(vehicleBrandList);
+	alertMessage(result);
+	if (result && result.status <=400) {
+		reloadDataTables(vehicleBrandList);
+	}
 }
 
 function modifyBrandDataRequested(result, editForm) {

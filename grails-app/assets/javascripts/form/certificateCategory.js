@@ -4,7 +4,10 @@
 var certificateCategoryList;
 
 function removeCatDataRequested(result) {
-	reloadDataTables(certificateCategoryList);
+	alertMessage(result);
+	if (result && result.status <=400) {
+		reloadDataTables(certificateCategoryList);
+	}
 }
 
 function modifyCatDataRequested(result, editForm) {

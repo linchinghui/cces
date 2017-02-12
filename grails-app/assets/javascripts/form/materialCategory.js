@@ -4,7 +4,10 @@
 var materialCategoryList;
 
 function removeCatDataRequested(result) {
-	reloadDataTables(materialCategoryList);
+	alertMessage(result);
+	if (result && result.status <=400) {
+		reloadDataTables(materialCategoryList);
+	}
 }
 
 function modifyCatDataRequested(result, editForm) {

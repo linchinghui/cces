@@ -12,7 +12,10 @@ function getPrivilegeParameters(params) {
 }
 
 function removeDetailDataRequested(result) {
-	reloadDataTables(privilegeList);
+	alertMessage(result);
+	if (result && result.status <=400) {
+		reloadDataTables(privilegeList);
+	}
 }
 
 function modifyDetailDataRequested(result, editForm) {

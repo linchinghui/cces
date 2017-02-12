@@ -4,7 +4,10 @@
 var certificateOrganList;
 
 function removeOrgDataRequested(result) {
-	reloadDataTables(certificateOrganList);
+	alertMessage(result);
+	if (result && result.status <=400) {
+		reloadDataTables(certificateOrganList);
+	}
 }
 
 function modifyOrgDataRequested(result, editForm) {

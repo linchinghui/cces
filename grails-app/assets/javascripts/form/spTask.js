@@ -38,7 +38,10 @@ function triggerCriterionChange(target) {
   DataTables
  ----------------*/
 function removeDataRequested(result) {
-	loadSpTasks();
+	alertMessage(result);
+	if (result && result.status <=400) {
+		loadSpTasks();
+	}
 }
 
 function modifyDataRequested(result, editForm) {

@@ -4,7 +4,10 @@
 var revenueList;
 
 function removeDataRequested(result) {
-	reloadDataTables(revenueList);
+	alertMessage(result);
+	if (result && result.status <=400) {
+		reloadDataTables(revenueList);
+	}
 }
 
 function modifyDataRequested(result, editForm) {
