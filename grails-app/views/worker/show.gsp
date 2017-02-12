@@ -54,7 +54,7 @@
                         </g:form>
                     </section>
                 </div>
-				<div class="panel-footer small text-danger text-right">點選縮圖可放大預覧</div>
+				<div class="panel-footer small text-danger text-right">點選原縮圖可放大預覧</div>
             </div>
         </div>
 <asset:javascript src="picture"/>
