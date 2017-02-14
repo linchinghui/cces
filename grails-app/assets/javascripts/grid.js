@@ -235,9 +235,11 @@ function reFireClick(evt, theCell, type) {
 	}); // un-toggle control detail
 }
 
-function createRemoveCellButtom(cellEle, dataKey, action) {
+function createRemoveCellButtom(cell, dataKey, action) {
+	var cellEle = $(action.selector, cell);
+
 	if (/null(\||)/.test(dataKey)) {
-		$(cellEle).addClass('disabled');
+		cellEle.addClass('disabled');
 		return;
 	}
 
@@ -269,8 +271,8 @@ function createRemoveCellButtom(cellEle, dataKey, action) {
 	});
 }
 
-function createEditCellButtom(cellEle, dataKey, action /*, infoOnly*/ ) {
-	cellEle.click(function(evt) {
+function createEditCellButtom(cell, dataKey, action /*, infoOnly*/ ) {
+	$(action.selector, cell).click(function(evt) {
 		/*if (! infoOnly)*/
 		reFireClick(evt, this.parentNode.parentNode, action.type);
 
@@ -281,20 +283,18 @@ function createEditCellButtom(cellEle, dataKey, action /*, infoOnly*/ ) {
 	});
 }
 
-function createInfoCellButtom(cellEle, dataKey, action) {
+function createInfoCellButtom(cell, dataKey, action) {
 	if (/null(\||)/.test(dataKey)) {
-		$(cellEle).addClass('disabled');
+		$(action.selector, cell).addClass('disabled');
 		return;
 	}
-	createEditCellButtom(cellEle, dataKey, action /*, true*/ );
+	createEditCellButtom(cell, dataKey, action /*, true*/ );
 }
 
 function renderAlterationCellWithId4DataTables(requestActions) {
 	var actionsLen = Object.keys(requestActions).length;
 
-	return {
-		// visible: false,
-		// className: 'control',
+	return { // visible: false, className: 'control',
 		orderable: false,
 		data: 'id',
 		width: (actionsLen == 3 ? '76px' : actionsLen == 2 ? '52px' : '28px'),
@@ -305,38 +305,36 @@ function renderAlterationCellWithId4DataTables(requestActions) {
 		},
 		createdCell: function(cell, cellData, rowData, row, col) {
 			cell['className'] = 'control';
-			if (requestActions.show) {
-				var action = $.extend(true, {
-					delegate: cell,
-					type: 'show',
-					title: '資訊...',
-					selector: 'span i.fa-info',
-					key: 'id'
-				}, requestActions.show);
 
-				createInfoCellButtom($(action.selector, cell), rowData[action.key], action);
+			if (requestActions.show) {
+				createInfoCellButtom(cell, rowData['id'],
+					$.extend(true, {
+						delegate: cell,
+						type: 'show',
+						title: '資訊...',
+						selector: 'span i.fa-info',
+						key: 'id'
+					}, requestActions.show));
 			}
 			if (requestActions.edit) {
-				var action = $.extend(true, {
-					delegate: cell,
-					type: 'edit',
-					title: '編輯...',
-					selector: 'span i.fa-pencil',
-					key: 'id'
-				}, requestActions.edit);
-
-				createEditCellButtom($(action.selector, cell), rowData[action.key], action);
+				createEditCellButtom(cell, rowData['id'],
+					$.extend(true, {
+						delegate: cell,
+						type: 'edit',
+						title: '編輯...',
+						selector: 'span i.fa-pencil',
+						key: 'id'
+					}, requestActions.edit));
 			}
 			if (requestActions.delete) {
-				var action = $.extend(true, {
-					delegate: cell,
-					type: 'delete',
-					title: '刪除...',
-					selector: 'span i.fa-times',
-					key: 'id'
-				}, requestActions.delete);
-
-				createRemoveCellButtom($(action.selector, cell), rowData[action.key], action);
+				createRemoveCellButtom(cell, rowData['id'],
+					$.extend(true, {
+						delegate: cell,
+						type: 'delete',
+						title: '刪除...',
+						selector: 'span i.fa-times',
+						key: 'id'
+					}, requestActions.delete));
 			}
 		}
 	};

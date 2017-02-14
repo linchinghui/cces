@@ -254,7 +254,7 @@ a:focus {
   background-color: transparent;
   background-image: none;
   /*padding: 15px 15px;*/
-  padding: 16px 15px;
+  padding: 16px 15px 14px;
   font-family: fontAwesome;
 }
 .main-header .sidebar-toggle:before {
@@ -384,7 +384,8 @@ a:focus {
   }
   .navbar-custom-menu .navbar-nav > li > a {
     padding-top: 15px;
-    padding-bottom: 15px;
+	/*padding-bottom: 15px;*/
+	padding-bottom: 10px;
     line-height: 20px;
   }
 }
@@ -1161,7 +1162,8 @@ a:focus {
   .navbar-nav > .user-menu .user-image {
     float: none;
     margin-right: 0;
-    margin-top: -8px;
+	/*margin-top: -8px;*/
+	margin-top: -6px;
     line-height: 10px;
   }
 }
