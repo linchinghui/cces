@@ -33,12 +33,12 @@
 
 .input-group.date,
 .input-group.date.disabled {
-  width: 11em;
+  min-width: 11em;
 }
 
 .input-group.datetime,
 .input-group.datetime.disabled {
-  width: 16em;
+  min-width: 16em;
 }
 /*
 .input-group.date.time {

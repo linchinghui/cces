@@ -18,11 +18,12 @@ $(function() {
     format: 'YYYY/MM'
   })
   .on('dp.change', function (e) {
-    $('#${property}').val(!e.date ? '' : e.date.format('YYYY/MM'));
-  }); <%--
-  dp.trigger({
-    type: 'dp.change',
-    date: dp.data('DateTimePicker').date()
-  }); --%>
+	var ele = $('#${property}');
+	var data = !e.date ? '' : e.date.format('YYYY/MM');
+	ele.val(data);
+	if (data) {
+	  ele.trigger('update', [data]);
+	}
+  });
 });
 </asset:script>
