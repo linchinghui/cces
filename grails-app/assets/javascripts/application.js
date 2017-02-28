@@ -1,8 +1,9 @@
 //= require jquery-2.2.4
 //  require_tree .
+//= require util/string.js
+//= require util/base64.js
 //= require_self
 //= require bootstrap
-//= require util/base64.js
 //= require plugins
 //= require datetime
 //= require AdminLTE
