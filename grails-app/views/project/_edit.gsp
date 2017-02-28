@@ -41,7 +41,8 @@
                                     </g:else>
                                     <f:field property="description" label="專案名稱" />
                 <div class="col-xs-6"><f:field property="constructNo" label="機台型號" /></div>
-                <div class="col-xs-6"><f:field property="constructPlace" label="工程地點" /></div>
+				<div class="col-xs-6"><f:field property="constructModel" label="機台類型" /></div>
+									<f:field property="constructPlace" label="工程地點" />
                 <div class="col-xs-6"><f:field property="projectType" label="工作型態" /></div>
                 <div class="col-xs-6"><f:field property="constructType" label="施作方式" /></div>
                 <div class="col-xs-6"><f:field property="durationBegin" label="期程-開始" widget="date" /></div>

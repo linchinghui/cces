@@ -34,7 +34,8 @@
                                     <f:display property="code" label="專案代碼" />
                                     <f:display property="description" label="專案名稱" />
                 <div class="col-xs-6"><f:display property="constructNo" label="機台型號" /></div>
-                <div class="col-xs-6"><f:display property="constructPlace" label="工程地點" /></div>
+				<div class="col-xs-6"><f:display property="constructModel" label="機台類型" /></div>
+									<f:display property="constructPlace" label="工程地點" />
                 <div class="col-xs-6"><f:display property="projectType" label="工作型態" /></div>
                 <div class="col-xs-6"><f:display property="constructType" label="施作方式" /></div>
                 <div class="col-xs-6"><f:display property="durationBegin" label="期程-開始" wrapper="date" /></div>

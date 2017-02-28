@@ -36,6 +36,9 @@
                         <th rowspan="2"><span class="search-input"><input type="text" size="8"><br></span>
                             機台<span class="hidden-sm visible-md visible-lg">編號</span>
                         </th>
+						<th rowspan="2"><span class="search-input"><input type="text" size="8"><br></span>
+                            <span class="hidden-sm visible-md visible-lg">機台</span>類型
+                        </th>
                         <th rowspan="2"><span class="search-input"><input type="text" size="8"><br></span>
                             <span class="hidden-sm visible-md visible-lg">工程<br></span>地點
                         </th>
@@ -71,7 +74,8 @@
                         <td></td>
                         <td>test</td>
                         <td>測試專案</td>
-                        <td>1</td>
+						<td>1</td>
+						<td>EDS</td>
                         <td>台中</td>
                         <td>點工</td>
                         <td>其他</td>
@@ -94,7 +98,7 @@
 <asset:script type='text/javascript'><%-- deferred JS here --%>
 $(function() {
 	<g:render template="/layouts/client-message"/>
-	initializeRelatedFields();
+	initProjectRelatives();
 	createDataTable();
 });
 </asset:script>
