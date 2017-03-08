@@ -15,7 +15,7 @@
 .row .nav > li > a {
   padding-top: 5px;
   padding-bottom: 5px;
-  margin-bottom: -1px;
+  /*margin-bottom: -1px;*/
 }
 
 .box {
