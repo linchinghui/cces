@@ -66,12 +66,10 @@ class AAAInterceptor {
         if ((request.forwardURI - request.contextPath) == PAGE_LOGIN && request.queryString == null) {
             session['SPRING_SECURITY_LAST_EXCEPTION'] = null
         }
-
-        if (model != null) {
+        if (currentRequestAttributes().isRequestActive() && model != null) {
             def canSkip = pages.find {
                 view?.startsWith(it)
             }
-
             if (canSkip == null) {
                 model += [
                     'functionService': grailsApplication.mainContext.functionService,
@@ -92,7 +90,6 @@ class AAAInterceptor {
                 cause.cause == null ? cause.message : cause.cause.message
             )
         }
-
         // if (! response.isCommitted()) {
 		if ((! request['isAjax'] && response.status < 300 && SCH.context.authentication == null) || (
 			 ! request.isRequestedSessionIdValid())) {

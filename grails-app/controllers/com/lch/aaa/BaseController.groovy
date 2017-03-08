@@ -192,7 +192,7 @@ abstract class BaseController<T> extends RestfulController<T> {
 		return isOK
 	}
 
-	def renderSavedPage(instance) {
+	def postSaved(instance) {
 		request.withFormat {
 			form multipartForm {
 				// 配合 JS
@@ -271,7 +271,7 @@ abstract class BaseController<T> extends RestfulController<T> {
 			return
 		}
 
-		renderSavedPage(instance)
+		postSaved(instance)
 	}
 
 	/*
@@ -460,7 +460,7 @@ abstract class BaseController<T> extends RestfulController<T> {
 			return
 		}
 
-		renderSavedPage(instance)
+		postSaved(instance)
 	}
 
 	/*
