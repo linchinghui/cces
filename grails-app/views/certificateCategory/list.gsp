@@ -4,8 +4,7 @@
 <html>
 	<head>
 		<meta name="layout" content="main" />
-		<asset:stylesheet src="grid"/> <%--
-		<asset:stylesheet src="form/certificateCategory"/> --%>
+		<asset:stylesheet src="form/certificateCategory"/>
 <g:if test="${! embedPage}">
 		<asset:javascript src="grid"/>
 </g:if>

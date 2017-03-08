@@ -4,8 +4,7 @@
 <html>
 	<head>
 		<meta name="layout" content="main" />
-		<asset:stylesheet src="grid"/> <%--
-		<asset:stylesheet src="form/certificateOrgan"/> --%>
+		<asset:stylesheet src="form/certificateOrgan"/>
 <g:if test="${! embedPage}">
 		<asset:javascript src="grid"/>
 </g:if>
@@ -13,8 +12,8 @@
 	<body>
 <g:if test="${! embedPage}">
 	<div class="content-wrapper" role="main">
-		<section class="content">
-			<div class="row">
+		<section class="content"
+		  <div class="row">
 			<div class="col-xs-12">
 				<ul class="nav nav-tabs">
 					<li class="active"><a href="#" data-target="#" data-toggle="tab"><big>${pageTitle}</big></a></li>
@@ -43,7 +42,7 @@
 				</div>
 <g:if test="${! embedPage}">
 			</div>
-			</div>
+		  </div>
 		</section>
 	</div>
 </g:if>
