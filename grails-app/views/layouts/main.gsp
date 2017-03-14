@@ -16,7 +16,10 @@ var server = {
         </div>
     </g:else>
     <g:if test="${! selfStyle}">
-        <asset:javascript src="${((deferredScript?:'') - ~/.js.*$/)?:'application'}"/>
+		<asset:javascript src="application"/>
+		<g:if test="${deferredScript != null}">
+			<asset:javascript src="${deferredScript}"/>
+		</g:if>
     </g:if>
     <asset:deferredScripts/>
 </g:if>
@@ -71,9 +74,12 @@ thumbPath: '${grails.util.Holders.grailsApplication.config.cces.images.uriPrefix
                     <g:layoutBody />
                 </g:else>
             </div>
-            <g:if test="${! selfStyle}">
-                <asset:javascript src="${((deferredScript?:'') - ~/.js.*$/)?:'application'}"/>
-            </g:if>
+			<g:if test="${! selfStyle}">
+				<asset:javascript src="application"/>
+				<g:if test="${deferredScript != null}">
+                	<asset:javascript src="${deferredScript}"/>
+				</g:if>
+			</g:if>
             <asset:deferredScripts/><%--
             <asset:javascript src="iefix/ie10-viewport"/>--%>
         </body>

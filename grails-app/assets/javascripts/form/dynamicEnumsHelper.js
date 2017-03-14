@@ -2,7 +2,7 @@
 var projectTypes = {};
 var constructTypes = {};
 
-function initProjectRelatives() {
+function loadDynamicEnums() {
 	chainAjaxCall({
 		url: server.ctxPath + '/api/dynamicEnums.json',
 		method: 'GET',

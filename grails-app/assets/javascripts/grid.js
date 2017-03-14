@@ -1,7 +1,7 @@
 //********************************
 //* DataTables JS grid functions *
 //********************************
-//= require application
+//* require application
 //* require_tree grid
 //* require plugins/datatables-all
 //= require plugins/datatables

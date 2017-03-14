@@ -23,7 +23,7 @@ aaa.menuGroups = [
 	]],
 	[group: 'project', description:'專案管理', icon:'fa fa-product-hunt', items: [
 		[controller: 'project', icon: 'fa fa-wpforms'],
-		[controller: 'assignment', icon: 'fa fa-calendar-check-o', params: [by: 'p']],
+		[controller: 'assignment', icon: 'fa fa-calendar-check-o'],//, params: [by: '']],
 		[controller: 'task', icon: 'fa fa-gavel'],
 		[controller: 'spTask', icon: 'fa fa-building-o']
 	]],

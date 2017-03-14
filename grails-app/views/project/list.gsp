@@ -98,7 +98,7 @@
 <asset:script type='text/javascript'><%-- deferred JS here --%>
 $(function() {
 	<g:render template="/layouts/client-message"/>
-	initProjectRelatives();
+	loadDynamicEnums();
 	createDataTable();
 });
 </asset:script>

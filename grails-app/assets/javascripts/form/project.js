@@ -1,5 +1,5 @@
 //= require ../grid
-//= require projectRelatives
+//= require dynamicEnumsHelper
 //= require_self
 
 var projectList;
