@@ -15,7 +15,6 @@ class Certificate { //implements Serializable, Comparable<Certificate> {
 	Date				expiryDate	// 有效年月(回訓時間)
 	@BindingFormat("yyyy/MM/dd'Z'")
 	Date				copied		// 證照影本繳交日
-	// String				photo		// 證照影本
 	Photo				photo		// 證照影本
 
 	// static transients = ['photo']

@@ -1,12 +1,12 @@
 <g:set var="deferredScript" value="form/worker" scope="request"/>
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta name="layout" content="main" />
-        <asset:stylesheet src="grid"/>
-        <asset:stylesheet src="form/worker"/>
-    </head>
-    <body>
+<head>
+    <meta name="layout" content="main" />
+    <asset:stylesheet src="grid"/>
+</head>
+<body>
+	<asset:stylesheet src="form/worker"/>
     <div class="content-wrapper" role="main"> <%--
         <section class="content-header">
           <g:render template="/layouts/server-message" bean="${worker}"/>
@@ -93,21 +93,17 @@
           </div>
         </section>
     </div>
-<asset:script type='text/javascript'><%-- deferred JS here --%>
-var serverParams = {
-	sexType: {
-		keyLength: ${com.lch.cces.SexType.keyLength()},
-		types: JSON.parse('${(com.lch.cces.SexType.map() as grails.converters.JSON).encodeAsJavaScript()}')
-	},
-	detailLink: '${createLink([controller:"certificate", action:"index"])}'
-};
-
+	<asset:script type='text/javascript'><%-- deferred JS here --%>
 $(function() {
 	<g:render template="/layouts/client-message"/>
-	createDetailTab();
-	createDataTable();
-	handleTabs();
+	worker({
+		sexType: {
+			keyLength: ${com.lch.cces.SexType.keyLength()},
+			types: JSON.parse('${(com.lch.cces.SexType.map() as grails.converters.JSON).encodeAsJavaScript()}')
+		},
+		detailLink: '${createLink([controller:"certificate", action:"index"])}'
+	});
 });
-</asset:script>
-    </body>
+	</asset:script>
+</body>
 </html>

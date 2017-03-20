@@ -9,11 +9,4 @@ class CertificateController extends BaseController<Certificate> {
 	CertificateController() {
 		super(Certificate)
 	}
-
-	protected final List<Certificate> listAllResources(Map params) {
-        return Certificate.where {
-			if (params?.emp?.id)  { emp.id == params.emp.id }
-		}.list(params)
-    }
-
 }
