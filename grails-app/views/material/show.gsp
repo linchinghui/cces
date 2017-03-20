@@ -27,7 +27,7 @@
                         <g:form resource="${material}" role="form" class="form-horizontal" name="materialForm">
                         <g:if test="${material}">
                             <g:if test="${_csrf?.parameterName}">
-                              <input name='${_csrf?.parameterName}' type='hidden' value='${_csrf?.token}'/>
+                            	<input name='${_csrf?.parameterName}' type='hidden' value='${_csrf?.token}'/>
                             </g:if>
                             <fieldset class="form-group">
                                 <f:with bean="material">
@@ -94,7 +94,7 @@
                 </div>
             </div>
         </div>
-<asset:script type='text/javascript'><%-- deferred JS here --%>
+	<asset:script type='text/javascript'><%-- deferred JS here --%>
 $(function() {
     var showForm = $('#materialForm');
     <g:if test="${dialogPage}">
@@ -103,6 +103,6 @@ $(function() {
     <g:render template="/layouts/client-message" bean="${material}"/>
     <g:render template="/layouts/client-render" model="[formVar: 'showForm']"/>
 });
-</asset:script>
+	</asset:script>
     </body>
 </html>
