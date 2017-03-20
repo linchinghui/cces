@@ -1,4 +1,5 @@
-<%-- place this in script tag: --%><g:if test="${params?.cb}">
+<%-- place this in script tag: --%>
+<g:if test="${params?.cb}">
 ${formVar}.submit(function (evt) {
 	evt.preventDefault();
 

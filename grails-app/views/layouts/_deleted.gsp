@@ -1,6 +1,5 @@
-<%! import grails.converters.JSON %>
-<%-- jQuery / Bootstrap / BootstrapDialog JS is required
---%><!DOCTYPE html>
+<%! import grails.converters.JSON %><%-- jQuery / Bootstrap / BootstrapDialog JS is required --%>
+<!DOCTYPE html>
 <html>
   <head></head>
   <body>

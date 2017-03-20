@@ -1,6 +1,6 @@
 <%@ page import="static com.lch.aaa.Application.*" %>
-<%@ page import="com.lch.aaa.*"%>
-<%-- <g:set var="authService" bean="authenticationService"/> --%>
+<%@ page import="com.lch.aaa.*"%><%--
+<g:set var="authService" bean="authenticationService"/>--%>
 <g:set var="lastException" value="${authService.lastException}" scope="request"/>
 <g:set var="modalPage" value="${true}" scope="request"/>
 <g:set var="loginLink" value="${createLink(controller:PAGE_LOGIN-'/')}"/>
