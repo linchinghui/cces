@@ -1,8 +1,18 @@
 /*
 *= require_self
 */
-/*
-.detail {
-	margin-top: -10px;
+
+#list-role_wrapper .dataTable tr td:nth-child(2),
+#list-role_wrapper .dataTable tr td:nth-child(2) form,
+#list-role_wrapper .dataTable tr td:nth-child(2) input {
+  width: 100px;
 }
-*/
+
+@media screen and (max-width: 479px) {
+  #list-role_info span span:first-child {
+    float: right;
+  }
+  #list-role_info span span:last-child {
+    display: block;
+  }
+}
