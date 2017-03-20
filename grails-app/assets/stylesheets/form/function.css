@@ -1,3 +1,9 @@
 /*
 *= require_self
 */
+
+#list-function_wrapper .dataTable tr td:nth-child(2),
+#list-function_wrapper .dataTable tr td:nth-child(2) form,
+#list-function_wrapper .dataTable tr td:nth-child(2) input {
+  width: 120px;
+}
