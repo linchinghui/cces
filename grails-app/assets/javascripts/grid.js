@@ -12,9 +12,13 @@ function reloadDataTables(api, arg) {
 		api.ajax.reload(arg); // api.columns.adjust().ajax.reload(arg);
 	} else {
 		api.ajax.reload(function() { // api.columns.adjust().ajax.reload(null, arg && true);
+			// setTimeout(function() {
+			// 	$(window).trigger('resize'); //, {dataTable: api});
+			// }, 600);
 			setTimeout(function() {
-				$(window).trigger('resize'); //, {dataTable: api});
-			}, 600);
+				var dt = /*params ? params.dataTable :*/ api;
+				dt.columns.adjust().responsive.recalc();
+			}, 500);
 		}, arg && true);
 	}
 }
@@ -78,7 +82,7 @@ function transformServerResult4DataTables(api) {
 			} : response
 		);
 		if (api.context[0].ajax.onDone) {
-			api.context[0].ajax.onDone();
+			api.context[0].ajax.onDone(api.settings()[0]);
 		}
 	}
 }
@@ -88,7 +92,7 @@ function transformServerError4DataTables(api) {
 		disableProcessing4DataTables(api);
 		renderAjaxButtons4DataTables(api);
 		if (api.context[0].ajax.onDone) {
-			api.context[0].ajax.onDone();
+			api.context[0].ajax.onDone(api.settings()[0]);
 		}
 	});
 }
@@ -183,7 +187,7 @@ function addQueryButtons4DataTables(api) {
 			action: function(evt, _api, node, conf) {
 				// $(evt.delegateTarget).hide();
 				var ajaxConf = _api.context[0].ajax;
-				var cont = ajaxConf.onReloadClick ? ajaxConf.onReloadClick(evt) : true;
+				var cont = ajaxConf.onReloadClick ? ajaxConf.onReloadClick(evt, _api.settings()[0]) : true;
 				if (cont) {
 					reloadDataTables(_api, ajaxConf.onReloadClicked);
 				}
@@ -341,16 +345,22 @@ function renderAlterationCellWithId4DataTables(requestActions) {
 }
 
 function resizeInSecs4DataTables(api) {
-	$(window).resize(function(evt, params) {
+	// BUG? too many resize-handlers
+	// $(window).resize(function(evt, params) {
+	// 	var dt = /*params ? params.dataTable :*/ api;
+	// 	dt.columns.adjust().responsive.recalc();
+	// });
+	// // TODO
+	// // $(window).delay(500).trigger('resize', {
+	// // dataTable: api
+	// // });
+	// setTimeout(function() {
+	// 	$(window).trigger('resize'); //, {dataTable: api});
+	// }, 500);
+
+	setTimeout(function() {
 		var dt = /*params ? params.dataTable :*/ api;
 		dt.columns.adjust().responsive.recalc();
-	});
-	// TODO
-	// $(window).delay(500).trigger('resize', {
-	// dataTable: api
-	// });
-	setTimeout(function() {
-		$(window).trigger('resize'); //, {dataTable: api});
 	}, 500);
 }
 
@@ -396,7 +406,7 @@ function initialized4DataTables(settings, response) {
 			alertMessage(response, api.context[0].jqXHR);
 		}
 		if (ajax.onDone) {
-			ajax.onDone();
+			ajax.onDone(api.settings()[0]); //settings);
 		}
 	}
 
@@ -480,7 +490,7 @@ $.fn.dataTable.ext.errMode = function(settings, tn, errors) {
 		// var tableContainer = $(api.table().container());
 
 		if (jqXHR && jqXHR.status >= 400) {
-			// WTF v1.10.10: set bDestroying to invoke _fnReDraw()
+			// WTF: v1.10.10: set bDestroying to invoke _fnReDraw()
 			settings.bDestroying = true;
 			api.clear().draw();
 			delete settings['bDestroying'];
