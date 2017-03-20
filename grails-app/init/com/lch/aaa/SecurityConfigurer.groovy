@@ -24,6 +24,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 // import org.springframework.security.web.access.intercept.FilterSecurityInterceptor
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler
 import org.springframework.security.web.authentication.RememberMeServices
+import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler
 import org.springframework.security.web.authentication.SavedRequestAwareAuthenticationSuccessHandler
 import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository
 import org.springframework.security.web.authentication.rememberme.PersistentTokenBasedRememberMeServices
@@ -60,12 +61,18 @@ class SecurityConfigurer extends WebSecurityConfigurerAdapter {
 	// RememberMeServices rememberMeServices
 
 	// @Autowired
-	// AuthenticationSuccessHandler authenticationSuccessHelperHandler
+	// AuthenticationSuccessHandler authenticationSuccessHandler
+	@Bean
+	public SavedRequestAwareAuthenticationSuccessHandler authenticationSuccessHandler() {
+		def handler = new SavedRequestAwareAuthenticationSuccessHandler()
+		handler.setAlwaysUseDefaultTargetUrl(false)
+		handler.setTargetUrlParameter(PARAMETER_TARGET_URL)
+		return handler
+	}
 
 	@Autowired
 	public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
 		// SecurityContextHolder.setStrategyName(SecurityContextHolder.MODE_GLOBAL) // .MODE_INHERITABLETHREADLOCAL)
-
 		auth
 			// .eraseCredentials(true)
 			.authenticationProvider(authenticationProvider)
@@ -92,7 +99,7 @@ class SecurityConfigurer extends WebSecurityConfigurerAdapter {
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		def csrfIgnores1 = [PAGE_LOGIN, PAGE_LOGOUT] as String[]
-		def csrfIgnores2 = ['/info', '/health', '/pick/**'] as String[]
+		def csrfIgnores2 = ['/info', '/health'/*, '/pick/**'*/] as String[]
 		// def csrfIgnores3 = ['/shutdown', PAGE_MONITOR, '/crash', '/console/**', '/dbconsole/**'] as String[]
 		def csrfIgnores3 = ['/shutdown', '/console/**', '/dbconsole/**'] as String[]
 
@@ -130,15 +137,7 @@ class SecurityConfigurer extends WebSecurityConfigurerAdapter {
 				.anyRequest().authenticated()
 			.and()
 				.formLogin()
-				.successHandler(
-						// authenticationSuccessHelperHandler)
-						// new AuthenticationSuccessHelperHandler())
-					new SavedRequestAwareAuthenticationSuccessHandler() {
-						protected SavedRequestAwareAuthenticationSuccessHandler() {
-							setTargetUrlParameter(PARAMETER_TARGET_URL)
-						}
-					}
-				)
+				.successHandler(authenticationSuccessHandler())
 				.loginPage(PAGE_LOGIN)
 				// .defaultSuccessUrl(PAGE_HOME)
 				// .failureUrl("/login?error")
