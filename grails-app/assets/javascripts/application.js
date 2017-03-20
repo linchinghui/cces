@@ -1,4 +1,4 @@
-//= require jquery-2.2.4
+//* require jquery-2.2.4
 //  require_tree .
 //= require util/string.js
 //= require util/base64.js
