@@ -32,6 +32,8 @@ base.functionList = [
 
 	[name: 'project', description: '專案表-專案'],
 	[name: 'assignment', description: '人員配置-派工'],
+	[name: 'assignDaily', description: '人員配置-日排班', aided: true],
+	[name: 'assignMonthly', description: '人員配置-綜覽', aided: true],
 //	[name: 'dispose', description: '人員配置-本月人員配置', aided: true],
 	[name: 'task', description: '一般施作紀錄'],
 	[name: 'spTask', description: '園區施作紀錄-人員'],
