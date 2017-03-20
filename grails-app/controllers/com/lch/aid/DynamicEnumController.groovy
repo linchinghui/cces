@@ -42,11 +42,11 @@ class DynamicEnumController {
 
 	private def commonWarning(replyCode, message) {
 		if (isAjax()) {
-			log.trace ("$replyCode @ isAjax()")
+			// log.trace ("$replyCode @ isAjax()")
 			render status: replyCode
 
 		} else { // 配合 JS
-			log.trace ("$replyCode @ callback")
+			// log.trace ("$replyCode @ callback")
 			response.status = replyCode.value()
 			render message
 		}
