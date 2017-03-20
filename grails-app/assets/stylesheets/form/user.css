@@ -1,6 +1,13 @@
 /*
 *= require_self
 */
+/*
+#list-user_wrapper .dataTable tr td:nth-child(2),
+#list-user_wrapper .dataTable tr td:nth-child(2) form,
+#list-user_wrapper .dataTable tr td:nth-child(2) input {
+  width: 100px;
+}
+*/
 div.dataTables_wrapper div.dataTables_info {
   padding-top: 0;
 }
