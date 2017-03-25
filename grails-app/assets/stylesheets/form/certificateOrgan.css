@@ -5,5 +5,5 @@
 #list-certificateOrgan_wrapper .dataTable tr td:nth-child(2),
 #list-certificateOrgan_wrapper .dataTable tr td:nth-child(2) form,
 #list-certificateOrgan_wrapper .dataTable tr td:nth-child(2) input {
-  width: 100px;
+  min-width: 100px;
 }

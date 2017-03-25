@@ -6,7 +6,7 @@
 #list-certificate_wrapper .dataTable tr td:nth-child(2),
 #list-certificate_wrapper .dataTable tr td:nth-child(2) form,
 #list-certificate_wrapper .dataTable tr td:nth-child(2) input {
-  width: 100px;
+  min-width: 100px;
 }
 
 #certificateForm .col-xs-6 {

@@ -5,7 +5,7 @@
 #list-role_wrapper .dataTable tr td:nth-child(2),
 #list-role_wrapper .dataTable tr td:nth-child(2) form,
 #list-role_wrapper .dataTable tr td:nth-child(2) input {
-  width: 100px;
+  min-width: 100px;
 }
 
 @media screen and (max-width: 479px) {

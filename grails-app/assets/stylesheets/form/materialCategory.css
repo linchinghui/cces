@@ -5,5 +5,5 @@
 #list-materialCategory_wrapper .dataTable tr td:nth-child(2),
 #list-materialCategory_wrapper .dataTable tr td:nth-child(2) form,
 #list-materialCategory_wrapper .dataTable tr td:nth-child(2) input {
-  width: 100px;
+  min-width: 100px;
 }
