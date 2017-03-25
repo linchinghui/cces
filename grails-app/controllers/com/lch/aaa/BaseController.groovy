@@ -162,11 +162,9 @@ abstract class BaseController<T> extends RestfulController<T> {
 				instance.errors.fieldErrors.each {
 					errorMessage += message(code: it.code, args: it.arguments)
 				}
-
 			} else {
 				errorMessage = instance.errors.allErrors
 			}
-
 		} catch (e) {
 			errorMessage = e.message
 			log.error errorMessage
@@ -202,7 +200,6 @@ abstract class BaseController<T> extends RestfulController<T> {
 					} else {
 						render ([id: params.id, status: OK.value(), message: '已更新'] as JSON)
 					}
-
 				} else {
 					flash.message = (actionName == 'save') ? '已新增' : '已更新';
 					// redirect controller: resourceName, action: 'show', id: instance.id
@@ -245,7 +242,6 @@ abstract class BaseController<T> extends RestfulController<T> {
 		}
 		if (isAjax()) {
 			respond createResource()
-
 		} else {
 			render view: 'create', model: [ (resourceName): createResource() ]
 		}
@@ -425,7 +421,6 @@ abstract class BaseController<T> extends RestfulController<T> {
 		}
 		if (isAjax()) {
 			respond instance
-
 		} else {
 			render view: 'edit', model: [(resourceName): instance]
 		}
