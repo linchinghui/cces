@@ -5,6 +5,7 @@
 <g:set var="modalPage" value="${true}" scope="request"/>
 <g:set var="loginLink" value="${createLink(controller:PAGE_LOGIN-'/')}"/>
 <g:set var="logoutLink" value="${createLink(controller:PAGE_LOGOUT-'/')}"/>
+<g:set var="savedRequest" value="${session?.getAttribute('SPRING_SECURITY_SAVED_REQUEST')}"/>
 <!DOCTYPE html>
 <html>
 <head>
@@ -43,6 +44,9 @@
             <g:if test="${_csrf?.parameterName}">
               <input name='${_csrf?.parameterName}' type='hidden' value='${_csrf?.token}'/>
 		  </g:if>--%>
+			<g:if test="${savedRequest?.redirectUrl}">
+				<input name='${PARAMETER_TARGET_URL}' type='hidden' value='${savedRequest?.redirectUrl}'/>
+			</g:if>
             <div class="input-group col-lg-offset-2 col-md-offset-2 col-sm-offset-2 col-xs-offset-1 col-lg-8 col-md-8 col-sm-8 col-xs-10">
               <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
               <input id="username" class="form-control" name="username" value="" placeholder="Username" type="text">
