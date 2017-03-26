@@ -51,7 +51,7 @@ class Assignment implements Serializable, Comparable<Assignment> {
 		project		blank: false, nullable: false
 		employee	blank: false, nullable: false
 		year		blank: false, nullable: false, size: 4
-		month		blank: false, nullable: false, size: 2, range:0..11 // min: 0, max: 11
+		month		blank: false, nullable: false, size: 2, range:1..12
 	}
 
 
