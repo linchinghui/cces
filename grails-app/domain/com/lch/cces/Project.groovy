@@ -10,6 +10,7 @@ class Project {
 	String			code			// 專案代碼, alias of id
 	String			description		// 專案名稱
 	String			constructNo		// 機台編號 (註: 使用原序號欄位)
+	String			constructModel	// 機台類型
 	String			constructPlace	// 工程地點
 	String			projectKind		// 工作型態
 	ProjectType		projectType		// 工作型態 (for input/display)
@@ -34,6 +35,7 @@ class Project {
     	code			blank: false, nullable: false, maxSize: 20 //, unique: true // PK is unique already
 		description		blank: false, nullable: false, maxSize: 40
 		constructNo		blank: true, nullable: true, maxSize: 20, unique: true
+		constructModel	blank: true, nullable: true, maxSize: 20
 		constructPlace	blank: false, nullable: false, maxSize: 40
 		projectKind		blank: false, nullable: false, inList: ProjectType.values()*.id
 		projectType		blank: false, nullable: false

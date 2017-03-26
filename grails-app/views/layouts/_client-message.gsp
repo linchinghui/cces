@@ -1,9 +1,8 @@
-<%-- place this in script tag: --%><%--
-<g:if test="${actionName != 'show'}">--%>
+<%-- place this in script tag: --%>
+<g:if test="${! dialogPage}">
 $.ajax.fake.registerWebservice(server.ctxPath + '/api/announcements.json',
 	function(req) {
-		// empty DT data
-		return {
+		return { // empty DT data
 			draw: req.draw,
 			recordsTotal: 0,
 			recordsFiltered: 0,
@@ -24,16 +23,15 @@ chainAjaxCall({
 	data: {
 		functionId: '${controllerName}'
 	}
-
 }).done(function(promise) {
 	if (promise.rc == 1 || promise.data.recordsTotal < 1) {
 		return;
 	}
-
 	$.each(promise.data.data, function(idx, ele) {
 		$.notify(moment(ele.announcedDate).format('YYYY/MM/DD') + ':<br>' + ele.description);
 	});
 });
+</g:if>
 <g:if test="${flash.message}">
 	alertMessage({message: "${flash.message}"});
 </g:if>
@@ -47,5 +45,4 @@ var errors = [
 	</g:eachError>
 ''];
 alertMessage({errors: errors});
-</g:hasErrors><%--
-</g:if>--%>
+</g:hasErrors>

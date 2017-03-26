@@ -16,7 +16,6 @@ class ProjectController extends BaseController<Project> {
             unAuthorized()
             // return
         }
-        log.trace "project brief: ${params}"
 
         def dataList = hasReadAuth ? listAllResources(params) : []
 
@@ -53,11 +52,11 @@ class ProjectController extends BaseController<Project> {
         }
     }
 
-    def projectTypes() {
-        respond ProjectType.map()
-    }
-
-    def constructTypes() {
-        respond ConstructType.map()
-    }
+    // def projectTypes() {
+    //     respond ProjectType.map()
+    // }
+	//
+    // def constructTypes() {
+    //     respond ConstructType.map()
+    // }
 }

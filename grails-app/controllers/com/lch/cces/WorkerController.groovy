@@ -1,6 +1,7 @@
 package com.lch.cces
 
 import com.lch.aaa.*
+// import grails.transaction.Transactional
 
 class WorkerController extends BaseController<Worker> {
 
@@ -9,6 +10,36 @@ class WorkerController extends BaseController<Worker> {
 	WorkerController() {
         super(Worker)
     }
+
+	// @Transactional // XXX: bugy?
+	def delete() {
+		if (! isDeleteAuthorized()) {
+			unAuthorized()
+			return
+		}
+		if (handleReadOnly()) {
+			return
+		}
+
+		Certificate.withTransaction { transactionStatus ->
+			try {
+				Certificate.executeUpdate("delete Certificate where emp.id = :empId", [empId: params?.id])
+				super.delete()
+
+			} catch (e) {
+				transactionStatus.setRollbackOnly()
+				response.status = 500
+				log.error e.message
+
+				if (isAjax()) {
+					respond ( errors: e.message )
+				} else {
+					render e.message
+				}
+				return
+			}
+		}
+	}
 
     def brief() {
         boolean hasReadAuth = isReadAuthorized()

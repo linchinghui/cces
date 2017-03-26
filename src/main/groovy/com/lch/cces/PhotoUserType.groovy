@@ -28,7 +28,7 @@ class PhotoUserType implements UserType {
 
     public Object nullSafeGet(ResultSet rs, String[] names, SessionImplementor session, Object owner) throws SQLException {
 		def filename = StringType.INSTANCE.get(rs, names[0], session)
-		return (owner==null || filename==null) ? null : new Photo(owner.class.simpleName, owner.id, filename)
+		return (owner==null || filename==null) ? null : new Photo(owner.class.simpleName, owner.id as String, filename)
     }
 
     public void nullSafeSet(PreparedStatement stm, Object photo, int index, SessionImplementor session) throws HibernateException, SQLException {

@@ -1,5 +1,6 @@
-<%@ page import="static com.lch.aaa.Application.*" %>
-<g:set var="isLoggedIn" value="${authService.isLoggedIn()}" />
+<%@ page import="static com.lch.aaa.Application.*" %><%--
+<%@ page import="org.springframework.security.core.context.SecurityContextHolder as SCH" %>--%>
+<g:set var="isLoggedIn" value="${authService.isLoggedIn()}"/>
 <g:set var="loginLink" value="${createLink(controller:PAGE_LOGIN-'/')}"/>
 <g:set var="logoutLink" value="${createLink(controller:PAGE_LOGOUT-'/')}"/>
 <g:set var="chPwdLink" value="${createLink(controller:PAGE_PASSWORD-'/')}"/>
@@ -62,22 +63,20 @@
 <%-- User Account: --%>
               <li class="dropdown user user-menu">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-<g:if test="${isLoggedIn}"><%--
-TODO: external resource here --%><%--
-                    <img class="user-image" src="../../images/user2-160x160.jpg"/>--%>
-                    <g:img class="user-image" dir="images" file="user2-160x160.jpg"/>
-                    <g:external uri="/images/user2-160x160.jpg"/>
-</g:if>
-<g:else>
-                    <asset:image src="anonymous.png" class="user-image"/>
-</g:else>
-                  <span class="hidden-xs">${authService.principal}</span>
+				  <g:set var="workerInfo" value="${session['CCES_WORKER_INFO']}"/>
+				  <g:if test="${workerInfo.avatar instanceof String}">
+					<g:img class="user-image" dir="static/images" file="${workerInfo.avatar}"/>
+				  </g:if>
+				  <g:else>
+					<img class="user-image" src="data:image/${workerInfo.avatar.toString().split('\\.')[-1]};base64,${workerInfo.avatar.thumbnailBase64}"/>
+				  </g:else>
+				  <span class="hidden-xs">${workerInfo.name}<%--${authService.principal}--%></span>
                 </a>
                 <ul class="dropdown-menu">
                   <li class="user-header">
                     <p>
                       <g:each in="${authService.authorities}">
-                          <small><span class="pull-left">${it.authority}</span><span class="pull-right">${it.description}</span></small><br>
+                        <small><span class="pull-left">${it.authority}</span><span class="pull-right">${it.description}</span></small><br>
                       </g:each>
                     </p>
                   </li><%-- Body
@@ -88,16 +87,16 @@ TODO: external resource here --%><%--
                   </li> --%><%-- Footer--%>
             	  <li class="user-footer">
 <g:if test="${isLoggedIn}">
-                      <div class="pull-left">
-                        <a id="changePassword" href="${chPwdLink}" class="btn btn-default">變更密碼</a>
-                      </div>
-                      <div class="pull-right">
-                        <a id="logout" href="${logoutLink}" class="btn btn-default">登出</a>
-                      </div>
+                    <div class="pull-left">
+                      <a id="changePassword" href="${chPwdLink}" class="btn btn-default">變更密碼</a>
+                    </div>
+                    <div class="pull-right">
+                      <a id="logout" href="${logoutLink}" class="btn btn-default">登出</a>
+                    </div>
 </g:if><g:else>
-                      <div class="pull-right">
-                        <a href="${loginLink}" class="btn btn-default">登入</a>
-                      </div>
+                    <div class="pull-right">
+                      <a href="${loginLink}" class="btn btn-default">登入</a>
+                    </div>
 </g:else>
                   </li>
                 </ul>
@@ -114,26 +113,21 @@ TODO: external resource here --%><%--
 <asset:script type='text/javascript'><%-- deferred JS here --%>
 $(function() {
   $('#logout').click(function(evt) {
-    evt.preventDefault();<%--
-    $('<form enctype="multipart/form-data">', {method: 'POST', action: evt.target.href})
-	  .appendTo(document.body)
-	  .append('<input type="hidden" name="${_csrf.parameterName}" value="'+Base64.decode(server.xToken)+'">')
-	  .submit();--%>
-	$('<form>', {method: 'POST', action: evt.target.href})
-  	  .appendTo(document.body)
-  	  .submit();
+    evt.preventDefault();
+	$('<form>' <%-- enctype="multipart/form-data" --%>
+		,{method: 'POST', action: evt.currentTarget.href})
+	  .appendTo(document.body)<%--
+	  .append('<input type="hidden" name="${_csrf.parameterName}" value="'+Base64.decode(server.xToken)+'">')--%>
+	  .submit();
   });
 
   $('#changePassword').click(function(evt) {
     evt.preventDefault();
-    window.location.href = evt.target.href + '?${PARAMETER_TARGET_URL}=' + decodeURI(window.location.pathname);
-<%--
-  // AJAX way:
-    BootstrapDialog.show({
-      // title: action.title,
-      message: requestAction4BootstrapDialog({url: evt.target.href})
-    });
---%>
+    window.location.href = evt.currentTarget.href + '?${PARAMETER_TARGET_URL}=' + decodeURI(window.location.pathname);<%--
+	// AJAX way:
+    BootstrapDialog.show({ // title: action.title,
+      message: requestAction4BootstrapDialog({url: evt.currentTarget.href})
+    });--%>
   });
 });
 </asset:script>

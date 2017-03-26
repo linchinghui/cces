@@ -2,15 +2,12 @@
 <g:set var="deferredScript" value="form/vehicleMilage" scope="request"/>
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta name="layout" content="main" />
-        <asset:stylesheet src="grid"/> <%--
-        <asset:stylesheet src="form/vehicleMilage"/> --%>
-<g:if test="${! embedPage}">
-        <asset:javascript src="grid"/>
-</g:if>
-    </head>
-    <body>
+<head>
+    <meta name="layout" content="main" />
+    <asset:stylesheet src="grid"/>
+</head>
+<body><%--
+	<asset:stylesheet src="form/vehicleMilage"/>--%>
 <g:if test="${! embedPage}">
     <div class="content-wrapper" role="main">
         <section class="content">
@@ -54,19 +51,18 @@
           </div>
         </section>
     </div>
+	<asset:javascript src="grid"/>
 </g:if>
-<asset:script type='text/javascript'><%-- deferred JS here --%>
-var serverParams2 = {
-	embed: ${embedPage},
-	projectId: '${params?.projectId}',
-	dispatchedDate: '${params?.dispatchedDate}'
-};
-
+	<asset:script type='text/javascript'><%-- deferred JS here --%>
 $(function() {
 	<g:render template="/layouts/client-message"/>
-	createCriterionListener();
-	createMilageTable();
+	vehicleMilage({
+		embed: ${embedPage},
+		projectId: '${params?.projectId}',
+		constructNo: '${params?.constructNo}',
+		dispatchedDate: '${dispatchedDate?:new java.text.SimpleDateFormat('yyyy/MM/dd').format(java.util.Calendar.instance.getTime())}'
+	});
 });
-</asset:script>
-    </body>
+	</asset:script>
+</body>
 </html>

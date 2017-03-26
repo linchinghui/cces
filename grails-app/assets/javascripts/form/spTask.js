@@ -1,52 +1,44 @@
 //= require ../grid
+//= require dynamicEnumCache
+//= require projectComboBoxes
 //= require_self
 
-var assignConstNoDiv = $('.assignConstNo');
-var assignProjectDiv = $('.assignProject');
-var assignConstNoList = $('<select/>');
-var assignProjectList = $('<select/>');
-
+var serverParams = {};
 var workedDate = $('#workedDate');
-var workedDatePicker = $('.workedDate');
-var spTaskDataTable;
-var projectTypes;
-var constructTypes;
-var projectInfo;
+var spTaskDataList;
 
 function getLastParameters(params) {
 	var qryParams = {
 		embed: true,
-		constructNo: assignConstNoList.val(),
-		projectId: assignProjectList.val(),
+		projectId: projectList.val(),
+		constructNo: machineList.val(),
 		format: 'json'
+	};
+	if (workedDate.val()) {
+		qryParams['workedDate'] = workedDate.val(); //.replace(/\//g,'-')
 	}
-	qryParams[(params ? params : 'workedDate')] = workedDate.val(); //.replace(/\//g,'-')
+	if (params) {
+		$.extend(qryParams, params);
+	}
 	return qryParams;
-}
-
-function getQueryString() {
-	return ('?' + $.param(getLastParameters()));
-}
-
-function triggerCriterionChange(target) {
-	var evt = $.Event('criterionChanged');
-	evt.state = getLastParameters();
-	target.trigger(evt);
 }
 
 /*---------------
   DataTables
  ----------------*/
 function removeDataRequested(result) {
-	loadSpTasks();
+	alertMessage(result);
+	if (result && result.status <=400) {
+		reloadDataTables(spTaskDataList);
+	}
 }
 
 function modifyDataRequested(result, editForm) {
-	loadSpTasks();
+	reloadDataTables(spTaskDataList);
 }
 
 function addDataRequested(result, editForm) {
-	loadSpTasks();
+	reloadDataTables(spTaskDataList);
 }
 
 function addDataRequest(evt, dt, node, config) {
@@ -61,15 +53,12 @@ function addDataRequest(evt, dt, node, config) {
 
 function prepareUrl(actionType) {
 	return function() {
-		return server.ctxPath + '/spTask/' + actionType + getQueryString();
+		return server.ctxPath + '/spTask/' + actionType + ('?' + $.param(getLastParameters()));
 	}
 }
 
-// function renderDisplayHint4DataTables(settings, start, end, max, total, pre) {
-// 	return '<span class="small pull-right text-danger">新增相同人員時，視為修改</span>';
-// }
-
-function createDataTable() {
+function createSpTaskTable() {
+	$.ajax.fake.defaults.wait = 0; // had assigned
 	$.ajax.fake.registerWebservice(server.ctxPath + '/api/spTasks.json', function(req) {
 		// empty DT data
 		return {
@@ -80,37 +69,38 @@ function createDataTable() {
 		};
 	});
 
-	spTaskDataTable = $('#list-spTask').DataTable({
+	spTaskDataList = $('#list-spTask').DataTable({
 			processing: true,
 			serverSide: true,
 			deferRender: true,
 			ajax: {
 				url: server.ctxPath + '/api/spTasks.json',
 				data: function(params, settings) {
-					settings.ajax.fake = !(assignProjectList.val() || assignConstNoList.val() || false);
-					// return $.extend({}, $.fn.dataTable.defaults.ajax.data(params, settings), getLastParameters());
+					settings.ajax.fake = !(projectList.val() || machineList.val() || false);
 					return getLastParameters($.fn.dataTable.defaults.ajax.data(params, settings));
 				},
 				onDone: function() {
-					if (!(assignProjectList.val() || assignConstNoList.val() || false)) {
-						spTaskDataTable.buttons().disable();
+					if (!(projectList.val() || machineList.val() || false)) {
+						spTaskDataList.buttons().disable();
 					}
 				},
 				onReloadClick: function(event) {
-						return (assignProjectList.val() || assignConstNoList.val()); // && true);
-					}
-					// ,onReloadClicked: function() {
-					// }
+					return (projectList.val() || machineList.val());
+				}
+				// ,onReloadClicked: function() {
+				// }
 			},
 			language: {
 				info: '<span class="small pull-right text-danger">新增相同人員時，視為修改</span>'
 			},
-			// infoCallback: renderDisplayHint4DataTables,
+			// infoCallback: function(settings, start, end, max, total, pre) {
+			// 	return '<span class="small pull-right text-danger">新增相同人員時，視為修改</span>';
+			// },
 			initComplete: function(settings, data) {
 				initialized4DataTables(settings, data);
 			},
 			extButtons: {
-				// copy: true
+				copy: true
 			},
 			buttons: [{
 				text: '新增',
@@ -163,181 +153,45 @@ function createDataTable() {
 					orderable: false,
 					data: 'note'
 				}
-			]
+			],
+			order: []
 		})
 		.buttons()
 		.disable();
 }
 
-/*-----------
-  load data
- -----------*/
-function loadProjectInfo(ele) {
-	var projectInfo = $(
-			'<span class="input-group-addon glyphicon glyphicon-info-sign"></span><span id="projectExists" class="sr-only"></span>'
-		)
-		.click(function() {
-			var projectId = assignProjectList.val();
-
-			if (projectId) {
-				BootstrapDialog.show({
-					title: '專案',
-					message: requestAction4BootstrapDialog({
-							url: server.ctxPath + '/project/show'
-						}, projectId) // GET method
-				});
-			}
-		});
-
-	ele.after(projectInfo);
-}
-
-function loadSpTasks() {
-	if (spTaskDataTable) {
-		reloadDataTables(spTaskDataTable, true);
-
-	} else {
-		createDataTable();
-	}
-}
-
-function initializeSpTasks() {
-	$.ajax.fake.defaults.wait = 0;
-	loadSpTasks();
-}
-/*--------------------------------------------------------------------
-  prepare worked-date picker, project select-options, construct-types
- ---------------------------------------------------------------------*/
-function createProjectCombo(ele) {
-	assignProjectList = assignProjectDiv.html(ele).combobox();
-	var combo = assignProjectList.data('combobox');
-	loadProjectInfo(combo.$element);
-
-	if (serverParams.projectId) {
-		combo.$element.val($.map(combo.map, function(val, desc) {
-			return val == serverParams.projectId ? desc : null;
-		}));
-		combo.lookup().select();
+function initializeEvents() {
+	function fireCriterionChange(delegate) {
+		var evt = $.Event('criterionChanged');
+		evt.state = getLastParameters();
+		delegate.trigger(evt);
 	}
 
-	assignProjectList.change(function(e) {
-		clearCombobox(assignConstNoList);
-		loadSpTasks();
-		triggerCriterionChange(assignProjectList);
+	projectList.on('change', function(evt) {
+		reloadDataTables(spTaskDataList);
+		fireCriterionChange(projectList);
+	});
+
+	machineList.on('change', function(evt) {
+		reloadDataTables(spTaskDataList);
+		fireCriterionChange(machineList);
+	});
+
+	workedDate.on('update', function() {
+		reloadDataTables(spTaskDataList);
+		fireCriterionChange(workedDate);
 	});
 }
 
-function createConstructNoCombo(ele) {
-	assignConstNoList = assignConstNoDiv.html(ele).combobox();
-	var combo = assignConstNoList.data('combobox');
-	// loadProjectInfo(combo.$element);
+function spTask(params) {
+	$.extend(serverParams, params);
 
-	if (serverParams.constructNo) {
-		combo.$element.val($.map(combo.map, function(val, desc) {
-			return val == serverParams.constructNo ? desc : null;
-		}));
-		combo.lookup().select();
-	}
+	loadDynamicEnums();
+	loadProjectComboBoxes(serverParams);
+	// projectList = window.projectList;
+	// machineList = window.machineList;
 
-	assignConstNoList.change(function(e) {
-		clearCombobox(assignProjectList);
-		loadSpTasks();
-		triggerCriterionChange(assignConstNoList);
-	});
-}
-
-function createDatePicker() {
-	workedDatePicker.data('DateTimePicker').date(
-		serverParams.workedDate ? moment(serverParams.workedDate) : moment().transform('YYYY-MM-DD 00:00:00.000')
-	);
-
-	workedDatePicker.datetimepicker().on('dp.change', function(e) {
-		loadSpTasks();
-		triggerCriterionChange(workedDatePicker);
-	});
-}
-
-function initializeSelectFields() {
-	createDatePicker()
-
-	chainAjaxCall({
-		url: server.ctxPath + '/api/projects.json',
-		method: 'GET',
-		cache: true,
-		async: false,
-		headers: {
-			'X-CCES-NoAlert': true,
-			'X-CCES-ACTION': 'projectTypes'
-		}
-
-	}).chain(function(promise) {
-		if (promise.rc == 1) {
-			projectTypes = {
-				'na': '(無法取得[工作型態]代碼)'
-			}
-
-		} else {
-			projectTypes = promise.data;
-		}
-
-		return chainAjaxCall({
-			url: server.ctxPath + '/api/projects.json',
-			method: 'GET',
-			cache: true,
-			async: false,
-			headers: {
-				'X-CCES-NoAlert': true,
-				'X-CCES-ACTION': 'constructTypes'
-			}
-		});
-
-	}).chain(function(promise) {
-		if (promise.rc == 1) {
-			constructTypes = {
-				'na': '(無法取得[施作方式]代碼)'
-			}
-
-		} else {
-			constructTypes = promise.data;
-		}
-
-		return chainAjaxCall({
-			url: server.ctxPath + '/project',
-			method: 'GET',
-			cache: false,
-			async: false,
-			headers: {
-				'X-CCES-NoAlert': true,
-				'X-CCES-ACTION': 'brief'
-			}
-		});
-
-	}).chain(function(promise) {
-		if (promise.rc == 1) {
-			assignProjectDiv.addClass('has-error').html($('<label class="control-label"/>').html('(無法取得專案)'));
-
-		} else {
-			createProjectCombo($(promise.data))
-		}
-
-		return chainAjaxCall({
-			url: server.ctxPath + '/project',
-			method: 'GET',
-			cache: false,
-			async: false,
-			headers: {
-				'X-CCES-NoAlert': true,
-				'X-CCES-ACTION': 'constructNos'
-			}
-		});
-
-	}).done(function(promise) {
-		if (promise.rc == 1) {
-			assignConstNoDiv.addClass('has-error').html($('<label class="control-label"/>').html('(無法取得機台編號)'));
-
-		} else {
-			createConstructNoCombo($(promise.data));
-			handleTabs(getLastParameters, 'dispatchedDate');
-		}
-	});
+	initializeEvents();
+	createSpTaskTable();
+	handleTabs(getLastParameters, 'dispatchedDate');
 }

@@ -1,3 +1,9 @@
 /*
 *= require_self
 */
+
+#list-certificateCategory_wrapper .dataTable tr td:nth-child(2),
+#list-certificateCategory_wrapper .dataTable tr td:nth-child(2) form,
+#list-certificateCategory_wrapper .dataTable tr td:nth-child(2) input {
+  min-width: 100px;
+}

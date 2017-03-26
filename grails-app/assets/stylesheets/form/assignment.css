@@ -1,59 +1,136 @@
 /*
-*= require assignCommon
-*= require_self
 *= require ../skin/clndr-cces
+*= require_self
 */
-.weekContainer {
-  padding: 10px 0 0;
-}
-
-@media screen and (max-width: 404px) {
-  .weekContainer {
-    padding: 10px 2.6% 0px 2.6%;
-  }
-}
 /*
-.weekContainer {
-  padding-right: 0;
+.assignLoad {
+  margin: 8px 0 0 5px;
 }
 
-.weekContainer.col-sm-6 {
+.box .box-header {
+  padding-bottom: 8px;
+}
+
+.monthContainer, .workerContainer {
+  max-width: 18em;
   padding-left: 5px;
+  margin-bottom: 5px;
 }
 
-.assignWeek {
-max-width: 198px;
-max-width: 177px;
-margin: 30px auto;
+.workerContainer label {
+  margin-top: 0;
 }
 */
-.clndr-grid .week-previous,
-.clndr-grid .week-next {
-  padding: 4px 5px;
+.assignCLNDR {
+  padding: 0;
 }
 
-.assignDay .input-group {
-  display: inline-block;
-  margin: 0 8px;
+.assignCLNDR .clndr {
+  overflow: hidden;
 }
 
-.assignDay .input-group.unchecked {
-  color: #ccc;
+.assignCLNDR label {
+  margin: 8px;
 }
 
-#list-assignment_info.dataTables_info {
-  padding-top: 0px;
+.assignCLNDR .dt-buttons.btn-group {
+  padding-bottom: 5px;
+  /*margin-right: 5px;*/
 }
 
-#list-assignment_info .head {
-  padding: 5px;
-  border: 1px dashed gray;
-  border-radius: 4px;
+.assignCLNDR .header {
+  width: 100%;
+  height: 24px;
+  background-color: #3883a3;
 }
 
-#list-assignment_info .foot {
-  font: 12px/1.42857143 'Source Sans Pro', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+.assignCLNDR .header .day {
+  float: left;
+  width: 14.2857%;
+  padding: 2px;
+  text-align: center;
+  color: white;
+}
+
+.assignCLNDR .days {
+  width: 100%;
+}
+
+.assignCLNDR .days .day,
+.assignCLNDR .days .empty {
+  float: left;
+  width: 14.2857%;
+  height: 66px;
+  padding: 0 1px 1px 3px;
+  text-align: left;
+  color: #4f4f4f;
+  background-color: #ebebeb;
+  border-bottom: 1px solid light-gray;
+  background-image: url('/static/images/triangle.png');
+  background-size: cover;
+  background-position: center;
+  opacity: 0.75;
+}
+
+.assignCLNDR .days .calendar-dow-0,
+.assignCLNDR .days .calendar-dow-6 {
+  background-color: #f0dddd;
+}
+
+.assignCLNDR .days .day.event .day-number,
+.assignCLNDR .days .empty.event .day-number {
+  padding-bottom: 4px;
+  border-bottom: 2px solid #3883a3;
+}
+
+.assignCLNDR .days .day.adjacent-month .day-number,
+.assignCLNDR .days .empty.adjacent-month .day-number {
+  opacity: 0.3;
+}
+
+.assignCLNDR .days .today {
+  background-color: #d3eaea;
+}
+
+.assignContainer {
+  overflow: hidden;
   position: absolute;
-  bottom: 2.75em;
-  right: 1em;
+  top: 0;
+  left: 105%;
+}
+
+.projectContainer .glyphicon {
+  top: 0;
+}
+
+.assignCLNDR .days .day a:hover {
+  color: black;
+}
+
+.assignCLNDR .days .day .fa-fw {
+  position: relative;
+  left: -2px;
+  border-radius: 3px;
+  border: 1px solid #aaa;
+}
+
+.assignCLNDR .days .day .fa-times:hover {
+  color: red;
+}
+
+@media screen and (max-width: 479px) {
+/*
+  .workerContainer .input-group {
+    min-width: 14.75em;
+  }
+*/
+  .assignCLNDR .days .day a {
+    font-size: 75%;
+  }
+
+  .assignCLNDR .days .day .fa-fw {
+    width: 12px;
+    padding-right: 2px;
+    font-size: 0.925em;
+  }
 }

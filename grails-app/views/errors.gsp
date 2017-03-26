@@ -15,7 +15,7 @@
 	        <asset:stylesheet src="errors"/>
 	    </head>
 	    <body>
-	        <div class="content-wrapper error-details" role="main">
+	        <div class="${params?.cb ? '' : 'content-wrapper'} error-details" role="main">
 	            <g:if env="development">
 	                <g:if test="${Throwable.isInstance(exception)}">
 	                    <g:renderException exception="${exception}" />
@@ -42,6 +42,11 @@
 	                </section>
 	            </g:else>
 	        </div>
+<script type='text/javascript'>
+window.onload = (function(){
+	$('.modal-dialog').removeClass('modal-sm');
+})();
+</script>
 	    </body>
 	</html>
 </g:else>

@@ -2,12 +2,12 @@
 <g:set var="deferredScript" value="form/dynamicEnum" scope="request"/>
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta name="layout" content="main" />
-        <asset:stylesheet src="grid"/>
-        <asset:stylesheet src="form/dynamicEnum"/>
-    </head>
-    <body>
+<head>
+    <meta name="layout" content="main" />
+    <asset:stylesheet src="grid"/>
+</head>
+<body>
+	<asset:stylesheet src="form/dynamicEnum"/>
     <div class="content-wrapper" role="main">
         <section class="content">
           <div class="row">
@@ -36,24 +36,22 @@
           </div>
         </section>
     </div>
-<asset:script type='text/javascript'><%-- deferred JS here --%>
-var serverParams = {
-	keyInfo: {
-		'projectType': {
-			'from': 'name',
-			'len': ${ProjectType.keyLength()}
-		},
-		'constructType': {
-			'from': 'name',
-			'len': ${ConstructType.keyLength()}
-		}
-	}
-};
+	<asset:script type='text/javascript'><%-- deferred JS here --%>
 $(function() {
 	<g:render template="/layouts/client-message"/>
-	handleTabs();
-	createDataTable();
+	dynamicEnum({
+		keyInfo: {
+			'projectType': {
+				'from': 'name',
+				'len': ${ProjectType.keyLength()}
+			},
+			'constructType': {
+				'from': 'name',
+				'len': ${ConstructType.keyLength()}
+			}
+		}
+	});
 });
-</asset:script>
-    </body>
+	</asset:script>
+</body>
 </html>

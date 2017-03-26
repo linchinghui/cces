@@ -8,3 +8,4 @@ manifest.yml
 .classpath
 grails-app/migrations/change-diff-20160706-tuned.groovy
 grails-app/migrations/change-diff-20160706u2.groovy
+src/main/webapp/static/images/bak/

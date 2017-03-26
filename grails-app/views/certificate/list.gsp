@@ -2,15 +2,12 @@
 <g:set var="deferredScript" value="form/certificate" scope="request"/>
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta name="layout" content="main" />
-        <asset:stylesheet src="grid"/> <%--
-        <asset:stylesheet src="form/certificate"/> --%>
-<g:if test="${! embedPage}">
-        <asset:javascript src="grid"/>
-</g:if>
-    </head>
-    <body>
+<head>
+    <meta name="layout" content="main" />
+    <asset:stylesheet src="grid"/>
+</head>
+<body>
+	<asset:stylesheet src="form/certificate"/>
 <g:if test="${! embedPage}">
 	<div class="content-wrapper" role="main">
 		<section class="content">
@@ -33,8 +30,8 @@
 						<th><span class="search-input" placeholder="代碼"><input type="text"><br></span>證照類別</th>
 						<th><span class="search-input"><input type="text"><br></span>證照</th>
                         <th>考取年月</th>
-                        <th>有效年月<br>回訓時間</th>
-                        <th>證照影本<br>繳交日</th>
+                        <th>有效年月<span class="hidden-xs hidden-sm">/回訓時間<br class=" hidden-md"/></span></th>
+						<th>證照<span class="hidden-xs hidden-sm">影本<br class=" hidden-md"/></span></th>
                       </tr>
                     </thead>
                     <tbody>
@@ -58,20 +55,19 @@
 <g:if test="${! embedPage}">
         </section>
     </div>
+	<asset:javascript src="grid"/>
 </g:if>
-<asset:script type='text/javascript'><%-- deferred JS here --%>
-var serverParams2 = {
-	embed: ${embedPage},<%--
-	'emp': '${params?.empId}'
-	'empId': '${params?.empId}'
-	's:emp': '${params?.empId}' --%>
-	'emp.id': '${params?.empId}' // for emp's query directly
-};
-
+	<asset:script type='text/javascript'><%-- deferred JS here --%>
 $(function() {
 	<g:render template="/layouts/client-message"/>
-	createDetailDataTable();
+	certificate({
+		embed: ${embedPage},<%--
+		'emp': '${params?.empId}'
+		'empId': '${params?.empId}'
+		's:emp': '${params?.empId}' --%>
+		'emp.id': '${params?.empId}' // for emp's query directly
+	});
 });
-</asset:script>
-    </body>
+	</asset:script>
+</body>
 </html>

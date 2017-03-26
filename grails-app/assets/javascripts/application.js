@@ -1,8 +1,9 @@
-//= require jquery-2.2.4
+//* require jquery-2.2.4
 //  require_tree .
+//= require util/string.js
+//= require util/base64.js
 //= require_self
 //= require bootstrap
-//= require util/base64.js
 //= require plugins
 //= require datetime
 //= require AdminLTE
@@ -313,7 +314,6 @@ function requestAction4BootstrapDialog(action, dataKey, params) {
 					dialog.setType(BootstrapDialog.TYPE_DANGER);
 					dialog.setTitle(dialog.getTitle() + ' (code: ' + jqXHR.status + ')');
 					dialog.getModalBody().html(response ? response : jqXHR.statusText);
-
 				} else {
 					dialog.setType(BootstrapDialog.TYPE_PRIMARY);
 				}

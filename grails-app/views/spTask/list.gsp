@@ -1,12 +1,13 @@
 <g:set var="deferredScript" value="form/spTask" scope="request"/>
+<g:set var="theWorkedDate" value="${workedDate?:java.util.Calendar.instance.getTime()}"/>
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta name="layout" content="main" />
-        <asset:stylesheet src="grid"/>
-        <asset:stylesheet src="form/spTask"/>
-    </head>
-    <body>
+<head>
+    <meta name="layout" content="main" />
+    <asset:stylesheet src="grid"/>
+</head>
+<body>
+	<asset:stylesheet src="form/spTask"/>
     <div class="content-wrapper" role="main"> <%--
         <section class="content-header">
           <g:render template="/layouts/server-message" bean="${spTask}"/>
@@ -22,13 +23,13 @@
                   </div>
                 </div>
 				<div class="constNoContainer col-sm-3 col-xs-12">
-                  <label for="project" class="hidden-xs">機台:</label>
+                  <label for="project">機台:</label>
                   <div class="assignConstNo form-control" data-placeholder="機台編號">
                     <span class="text-center"><span class="ajax-loader">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></span>
                   </div>
 			  	</div>
                 <div class="dateContainer col-sm-3 col-xs-12">
-                  <f:field property="workedDate" label="施作日期:" widget="date" />
+				  <f:field property="workedDate" label="施作日期:" widget="date" value="${theWorkedDate}" />
                 </div>
               </div>
               <ul class="nav nav-tabs">
@@ -92,19 +93,16 @@
           </div>
         </section>
     </div>
-<asset:script type='text/javascript'><%-- deferred JS here --%>
-var serverParams = {
-	constructNo: '${params?.constructNo}',
-	projectId: '${params?.projectId}',
-	workedDate: '${params?.workedDate}'
-};
-
+	<asset:script type='text/javascript'><%-- deferred JS here --%>
 $(function() {
 	<g:render template="/layouts/client-message"/>
-	initializeSelectFields();
-	initializeSpTasks();
+	spTask({
+		projectId: '${params?.projectId}',
+		constructNo: '${params?.constructNo}',
+		workedDate: '${theWorkedDate}'
+	});
 	$('input[type=text],textarea').filter(':enabled:visible:first').focus();
 });
-</asset:script>
-    </body>
+	</asset:script>
+</body>
 </html>

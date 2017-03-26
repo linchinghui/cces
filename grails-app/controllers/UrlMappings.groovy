@@ -4,11 +4,14 @@ import org.codehaus.groovy.grails.commons.*
 import org.springframework.security.web.authentication.rememberme.CookieTheftException
 
 class UrlMappings {
-    def grailsApplication
 
     static mappings = {
 
-		"/images/**"		(controller: 'images', action: 'download')
+		// "/images/**"					(controller: 'images', action: 'download')
+		"/images/$type/$id/$file"		(controller: 'images', action: 'download')
+		// "/thumbnails/**"				(controller: 'images', action: 'reduce')
+		"/thumbnails/$type/$id/$file"	(controller: 'images', action: 'reduce')
+
         "/$controller/$action?/$id?(.$format)?" {
             constraints {
                 // apply constraints here
@@ -30,11 +33,10 @@ class UrlMappings {
 		"$PAGE_MAINTENANCE" (view: PAGE_MAINTENANCE)
 		// "$PAGE_MONITOR" 	(view: PAGE_MONITOR)
 
-        def restControllers = Holders.grailsApplication.controllerClasses.findAll {
+        // def restControllers =
+		Holders.grailsApplication.controllerClasses.findAll {
             GrailsClassUtils.getStaticPropertyValue(it.clazz, 'namespace') == NAMESPACE_API
-        }
-
-        restControllers.each { ctrl ->
+        }.each { ctrl ->
             def resourceName = ctrl.logicalPropertyName
             resourceName =	resourceName[-1] == 'y' ? (resourceName - ~/y$/ + 'ies') :
 							resourceName.endsWith('ch') ? (resourceName + 'es') : (resourceName + 's')

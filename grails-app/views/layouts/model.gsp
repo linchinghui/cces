@@ -14,11 +14,17 @@
         <asset:javascript src="iefix/html5shiv-3.7.3"/>
         <asset:javascript src="iefix/respond-1.4.2"/>
 <![endif]-->--%>
+		<asset:javascript src="jquery-2.2.4.js"/>
     </head>
     <body class="hold-transition skin-blue sidebar-mini">
         <div id="spinner" class="spinner" style="display:none;"><g:message code="spinner.alt" default="Loading&hellip;"/></div>
-        <g:layoutBody />
-        <asset:javascript src="${((deferredScript?:'') - ~/.js.*$/)?:'application'}"/>
+        <g:layoutBody /><%--
+		<g:if test="${! embedPage}">--%>
+			<asset:javascript src="application"/><%--
+		</g:if>--%>
+		<g:if test="${deferredScript != null}">
+			<asset:javascript src="${deferredScript}"/>
+		</g:if>
         <asset:deferredScripts/><%--
         <asset:javascript src="iefix/ie10-viewport"/>--%>
     </body>

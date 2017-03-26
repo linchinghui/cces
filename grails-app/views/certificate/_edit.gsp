@@ -46,10 +46,10 @@
 										<f:display property="category" label="證照類別" />
 									</g:else>
 									<f:field property="title" label="證照名稱" />
-                                    <f:field property="examDate" label="考取年月" widget="date" />
-									<br>
-                                    <f:field property="expiryDate" label="有效年月|回訓日期" widget="date" />
-                                    <f:field property="copied" label="證照影本繳交日" widget="date" />
+            <div class="col-xs-6"><f:field property="examDate" label="考取年月" widget="date" /></div>
+            <div class="col-xs-6"><f:field property="expiryDate" label="有效年月/回訓日期" widget="date" /></div>
+            <div class="col-xs-6"><f:field property="copied" label="證照影本繳交日" widget="date" /></div>
+			<div class="col-xs-6"><f:field property="photo" label="證照影本" widget="photo" /></div>
                                 </f:with>
                             </fieldset>
                             <fieldset class="buttons">

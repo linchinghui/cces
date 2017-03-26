@@ -2,15 +2,12 @@
 <g:set var="deferredScript" value="form/privilege" scope="request"/>
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta name="layout" content="main" />
-        <asset:stylesheet src="grid"/> <%--
-        <asset:stylesheet src="form/privilege"/> --%>
-<g:if test="${! embedPage}">
-        <asset:javascript src="grid"/>
-</g:if>
-    </head>
-    <body>
+<head>
+    <meta name="layout" content="main" />
+    <asset:stylesheet src="grid"/>
+</head>
+<body><%--
+	<asset:stylesheet src="form/privilege"/> --%>
 <g:if test="${! embedPage}">
 	<div class="content-wrapper" role="main">
         <section class="content">
@@ -56,17 +53,16 @@
 <g:if test="${! embedPage}">
         </section>
     </div>
+	<asset:javascript src="grid"/>
 </g:if>
-<asset:script type='text/javascript'><%-- deferred JS here --%>
-var serverParams2 = {
-	embed: ${embedPage},
-	roleId: '${params?.roleId}'
-};
-
+	<asset:script type='text/javascript'><%-- deferred JS here --%>
 $(function() {
 	<g:render template="/layouts/client-message"/>
-	createDetailDataTable();
+	privilege({
+		embed: ${embedPage},
+		roleId: '${params?.roleId}'
+	});
 });
-</asset:script>
-    </body>
+	</asset:script>
+</body>
 </html>
