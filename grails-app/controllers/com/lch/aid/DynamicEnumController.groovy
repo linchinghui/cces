@@ -1,6 +1,7 @@
 package com.lch.aid
 
 import com.lch.aaa.*
+import com.lch.cces.*
 import static org.springframework.http.HttpStatus.*
 import grails.converters.*
 import groovy.util.ConfigObject
@@ -41,11 +42,11 @@ class DynamicEnumController {
 
 	private def commonWarning(replyCode, message) {
 		if (isAjax()) {
-			log.trace ("$replyCode @ isAjax()")
+			// log.trace ("$replyCode @ isAjax()")
 			render status: replyCode
 
 		} else { // 配合 JS
-			log.trace ("$replyCode @ callback")
+			// log.trace ("$replyCode @ callback")
 			response.status = replyCode.value()
 			render message
 		}
@@ -66,12 +67,20 @@ class DynamicEnumController {
 			// return
 		}
 
-		def models = ['project', 'construct'].inject([:]) { result, it ->
-			def cfgName = it + 'Type' // String type
-			def cfg = Application.loadConfiguration("${cfgName}.groovy")
-			result += [(cfgName): cfg."$cfgName"]
+		def specActionName = request.getHeader('X-CCES-ACTION')
+
+		if (specActionName) {
+			// ignore parameter max
+			this.&"${specActionName}"?.call()
+
+		} else {
+			def models = ['project', 'construct'].inject([:]) { result, it ->
+				def cfgName = it + 'Type' // String type
+				def cfg = Application.loadConfiguration("${cfgName}.groovy")
+				result += [(cfgName): cfg."$cfgName"]
+			}
+			render view: 'list', model: models
 		}
-		render view: 'list', model: models
     }
 
 	def create() {
@@ -139,5 +148,13 @@ class DynamicEnumController {
 
 		render template: '/layouts/deleted', model: [callback: params?.cb, result: [type: params.type, id: params.id, status: OK.value()]]
 	}
+
+	def projectTypes() {
+        respond ProjectType.map()
+    }
+
+    def constructTypes() {
+        respond ConstructType.map()
+    }
 
 }

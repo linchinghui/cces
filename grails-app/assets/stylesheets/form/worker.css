@@ -14,3 +14,8 @@
 	/*font-weight: bold;*/
   color: blue;
 }
+
+table.dataTable thead tr th.control,
+table.dataTable tbody tr td.control {
+  min-width: 76px;
+}

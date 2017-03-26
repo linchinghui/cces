@@ -9,12 +9,12 @@ aaa.menuGroups = [
 //	[group: 'debug', description:'系統除錯', icon:'fa fa-bug'],
 	[group: 'maintain', description:'系統維護', icon:'fa fa-television', items: [
 		[controller: 'announcement', icon: 'fa fa-twitch'],
+		[controller: 'dynamicEnum', icon: 'fa fa-list-ol'],
 		[controller: 'function', icon: 'fa fa-list-alt'],
 	    [controller: 'user', icon: 'fa fa-users'],
 	    [controller: 'role', icon: 'fa fa-unlock']
 	]],
 	[group: 'filing', description:'資料建檔', icon:'fa fa-files-o', items: [
-		[controller: 'dynamicEnum', icon: 'fa fa-list-ol'],
 		// [controller: 'certificateCategory', icon: 'fa fa-certificate'],
 		[controller: 'worker', icon: 'fa fa-user'],
 		[controller: 'vehicle', icon: 'fa fa-bus'],
@@ -23,7 +23,7 @@ aaa.menuGroups = [
 	]],
 	[group: 'project', description:'專案管理', icon:'fa fa-product-hunt', items: [
 		[controller: 'project', icon: 'fa fa-wpforms'],
-		[controller: 'assignment', icon: 'fa fa-calendar-check-o', params: [by: 'p']],
+		[controller: 'assignment', icon: 'fa fa-calendar-check-o'],//, params: [by: '']],
 		[controller: 'task', icon: 'fa fa-gavel'],
 		[controller: 'spTask', icon: 'fa fa-building-o']
 	]],
@@ -38,7 +38,10 @@ aaa.rememberMe.validitySeconds = 604800 // 7 days
 
 cces.images = [
 	// size: 500000,
-	uriPrefix: '/images',
+	uriPrefix: [
+		image: '/images',
+		thumbnail: '/thumbnails'
+	],
 	persistFolder: (grails.util.Environment.developmentMode ? '/tmp' : '/var/www/cces/images'),
 	useCache: true
 ]

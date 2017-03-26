@@ -1,12 +1,12 @@
 <g:set var="deferredScript" value="form/project" scope="request"/>
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta name="layout" content="main" />
-        <asset:stylesheet src="grid"/>
-        <asset:stylesheet src="form/project"/>
-    </head>
-    <body>
+<head>
+    <meta name="layout" content="main" />
+    <asset:stylesheet src="grid"/>
+</head>
+<body>
+	<asset:stylesheet src="form/project"/>
     <div class="content-wrapper" role="main"> <%--
         <section class="content-header">
           <g:render template="/layouts/server-message" bean="${project}"/>
@@ -35,6 +35,9 @@
                         </th>
                         <th rowspan="2"><span class="search-input"><input type="text" size="8"><br></span>
                             機台<span class="hidden-sm visible-md visible-lg">編號</span>
+                        </th>
+						<th rowspan="2"><span class="search-input"><input type="text" size="8"><br></span>
+                            <span class="hidden-sm visible-md visible-lg">機台</span>類型
                         </th>
                         <th rowspan="2"><span class="search-input"><input type="text" size="8"><br></span>
                             <span class="hidden-sm visible-md visible-lg">工程<br></span>地點
@@ -71,7 +74,8 @@
                         <td></td>
                         <td>test</td>
                         <td>測試專案</td>
-                        <td>1</td>
+						<td>1</td>
+						<td>EDS</td>
                         <td>台中</td>
                         <td>點工</td>
                         <td>其他</td>
@@ -90,13 +94,13 @@
             </div>
           </div>
         </section>
-    </div>
-<asset:script type='text/javascript'><%-- deferred JS here --%>
+    </div><%--
+	<asset:javascript src="grid"/>--%>
+	<asset:script type='text/javascript'><%-- deferred JS here --%>
 $(function() {
 	<g:render template="/layouts/client-message"/>
-	initializeRelatedFields();
-	createDataTable();
+	project({});
 });
-</asset:script>
-    </body>
+	</asset:script>
+</body>
 </html>

@@ -1,12 +1,12 @@
 <g:set var="deferredScript" value="form/role" scope="request"/>
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta name="layout" content="main" />
-        <asset:stylesheet src="grid"/> <%--
-        <asset:stylesheet src="form/role"/> --%>
-    </head>
-    <body>
+<head>
+    <meta name="layout" content="main" />
+    <asset:stylesheet src="grid"/>
+</head>
+<body>
+	<asset:stylesheet src="form/role"/>
     <div class="content-wrapper" role="main"> <%--
         <section class="content-header">
           <g:render template="/layouts/server-message" bean="${role}"/>
@@ -42,17 +42,15 @@
             </div>
           </div>
         </section>
-    </div>
-<asset:script type='text/javascript'><%-- deferred JS here --%>
-var serverParams = {
-	detailLink: '${createLink([controller:"privilege", action:"index"])}'
-};
-
+    </div><%--
+	<asset:javascript src="grid"/>--%>
+	<asset:script type='text/javascript'><%-- deferred JS here --%>
 $(function() {
 	<g:render template="/layouts/client-message"/>
-	createDetailTab();
-	createDataTable();
+	ccesRole({
+		detailLink: '${createLink([controller:"privilege", action:"index"])}'
+	});
 });
-</asset:script>
-    </body>
+	</asset:script>
+</body>
 </html>

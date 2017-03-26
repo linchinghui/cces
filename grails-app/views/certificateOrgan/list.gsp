@@ -2,19 +2,16 @@
 <g:set var="deferredScript" value="form/certificateOrgan" scope="request"/>
 <!DOCTYPE html>
 <html>
-	<head>
-		<meta name="layout" content="main" />
-		<asset:stylesheet src="grid"/> <%--
-		<asset:stylesheet src="form/certificateOrgan"/> --%>
-<g:if test="${! embedPage}">
-		<asset:javascript src="grid"/>
-</g:if>
-	</head>
-	<body>
+<head>
+	<meta name="layout" content="main" />
+	<asset:stylesheet src="grid"/>
+</head>
+<body>
+	<asset:stylesheet src="form/certificateOrgan"/>
 <g:if test="${! embedPage}">
 	<div class="content-wrapper" role="main">
-		<section class="content">
-			<div class="row">
+		<section class="content"
+		  <div class="row">
 			<div class="col-xs-12">
 				<ul class="nav nav-tabs">
 					<li class="active"><a href="#" data-target="#" data-toggle="tab"><big>${pageTitle}</big></a></li>
@@ -43,15 +40,18 @@
 				</div>
 <g:if test="${! embedPage}">
 			</div>
-			</div>
+		  </div>
 		</section>
 	</div>
+	<asset:javascript src="grid"/>
 </g:if>
-<asset:script type='text/javascript'><%-- deferred JS here --%>
+	<asset:script type='text/javascript'><%-- deferred JS here --%>
 $(function() {
 	<g:render template="/layouts/client-message"/>
-	createOrgDataTable();
+	certificateOrgan({
+		embed: ${embedPage}
+	});
 });
-</asset:script>
-	</body>
+	</asset:script>
+</body>
 </html>

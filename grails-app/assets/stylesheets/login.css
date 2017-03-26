@@ -34,7 +34,7 @@ body {
   float: none;
   margin: 0 auto;
   padding: 1px 0;
-  background: 0 no-repeat url('/assets/cces_logo.png');
+  background: 0 no-repeat url('/static/images/cces_logo.png');
 }
 
 .logo h2 {

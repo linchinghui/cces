@@ -65,6 +65,9 @@
                         </g:uploadForm>
                     </section>
                 </div>
+				<g:if test="${type=='U'}">
+					<div class="panel-footer small text-danger text-right">點選原縮圖可放大預覧</div>
+				</g:if>				
             </div>
         </div>
 <asset:javascript src="picture"/>

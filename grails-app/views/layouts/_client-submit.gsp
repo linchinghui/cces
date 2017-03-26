@@ -1,10 +1,11 @@
-<%-- place this in script tag: --%><g:if test="${params?.cb}">
+<%-- place this in script tag: --%>
+<g:if test="${params?.cb}">
 ${formVar}.submit(function (evt) {
 	evt.preventDefault();
 
 	$.ajax({
-		url: $(this).attr('action'),
-		type: $(this).attr('method'), <%-- $(this).find('input[name="_method"]').val(), --%>
+		url: this.action, <%-- $(this).attr('action'), --%>
+		type: this.method, <%-- $(this).attr('method') or $(this).find('input[name="_method"]').val(), --%>
 		data: new FormData($(this)[0]), <%-- data: $(this).serializeArray(), --%>
 		headers: { callback: true },
 		processData: false,
