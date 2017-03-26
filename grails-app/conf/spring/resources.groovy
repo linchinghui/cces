@@ -13,6 +13,7 @@ import org.springframework.security.config.authentication.CachingUserDetailsServ
 // import org.springframework.security.core.session.SessionRegistryImpl
 import org.springframework.security.core.userdetails.cache.EhCacheBasedUserCache
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
+import org.springframework.security.web.authentication.SavedRequestAwareAuthenticationSuccessHandler
 // import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler
 // import org.springframework.security.web.authentication.session.ConcurrentSessionControlStrategy
 // import org.springframework.security.web.authentication.session.ConcurrentSessionControlAuthenticationStrategy
@@ -52,6 +53,11 @@ beans = {
 		passwordEncoder = ref('passwordEncoder')
 		userDetailsService = ref('securityService')
 	}
+
+	authenticationSuccessHandler(SavedRequestAwareAuthenticationSuccessHandler) {
+		targetUrlParameter = Application.PARAMETER_TARGET_URL
+	}
+
 	authenticationTrustResolver(AuthenticationTrustResolverImpl)
 
 	// sessionRegistry(SessionRegistryImpl)

@@ -86,6 +86,7 @@ class Worker {
 		'avatarPhoto', 'idCardPhoto', 'nhiIcCardPhoto', 'diplomaPhoto', 'oorPhoto', 'gdlPhoto']
 
 	private beforeImages = []
+
 	def afterLoad() {
 		beforeImages = [avatarPhoto, idCardPhoto, nhiIcCardPhoto, diplomaPhoto, oorPhoto, gdlPhoto]
 	}
@@ -96,6 +97,7 @@ class Worker {
 			this."${fieldNames[idx]}" = beforeImages[idx]
 		}
 	}
+
 	def beforeUpdate() {
 		[avatarPhoto, idCardPhoto, nhiIcCardPhoto, diplomaPhoto, oorPhoto, gdlPhoto].eachWithIndex { photo, idx ->
 			recoverPhoto(photo, idx)
@@ -116,6 +118,7 @@ class Worker {
 			}
 		}
 	}
+
 	def afterInsert() {
 		persistImages()
 	}

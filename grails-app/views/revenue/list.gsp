@@ -1,12 +1,12 @@
 <g:set var="deferredScript" value="form/revenue" scope="request"/>
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta name="layout" content="main" />
-        <asset:stylesheet src="grid"/>
-        <asset:stylesheet src="form/revenue"/>
-    </head>
-    <body>
+<head>
+    <meta name="layout" content="main" />
+    <asset:stylesheet src="grid"/>
+</head>
+<body>
+	<asset:stylesheet src="form/revenue"/>
     <div class="content-wrapper" role="main"> <%--
         <section class="content-header">
           <g:render template="/layouts/server-message" bean="${revenue}"/>
@@ -52,12 +52,13 @@
             </div>
           </div>
         </section>
-    </div>
-<asset:script type='text/javascript'><%-- deferred JS here --%>
+    </div><%--
+	<asset:javascript src="grid"/>--%>
+	<asset:script type='text/javascript'><%-- deferred JS here --%>
 $(function() {
 	<g:render template="/layouts/client-message"/>
-	createDataTable();
+	revenue({});
 });
-</asset:script>
-    </body>
+	</asset:script>
+</body>
 </html>

@@ -33,7 +33,7 @@ class CertificateCategory {
 	}
 
 	public String toString() {
-		"${description}"
+		"($id) ${description}"
 	}
 
 }

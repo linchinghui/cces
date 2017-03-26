@@ -1,10 +1,11 @@
 <%@ page import="static com.lch.aaa.Application.*" %>
-<%@ page import="com.lch.aaa.*"%>
-<%-- <g:set var="authService" bean="authenticationService"/> --%>
+<%@ page import="com.lch.aaa.*"%><%--
+<g:set var="authService" bean="authenticationService"/>--%>
 <g:set var="lastException" value="${authService.lastException}" scope="request"/>
 <g:set var="modalPage" value="${true}" scope="request"/>
 <g:set var="loginLink" value="${createLink(controller:PAGE_LOGIN-'/')}"/>
 <g:set var="logoutLink" value="${createLink(controller:PAGE_LOGOUT-'/')}"/>
+<g:set var="savedRequest" value="${session?.getAttribute('SPRING_SECURITY_SAVED_REQUEST')}"/>
 <!DOCTYPE html>
 <html>
 <head>
@@ -19,7 +20,11 @@
 <body>
   <div class="container" role="main">
     <div class="col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2">
-      <h3><asset:image src="cces_logo.png"/><span class="hidden-xs">&nbsp;工料成本估算系統</span></h3>
+      <h3><%--
+		<asset:image src="cces_logo.png"/>--%>
+		<g:img dir="static/images" file="cces_logo.png"/>
+		<span class="hidden-xs">&nbsp;工料成本估算系統</span>
+	  </h3>
     </div>
 
     <div id="box-login" class="col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2 col-xs-10 col-xs-offset-1">
@@ -39,6 +44,9 @@
             <g:if test="${_csrf?.parameterName}">
               <input name='${_csrf?.parameterName}' type='hidden' value='${_csrf?.token}'/>
 		  </g:if>--%>
+			<g:if test="${savedRequest?.redirectUrl}">
+				<input name='${PARAMETER_TARGET_URL}' type='hidden' value='${savedRequest?.redirectUrl}'/>
+			</g:if>
             <div class="input-group col-lg-offset-2 col-md-offset-2 col-sm-offset-2 col-xs-offset-1 col-lg-8 col-md-8 col-sm-8 col-xs-10">
               <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
               <input id="username" class="form-control" name="username" value="" placeholder="Username" type="text">

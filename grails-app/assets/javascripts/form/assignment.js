@@ -1,426 +1,383 @@
-//= require ../grid
+//= require assignCommon
 //= require ../calendar
+//= require projectComboBoxes
 //= require_self
 
-var assignConstNoDiv = $('.assignConstNo');
-var assignProjectDiv = $('.assignProject');
-var assignConstNoList = $('<select/>');
-var assignProjectList = $('<select/>');
+var serverParams = {};
+var assignMonth = $('#assignMonth');
+var workerList = $('#assignWorker');
 
-var assignCLNDRDiv = $('.assignWeek');
+var assignCLNDRDiv = $('.assignCLNDR');
 var assignCLNDR;
-var assignCLNDRTemplate;
-var assignDataTableDiv = $('#list-assignment');
-var assignDataTable;
-var lastYear;
-var lastWeek;
-var lastDate;
-var lastDateAssigned;
-var lastDateClass;
-var highLightClass = 'bg-info text-danger';
+
+var projectsCache = {};
+var assignXHR;
+var assignListDiv = $('#list-assignment');
+var assignList;
+
+var editFormDiv = $('.assignContainer');
+var editForm = $('#assignmentForm');
+var assignDate = $('#assignDate');
+
+var reloadBtn;
+var cancelBtn;
 
 function getLastParameters(params) {
+	var ym = assignMonth.val().split('/');
 	var qryParams = {
-		constructNo: assignConstNoList.val(),
-		projectId: assignProjectList.val(),
-		year: lastYear,
-		format: 'json'
-	}
-
-	if (params) { // for 每月人員配置
+		// format: 'json',
+		year: ym[0],
+		month: ym[1],
+		employeeId: workerList.val()
+	};
+	if (params) {
 		$.extend(qryParams, params);
-
-	} else { // for 每週人員派工
-		qryParams['week'] = lastWeek;
-
-		if (lastDateAssigned) { // && lastDate >= moment().transform('YYYY-MM-DD 00:00:00.000')) {
-			qryParams['d' + lastDate.day()] = true;
-		}
 	}
-
 	return qryParams;
 }
 
-/*---------------
-  DataTables
- ----------------*/
-function renderDisplayHint4DataTables(settings, start, end, max, total, pre) {
-	var dtHeadInfo = $(settings.aanFeatures.i);
-	var isHiddenFilter = dtHeadInfo.hasClass('text-hide');
-	var msg = (!isHiddenFilter) && lastDate ?
-		'過濾條件: <span class="text-danger">週' + assignCLNDR.daysOfTheWeek[lastDate.day()] + '</span>' :
-		'可點選<span class="text-danger">日期</span>過濾資料';
-
-	if (isHiddenFilter) { // not really hide info-text, show it
-		dtHeadInfo.removeClass('text-hide');
-	}
-	return '<div class="head">' + msg + '</div><div class="foot small text-danger">新增相同人員時，視為修改</div>';
-}
-
-function removeDataRequested(result) {
-	lastDateClass = null;
-	loadAssignments();
-}
-
-function modifyDataRequested(result, editForm) {
-	loadAssignments();
-}
-
-function addDataRequested(result, editForm) {
-	loadAssignments();
-}
-
-function addDataRequest(evt, dt, node, config) {
-	BootstrapDialog.show({
-		title: '新增...',
-		message: requestAction4BootstrapDialog({
-			url: server.ctxPath + '/assignment/create',
-			callback: addDataRequested
-		}, null, getLastParameters())
-	});
-}
-
-function createDataTable() {
-	$.ajax.fake.registerWebservice(server.ctxPath + '/api/assignments',
-		function(req) {
-			// empty DT data
-			return {
-				draw: req.draw,
-				recordsTotal: 0,
-				recordsFiltered: 0,
-				data: []
-			};
-		});
-
-	assignDataTable = assignDataTableDiv.DataTable({
-			dom: 'B<"pull-right"i>ftrp',
-			processing: true,
-			serverSide: true,
-			deferRender: true,
-			ajax: {
-				url: server.ctxPath + '/api/assignments',
-				data: function(params, settings) {
-					settings.ajax.fake = !(assignProjectList.val() || assignConstNoList.val() || false);
-
-					return $.extend({
-						draw: params.draw,
-						max: params.length,
-						offset: params.start,
-						sort: (params.order ? settings.aoColumns[params.order[0].column]
-							.data : 'id'),
-						order: (params.order ? params.order[0].dir : 'asc')
-					}, getLastParameters());
-				},
-				onDone: function() {
-					if (!(assignProjectList.val() || assignConstNoList.val() || false)) {
-						assignDataTable.buttons().disable();
-					}
-				},
-				onReloadClick: function(event) {
-						return (assignProjectList.val() || assignConstNoList.val());
-					}
-					// ,onReloadClicked: function() {
-					// }
-			},
-			infoCallback: renderDisplayHint4DataTables,
-			initComplete: function(settings, data) {
-				initialized4DataTables(settings, data);
-			},
-			extButtons: {
-				// copy: true
-			},
-			buttons: [{
-				text: '新增',
-				action: addDataRequest
-			}],
-			columns: [ //0
-				renderDefaultAlterationCellWithId4DataTables({
-					edit: {
-						url: server.ctxPath + '/assignment/edit',
-						callback: modifyDataRequested
-					},
-					delete: {
-						url: server.ctxPath + '/assignment/delete',
-						callback: removeDataRequested
-					}
-				}), { //1
-					data: 'employee'
-						// },{ //2
-						//   data: 'project'
-				}, { //3
-					render: renderCheck4DataTables,
-					orderable: false,
-					data: 'd0'
-				}, { //4
-					render: renderCheck4DataTables,
-					orderable: false,
-					data: 'd1'
-				}, { //5
-					render: renderCheck4DataTables,
-					orderable: false,
-					data: 'd2'
-				}, { //6
-					render: renderCheck4DataTables,
-					orderable: false,
-					data: 'd3'
-				}, { //7
-					render: renderCheck4DataTables,
-					orderable: false,
-					data: 'd4'
-				}, { //8
-					render: renderCheck4DataTables,
-					orderable: false,
-					data: 'd5'
-				}, { //9
-					render: renderCheck4DataTables,
-					orderable: false,
-					data: 'd6'
-				}
-			],
-			order: [
-					[1, 'asc']
-				] // prev: 'aaSorting'
-		})
-		.buttons()
-		.disable();
-}
-/*---------------
-  CLNDR
- ----------------*/
-function highLightFocusDate() {
-	var dtHeadInfo = $('#list-assignment_info');
-	dtHeadInfo.addClass('text-hide'); //no filter-text, orig:.removeClass(highLightClass);
-
-	if (lastDateClass) {
-		$(lastDateClass).removeClass('selected');
-
-	} else {
-		lastDateAssigned = false;
-	}
-
-	// determine focus or not
-	if (lastDate) {
-		var currDateClass = '.calendar-day-' + lastDate.format('YYYY-MM-DD');
-
-		if (currDateClass == lastDateClass && lastDateAssigned) {
-			lastDateAssigned = false;
-			lastDate = null;
-
-		} else {
-			lastDateClass = currDateClass;
-			$(lastDateClass).addClass('selected');
-			dtHeadInfo.removeClass('text-hide'); // show filter-text
-			lastDateAssigned = true;
-		}
-	}
-}
-
-function buildAssignCalendar(assignData) {
-	$(document).keydown(function(e) {
-		if (assignCLNDR && e.keyCode == 37) assignCLNDR.back(); // Left arrow
-		if (assignCLNDR && e.keyCode == 39) assignCLNDR.forward(); // Right arrow
-	});
-
+/*--------
+  月曆操作
+----------*/
+function createAssignCalendar(template) {
 	assignCLNDR = assignCLNDRDiv.clndr({
-		targets: {
-			nextButton: 'week-next',
-			todayButton: 'week-current',
-			previousButton: 'week-previous'
+		// classes: 'day',
+		// dateParameter: 'date',
+		showAdjacentMonths: false,
+		startWithMonth: assignMonth.val().split('/').join('-'),
+		template: template,
+		doneRendering: function() {
+			reloadBtn = $('input[type="button"][value="重查"]');
+			reloadBtn.on('click', function() {
+				loadAssignments();
+			});
+			cancelBtn = $('input[type="button"][value="取消"]');
+			cancelBtn.on('click', function() {
+				(assignXHR && assignXHR.readyState != 4) && assignXHR.abort();
+				cancelBtn.prop('disabled', true);
+				reloadBtn.prop('disabled', false);
+			});
+			$('a.last-month').click(function(evt) {
+				evt.preventDefault();
+				assignCLNDR.back();
+				assignMonth.siblings().data('DateTimePicker').date(assignCLNDR.month);
+			});
+			$('a.next-month').click(function(evt) {
+				evt.preventDefault();
+				assignCLNDR.forward();
+				assignMonth.siblings().data('DateTimePicker').date(assignCLNDR.month);
+			});
 		},
-		lengthOfTime: {
-			days: 7,
-			interval: 7
-		},
-		events: assignData,
-		template: assignCLNDRTemplate,
-
 		clickEvents: {
 			click: function(target) {
-				lastDate = target.date;
-				lastYear = lastDate.weekYear();
-				lastWeek = lastDate.week();
-				loadAssignments();
-			},
-			onIntervalChange: function(sunday, saturday) {
-				lastDateAssigned = false;
-				lastDate = null;
-				lastYear = sunday.weekYear();
-				lastWeek = sunday.week();
-				loadAssignments();
+				if (!$(target.element).hasClass('empty') && workerList.val()) {
+					assignDate.val(target.element.className.match(/calendar-day-(\d+-\d+-\d+)/)[1]);
+					assignCLNDRDiv.fadeOut(1250); // .animate({ width: 'toggle'}
+					editFormDiv.animate({
+						left: '0%'
+					}, 1000);
+				}
 			}
 		}
 	});
 }
 
-/*----------------------------------
-  loading assignments and sumup
- -----------------------------------*/
-function loadProjectInfo(ele) {
-	var projectInfo = $(
-			'<span class="input-group-addon glyphicon glyphicon-info-sign"></span><span id="projectExists" class="sr-only"></span>'
-		)
-		.click(function() {
-			var projectId = assignProjectList.val();
-
-			if (projectId) {
-				BootstrapDialog.show({
-					title: '專案',
-					message: requestAction4BootstrapDialog({
-							url: server.ctxPath + '/project/show'
-						}, projectId) // GET method
-				});
-			}
-		});
-
-	ele.after(projectInfo);
-}
-
-function loadAssignments() {
-	$.ajax.fake.registerWebservice(server.ctxPath + '/api/assignments', function(req) {
-		// events data
+/*--------
+  月曆樣版
+----------*/
+function loadAssignCalendar() {
+	$.ajax.fake.registerWebservice(serverParams.calendarTemplate, function(req) {
 		return [];
 	});
 
 	chainAjaxCall({
-		fake: !(assignProjectList.val() || assignConstNoList.val() || false),
-		url: server.ctxPath + '/api/assignments',
-		method: 'GET',
-		cache: false,
-		// async: false,
-		headers: {
-			'X-CCES-ACTION': 'sumup'
-		},
-		data: getLastParameters()
-
-	}).done(function(promise) {
-		if (assignCLNDRDiv.hasClass('has-error') || promise.rc == 1) { // got errors
-			return;
-		}
-
-		if (assignCLNDR) {
-			assignCLNDR.setEvents(promise.data);
-
-		} else {
-			buildAssignCalendar(promise.data);
-		}
-
-		highLightFocusDate();
-
-		if (assignDataTable) {
-			reloadDataTables(assignDataTable, true);
-
-		} else {
-			createDataTable();
-		}
-	});
-}
-/*----------------------------------------
-  default value by server-side parameters
- -----------------------------------------*/
-function initializeAssignments() {
-	$.ajax.fake.defaults.wait = 0;
-	var now = moment();
-	lastYear = serverParams.year ? serverParams.year : now.weekYear();
-	lastWeek = serverParams.week ? serverParams.week : now.week();
-	loadAssignments();
-}
-/*----------------------------------------------------------------------------------
-  prepare CLNDR from template and ComboBox with project/construct-no select-options
- -----------------------------------------------------------------------------------*/
-function createProjectCombo(ele) { //, dataLoadCallback) {
-	assignProjectList = assignProjectDiv.html(ele).combobox();
-	var combo = assignProjectList.data('combobox');
-	loadProjectInfo(combo.$element);
-
-	if (serverParams.projectId) {
-		combo.$element.val($.map(combo.map, function(val, desc) {
-			return val == serverParams.projectId ? desc : null;
-		}));
-		combo.lookup().select();
-	}
-
-	assignProjectList.change(function(e) {
-		clearCombobox(assignConstNoList);
-		loadAssignments();
-	});
-}
-
-function createConstructNoCombo(ele) {
-	assignConstNoList = assignConstNoDiv.html(ele).combobox();
-	var combo = assignConstNoList.data('combobox');
-	// loadProjectInfo(combo.$element);
-
-	if (serverParams.constructNo) {
-		combo.$element.val($.map(combo.map, function(val, desc) {
-			return val == serverParams.constructNo ? desc : null;
-		}));
-		combo.lookup().select();
-	}
-
-	assignConstNoList.change(function(e) {
-		clearCombobox(assignProjectList);
-		loadAssignments();
-	});
-}
-
-function initializeSelectFields() {
-	chainAjaxCall({
-		url: server.ctxPath + '/project',
-		method: 'GET',
-		cache: false,
-		async: false,
-		headers: {
-			'X-CCES-NoAlert': true,
-			'X-CCES-ACTION': 'brief'
-		}
-
-	}).chain(function(promise) {
-		if (promise.rc == 1) {
-			assignProjectDiv.addClass('has-error').html($(
-				'<label class="control-label"/>').html('(無法取得專案)'));
-
-		} else {
-			createProjectCombo($(promise.data));
-		}
-
-		return chainAjaxCall({ // chainPassCall();
-			url: server.ctxPath + '/project',
-			method: 'GET',
-			cache: false,
-			async: false,
-			headers: {
-				'X-CCES-NoAlert': true,
-				'X-CCES-ACTION': 'constructNos'
-			}
-		});
-
-	}).done(function(promise) {
-		if (promise.rc == 1) {
-			assignConstNoDiv.addClass('has-error').html($('<label class="control-label"/>').html('(無法取得機台編號)'));
-
-		} else {
-			createConstructNoCombo($(promise.data));
-			postInitializeCLNDR();
-		}
-	});
-}
-
-function postInitializeCLNDR() {
-	chainAjaxCall({
+		// fake: (promise.rc == 1),
 		url: serverParams.calendarTemplate,
 		method: 'GET',
 		// cache: false,
 		async: false
-
 	}).done(function(promise) {
 		if (promise.rc == 1) {
-			assignCLNDRDiv.addClass('has-error').html($(
-				'<label class="control-label"/>').html('(無法取得[' + serverParams.pageTitle + ']週曆程式)'));
-
+			assignCLNDRDiv.addClass('has-error').html($('<label class="control-label"/>').html('(未取得月曆)'));
 		} else {
-			assignCLNDRTemplate = promise.data;
-			// last process
-			handleTabs(getLastParameters);
+			createAssignCalendar(promise.data);
 		}
 	});
+}
+
+/*-----------
+  處理派工資料
+-------------*/
+function deleteAssignment(ele) {
+	if (!e) {
+		var e = window.event;
+	}
+	e.cancelBubble = true;
+	if (e.stopPropagation) {
+		e.stopPropagation();
+	}
+	var delDate = $(ele).parent().parent().attr('class').match(/calendar-day-(\d+-\d+-\d+)/)[1];
+
+	new BootstrapDialog({
+		size: BootstrapDialog.SIZE_SMALL,
+		type: BootstrapDialog.TYPE_WARNING,
+		title: '刪除...',
+		message: delDate + ' ' + $(ele).siblings().text() + '<br><br>是否確定 ?',
+		closable: true,
+		buttons: [{
+			label: '否',
+			cssClass: 'pull-left',
+			action: function(dialog) {
+				dialog.close();
+			}
+		}, {
+			label: '是',
+			action: function(dialog) {
+				var params = getLastParameters({
+					projectId: $(ele).siblings().attr('id'),
+				});
+				var data = {
+					'_method': 'PUT',
+					id: params.projectId + '|' + params.employeeId + '|' + params.year + '|' + params.month
+				}
+				data['d' + (delDate.match(/\d+-\d+-(\d+)/)[1] * 1)] = false;
+
+				// NOTE: NO DELETE, just update
+				$.ajax({
+					type: 'POST',
+					url: server.ctxPath + '/assignment/update',
+					contentType: 'application/x-www-form-urlencoded',
+					data: data,
+					headers: {
+						callback: true
+					},
+					success: transformServerResult(function(response) {
+						loadAssignments();
+					}),
+					error: transformServerError()
+				});
+
+				dialog.close();
+			}
+		}]
+	}).open();
+
+	return false;
+}
+
+function loadAssignment(projId, callback) {
+	$('.assignLoad').show();
+	var url = server.ctxPath + '/api/projects/' + projId + '.json';
+
+	if (!$.ajax.fake.webServices.hasOwnProperty(url)) {
+		$.ajax.fake.registerWebservice(url, function(req) {
+			return projectsCache[projId];
+		});
+	}
+
+	chainAjaxCall({
+		fake: projectsCache.hasOwnProperty(projId),
+		url: url,
+		method: 'GET',
+		cache: true,
+		async: false
+
+	}).done(function(promise) {
+		if (!projectsCache.hasOwnProperty(promise.data.id)) {
+			projectsCache[promise.data.id] = promise.data;
+		}
+		// if (callback && projectsCache.hasOwnProperty(promise.data.id)) {
+			callback.call( null,
+				(promise.data.constructModel ? promise.data.constructModel : 'n/a') + ' '
+					+ hideHalf(constructTypes[promise.data.constructCode])
+					+ hideHalf(projectTypes[promise.data.projectKind])
+			);
+		// }
+		$('.assignLoad').hide();
+	});
+}
+
+function proxyProjectInfo(ele) {
+	if (!e) {
+		var e = window.event;
+	}
+	e.cancelBubble = true;
+
+	if (e.stopPropagation) {
+		e.stopPropagation();
+	}
+	showProjectInfo(ele.id);
+
+	return false;
+}
+
+function renderAssignment(ele, projId) {
+	loadAssignment(projId, function(projInfo) {
+		ele.html( ele.html()
+			+ '<div><i class="fa fa-fw fa-times" onclick="deleteAssignment(this)"></i>'
+			+ '<a id="' + projId + '" onclick="proxyProjectInfo(this)">' //+'<span>'
+			+ projInfo //+'</span>'
+			+ '</a>' + '</div>'
+		);
+	});
+}
+
+function loadAssignments(rerender) {
+	$('.assignLoad').show();
+	reloadBtn.prop('disabled', true);
+
+	if (typeof(rerender) === 'undefined') {
+		rerender = true;
+	}
+	if (rerender) {
+		assignCLNDR.render();
+	}
+	$.ajax.fake.registerWebservice(server.ctxPath + '/api/assignments.json', function(req) {
+		return [];
+	});
+
+	assignXHR = $.ajax({
+		fake: !(assignMonth.val() && workerList.val()),
+		type: 'GET',
+		url: server.ctxPath + '/api/assignments.json',
+		data: getLastParameters(),
+		success: transformServerResult(function(result) {
+			setTimeout(function() {
+				var ym = assignMonth.val().split('/');
+				var clzPrefix = '.calendar-day-' + ym[0] + '-' + pad(ym[1], 2) + '-';
+				var lastDay = moment([ym[0], ym[1] - 1]).add(1, 'months').date(0).date();
+
+				$.each(result, function(idx, rec) {
+					var projId = rec['id'].split('|')[0];
+					for (day = 1; day <= lastDay; day++) {
+						if (rec['d' + day]) {
+							renderAssignment($(clzPrefix + pad(day, 2)), projId);
+						}
+					}
+				});
+			}, 0);
+		}),
+		error: transformServerError(),
+		complete: function(result) {
+			$('.assignLoad').hide();
+			cancelBtn.prop('disabled', true);
+			reloadBtn.prop('disabled', false);
+		}
+	});
+
+	cancelBtn.prop('disabled', false);
+}
+
+/*----
+  起始
+------*/
+function initializeEvents() {
+	// 派工
+	editForm.submit(function(evt) {
+		evt.preventDefault();
+		var projectId = projectList.val();
+		var machine = machineList.val();
+
+		if (!(projectId || machine)) {
+			alertWarning({
+				'warning': '專案或機台擇一輸入'
+			});
+			return false;
+		}
+		var isNew = !assignCLNDRDiv.find('.days a[id="' + projectId + '"]').length;
+		var params = getLastParameters({
+			projectId: projectId,
+			constructNo: machine
+		});
+		var data = $.extend({}, (isNew ? params : {
+			'_method': 'PUT',
+			id: params.projectId + '|' + params.employeeId + '|' + params.year + '|' + params.month,
+			constructNo: params.constructNo
+		}));
+		data['d' + (assignDate.val().match(/\d+-\d+-(\d+)/)[1] * 1)] = true;
+
+		$.ajax({
+			type: 'POST',
+			url: server.ctxPath + '/assignment/' + (isNew ? 'save' : 'update'),
+			contentType: 'application/x-www-form-urlencoded',
+			data: data,
+			headers: {
+				callback: true
+			},
+			success: transformServerResult(function(response) {
+				loadAssignments();
+			}),
+			error: transformServerError()
+		});
+	});
+
+	// animation
+	editFormDiv.find('.buttons').children().prop("disabled", false).click(function(evt) {
+		editFormDiv.animate({
+			left: '105%'
+		}, 500);
+		assignCLNDRDiv.fadeIn(750);
+	});
+	// $(document).keydown(function(evt) {
+	// 	if (assignCLNDR) {
+	// 		if (evt.keyCode == 37 || evt.keyCode == 38) { // Left or Up
+	// 			assignCLNDR.back();
+	// 			assignMonth.siblings().data('DateTimePicker').date(assignCLNDR.month);
+	// 		}
+	// 		if (evt.keyCode == 39 || evt.keyCode == 40) { // Right or Down
+	// 			assignCLNDR.forward();
+	// 			assignMonth.siblings().data('DateTimePicker').date(assignCLNDR.month);
+	// 		}
+	// 	}
+	// });
+	$(document).on('keyup', function(evt) {
+		if (evt.keyCode == 27) { // evt.which
+			editFormDiv.animate({
+				left: '105%'
+			}, 500);
+			assignCLNDRDiv.fadeIn(750);
+		}
+	});
+
+	function fireCriterionChange(delegate) {
+		var evt = $.Event('criterionChanged');
+		evt.state = getLastParameters();
+		// log($._data(delegate[0], "events" ));
+		delegate.trigger(evt);
+	}
+
+	assignMonth.on('update', function(evt, val) { // 月分變更
+		var ym = val.split('/');
+
+		if (ym.length > 1) {
+			assignCLNDR.month.year(ym[0]).month(ym[1] - 1);
+			assignCLNDR.intervalStart = assignCLNDR.month.clone().startOf('month');
+			assignCLNDR.intervalEnd = assignCLNDR.intervalStart.clone().endOf('month');
+
+			loadAssignments();
+			fireCriterionChange(assignMonth);
+		}
+	});
+
+	workerList.change(function(evt) { // 員工變更
+		loadAssignments();
+		fireCriterionChange(workerList);
+	});
+}
+
+function assignments(params) {
+	$.extend(serverParams, params);
+	$.ajax.fake.defaults.wait = 0; // had assigned
+	$.each($.ajax.fake.webServices, function(ws) {
+		if (ws.startsWith(server.ctxPath + '/api/projects/')) {
+			delete $.ajax.fake.webServices[ws];
+		}
+	});
+
+	loadDynamicEnums();
+	loadProjectComboBoxes(serverParams);
+	loadAssignCalendar();
+	initializeEvents();
+	loadAssignments(false);
+	handleTabs(getLastParameters);
 }

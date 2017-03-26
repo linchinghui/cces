@@ -40,12 +40,10 @@ trait GenericEnumerable<T extends Enum<T>> {
 			try {
 				// return (T) DefaultTypeTransformation.castToType(val.toUpperCase(), classType)
 				return (T) Enum.valueOf(classType, val.toUpperCase())
-			} catch (e) {
+			} catch (e) { // by default: idx == -1
 				LoggerFactory.getLogger(classType).error e.message
-				// by default: idx == -1
 			}
 		}
-
 		return idx >=-1 ? this.values()[idx] : null;
 	}
 

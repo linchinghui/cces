@@ -49,7 +49,7 @@ body {
   position: relative;
 }
 .layout-boxed {
-  background: url('../images/boxed-bg.jpg') repeat fixed;
+  background: url('/static/images/boxed-bg.jpg') repeat fixed;
 }
 /*
  * Content Wrapper - contains the main content
@@ -253,7 +253,8 @@ a:focus {
   float: left;
   background-color: transparent;
   background-image: none;
-  padding: 15px 15px;
+  /*padding: 15px 15px;*/
+  padding: 16px 15px 14px;
   font-family: fontAwesome;
 }
 .main-header .sidebar-toggle:before {
@@ -289,7 +290,8 @@ a:focus {
   transition: width 0.3s ease-in-out;
   display: block;
   float: left;
-  height: 50px;
+  /*height: 50px;*/
+  height: 49px;
   font-size: 20px;
   line-height: 50px;
   text-align: center;
@@ -298,7 +300,7 @@ a:focus {
   padding: 0 15px;
   font-weight: 300;
   overflow: hidden;
-  background: url('../cces_logo.png') no-repeat 5% center;
+  background: url('/static/images/cces_logo.png') no-repeat 5% center;
   -webkit-background-size:50px 50px;
      -moz-background-size:50px 50px;
        -o-background-size:50px 50px;
@@ -382,7 +384,8 @@ a:focus {
   }
   .navbar-custom-menu .navbar-nav > li > a {
     padding-top: 15px;
-    padding-bottom: 15px;
+	/*padding-bottom: 15px;*/
+	padding-bottom: 10px;
     line-height: 20px;
   }
 }
@@ -1146,17 +1149,21 @@ a:focus {
 }
 .navbar-nav > .user-menu .user-image {
   float: left;
-  width: 25px;
-  height: 25px;
+  /*width: 25px;
+  height: 25px;*/
+  width: 28px;
+  height: 30px;
   border-radius: 36%;
   margin-right: 10px;
-  margin-top: -2px;
+  /*margin-top: -2px;*/
+  margin-top: -5px;
 }
 @media (max-width: 767px) {
   .navbar-nav > .user-menu .user-image {
     float: none;
     margin-right: 0;
-    margin-top: -8px;
+	/*margin-top: -8px;*/
+	margin-top: -6px;
     line-height: 10px;
   }
 }
@@ -1524,7 +1531,7 @@ a:focus {
   position: relative;
   border-radius: 3px;
   background: #ffffff;
-  border-top: 3px solid #d2d6de;
+  /*border-top: 3px solid #d2d6de;*/
   margin-bottom: 20px;
   width: 100%;
   box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);

@@ -85,11 +85,13 @@ abstract class BaseController<T> extends RestfulController<T> {
 		} else { // 配合 JS
 			if (request.getHeader('callback') || params?.cb) {
 				log.trace ("$replyCode @ callback")
+				def val = replyCode.value()
 
 				if (actionName == 'delete') {
-					render template: getDeletePage(), model: [callback: params.cb, result: [id: params.id, status: replyCode.value(), message: message]]
+					render template: getDeletePage(), model: [callback: params.cb, result: [id: params.id, status: val, (val>=400?'errors':'message'): message]]
+
 				} else {
-					response.status = replyCode.value()
+					response.status = val
 					render message
 				}
 			} else {
@@ -102,6 +104,7 @@ abstract class BaseController<T> extends RestfulController<T> {
 						def url = g.createLink action: 'show', id: params?.id // params: params
 						log.trace ("$message! redirect to $url")
 						redirect url: url
+
 					} else {
 						flash.errors += '! 操作將轉回首頁.'
 						// log.trace flash.errors
@@ -149,20 +152,22 @@ abstract class BaseController<T> extends RestfulController<T> {
 			isOK = true
 
 		} catch (org.springframework.dao.DuplicateKeyException dke) {
+			log.error dke.message
 			errorMessage = '資料重複'
 
 		} catch (grails.validation.ValidationException ve) {
+			log.error ve.message
+
 			if (instance.errors.allErrors == instance.errors.fieldErrors) {
 				instance.errors.fieldErrors.each {
 					errorMessage += message(code: it.code, args: it.arguments)
 				}
-
 			} else {
 				errorMessage = instance.errors.allErrors
 			}
-
 		} catch (e) {
 			errorMessage = e.message
+			log.error errorMessage
 		}
 
 		if (! isOK) {
@@ -185,7 +190,7 @@ abstract class BaseController<T> extends RestfulController<T> {
 		return isOK
 	}
 
-	def renderSavedPage(instance) {
+	def postSaved(instance) {
 		request.withFormat {
 			form multipartForm {
 				// 配合 JS
@@ -195,7 +200,6 @@ abstract class BaseController<T> extends RestfulController<T> {
 					} else {
 						render ([id: params.id, status: OK.value(), message: '已更新'] as JSON)
 					}
-
 				} else {
 					flash.message = (actionName == 'save') ? '已新增' : '已更新';
 					// redirect controller: resourceName, action: 'show', id: instance.id
@@ -238,7 +242,6 @@ abstract class BaseController<T> extends RestfulController<T> {
 		}
 		if (isAjax()) {
 			respond createResource()
-
 		} else {
 			render view: 'create', model: [ (resourceName): createResource() ]
 		}
@@ -264,7 +267,7 @@ abstract class BaseController<T> extends RestfulController<T> {
 			return
 		}
 
-		renderSavedPage(instance)
+		postSaved(instance)
 	}
 
 	/*
@@ -418,7 +421,6 @@ abstract class BaseController<T> extends RestfulController<T> {
 		}
 		if (isAjax()) {
 			respond instance
-
 		} else {
 			render view: 'edit', model: [(resourceName): instance]
 		}
@@ -453,7 +455,7 @@ abstract class BaseController<T> extends RestfulController<T> {
 			return
 		}
 
-		renderSavedPage(instance)
+		postSaved(instance)
 	}
 
 	/*
@@ -473,7 +475,6 @@ abstract class BaseController<T> extends RestfulController<T> {
 
 		// log.debug ("delete() query instance ...")
 		T instance = queryForResource(params?.id)
-
 		if (instance == null) {
 			transactionStatus.setRollbackOnly()
 			notFound()
@@ -481,49 +482,39 @@ abstract class BaseController<T> extends RestfulController<T> {
 		}
 
 		// log.debug ("delete() ...")
-		def isDEL = false
-		def errorMessage = null
+		def message = '已刪除'
+		def replyCode = NO_CONTENT
 
 		try {
 			// instance.delete flush:true
 			deleteResource(instance)
-			isDEL = true
 
 		} catch (e) {
-			errorMessage = e.message
-		}
-
-		if (! isDEL) {
 			transactionStatus.setRollbackOnly()
+			replyCode = INTERNAL_SERVER_ERROR
+			response.status = replyCode.value()
+			message = e.message
+			log.error ("delete() failed!\n$message")
 
 			if (isAjax()) {
-				// log.debug ("delete() failed, respond to isAjac()")
-				respond ( errors: errorMessage )
-
-			} else { // 配合 JS
-				// log.debug ("delete() failed, render UI")
-				// if (request.getHeader('callback')) {
-					render ( [errors: errorMessage] as JSON )
-				// } else {
-				// 		flash.errors = errorMessage
-				// 		render view: (actionName == 'save' ? 'create' : 'edit'), model: [ (resourceName): instance ]
-				// }
+				respond ( errors: message )
+				return
 			}
-			return
 		}
+
 		// 配合 JS
 		if (params?.cb) {
 			// log.debug ("delete() done @ callback")
-			render template: getDeletePage(), model: [callback: params.cb, result: [id: params.id, status: NO_CONTENT.value(), message: '已刪除']]
+			render template: getDeletePage(), model: [callback: params.cb, result: [id: params.id, status: response.status, (response.status>=400?'errors':'message'): message]]
 
 		} else {
 			if (params?.format || request.format != 'all') {
 				// log.debug ("delete() done @ UI")
-				render status: NO_CONTENT // NO CONTENT STATUS CODE
+				render status: replyCode // NO CONTENT STATUS CODE
 
 			} else {
 				// log.debug ("delete() done and redirect to show")
-				flash.message = '已刪除'
+				flash.message = message
 				// redirect controller: resourceName, action: 'show', id: instance.id
 				def url = g.createLink action: 'show', id: instance.id
 				redirect url: url

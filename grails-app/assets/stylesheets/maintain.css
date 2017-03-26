@@ -14,7 +14,7 @@ body {
   margin: 0;
   padding: 0;
   border: 0;
-  background: #3c5a76 url("./status_bg.png") no-repeat center
+  background: #3c5a76 url("/static/images/status_bg.png") no-repeat center
 }
 
 .wrapper {
