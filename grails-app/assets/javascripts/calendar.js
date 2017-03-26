@@ -1,9 +1,11 @@
 //= require_self
 //= require underscore
 //= require plugins/clndr
+moment.locale('zh-tw');
 // $(function() {
-	// _.templateSettings.interpolate = /\{\{=([^-][\S\s]+?)\}\}/g;
-	// _.templateSettings.evaluate = /\{\{([^-=][\S\s]+?)\}\}/g;
-	// _.templateSettings.escape = /\{\{-([^=][\S\s]+?)\}\}/g;
-	moment.locale('zh-tw');
+//   _.templateSettings = {
+// 	evaluate: /\{\%(.+?)\%\}/g,
+// 	interpolate: /\{\{(.+?)\}\}/g,
+// 	escape: /\{\{\-(.+?)\}\}/g
+//   };
 // });

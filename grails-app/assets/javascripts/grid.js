@@ -1,7 +1,7 @@
 //********************************
 //* DataTables JS grid functions *
 //********************************
-//= require application
+//* require application
 //* require_tree grid
 //* require plugins/datatables-all
 //= require plugins/datatables
@@ -12,9 +12,13 @@ function reloadDataTables(api, arg) {
 		api.ajax.reload(arg); // api.columns.adjust().ajax.reload(arg);
 	} else {
 		api.ajax.reload(function() { // api.columns.adjust().ajax.reload(null, arg && true);
+			// setTimeout(function() {
+			// 	$(window).trigger('resize'); //, {dataTable: api});
+			// }, 600);
 			setTimeout(function() {
-				$(window).trigger('resize'); //, {dataTable: api});
-			}, 600);
+				var dt = /*params ? params.dataTable :*/ api;
+				dt.columns.adjust().responsive.recalc();
+			}, 500);
 		}, arg && true);
 	}
 }
@@ -25,6 +29,27 @@ function renderDate4DataTables(timeIncluded) {
 		return (data && (type == 'display' || type == 'filter')) ?
 			moment(data).format('YYYY/MM/DD' + (timeIncluded ? ' HH:mm:ss' : '')) :
 			data;
+	};
+}
+function renderThumbnail4DataTables() {
+	return function(data, type, row, meta) {
+		var rtn = data;
+		var flag = 'tc'+meta.col+'ed';
+
+		if ((data && (type == 'display' || type == 'filter')) && ! row[flag]) {
+			row[flag] = true;
+
+			rtn = $('<span/>').attr({
+				'class': 'fileinput-exists thumbnail',
+				'data-field': data
+			}).append(
+				$('<img/>').attr({
+					'data-src':'holder.js/44x44'
+				})
+			)[0].outerHTML;
+		}
+
+		return rtn;
 	};
 }
 
@@ -57,7 +82,7 @@ function transformServerResult4DataTables(api) {
 			} : response
 		);
 		if (api.context[0].ajax.onDone) {
-			api.context[0].ajax.onDone();
+			api.context[0].ajax.onDone(api.settings()[0]);
 		}
 	}
 }
@@ -67,7 +92,7 @@ function transformServerError4DataTables(api) {
 		disableProcessing4DataTables(api);
 		renderAjaxButtons4DataTables(api);
 		if (api.context[0].ajax.onDone) {
-			api.context[0].ajax.onDone();
+			api.context[0].ajax.onDone(api.settings()[0]);
 		}
 	});
 }
@@ -162,7 +187,7 @@ function addQueryButtons4DataTables(api) {
 			action: function(evt, _api, node, conf) {
 				// $(evt.delegateTarget).hide();
 				var ajaxConf = _api.context[0].ajax;
-				var cont = ajaxConf.onReloadClick ? ajaxConf.onReloadClick(evt) : true;
+				var cont = ajaxConf.onReloadClick ? ajaxConf.onReloadClick(evt, _api.settings()[0]) : true;
 				if (cont) {
 					reloadDataTables(_api, ajaxConf.onReloadClicked);
 				}
@@ -214,9 +239,11 @@ function reFireClick(evt, theCell, type) {
 	}); // un-toggle control detail
 }
 
-function createRemoveCellButtom(cellEle, dataKey, action) {
+function createRemoveCellButtom(cell, dataKey, action) {
+	var cellEle = $(action.selector, cell);
+
 	if (/null(\||)/.test(dataKey)) {
-		$(cellEle).addClass('disabled');
+		cellEle.addClass('disabled');
 		return;
 	}
 
@@ -248,8 +275,8 @@ function createRemoveCellButtom(cellEle, dataKey, action) {
 	});
 }
 
-function createEditCellButtom(cellEle, dataKey, action /*, infoOnly*/ ) {
-	cellEle.click(function(evt) {
+function createEditCellButtom(cell, dataKey, action /*, infoOnly*/ ) {
+	$(action.selector, cell).click(function(evt) {
 		/*if (! infoOnly)*/
 		reFireClick(evt, this.parentNode.parentNode, action.type);
 
@@ -260,20 +287,18 @@ function createEditCellButtom(cellEle, dataKey, action /*, infoOnly*/ ) {
 	});
 }
 
-function createInfoCellButtom(cellEle, dataKey, action) {
+function createInfoCellButtom(cell, dataKey, action) {
 	if (/null(\||)/.test(dataKey)) {
-		$(cellEle).addClass('disabled');
+		$(action.selector, cell).addClass('disabled');
 		return;
 	}
-	createEditCellButtom(cellEle, dataKey, action /*, true*/ );
+	createEditCellButtom(cell, dataKey, action /*, true*/ );
 }
 
 function renderAlterationCellWithId4DataTables(requestActions) {
 	var actionsLen = Object.keys(requestActions).length;
 
-	return {
-		// visible: false,
-		// className: 'control',
+	return { // visible: false, className: 'control',
 		orderable: false,
 		data: 'id',
 		width: (actionsLen == 3 ? '76px' : actionsLen == 2 ? '52px' : '28px'),
@@ -284,54 +309,58 @@ function renderAlterationCellWithId4DataTables(requestActions) {
 		},
 		createdCell: function(cell, cellData, rowData, row, col) {
 			cell['className'] = 'control';
-			if (requestActions.show) {
-				var action = $.extend(true, {
-					delegate: cell,
-					type: 'show',
-					title: '資訊...',
-					selector: 'span i.fa-info',
-					key: 'id'
-				}, requestActions.show);
 
-				createInfoCellButtom($(action.selector, cell), rowData[action.key], action);
+			if (requestActions.show) {
+				createInfoCellButtom(cell, rowData['id'],
+					$.extend(true, {
+						delegate: cell,
+						type: 'show',
+						title: '資訊...',
+						selector: 'span i.fa-info',
+						key: 'id'
+					}, requestActions.show));
 			}
 			if (requestActions.edit) {
-				var action = $.extend(true, {
-					delegate: cell,
-					type: 'edit',
-					title: '編輯...',
-					selector: 'span i.fa-pencil',
-					key: 'id'
-				}, requestActions.edit);
-
-				createEditCellButtom($(action.selector, cell), rowData[action.key], action);
+				createEditCellButtom(cell, rowData['id'],
+					$.extend(true, {
+						delegate: cell,
+						type: 'edit',
+						title: '編輯...',
+						selector: 'span i.fa-pencil',
+						key: 'id'
+					}, requestActions.edit));
 			}
 			if (requestActions.delete) {
-				var action = $.extend(true, {
-					delegate: cell,
-					type: 'delete',
-					title: '刪除...',
-					selector: 'span i.fa-times',
-					key: 'id'
-				}, requestActions.delete);
-
-				createRemoveCellButtom($(action.selector, cell), rowData[action.key], action);
+				createRemoveCellButtom(cell, rowData['id'],
+					$.extend(true, {
+						delegate: cell,
+						type: 'delete',
+						title: '刪除...',
+						selector: 'span i.fa-times',
+						key: 'id'
+					}, requestActions.delete));
 			}
 		}
 	};
 }
 
 function resizeInSecs4DataTables(api) {
-	$(window).resize(function(evt, params) {
+	// BUG? too many resize-handlers
+	// $(window).resize(function(evt, params) {
+	// 	var dt = /*params ? params.dataTable :*/ api;
+	// 	dt.columns.adjust().responsive.recalc();
+	// });
+	// // TODO
+	// // $(window).delay(500).trigger('resize', {
+	// // dataTable: api
+	// // });
+	// setTimeout(function() {
+	// 	$(window).trigger('resize'); //, {dataTable: api});
+	// }, 500);
+
+	setTimeout(function() {
 		var dt = /*params ? params.dataTable :*/ api;
 		dt.columns.adjust().responsive.recalc();
-	});
-	// TODO
-	// $(window).delay(500).trigger('resize', {
-	// dataTable: api
-	// });
-	setTimeout(function() {
-		$(window).trigger('resize'); //, {dataTable: api});
 	}, 500);
 }
 
@@ -377,7 +406,7 @@ function initialized4DataTables(settings, response) {
 			alertMessage(response, api.context[0].jqXHR);
 		}
 		if (ajax.onDone) {
-			ajax.onDone();
+			ajax.onDone(api.settings()[0]); //settings);
 		}
 	}
 
@@ -461,7 +490,7 @@ $.fn.dataTable.ext.errMode = function(settings, tn, errors) {
 		// var tableContainer = $(api.table().container());
 
 		if (jqXHR && jqXHR.status >= 400) {
-			// WTF v1.10.10: set bDestroying to invoke _fnReDraw()
+			// WTF: v1.10.10: set bDestroying to invoke _fnReDraw()
 			settings.bDestroying = true;
 			api.clear().draw();
 			delete settings['bDestroying'];

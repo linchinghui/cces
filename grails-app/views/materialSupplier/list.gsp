@@ -6,9 +6,6 @@
 		<meta name="layout" content="main" />
 		<asset:stylesheet src="grid"/> <%--
 		<asset:stylesheet src="form/materialSupplier"/> --%>
-<g:if test="${! embedPage}">
-		<asset:javascript src="grid"/>
-</g:if>
 	</head>
 	<body>
 <g:if test="${! embedPage}">
@@ -62,17 +59,16 @@
 <g:if test="${! embedPage}">
 		</section>
 	</div>
+	<asset:javascript src="grid"/>
 </g:if>
-<asset:script type='text/javascript'><%-- deferred JS here --%>
-var serverParams2 = {
-	embed: ${embedPage},
-	materialId: '${params?.materialId}'
-};
-
+	<asset:script type='text/javascript'><%-- deferred JS here --%>
 $(function() {
 	<g:render template="/layouts/client-message"/>
-	createDetailDataTable();
+	materialSupplier({
+		embed: ${embedPage},
+		materialId: '${params?.materialId}'
+	});
 });
-</asset:script>
+	</asset:script>
 	</body>
 </html>

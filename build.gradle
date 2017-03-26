@@ -19,7 +19,7 @@ buildscript {
     }
 }
 
-version '1.4.5'
+version '1.5.0'
 group 'cces'
 
 apply plugin: 'war'
@@ -97,7 +97,7 @@ dependencies {
 	compile 'org.grails:grails-plugin-rest'
 	compile 'org.grails.plugins:fields:2.1.3' // 2.1.2
 	// compile 'org.springframework.boot:spring-security-csrf-token-filter'
-    compile 'org.springframework.boot:spring-boot-starter-security', { //o=:1.2.8.RELEASE, 1.3.5.RELEASE
+    compile 'org.springframework.boot:spring-boot-starter-security', { // 1.2.8, 1.3.5, 1.3.8
 	    [   // // common:
 	        // 'aopalliance',
 	        // 'commons-logging',

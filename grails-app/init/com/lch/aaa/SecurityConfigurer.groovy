@@ -6,32 +6,29 @@ import com.lch.aaa.DefaultRoleType
 import grails.util.*
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.annotation.Qualifier
-import org.springframework.boot.autoconfigure.security.SecurityProperties
+// import org.springframework.boot.autoconfigure.security.SecurityProperties
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
+// import org.springframework.core.annotation.Order
 import org.springframework.core.io.ClassPathResource
 import org.springframework.security.authentication.AuthenticationManager
 import org.springframework.security.authentication.AuthenticationProvider
+import org.springframework.security.core.Authentication
 // import org.springframework.security.core.context.SecurityContextHolder
-import org.springframework.security.core.userdetails.UserDetailsService
 // import org.springframework.security.core.session.SessionRegistry
+import org.springframework.security.core.userdetails.UserDetailsService
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
 import org.springframework.security.config.annotation.web.builders.WebSecurity
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter
-// import org.springframework.security.web.access.intercept.FilterSecurityInterceptor
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler
 import org.springframework.security.web.authentication.RememberMeServices
-import org.springframework.security.web.authentication.SavedRequestAwareAuthenticationSuccessHandler
 import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository
 import org.springframework.security.web.authentication.rememberme.PersistentTokenBasedRememberMeServices
 // import org.springframework.security.web.authentication.session.SessionAuthenticationStrategy
-// import org.springframework.security.web.context.SecurityContextPersistenceFilter
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher
-// import org.springframework.web.filter.DelegatingFilterProxy
-// import org.springframework.core.annotation.Order
 
 @Configuration
 @EnableWebSecurity
@@ -59,24 +56,17 @@ class SecurityConfigurer extends WebSecurityConfigurerAdapter {
 	// @Autowired // @Qualifier('rememberMeServices')
 	// RememberMeServices rememberMeServices
 
-	// @Autowired
-	// AuthenticationSuccessHandler authenticationSuccessHelperHandler
+	@Autowired
+	AuthenticationSuccessHandler authenticationSuccessHandler
 
 	@Autowired
 	public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
 		// SecurityContextHolder.setStrategyName(SecurityContextHolder.MODE_GLOBAL) // .MODE_INHERITABLETHREADLOCAL)
-
 		auth
 			// .eraseCredentials(true)
 			.authenticationProvider(authenticationProvider)
 			.userDetailsService(authenticationProvider.userDetailsService)
 	}
-
-	// //@Bean(name='authenticationManager')
-	// @Override
-	// public AuthenticationManager authenticationManagerBean() throws Exception {
-	// 	return super.authenticationManagerBean()
-	// }
 
 	@Override
 	public void configure(WebSecurity web) throws Exception {
@@ -84,7 +74,7 @@ class SecurityConfigurer extends WebSecurityConfigurerAdapter {
 			// .debug(true)
 			.ignoring()
 			// .antMatchers('/**/favicon.ico', '/error', '/css/**', '/js/**', '/images/**') // '/**/*\\.{(js|css|gif|jpg|jpeg|png)}'
-			.antMatchers('/images/**')
+			.antMatchers('/images/**', '/thumbnails/**')
 			.antMatchers('/assets/**', '/static/**')
 			.antMatchers('/api/announcements.json*')
 	}
@@ -92,13 +82,13 @@ class SecurityConfigurer extends WebSecurityConfigurerAdapter {
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		def csrfIgnores1 = [PAGE_LOGIN, PAGE_LOGOUT] as String[]
-		def csrfIgnores2 = ['/info', '/health', '/pick/**'] as String[]
+		def csrfIgnores2 = ['/info', '/health'/*, '/pick/**'*/] as String[]
 		// def csrfIgnores3 = ['/shutdown', PAGE_MONITOR, '/crash', '/console/**', '/dbconsole/**'] as String[]
 		def csrfIgnores3 = ['/shutdown', '/console/**', '/dbconsole/**'] as String[]
 
 		// def config = new ConfigSlurper().parse(new ClassPathResource("security-config.groovy").URL)
 		def config = Holders.grailsApplication?.config
-		def authenticationManager = authenticationManagerBean()
+		def authenticationManager = authenticationManagerBean() // of super
 
 		// for console / dbconsole plugin:
 		if (Environment.developmentMode) {
@@ -130,18 +120,10 @@ class SecurityConfigurer extends WebSecurityConfigurerAdapter {
 				.anyRequest().authenticated()
 			.and()
 				.formLogin()
-				.successHandler(
-						// authenticationSuccessHelperHandler)
-						// new AuthenticationSuccessHelperHandler())
-					new SavedRequestAwareAuthenticationSuccessHandler() {
-						protected SavedRequestAwareAuthenticationSuccessHandler() {
-							setTargetUrlParameter(PARAMETER_TARGET_URL)
-						}
-					}
-				)
 				.loginPage(PAGE_LOGIN)
-				// .defaultSuccessUrl(PAGE_HOME)
 				// .failureUrl("/login?error")
+				// .defaultSuccessUrl(PAGE_HOME)
+				.successHandler(authenticationSuccessHandler/*()*/)
 				.permitAll()
 			.and()
 				.logout()

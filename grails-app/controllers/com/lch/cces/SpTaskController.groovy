@@ -2,10 +2,11 @@ package com.lch.cces
 
 import java.text.*
 import com.lch.aaa.*
+import java.util.Calendar
 
 class SpTaskController extends BaseController<SpTask> {
 
-static namespace = Application.NAMESPACE_API
+	static namespace = Application.NAMESPACE_API
 
 	SpTaskController() {
 		super(SpTask)
@@ -29,59 +30,62 @@ static namespace = Application.NAMESPACE_API
 				params['employeeId'] = compIds[2]
 			}
 		}
-
 		if (params?.projectId) {
 			params['projectId'] = URLDecoder.decode(params['projectId'])
 		}
-		if (params?.workedDate && params?.workedDate != params?.parsedDate) {
+		if (params?.constructNo) {
+			params['constructNo'] = URLDecoder.decode(params['constructNo'])
+		}
+		if (params?.workedDate && params?.workedDate != request['workedDate']) {
 			params['workedDate'] = URLDecoder.decode(params.workedDate).take(10).replaceAll('-','\\/')
-			params['parsedDate'] = new SimpleDateFormat('yyyy/MM/dd').parse(params.workedDate)
+			request['workedDate'] = new SimpleDateFormat('yyyy/MM/dd').parse(params.workedDate)
 		}
 	}
 
 	private List<SpTask> listAllSpTasks(Map params) {
+		resolveParameters(params)
+
 		if (params?.embed == 'true') { // list all
 			params.remove('max')
 			params.remove('offset')
 		}
-		resolveParameters(params)
-
 		return SpTask.where {
 			if (params?.projectId)   { project.id  == params.projectId }
-			if (params?.workedDate)  { workedDate  == params.parsedDate }
-			if (params?.employeeId)  { employee.id == params.employeeId }
 			if (params?.constructNo) { equipment   == params.constructNo }
+			if (params?.workedDate)  { workedDate  == request['workedDate'] }
+			if (params?.employeeId)  { employee.id == params.employeeId }
 		}.list(params)
 	}
 
+	@Override
 	protected final List<SpTask> listAllResources(Map params) {
 		def spTasks = listAllSpTasks(params)
 		def assignTasks = null
 
-		if (params?.embed == 'true') { // list all
-			//
-			// params.project and params.workedDate must not be null
-			//
+		if (params?.embed == 'true') { // project-id and work-date must not be null
 			def calendar = Calendar.instance
-			calendar.setTime(params.parsedDate)
+			calendar.setTime(request['workedDate'])
 			def year = calendar.get(Calendar.YEAR)
-			def week = calendar.get(Calendar.WEEK_OF_YEAR)
-			def dx   = calendar.get(Calendar.DAY_OF_WEEK) - 1
+			def month = calendar.get(Calendar.MONTH) // +1
+			def dx = calendar.get(Calendar.DAY_OF_MONTH) // -1
 
 			def cloneTask = createResource(params)
-			def theProject = cloneTask.project
+			// def theProject = cloneTask.project
+			def theProjectId = cloneTask.projectId
 			cloneTask.project = null
 
 			assignTasks = Assignment.where {
 				notIn 'employee', SpTask.where {
-					project    == theProject
-					workedDate == params.parsedDate
+					// project == theProject
+					project.id == theProjectId
+					workedDate == request['workedDate']
 				}.employee
 
-				eq    'project',  theProject
-				eq    'year',     year
-				eq    'week',     week
-				eq    "d$dx",     true
+				// eq ('project', theProject)
+				eq ('project.id', theProjectId)
+				eq ('year',  year)
+				eq ('month', month + 1)
+				eq ("d$dx",  true)
 
 			}.collect {
 				def task = new SpTask(cloneTask.properties)
@@ -93,24 +97,20 @@ static namespace = Application.NAMESPACE_API
 		if (assignTasks) {
 			spTasks += assignTasks
 		}
-
 		return spTasks
 	}
 
+	@Override
 	protected final SpTask queryForResource(Serializable id) {
 		listAllSpTasks(params)[0]
 	}
 
-	private void prepareDefaultValue(props) {
-		if (props.project) {
-		if (! props.constructPlace) props.constructPlace = props.project.constructPlace
-		if (! props.equipment     ) props.equipment      = props.project.constructNo // bug: description
-		// if (! props.constructCode ) props.constructCode  = props.project.constructCode
-		if (! props.constructType ) props.constructType  = props.project.constructType // substitute of constructCode
-		// if (! props.note          ) props.note           = props.project.note
-		}
+	@Override
+	protected final SpTask createResource() {
+		return createResource(params)
 	}
 
+	@Override
 	protected final SpTask createResource(Map params) {
 		resolveParameters(params)
 		def props = params
@@ -118,37 +118,49 @@ static namespace = Application.NAMESPACE_API
 		if (params?.projectId &&
 			params?.projectId != 'null') {
 			props.project = Project.get(params.projectId)
+
 			props.remove('projectId')
 		}
 		if (props.project == null &&
 			params?.constructNo &&
 			params?.constructNo != 'null') {
 			props.project = Project.findByConstructNo(params.constructNo)
+
+			props.remove('constructNo')
+			props.remove('projectId')
 		}
 		if (params.workedDate &&
 			params?.workedDate != 'null') {
-			props.workedDate = params.parsedDate
+			props.workedDate = request['workedDate']
 		}
 		if (params?.employeeId &&
 			params?.employeeId != 'null') {
 			props.employee = Worker.get(params.employeeId)
+
 			props.remove('employeeId')
 		}
-
-		prepareDefaultValue(props)
+		// default value
+		if (props.project) {
+			if (! props.constructPlace)
+				props.constructPlace = props.project.constructPlace
+			if (! props.equipment)
+				props.equipment      = props.project.constructNo
+			// if (! props.constructCode )
+			// 	props.constructCode  = props.project.constructCode
+			if (! props.constructType)
+				props.constructType  = props.project.constructType
+			// if (! props.note)
+			// 	props.note           = props.project.note
+		}
 		return resource.newInstance(props)
 	}
 
-	protected final SpTask createResource() {
-		return createResource(params)
-	}
-
+	@Override
 	def edit() {
 		resolveParameters(params)
 
 		if (params?.id) {
 			super.edit()
-
 		} else {
 			// redirect action: 'create', params: params
 			def url = g.createLink action: 'create', params: params
@@ -156,11 +168,12 @@ static namespace = Application.NAMESPACE_API
 		}
 	}
 
+	@Override
 	def update() {
 		resolveParameters(params)
 
-		if (params?.parsedDate) {
-			params.workedDate = params.parsedDate
+		if (request['workedDate']) {
+			params.workedDate = request['workedDate']
 		}
 		super.update()
 	}

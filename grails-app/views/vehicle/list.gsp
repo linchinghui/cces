@@ -1,12 +1,12 @@
 <g:set var="deferredScript" value="form/vehicle" scope="request"/>
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta name="layout" content="main" />
-        <asset:stylesheet src="grid"/> <%--
-        <asset:stylesheet src="form/vehicle"/> --%>
-    </head>
-    <body>
+<head>
+    <meta name="layout" content="main" />
+    <asset:stylesheet src="grid"/>
+</head>
+<body>
+	<asset:stylesheet src="form/vehicle"/>
     <div class="content-wrapper" role="main"> <%--
         <section class="content-header">
           <g:render template="/layouts/server-message" bean="${vehicle}"/>
@@ -76,12 +76,11 @@
           </div>
         </section>
     </div>
-<asset:script type='text/javascript'><%-- deferred JS here --%>
+	<asset:script type='text/javascript'><%-- deferred JS here --%>
 $(function() {
 	<g:render template="/layouts/client-message"/>
-	createDataTable();
-	handleTabs();
+	vehicle({});
 });
-</asset:script>
+	</asset:script>
     </body>
 </html>

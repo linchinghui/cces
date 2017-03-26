@@ -16,6 +16,8 @@ class SpTask implements Serializable, Comparable<SpTask> {
 	ConstructType       constructType   // 施作方式 (input/display)
 	String              note            // 備註
 
+	static transients = ['constructType']
+
 	static constraints = {
 		project         blank: false, nullable: false
 		workedDate      blank: false, nullable: false
@@ -23,7 +25,7 @@ class SpTask implements Serializable, Comparable<SpTask> {
 		constructPlace  blank: true, nullable: true, maxSize: 40
 		equipment       blank: true, nullable: true
 		constructCode   blank: true, nullable: true, inList: ConstructType.values()*.id
-		// constructType  blank: true, nullable: true
+		constructType  blank: true, nullable: true
 		note            blank: true, nullable: true, maxSize: 255
 	}
 
