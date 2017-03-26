@@ -1,3 +1,3 @@
-//= require dynamicEnumHelper
 //= require ../grid
+//= require dynamicEnumCache
 //= require_self

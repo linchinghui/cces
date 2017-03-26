@@ -43,13 +43,15 @@
                       <tr>
                         <th></th>
                         <th>員工</th>
+						<th>off</th>
 						<g:each var="i" in="${(1..31)}"><th>${i}</th></g:each>
                       </tr>
                     </thead>
                     <tbody>
                       <tr>
                         <td></td>
-                        <td></td>
+						<td></td>
+						<td></td>
 						<g:each var="i" in="${(1..31)}"><td><i class="fa fa-circle-thin"></i></td></g:each>
                       </tr>
                     </tbody>

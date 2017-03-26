@@ -73,9 +73,10 @@ function renderDayCellExpand(api, rowIdx, columns) {
 			'class': 'dtr-title'
 		}).append(col.title);
 
-		var colData = $('<span>').attr({
-			'class': 'dtr-data'
-		}).append(col.data ? renderDayCellText(col.data) : col.data);
+		// var colData = $('<span>').attr({
+		// 	'class': 'dtr-data'
+		// }).append( renderDayCellText(col.data) );
+		var colData = renderDayCellText(col.data);
 
 		var colEle = $('<li/>').attr({
 			'data-dtr-index': col.columnIndex,
@@ -94,9 +95,15 @@ function renderDayCellExpand(api, rowIdx, columns) {
 }
 
 function renderDayCellText(projId) {
-	var rec = projectsCache[projId];
-	// return hideHalf(constructTypes[rec.constructCode]) + hideHalf(projectTypes[rec.projectKind]);
-	return '<span>' + constructTypes[rec.constructCode] + '</span><span>' + projectTypes[rec.projectKind] + '</span>';
+	var rtn = '&nbsp;';
+	if (projId) {
+		if (projId !== rtn) {
+			var rec = projectsCache[projId];
+			rtn = '<span class="dtr-data" title="' + projId + '">' + /*hideHalf(*/constructTypes[rec.constructCode]/*)*/
+				+ '<span>' + /*hideHalf(*/projectTypes[rec.projectKind]/*)*/ + '</span>' + '</span>';
+		}
+	}
+	return rtn;
 }
 
 function loadDayCell(ele, projId) {
@@ -129,28 +136,43 @@ function loadDayCell(ele, projId) {
 
 function createMonthlyTable() {
 	var cols = [{
+		data: null,
 		orderable: false,
-		render: 'position',
-		data: null
+		// width: '10px',
+		render: 'position'
 	}, {
+		data: 'employee',
+		// width: '50px',
 		render: function renderEmployee(data, type, row, meta) {
 			if (data && (type == 'display' || type == 'filter')) {
 				var idxSpace = data.indexOf(' ');
 				data = '<span class="hidden-xs">' + data.substring(0, idxSpace) + '</span>' + data.substring(idxSpace);
 			}
 			return data;
-		},
-		data: 'employee'
+		}
+	}, {
+		data: 'off',
+		orderable: false,
+		render: function (data, type, row, meta) {
+			if (type == 'display') {
+				data = 0;
+				for (i = 1; i <= serverParams3.days; i++) {
+					if (! row['d'+i]) { data += 1; }
+				}
+			}
+			return data;
+		}
 	}];
 
 	for (i = 1; i <= 31; i++) {
 		cols.push({
 			data: 'd' + i,
+			orderable: false,
+			// width: '20px',
 			render: function renderDayCell(data, type, row, meta) {
-				return (data && (type == 'display' )) /*|| type == 'filter'))*/ ?
-					loadDayCell($(monthlyDataList.cell(meta.row, meta.col).node()), row.id.split('|')[0]) : '';
-			},
-			orderable: false
+				return (data && (type == 'display')) /*|| type == 'filter'))*/ ?
+					loadDayCell($(monthlyDataList.cell(meta.row, meta.col).node()), row.id.split('|')[0]) : '&nbsp;';
+			}
 		});
 	}
 
@@ -166,7 +188,7 @@ function createMonthlyTable() {
 
 	monthlyDataList = $('#list-monthly').DataTable({
 			// TEST:
-			// autoWidth: false,
+			// autowidth: false,
 			// fixedColumns: true,
 			// scrollX: true,
 
@@ -186,14 +208,15 @@ function createMonthlyTable() {
 				},
 				onDone: function(settings) {
 					monthlyDataList.columns().header().to$().removeClass('bg-danger hide');
+					var offsetIdx = 2;
 					// --- highlight columns ---
-					var idxsOff = $.map(daysOff, function(d) { return d * 1 + 1; });
+					var idxsOff = $.map(daysOff, function(d) { return d * 1 + offsetIdx; });
 					var cols = monthlyDataList.columns(idxsOff);
 					cols.header().to$().addClass('bg-danger');
 					cols.nodes().flatten().to$().addClass('bg-danger');
 					// --- hide columns ---
 					var idxsHide = [];
-					for (var d = serverParams3.days + 1; d <= 31; d++) { idxsHide.push(d + 1); }
+					for (var d = serverParams3.days + 1; d <= 31; d++) { idxsHide.push(d + offsetIdx); }
 					if (idxsHide) {
 						cols = monthlyDataList.columns(idxsHide);
 						cols.header().to$().addClass('hide');
@@ -203,20 +226,24 @@ function createMonthlyTable() {
 					dealWithButtons();
 				}
 			},
+			language: {
+				info: '<span class="small pull-right text-danger text-right">滑鼠停置在欄位內，會顯示專案代碼</span>'
+			},
 			initComplete: function(settings, data) {
-				initialized4DataTables(settings, data);
-				dealWithButtons();
-
-				$('#list-monthly_wrapper .btn-group:last').addClass('pull-right')
+				$('#list-monthly_wrapper .btn-group:last').addClass('pull-right').css('margin-right',0)
 					.find('a:not([class*="pull-right"])').attr('title', '上月')
 					.find('a[class*="pull-right"]').attr('title', '下月');
+
+				initialized4DataTables(settings, data);
 			},
 			responsive: {
 				details: {
 					renderer: renderDayCellExpand
 				}
 			},
-			extButtons: {},
+			extButtons: {
+				copy: true
+			},
 			buttons: [{
 				text: '<i class="fa fa-arrow-left"></i>',
 				action: goMonth(-1)
@@ -229,7 +256,7 @@ function createMonthlyTable() {
 			order: [
 				[1, 'asc']
 			]
-			,rowsGroup: [1]
+			,rowsGroup: ['1, 2']
 		})
 		.buttons()
 		.disable();
@@ -249,8 +276,6 @@ function prepareMonthlyParameters(ym, emp) {
 
 function initializeMonthlyEvents() {
 	if (serverParams3.embed) {
-		prepareMonthlyParameters(assignMonth.val(), workerList.val());
-
 		$(window).on('criterionChanged', function(evt) {
 			$.extend(serverParams3, evt.state);
 			reloadDataTables(monthlyDataList);
@@ -272,6 +297,7 @@ function initializeMonthlyEvents() {
 
 function assignMonthly(params) {
 	$.extend(serverParams3, params);
+
 	assignMonth = $('#assignMonth');
 	workerList = $('#assignWorker');
 	projectsCache = window.projectsCache || {};
@@ -279,6 +305,7 @@ function assignMonthly(params) {
 	if (!serverParams3.embed) {
 		loadDynamicEnums();
 	}
+	prepareMonthlyParameters(assignMonth.val(), workerList.val());
 	initializeMonthlyEvents();
 	createMonthlyTable();
 }

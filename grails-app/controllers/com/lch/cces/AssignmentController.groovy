@@ -10,7 +10,7 @@ class AssignmentController extends BaseController<Assignment> {
 	static allowedMethods = [save: "POST", update: "PUT"] //, delete: "DELETE"]
 
 	private static final String KEY_CRITERIA = '_criteria_'
-	private static final String KEY_PARAM_ARRANGE = 'arrangeWeek'
+	// private static final String KEY_PARAM_ARRANGE = 'arrangeWeek'
 
 	private void prepareAssignMonth(params) {
 		def calendar = Calendar.instance
@@ -105,7 +105,7 @@ class AssignmentController extends BaseController<Assignment> {
     protected final List<Assignment> listAllResources(Map params) {
 		// if (params?.by != 'null' && params?.by != null) {
 		// } else {
-		listAllAssignments(params)
+		def rtn = listAllAssignments(params)
 		// }
     }
 
@@ -164,7 +164,8 @@ class AssignmentController extends BaseController<Assignment> {
 		// 	}
         // }
 		).list { // (params)
-			if (params?.max)	{ max(params.max) }
+			// list all:
+			// if (params?.max)	{ max(params.max) }
 			if (params?.offset)	{ offset(params.offset as int) }
 			if (params?.sort)	{ order(params.sort, (params?.order ? params.order : 'asc')) }
 			order('year')
@@ -193,7 +194,6 @@ class AssignmentController extends BaseController<Assignment> {
             props.project = Project.findByConstructNo(params.constructNo)
             props.remove('constructNo')
         }
-
         return resource.newInstance(props)
     }
 

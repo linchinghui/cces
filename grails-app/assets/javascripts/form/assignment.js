@@ -1,10 +1,10 @@
 //= require assignCommon
 //= require ../calendar
+//= require projectComboBoxes
 //= require_self
 
 var serverParams = {};
 var assignMonth = $('#assignMonth');
-// var workerListDiv = $('.assignWorker');
 var workerList = $('#assignWorker');
 
 var assignCLNDRDiv = $('.assignCLNDR');
@@ -18,10 +18,7 @@ var assignList;
 var editFormDiv = $('.assignContainer');
 var editForm = $('#assignmentForm');
 var assignDate = $('#assignDate');
-var projectListDiv = $('.assignProject');
-var projectList = $('<select/>');
-var machineListDiv = $('.assignConstNo');
-var machineList = $('<select/>');
+
 var reloadBtn;
 var cancelBtn;
 
@@ -38,110 +35,7 @@ function getLastParameters(params) {
 	}
 	return qryParams;
 }
-/*-----------
-  取得機台清單
--------------*/
-function createConstructNoCombo(ele) {
-	machineList = machineListDiv.html(ele).combobox();
-	var combo = machineList.data('combobox');
-	// loadProjectInfo(combo.$element);
 
-	if (serverParams.constructNo) {
-		combo.$element.val($.map(combo.map, function(val, desc) {
-			return val == serverParams.constructNo ? desc : null;
-		}));
-		combo.lookup().select();
-	}
-
-	machineList.change(function(evt) {
-		clearCombobox(projectList); // 清"專案"
-		// loadAssignments();
-	});
-}
-/*-----------
-  取得專案清單
--------------*/
-function showProjectInfo(ele) {
-	if (!e) {
-		var e = window.event;
-	}
-	e.cancelBubble = true;
-
-	if (e.stopPropagation) {
-		e.stopPropagation();
-	}
-	BootstrapDialog.show({
-		title: '專案',
-		message: requestAction4BootstrapDialog({
-				url: server.ctxPath + '/project/show'
-			}, ele.id) // GET method
-	});
-
-	return false;
-}
-
-function loadProjectInfo(ele) {
-	var projectInfo = $(
-		'<span class="input-group-addon glyphicon glyphicon-info-sign"></span>' +
-		'<span id="projectExists" class="sr-only"></span>'
-	).click(function() {
-		var projectId = projectList.val();
-		if (projectId) {
-			BootstrapDialog.show({
-				title: '專案',
-				message: requestAction4BootstrapDialog({
-						url: server.ctxPath + '/project/show'
-					}, projectId) // GET method
-			});
-		}
-	});
-
-	ele.after(projectInfo);
-}
-
-function createProjectCombo(ele) {
-	projectList = projectListDiv.html(ele).combobox();
-	var combo = projectList.data('combobox');
-	loadProjectInfo(combo.$element);
-
-	if (serverParams.projectId) {
-		combo.$element.val($.map(combo.map, function(val, desc) {
-			return val == serverParams.projectId ? desc : null;
-		}));
-		combo.lookup().select();
-	}
-
-	projectList.change(function(evt) {
-		clearCombobox(machineList); //清"機台"
-		// loadAssignments();
-	});
-}
-/*-----------
-  取得員工清單
--------------*/
-/*
-function createWorkerCombo(ele) {
-	if (!workerListDiv.hasClass('has-error')) {
-		return;
-	}
-
-	workerListDiv.removeClass('has-error');
-	workerList = workerListDiv.html(ele).combobox();
-	var combo = workerList.data('combobox');
-	// loadWorkerInfo(combo.$element);
-
-	if (serverParams.employeeId) {
-		combo.$element.val($.map(combo.map, function(val, desc) {
-			return val == serverParams.employeeId ? desc : null;
-		}));
-		combo.lookup().select();
-	}
-
-	workerList.change(function(evt) {
-		// loadAssignments();
-	});
-}
-*/
 /*--------
   月曆操作
 ----------*/
@@ -187,98 +81,32 @@ function createAssignCalendar(template) {
 		}
 	});
 }
-/*-------------------------------
-  專案下拉清單, 機台下拉清單, 月曆格式
----------------------------------*/
-function loadCalendarFields() {
-	// $.ajax.fake.registerWebservice(server.ctxPath + '/worker', function(req) {
-	// 	return [];
-	// });
-	//
-	// chainAjaxCall({
-	// 	fake: (promise.rc == 1),
-	//	fake: Object.keys(workerList.data('combobox').map).length == 0,
-	//	fake: !(workerListDiv.hasClass('has-error')),
-	//	fake: !(workerList.val() || false),
-	// 	url: server.ctxPath + '/worker',
-	// 	method: 'GET',
-	// 	cache: false,
-	// 	// async: false,
-	// 	headers: {
-	// 		'X-CCES-NoAlert': true,
-	// 		'X-CCES-ACTION': 'briefx'
-	// 	}
-	// }).chain(function(promise) {
-	// 	if (promise.rc == 1) {
-	// 		workerListDiv.addClass('has-error').html($('<label class="control-label"/>').html('(無法取得員工資料)'));
-	// 	} else {
-	// 		createWorkerCombo($(promise.data));
-	// 	}
-	// 	return
+
+/*--------
+  月曆樣版
+----------*/
+function loadAssignCalendar() {
+	$.ajax.fake.registerWebservice(serverParams.calendarTemplate, function(req) {
+		return [];
+	});
+
 	chainAjaxCall({
-		url: server.ctxPath + '/project',
+		// fake: (promise.rc == 1),
+		url: serverParams.calendarTemplate,
 		method: 'GET',
-		cache: false,
-		async: false,
-		headers: {
-			'X-CCES-NoAlert': true,
-			'X-CCES-ACTION': 'brief'
-		}
-		// 	});
-	}).chain(function(promise) {
-		if (promise.rc == 1) {
-			projectListDiv.addClass('has-error').html($('<label class="control-label"/>').html('(無法取得專案)'));
-		} else {
-			createProjectCombo($(promise.data));
-		}
-
-		$.ajax.fake.registerWebservice(server.ctxPath + '/project', function(req) {
-			return [];
-		});
-
-		return chainAjaxCall({
-			fake: (promise.rc == 1),
-			url: server.ctxPath + '/project',
-			method: 'GET',
-			cache: false,
-			async: false,
-			headers: {
-				'X-CCES-NoAlert': true,
-				'X-CCES-ACTION': 'constructNos'
-			}
-		});
-	}).chain(function(promise) {
-		if (promise.rc == 1) {
-			machineListDiv.addClass('has-error').html($('<label class="control-label"/>').html('(無法取得機台編號)'));
-		} else {
-			createConstructNoCombo($(promise.data));
-			// initFormSubmission();
-		}
-
-		$.ajax.fake.registerWebservice(serverParams.calendarTemplate, function(req) {
-			return [];
-		});
-
-		return chainAjaxCall({
-			fake: (promise.rc == 1),
-			url: serverParams.calendarTemplate,
-			method: 'GET',
-			// cache: false,
-			async: false
-		});
+		// cache: false,
+		async: false
 	}).done(function(promise) {
 		if (promise.rc == 1) {
 			assignCLNDRDiv.addClass('has-error').html($('<label class="control-label"/>').html('(未取得月曆)'));
 		} else {
 			createAssignCalendar(promise.data);
-			// initializeEvents();
-			// loadAssignments(false);
-			// handleTabs(getLastParameters);
 		}
 	});
 }
+
 /*-----------
-  取得派工資料
+  處理派工資料
 -------------*/
 function deleteAssignment(ele) {
 	if (!e) {
@@ -369,51 +197,30 @@ function loadAssignment(projId, callback) {
 	});
 }
 
+function proxyProjectInfo(ele) {
+	if (!e) {
+		var e = window.event;
+	}
+	e.cancelBubble = true;
+
+	if (e.stopPropagation) {
+		e.stopPropagation();
+	}
+	showProjectInfo(ele.id);
+
+	return false;
+}
+
 function renderAssignment(ele, projId) {
 	loadAssignment(projId, function(projInfo) {
 		ele.html( ele.html()
 			+ '<div><i class="fa fa-fw fa-times" onclick="deleteAssignment(this)"></i>'
-			+ '<a id="' + projId + '" onclick="showProjectInfo(this)">' //+'<span>'
+			+ '<a id="' + projId + '" onclick="proxyProjectInfo(this)">' //+'<span>'
 			+ projInfo //+'</span>'
 			+ '</a>' + '</div>'
 		);
 	});
 }
-
-// function renderAssignment(ele, proj) {
-// 	$('.assignLoad').show();
-// 	var url = server.ctxPath + '/api/projects/' + proj + '.json';
-//
-// 	if (!$.ajax.fake.webServices.hasOwnProperty(url)) {
-// 		$.ajax.fake.registerWebservice(url, function(req) {
-// 			return projectsCache[proj];
-// 		});
-// 	}
-//
-// 	chainAjaxCall({
-// 		fake: projectsCache.hasOwnProperty(proj),
-// 		url: url,
-// 		method: 'GET',
-// 		cache: true,
-// 		async: false
-//
-// 	}).done(function(promise) {
-// 		$('.assignLoad').hide();
-// 		var rec = promise.data;
-// 		var projText = '(' + proj + ')';
-//
-// 		if (promise.rc == 0) {
-// 			projText = (rec.constructModel ? rec.constructModel :
-// 				'n/a') + ' ' + hideHalf(constructTypes[rec.constructCode]) + hideHalf(projectTypes[rec.projectKind]);
-// 			if (!projectsCache.hasOwnProperty(rec.id)) {
-// 				projectsCache[rec.id] = rec;
-// 			}
-// 		}
-// 		ele.html(ele.html() + '<div><i class="fa fa-fw fa-times" onclick="deleteAssignment(this)"></i>' + '<a id="' + proj + '" onclick="showProjectInfo(this)">' //+'<span>'
-// 			+ projText //+'</span>'
-// 			+ '</a>' + '</div>');
-// 	});
-// }
 
 function loadAssignments(rerender) {
 	$('.assignLoad').show();
@@ -445,19 +252,6 @@ function loadAssignments(rerender) {
 					for (day = 1; day <= lastDay; day++) {
 						if (rec['d' + day]) {
 							renderAssignment($(clzPrefix + pad(day, 2)), projId);
-							// // var ele = $(clzPrefix + pad(day, 2));
-							// loadAssignment(
-							// 	projId,
-							// 	function(projInfo, ele) {
-							// 		ele.html( ele.html()
-							// 			+ '<div><i class="fa fa-fw fa-times" onclick="deleteAssignment(this)"></i>'
-							// 			+ '<a id="' + projId + '" onclick="showProjectInfo(this)">' //+'<span>'
-							// 			+ projInfo //+'</span>'
-							// 			+ '</a>' + '</div>'
-							// 		);
-							// 	},
-							// 	$(clzPrefix + pad(day, 2))
-							// );
 						}
 					}
 				});
@@ -581,7 +375,8 @@ function assignments(params) {
 	});
 
 	loadDynamicEnums();
-	loadCalendarFields();
+	loadProjectComboBoxes(serverParams);
+	loadAssignCalendar();
 	initializeEvents();
 	loadAssignments(false);
 	handleTabs(getLastParameters);
