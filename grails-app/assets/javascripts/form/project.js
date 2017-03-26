@@ -1,5 +1,5 @@
 //= require ../grid
-//= require dynamicEnumHelper
+//= require dynamicEnumCache
 //= require_self
 
 function project(params) {
