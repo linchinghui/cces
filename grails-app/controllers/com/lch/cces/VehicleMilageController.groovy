@@ -33,34 +33,46 @@ class VehicleMilageController extends BaseController<VehicleMilage> {
 		if (params?.projectId) {
 			params['projectId'] = URLDecoder.decode(params['projectId'])
 		}
-		if (params?.dispatchedDate && params?.dispatchedDate != params?.parsedDate) {
+		if (params?.constructNo) {
+			params['constructNo'] = URLDecoder.decode(params['constructNo'])
+		}
+		if (params?.dispatchedDate && params?.dispatchedDate != request['dispatchedDate']) {
 			params['dispatchedDate'] = URLDecoder.decode(params.dispatchedDate).take(10).replaceAll('-','\\/')
-			params['parsedDate'] = new SimpleDateFormat('yyyy/MM/dd').parse(params.dispatchedDate)
+			request['dispatchedDate'] = new SimpleDateFormat('yyyy/MM/dd').parse(params.dispatchedDate)
 		}
 	}
 
 	private List<VehicleMilage> listAllVehicleMilages(Map params) {
+		resolveParameters(params)
+
 		if (params?.embed == 'true') { // list all
 			params.remove('max')
 			params.remove('offset')
 		}
-		resolveParameters(params)
-
 		return VehicleMilage.where {
-			if (params?.projectId)     { project.id     == params.projectId }
-			if (params.dispatchedDate) { dispatchedDate == params.parsedDate }
-			if (params?.vehicleId)     { vehicle.id     == params.vehicleId }
+			if (params?.projectId)     { project.id          == params.projectId }
+			if (params?.constructNo)   { project.constructNo == params.constructNo }
+			if (params.dispatchedDate) { dispatchedDate      == request['dispatchedDate']}
+			if (params?.vehicleId)     { vehicle.id          == params.vehicleId }
 		}.list(params)
 	}
 
+	@Override
 	protected final List<VehicleMilage> listAllResources(Map params) {
 		listAllVehicleMilages(params)
 	}
 
+	@Override
 	protected final VehicleMilage queryForResource(Serializable id) {
 		listAllVehicleMilages(params)[0]
 	}
 
+	@Override
+	protected final VehicleMilage createResource() {
+		return createResource(params)
+	}
+
+	@Override
 	protected final VehicleMilage createResource(Map params) {
 		resolveParameters(params)
 		def props = params
@@ -68,25 +80,31 @@ class VehicleMilageController extends BaseController<VehicleMilage> {
 		if (params?.projectId &&
 			params?.projectId != 'null') {
 			props.project = Project.get(params.projectId)
+
+			props.remove('projectId')
+		}
+		if (props.project == null &&
+			params?.constructNo &&
+			params?.constructNo != 'null') {
+			props.project = Project.findByConstructNo(params.constructNo)
+
+			props.remove('constructNo')
 			props.remove('projectId')
 		}
 		if (params.dispatchedDate &&
 			params?.dispatchedDate != 'null') {
-			props.dispatchedDate = params.parsedDate
+			props.dispatchedDate = request['dispatchedDate']
 		}
 		if (params?.vehicleId &&
 			params?.vehicleId != 'null') {
 			props.vehicle = Vehicle.get(params.vehicleId)
+
 			props.remove('vehicleId')
 		}
-
 		return resource.newInstance(props)
 	}
 
-	protected final VehicleMilage createResource() {
-		return createResource(params)
-	}
-
+	@Override
 	def edit() {
 		resolveParameters(params)
 
@@ -100,11 +118,12 @@ class VehicleMilageController extends BaseController<VehicleMilage> {
 		}
 	}
 
+	@Override
 	def update() {
 		resolveParameters(params)
 
-		if (params?.parsedDate) {
-			params.dispatchedDate = params.parsedDate
+		if (request['dispatchedDate']) {
+			params.dispatchedDate = request['dispatchedDate']
 		}
 		super.update()
 	}
