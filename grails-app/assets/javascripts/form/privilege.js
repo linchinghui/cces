@@ -94,7 +94,6 @@ function privilege(params) {
 				url: server.ctxPath + '/api/privileges.json',
 				data: function(params, settings) {
 					return getPrivilegeParameters($.fn.dataTable.defaults.ajax.data(params, settings));
-					// return $.extend({}, $.fn.dataTable.defaults.ajax.data(params, settings), getPrivilegeParameters());
 				}
 			},
 			initComplete: serverParams2.embed ? null : function(settings, data) {

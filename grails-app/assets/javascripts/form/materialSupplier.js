@@ -104,7 +104,6 @@ function materialSupplier(params) {
 				url: server.ctxPath + '/api/materialSuppliers.json',
 				data: function(params, settings) {
 					return getSupplierParameters($.fn.dataTable.defaults.ajax.data(params, settings));
-					// return $.extend({}, $.fn.dataTable.defaults.ajax.data(params, settings), getSupplierParameters());
 				}
 			},
 			language: {
