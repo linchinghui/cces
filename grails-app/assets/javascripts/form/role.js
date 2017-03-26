@@ -76,7 +76,7 @@ function ccesRole(params) {
 					// detailSec.empty();
 				},
 				extButtons: {
-					// copy: true
+					copy: true
 				},
 				buttons: [
 					// {text: '新增', action: addDataRequest}

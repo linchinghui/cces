@@ -1,7 +1,7 @@
 <g:set var="timeValue" value="${value ? new java.text.SimpleDateFormat('YYYY/MM/dd\'T\'HH:mm:ss\'Z\'').format(value.time) : null}"/>
 <div> <%--
   <label for="${property}">${label}</label> --%>
-  <div class="col-xs-5 input-group date datetime ${property} disabled">
+  <div class="col-xs-5 input-group date datetime ${property}">
     <input type="text" value="${timeValue}" class="form-control" placeholder="YYYY/MM/DD hh:mm:ss" ${required?'required="true"':''}/>
     <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
   </div>
