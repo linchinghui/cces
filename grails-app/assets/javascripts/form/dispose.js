@@ -17,7 +17,7 @@ function getLastParameters(params) {
 		month: lastMonth,
 		year: lastYear,
 		format: 'json'
-	}
+	};
 
 	if (params) {
 		$.extend(qryParams, params);
