@@ -46,7 +46,7 @@ function privilege(params) {
 		var url = server.ctxPath + '/privilege/' + actionType;
 
 		return function() {
-			return serverParams2.embed ? (url + '?' + $.param(serverParams2)) : url;
+			return serverParams2.embed ? (url + '?' + $.param(getPrivilegeParameters())) : url;
 		}
 	}
 
@@ -62,20 +62,20 @@ function privilege(params) {
 					url: prepareUrl('delete'),
 					callback: removeDetailDataRequested
 				}
-			}), { //1
+			}), {
 				data: 'role'
-			}, { //2
+			}, {
 				orderable: false,
 				data: 'function'
-			}, { //3
+			}, {
 				render: renderCheck4DataTables,
 				orderable: false,
 				data: 'canRead'
-			}, { //4
+			}, {
 				render: renderCheck4DataTables,
 				orderable: false,
 				data: 'canWrite'
-			}, { //5
+			}, {
 				render: renderCheck4DataTables,
 				orderable: false,
 				data: 'canDelete'
