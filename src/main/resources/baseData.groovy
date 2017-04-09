@@ -10,12 +10,12 @@ base.functionList = [
 //	[name: 'console', description: '系統主控台'], // icon:'fa fa-laptop'
 
 	[name: 'announcement', description: '公告', aided: true],
+	[name: 'dynamicEnum', description: '代碼'],
 	[name: 'function', description: '作業項目'],
 	[name: 'user', description: '作業帳號'],
 	[name: 'role', description: '作業授權-角色'],
 	[name: 'privilege', description: '作業授權-權限'],
 
-	[name: 'dynamicEnum', description: '代碼'],
 	[name: 'worker', description: '員工資料-員工'],
 	[name: 'certificate', description: '員工資料-相關證照', aided: true],
 	[name: 'certificateCategory', description: '證照資料-證照類別'],
@@ -28,8 +28,6 @@ base.functionList = [
 	[name: 'materialCategory', description: '材料表-類別', aided: true],
 	[name: 'materialSupplier', description: '材料表-供應來源', aided: true],
 
-	[name: 'revenue', description: '收款資料'],
-
 	[name: 'project', description: '專案表-專案'],
 	[name: 'assignment', description: "人員配置(依專案)-派工"],
 	[name: 'assignment2', description: "人員配置(依員工)-派工"],
@@ -37,5 +35,7 @@ base.functionList = [
 	[name: 'assignMonthly', description: '人員配置-綜覽', aided: true],
 	[name: 'task', description: '一般施作紀錄-施作'],
 	[name: 'spTask', description: '園區施作紀錄-施作'],
-	[name: 'vehicleMilage', description: '園區施作紀錄-用車', aided: true]
+	[name: 'vehicleMilage', description: '園區施作紀錄-用車', aided: true],
+
+	[name: 'revenue', description: '收款資料']
 ]
