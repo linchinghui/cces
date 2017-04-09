@@ -20,9 +20,12 @@ $.notifyDefaults({
 });
 
 function clearCombobox(object) {
-	setTimeout(function() {
+	// setTimeout(function() {
 		var combobox = object.data('combobox');
-		combobox.clearTarget();
-		combobox.clearElement();
-	}, 250);
+		if (combobox) {
+			// combobox.clearElement() will trigger second change-event problem
+			combobox.$element.val('');
+			combobox.clearTarget();
+		}
+	// }, 250);
 }
