@@ -22,12 +22,12 @@
                   <a data-toggle="mtab" data-target="#tab2" href="${createLink([controller:'materialCategory',action:'index',params:[embed:true]])}">
                     <big>${functionService.getPageTitle('materialCategory')}</big>
                   </a>
-                </li>
+				</li><%--
 				<li>
                   <a data-toggle="mtab" data-target="#tab3" href="${createLink([controller:'supplier',action:'index',params:[embed:true]])}">
                     <big>${functionService.getPageTitle('supplier')}</big>
                   </a>
-                </li>
+				</li>--%>
               </ul>
               <div class="tab-content">
                 <div id="tab1" class="tab-pane fade in active">
