@@ -31,8 +31,8 @@
                             </g:if>
                             <fieldset class="form-group">
                                 <f:with bean="project">
-                                    <f:display property="code" label="專案代碼" />
-                                    <f:display property="description" label="專案名稱" />
+				<div class="col-xs-6"><f:display property="code" label="專案代碼" /></div>
+                <div class="col-xs-6"><f:display property="description" label="專案名稱" /></div>
                 <div class="col-xs-6"><f:display property="constructNo" label="機台型號" /></div>
 				<div class="col-xs-6"><f:display property="constructModel" label="機台類型" /></div>
 									<f:display property="constructPlace" label="工程地點" />

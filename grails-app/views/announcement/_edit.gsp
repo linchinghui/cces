@@ -17,10 +17,12 @@
     </head>
     <body>
         <div class="container" role="main">
-            <div class="panel panel-info"><g:if test="${modalPage}">
-                <div class="panel-heading">
-                    <div class="panel-title">${actionTitle}</div>
-                </div></g:if>
+            <div class="panel panel-info">
+				<g:if test="${modalPage}">
+	                <div class="panel-heading">
+	                    <div class="panel-title">${actionTitle}</div>
+	                </div>
+				</g:if>
                 <div class="panel-body"> <%--
                     <section class="content-header">
                         <g:render template="/layouts/server-message" bean="${announcement}"/>

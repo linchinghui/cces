@@ -22,8 +22,8 @@ base.functionList = [
 	[name: 'certificateOrgan', description: '證照資料-證照發照機構', aided: true],
 	[name: 'vehicle', description: '車輛資料-車輛'],
 	[name: 'vehicleBrand', description: '車輛資料-廠牌', aided: true],
-//	[name: 'supplier', description: '供應商資料-供應商'],
-	[name: 'supplier', description: '材料表-供應商', aided: true],
+	[name: 'supplier', description: '供應商資料-供應商'],
+	// [name: 'supplier', description: '材料表-供應商', aided: true],
 	[name: 'material', description: '材料表-材料'],
 	[name: 'materialCategory', description: '材料表-類別', aided: true],
 	[name: 'materialSupplier', description: '材料表-供應來源', aided: true],
@@ -31,11 +31,11 @@ base.functionList = [
 	[name: 'revenue', description: '收款資料'],
 
 	[name: 'project', description: '專案表-專案'],
-	[name: 'assignment', description: '人員配置-派工'],
+	[name: 'assignment', description: "人員配置(依專案)-派工"],
+	[name: 'assignment2', description: "人員配置(依員工)-派工"],
 	[name: 'assignDaily', description: '人員配置-日排班', aided: true],
 	[name: 'assignMonthly', description: '人員配置-綜覽', aided: true],
-//	[name: 'dispose', description: '人員配置-本月人員配置', aided: true],
-	[name: 'task', description: '一般施作紀錄'],
-	[name: 'spTask', description: '園區施作紀錄-人員'],
+	[name: 'task', description: '一般施作紀錄-施作'],
+	[name: 'spTask', description: '園區施作紀錄-施作'],
 	[name: 'vehicleMilage', description: '園區施作紀錄-用車', aided: true]
 ]

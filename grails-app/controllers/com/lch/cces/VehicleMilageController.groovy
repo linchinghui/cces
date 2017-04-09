@@ -12,24 +12,33 @@ class VehicleMilageController extends BaseController<VehicleMilage> {
 	}
 
 	private void resolveParameters(params) {
-		def compIds = params?.id?.split('\\|')
-
-		if (compIds?.size() >= 1) {
-			if (compIds[0] != 'null') {
-				if (params?.projectId == null) {
-					params['projectId'] = compIds[0]
+		// def compIds = params?.id?.split('\\|')
+		//
+		// if (compIds?.size() >= 1) {
+		// 	if (compIds[0] != 'null') {
+		// 		if (params?.projectId == null) {
+		// 			params['projectId'] = compIds[0]
+		// 		}
+		// 	} else {
+		// 		params.remove('id') // to identify 'CREATE'
+		// 	}
+		// 	if (compIds?.size() >= 2 && compIds[1] != 'null' && params?.dispatchedDate == null) {
+		// 		params['dispatchedDate'] = compIds[1]
+		// 	}
+		// 	if (compIds?.size() >= 3 && compIds[2] != 'null' && params?.vehicleId == null) {
+		// 		params['vehicleId'] = compIds[2]
+		// 	}
+		// }
+		params?.id?.split('\\|')?.eachWithIndex { fld, idx ->
+			if (fld != 'null') {
+				def fldName = idx == 0 ? 'projectId' : idx == 1 ? 'dispatchedDate' : 'vehicleId'; // == 2
+				if (params?."$fldName" == null) {
+					params[fldName] = fld
 				}
 			} else {
 				params.remove('id') // to identify 'CREATE'
 			}
-			if (compIds?.size() >= 2 && compIds[1] != 'null' && params?.dispatchedDate == null) {
-				params['dispatchedDate'] = compIds[1]
-			}
-			if (compIds?.size() >= 3 && compIds[2] != 'null' && params?.vehicleId == null) {
-				params['vehicleId'] = compIds[2]
-			}
 		}
-
 		if (params?.projectId) {
 			params['projectId'] = URLDecoder.decode(params['projectId'])
 		}
@@ -50,10 +59,12 @@ class VehicleMilageController extends BaseController<VehicleMilage> {
 			params.remove('offset')
 		}
 		return VehicleMilage.where {
-			if (params?.projectId)     { project.id          == params.projectId }
-			if (params?.constructNo)   { project.constructNo == params.constructNo }
-			if (params.dispatchedDate) { dispatchedDate      == request['dispatchedDate']}
-			if (params?.vehicleId)     { vehicle.id          == params.vehicleId }
+			if (params?.'s:project')	{ ilike ('project.id', params.'s:project') } // as col =~ val (%...% included)
+			if (params?.projectId)		{ eq ('project.id', params.projectId) }
+			if (params?.constructNo)	{ project { eq ('constructNo', params.constructNo) } }
+			if (params?.dispatchedDate)	{ eq ('dispatchedDate', request['dispatchedDate']) }
+			if (params?.'s:vehicle')	{ ilike ('vehicle.id', params.'s:vehicle') } // as col =~ val (%...% included)
+			if (params?.vehicleId)		{ eq ('vehicle.id', params.vehicleId) }
 		}.list(params)
 	}
 

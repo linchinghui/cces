@@ -60,10 +60,8 @@ function ccesRole(params) {
 					}
 				},
 				language: {
-					info: '<span class="small text-danger pull-right">'
-						+ '<span>點選後，可於下方檢視權限設定</span>&nbsp;'
-						+ '<span>(除系統管理者有預設權限外，其餘者須進行設定)</span>'
-						+ '</span>'
+					info: '<span class="small pull-right"><span>點選後，可於下方檢視權限設定</span>&nbsp;'
+						+ '<span class="text-danger">(除系統管理者有預設權限外，其餘者須進行設定)</span></span>'
 				},
 				// infoCallback: function(settings, start, end, max, total, pre) {
 				// 	return '<span class="small text-danger pull-right">'

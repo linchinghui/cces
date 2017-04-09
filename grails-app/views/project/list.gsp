@@ -34,7 +34,7 @@
                             <span class="hidden-sm visible-md visible-lg">專案<br></span>名稱
                         </th>
                         <th rowspan="2"><span class="search-input"><input type="text" size="8"><br></span>
-                            機台<span class="hidden-sm visible-md visible-lg">編號</span>
+                            機台<span class="hidden-sm visible-md visible-lg">型號</span>
                         </th>
 						<th rowspan="2"><span class="search-input"><input type="text" size="8"><br></span>
                             <span class="hidden-sm visible-md visible-lg">機台</span>類型

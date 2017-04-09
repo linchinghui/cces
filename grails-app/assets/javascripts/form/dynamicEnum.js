@@ -120,9 +120,9 @@ function dynamicEnum(params) {
 
 	function renderDisplayHint4DataTables(settings, start, end, max, total, pre) {
 		var len = serverParams.keyInfo[settings.sTableId.split('-')[1]].len;
-		return '<span class="small pull-left text-danger">各欄位可用滑鼠 "點選" 進行編輯</span>' +
+		return '<span class="small pull-left">各欄位可用滑鼠 <span class="text-danger">"點選"</span> 進行編輯</span>' +
 			'<span class="small pull-right text-danger bg-warning">代碼前' + len + '字元做為識別用</span><br>' +
-			'<span class="small pull-left text-danger">編輯或刪除後, 請進行 [存檔] 生效</span>' +
+			'<span class="small pull-left">編輯或刪除後, 請進行 <span class="text-danger">[存檔]</span> 生效</span>' +
 			'<span class="small pull-right text-danger bg-warning">經啟用後請勿隨意變更或刪除</span>';
 	}
 

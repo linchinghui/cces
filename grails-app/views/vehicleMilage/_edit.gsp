@@ -33,9 +33,9 @@
 	                            </g:if>
 	                            <fieldset class="form-group">
 	                                <f:with bean="vehicleMilage">
-	                                    <g:if test="${type=='C' && params?.embed!='true'}">
+	                                    <g:if test="${type=='C'}"> <%-- && params?.embed!='true' --%>
 	                                        <f:field property="project" label="專案" />
-	                                        <f:field property="dispatchedDate" label="用車日期" widget="date" />
+	                                        <f:field property="dispatchedDate" label="用車日期" widget="date" value="${params?.dispatchedDate?:java.util.Calendar.instance.getTime()}"/>
 	                                    </g:if>
 	                                    <g:else>
 	                                        <f:display property="project" label="專案" />

@@ -11,18 +11,55 @@
   padding-bottom: 8px;
 }
 
-.monthContainer, .workerContainer {
+.workerContainer, .monthContainer, .dateContainer, .projectContainer, .constNoContainer {
   max-width: 18em;
-  padding-left: 5px;
   margin-bottom: 5px;
+}
+
+.workerContainer, .monthContainer {
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+.projectContainer {
+  max-width: 20.75em;
+}
+
+.projectContainer .glyphicon {
+  top: 0;
+  border-left: 1px;
+}
+
+.workerContainer label, .monthContainer label, .projectContainer label, .constNoContainer label {
+  margin-bottom: 0;
 }
 
 .workerContainer label {
   margin-top: 0;
 }
 
+@media screen and (max-width: 767px) {
+  div.byProject + ul.nav-tabs {
+    position: absolute;
+    top: 83px;
+  }
+
+  div.byProject div:last-child {
+    padding-right: 0;
+  }
+
+  .projectContainer, .constNoContainer {
+    padding-left: 0;
+    padding-right: 0;
+  }
+}
+
 @media screen and (max-width: 479px) {
   .workerContainer .input-group {
     min-width: 14.75em;
+  }
+
+  .monthContainer input {
+    min-width: 5.5em;
   }
 }

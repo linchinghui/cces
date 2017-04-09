@@ -1,4 +1,6 @@
-//= require assignCommon
+//* require assignCommon
+//= require ../grid
+//= require dynamicEnumCache
 //= require ../calendar
 //= require projectComboBoxes
 //= require_self
@@ -165,7 +167,7 @@ function deleteAssignment(ele) {
 	return false;
 }
 
-function loadAssignment(projId, callback) {
+function loadAssignment4Cell(projId, callback) {
 	$('.assignLoad').show();
 	var url = server.ctxPath + '/api/projects/' + projId + '.json';
 
@@ -211,8 +213,8 @@ function proxyProjectInfo(ele) {
 	return false;
 }
 
-function renderAssignment(ele, projId) {
-	loadAssignment(projId, function(projInfo) {
+function renderAssignment4Cell(ele, projId) {
+	loadAssignment4Cell(projId, function(projInfo) {
 		ele.html( ele.html()
 			+ '<div><i class="fa fa-fw fa-times" onclick="deleteAssignment(this)"></i>'
 			+ '<a id="' + projId + '" onclick="proxyProjectInfo(this)">' //+'<span>'
@@ -248,10 +250,10 @@ function loadAssignments(rerender) {
 				var lastDay = moment([ym[0], ym[1] - 1]).add(1, 'months').date(0).date();
 
 				$.each(result, function(idx, rec) {
-					var projId = rec['id'].split('|')[0];
+					var projId = rec['id'].split('|')[0]; // projectId
 					for (day = 1; day <= lastDay; day++) {
 						if (rec['d' + day]) {
-							renderAssignment($(clzPrefix + pad(day, 2)), projId);
+							renderAssignment4Cell($(clzPrefix + pad(day, 2)), projId);
 						}
 					}
 				});
@@ -272,27 +274,36 @@ function loadAssignments(rerender) {
   起始
 ------*/
 function initializeEvents() {
+	function evaluateProjectId(constructNo) {
+		var projects = $.map(projectsCache, function(proj) {
+			if (proj.constructNo == constructNo) {
+				return proj;
+			}
+		});
+		return projects.length ? projects[0].id : null;
+	}
+
 	// 派工
 	editForm.submit(function(evt) {
 		evt.preventDefault();
 		var projectId = projectList.val();
-		var machine = machineList.val();
+		var constructNo = machineList.val();
 
-		if (!(projectId || machine)) {
+		if (!(projectId || constructNo)) {
 			alertWarning({
 				'warning': '專案或機台擇一輸入'
 			});
 			return false;
 		}
-		var isNew = !assignCLNDRDiv.find('.days a[id="' + projectId + '"]').length;
+		var isNew = !assignCLNDRDiv.find('.days a[id="' + (projectId ? projectId : evaluateProjectId(constructNo)) + '"]').length;
 		var params = getLastParameters({
 			projectId: projectId,
-			constructNo: machine
+			constructNo: constructNo
 		});
 		var data = $.extend({}, (isNew ? params : {
 			'_method': 'PUT',
-			id: params.projectId + '|' + params.employeeId + '|' + params.year + '|' + params.month,
-			constructNo: params.constructNo
+			id: params.projectId + '|' + params.employeeId + '|' + params.year + '|' + params.month
+			, constructNo: params.constructNo
 		}));
 		data['d' + (assignDate.val().match(/\d+-\d+-(\d+)/)[1] * 1)] = true;
 
@@ -354,14 +365,14 @@ function initializeEvents() {
 			assignCLNDR.intervalStart = assignCLNDR.month.clone().startOf('month');
 			assignCLNDR.intervalEnd = assignCLNDR.intervalStart.clone().endOf('month');
 
-			loadAssignments();
 			fireCriterionChange(assignMonth);
+			loadAssignments();
 		}
 	});
 
 	workerList.change(function(evt) { // 員工變更
-		loadAssignments();
 		fireCriterionChange(workerList);
+		loadAssignments();
 	});
 }
 
