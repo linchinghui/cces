@@ -91,9 +91,6 @@ function worker(params) {
 				language: {
 					info: '<span class="small pull-right text-danger">點選後，可於下方檢視證照資料</span>'
 				},
-				// infoCallback: function(settings, start, end, max, total, pre) {
-				// 	return '<span class="small pull-right text-danger">點選後，可於下方檢視證照資料</span>';
-				// },
 				initComplete: function(settings, data) {
 					initialized4DataTables(settings, data);
 				},
