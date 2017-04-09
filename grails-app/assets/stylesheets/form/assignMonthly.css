@@ -29,3 +29,10 @@ table {
 #list-monthly_wrapper .dataTable tr td.child .dtr-title {
   min-width: 36px;
 }
+
+td > span.dtr-data > span {
+  display: inline-block;
+}
+td[class="child"] ul li > span {
+  padding: 0 5px;
+}
