@@ -317,7 +317,6 @@ abstract class BaseController<T> extends RestfulController<T> {
 					recordsFiltered: dataCount, // TODO
 					data: dataList
 				)
-
 			} else {
 				respond dataList
 			}

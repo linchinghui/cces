@@ -13,21 +13,14 @@ class SpTaskController extends BaseController<SpTask> {
 	}
 
 	private void resolveParameters(params) {
-		def compIds = params?.id?.split('\\|')
-
-		if (compIds?.size() >= 1) {
-			if (compIds[0] != 'null') {
-				if (params?.projectId == null) {
-					params['projectId'] = compIds[0]
+		params?.id?.split('\\|')?.eachWithIndex { fld, idx ->
+			if (fld != 'null') {
+				def fldName = idx == 0 ? 'projectId' : idx == 1 ? 'workedDate' : 'employeeId'; // == 2
+				if (params?."$fldName" == null) {
+					params[fldName] = fld
 				}
 			} else {
 				params.remove('id') // to identify 'CREATE'
-			}
-			if (compIds?.size() >= 2 && compIds[1] != 'null' && params?.workedDate == null) {
-				params['workedDate'] = compIds[1]
-			}
-			if (compIds?.size() >= 3 && compIds[2] != 'null' && params?.employeeId == null) {
-				params['employeeId'] = compIds[2]
 			}
 		}
 		if (params?.projectId) {
@@ -49,11 +42,14 @@ class SpTaskController extends BaseController<SpTask> {
 			params.remove('max')
 			params.remove('offset')
 		}
-		return SpTask.where {
-			if (params?.projectId)   { project.id  == params.projectId }
-			if (params?.constructNo) { equipment   == params.constructNo }
-			if (params?.workedDate)  { workedDate  == request['workedDate'] }
-			if (params?.employeeId)  { employee.id == params.employeeId }
+		return SpTask.where { // use Hibernate Restrictions instead of =~/==~ where cause table join,
+			if (params?.'s:project')	{ ilike ('project.id', params.'s:project') } // as col =~ val (%...% included)
+			if (params?.projectId)		{ eq ('project.id', params.projectId) }
+			if (params?.constructNo)	{ eq ('equipment', params.constructNo) }
+			if (params?.constructNo)	{ project { eq ('constructNo', params.constructNo) } }
+			if (params?.workedDate)		{ eq ('workedDate', request['workedDate']) }
+			if (params?.'s:employee')	{ ilike ('employee.id', params.'s:employee') } // as col =~ val (%...% included)
+			if (params?.employeeId)		{ eq ('employee.id', params.employeeId) }
 		}.list(params)
 	}
 
@@ -62,7 +58,7 @@ class SpTaskController extends BaseController<SpTask> {
 		def spTasks = listAllSpTasks(params)
 		def assignTasks = null
 
-		if (params?.embed == 'true') { // project-id and work-date must not be null
+		if (params?.embed == 'true' && request['workedDate']) { // project-id and work-date must not be null
 			def calendar = Calendar.instance
 			calendar.setTime(request['workedDate'])
 			def year = calendar.get(Calendar.YEAR)
@@ -70,18 +66,15 @@ class SpTaskController extends BaseController<SpTask> {
 			def dx = calendar.get(Calendar.DAY_OF_MONTH) // -1
 
 			def cloneTask = createResource(params)
-			// def theProject = cloneTask.project
 			def theProjectId = cloneTask.projectId
-			cloneTask.project = null
+			// cloneTask.project = null // (which is part of ID)
 
 			assignTasks = Assignment.where {
 				notIn 'employee', SpTask.where {
-					// project == theProject
-					project.id == theProjectId
-					workedDate == request['workedDate']
+					eq ('project.id', theProjectId)
+					eq ('workedDate', request['workedDate'])
 				}.employee
 
-				// eq ('project', theProject)
 				eq ('project.id', theProjectId)
 				eq ('year',  year)
 				eq ('month', month + 1)
@@ -89,6 +82,8 @@ class SpTaskController extends BaseController<SpTask> {
 
 			}.collect {
 				def task = new SpTask(cloneTask.properties)
+				// TEST:
+				task.workedDate = null
 				task.employee = it.employee
 				return task
 			}
@@ -141,16 +136,12 @@ class SpTaskController extends BaseController<SpTask> {
 		}
 		// default value
 		if (props.project) {
-			if (! props.constructPlace)
-				props.constructPlace = props.project.constructPlace
-			if (! props.equipment)
-				props.equipment      = props.project.constructNo
-			// if (! props.constructCode )
-			// 	props.constructCode  = props.project.constructCode
-			if (! props.constructType)
-				props.constructType  = props.project.constructType
-			// if (! props.note)
-			// 	props.note           = props.project.note
+			if (! props.constructPlace)	{ props.constructPlace = props.project.constructPlace }
+			if (! props.constructType)	{ props.constructType  = props.project.constructType }
+			if (! props.equipment)		{ props.equipment      = props.project.constructNo }
+
+			// if (! props.constructCode )		{ props.constructCode  = props.project.constructCode }
+			// if (! props.note)			{ props.note           = props.project.note }
 		}
 		return resource.newInstance(props)
 	}

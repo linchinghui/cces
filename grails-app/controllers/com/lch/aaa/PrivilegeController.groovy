@@ -11,21 +11,31 @@ class PrivilegeController extends BaseController<Privilege> {
 	}
 
     private void resolveParameters(params) {
-        def compIds = params?.id?.split('\\|')
-
-        if (compIds?.size() >= 1) {
-            if (compIds[0] != 'null') {
-                if (params?.roleId == null) {
-                    params['roleId'] = compIds[0]
-                }
-            } else {
-                params.remove('id') // to identify 'CREATE'
-            }
-
-            if (compIds?.size() >= 2 && compIds[1] != 'null' && params?.functionId == null) {
-                params['functionId'] = compIds[1]
-            }
-        }
+        // def compIds = params?.id?.split('\\|')
+		//
+        // if (compIds?.size() >= 1) {
+        //     if (compIds[0] != 'null') {
+        //         if (params?.roleId == null) {
+        //             params['roleId'] = compIds[0]
+        //         }
+        //     } else {
+        //         params.remove('id') // to identify 'CREATE'
+        //     }
+		//
+        //     if (compIds?.size() >= 2 && compIds[1] != 'null' && params?.functionId == null) {
+        //         params['functionId'] = compIds[1]
+        //     }
+        // }
+		params?.id?.split('\\|')?.eachWithIndex { fld, idx ->
+			if (fld != 'null') {
+				def fldName = idx == 0 ? 'roleId' : 'functionId'; // == 1
+				if (params?."$fldName" == null) {
+					params[fldName] = fld
+				}
+			} else {
+				params.remove('id') // to identify 'CREATE'
+			}
+		}
     }
 
     private List<Privilege> listAllPrivileges(Map params) {

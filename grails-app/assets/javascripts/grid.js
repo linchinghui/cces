@@ -311,34 +311,34 @@ function renderAlterationCellWithId4DataTables(requestActions) {
 			cell['className'] = 'control';
 
 			if (requestActions.show) {
-				createInfoCellButtom(cell, rowData['id'],
-					$.extend(true, {
-						delegate: cell,
-						type: 'show',
-						title: '資訊...',
-						selector: 'span i.fa-info',
-						key: 'id'
-					}, requestActions.show));
+				var p = $.extend(true, {
+					delegate: cell,
+					type: 'show',
+					title: '資訊...',
+					selector: 'span i.fa-info',
+					key: 'id'
+				}, requestActions.show);
+				createInfoCellButtom(cell, rowData[p.key], p);
 			}
 			if (requestActions.edit) {
-				createEditCellButtom(cell, rowData['id'],
-					$.extend(true, {
-						delegate: cell,
-						type: 'edit',
-						title: '編輯...',
-						selector: 'span i.fa-pencil',
-						key: 'id'
-					}, requestActions.edit));
+				var p = $.extend(true, {
+					delegate: cell,
+					type: 'edit',
+					title: '編輯...',
+					selector: 'span i.fa-pencil',
+					key: 'id'
+				}, requestActions.edit);
+				createEditCellButtom(cell, rowData[p.key], p);
 			}
 			if (requestActions.delete) {
-				createRemoveCellButtom(cell, rowData['id'],
-					$.extend(true, {
-						delegate: cell,
-						type: 'delete',
-						title: '刪除...',
-						selector: 'span i.fa-times',
-						key: 'id'
-					}, requestActions.delete));
+				var p = $.extend(true, {
+					delegate: cell,
+					type: 'delete',
+					title: '刪除...',
+					selector: 'span i.fa-times',
+					key: 'id'
+				}, requestActions.delete);
+				createRemoveCellButtom(cell, rowData[p.key], p);
 			}
 		}
 	};

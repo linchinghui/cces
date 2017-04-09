@@ -18,12 +18,13 @@ aaa.menuGroups = [
 		// [controller: 'certificateCategory', icon: 'fa fa-certificate'],
 		[controller: 'worker', icon: 'fa fa-user'],
 		[controller: 'vehicle', icon: 'fa fa-bus'],
-		// [controller: 'supplier', icon: 'fa fa-ambulance'],
+		[controller: 'supplier', icon: 'fa fa-ambulance'],
 		[controller: 'material', icon: 'fa fa-clipboard']
 	]],
 	[group: 'project', description:'專案管理', icon:'fa fa-product-hunt', items: [
 		[controller: 'project', icon: 'fa fa-wpforms'],
-		[controller: 'assignment', icon: 'fa fa-calendar-check-o'],//, params: [by: '']],
+		[controller: 'assignment', icon: 'fa fa-calendar-check-o', params: [by: 'project']],
+		[controller: 'assignment', icon: 'fa fa-calendar-check-o', params: [by: 'worker', func: 'assignment2']],
 		[controller: 'task', icon: 'fa fa-gavel'],
 		[controller: 'spTask', icon: 'fa fa-building-o']
 	]],

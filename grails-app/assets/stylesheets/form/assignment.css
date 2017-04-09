@@ -97,10 +97,7 @@
   position: absolute;
   top: 0;
   left: 105%;
-}
-
-.projectContainer .glyphicon {
-  top: 0;
+  width: 100%;
 }
 
 .assignCLNDR .days .day a:hover {

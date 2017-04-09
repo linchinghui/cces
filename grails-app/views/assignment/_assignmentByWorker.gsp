@@ -1,4 +1,4 @@
-<g:set var="deferredScript" value="form/assignment" scope="request"/>
+<g:set var="deferredScript" value="form/assignmentByWorker" scope="request"/>
 <!DOCTYPE html>
 <html>
 <head>
@@ -23,19 +23,19 @@
                 </div>
 				<div class="constNoContainer col-sm-4 col-xs-11">
                   <label for="constructNo" class="hidden-xs">機台:</label>
-                  <div class="assignConstNo form-control" data-placeholder="機台編號">
+                  <div class="assignConstNo form-control" data-placeholder="機台型號">
                     <span class="text-center"><span class="ajax-loader">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></span>
                   </div>
 				</div> --%>
                 <div class="monthContainer col-sm-3 col-xs-5">
 				  <f:field property="assignMonth" label="月份:" widget="yearMonth" value="${assignMonth}" />
 				</div>
-				<div class="workerContainer col-sm-4 col-xs-7"> <%--
+				<div class="workerContainer col-sm-9 col-xs-7"> <%--
 				  <label for="worker">員工:</label>
 				  <div class="assignWorker form-control has-error" data-placeholder="員工編號或姓名關鍵字">
 					<span class="text-center"><span class="ajax-loader">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></span>
 				  </div> --%>
-				  <g:render template="/_fields/worker/wrapper" model="['label':'員工：', 'property': 'assignWorker', 'placeholder': '員工編號或姓名關鍵字']" />
+				  <g:render template="/_fields/worker/wrapper" model="['label':'員工:', 'property': 'assignWorker', 'placeholder': '員工編號或姓名關鍵字']" />
 				</div>
               </div>
               <ul class="nav nav-tabs">
@@ -68,9 +68,9 @@
 						    </span>
 						  </div>
 						  <div class="assignContainer">
-						    <div class="panel panel-infox">
+						    <div class="panel">
 						    	<div class="panel-body">
-									<div class="col-xs-8 col-sm-6 col-md-4">
+									<div class="dateContainer col-xs-8 col-sm-6 col-md-4">
 										<g:render template="/_fields/date/displayWrapper" model="['label':'日期:', 'property': 'assignDate']" />
 									</div>
 									<div class="clearfix"></div><br>
@@ -83,7 +83,7 @@
 									<div class="clearfix"></div><br>
 					    			<div class="constNoContainer col-xs-8 col-sm-6 col-md-4">
 					    			    <label for="constructNo">機台:</label>
-					    			    <div class="assignConstNo form-control" data-placeholder="機台編號">
+					    			    <div class="assignConstNo form-control" data-placeholder="機台型號">
 					    			        <span class="text-center"><span class="ajax-loader">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></span>
 					    			    </div>
 					    			</div>

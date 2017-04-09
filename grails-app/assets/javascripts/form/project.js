@@ -8,13 +8,15 @@ function project(params) {
 	function renderDisplayHint4DataTables(settings, start, end, max, total, pre) {
 		var str = $.map(projectTypes, function(typeDesc, projType) {
 			return '<span>' + projType + '=' + typeDesc + '</span>';
-		}).join(',&nbsp;&nbsp;');
+		}).join(',&nbsp;');
 		var str2 = $.map(constructTypes, function(typeDesc, constType) {
 			return '<span>' + constType + '=' + typeDesc + '</span>';
-		}).join(',&nbsp;&nbsp;');
+		}).join(',&nbsp;');
 
-		return '<span class="small pull-right text-danger">[工作型態]編碼:&nbsp;' + str + '</span>' +
-			'<br><span class="small pull-right text-danger">[施作方式]編碼:&nbsp;' + str2 + '</span>';
+		return '<span class="small pull-right"><span class="hidden-xs">[工作型態]編碼:</span>' +
+			'<span class="text-danger">&nbsp;' + str + '</span></span>' +
+			'<br><span class="small pull-right"><span class="hidden-xs">[施作方式]編碼:</span>' +
+			'<span class="text-danger">&nbsp;' + str2 + '</span></span>';
 	}
 
 	function removeDataRequested(result) {

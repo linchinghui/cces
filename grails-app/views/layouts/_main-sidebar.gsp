@@ -26,11 +26,12 @@ def groupName = params?.group ? new String(params?.group?.decodeBase64()) : null
           <g:if test="${menuGroup.items?.size()>0}">
             <ul class="treeview-menu">
               <g:each var="menuItem" in="${menuGroup.items}">
-                <g:set var="function" value="${functionService.get(menuItem.controller)}"/>
+				<g:set var="funcId" value="${menuItem.params?.func?:menuItem.controller}"/>
+                <g:set var="function" value="${functionService.get(funcId)}"/>
                 <g:if test="${function}"><%--
-                  <% flash[(menuItem.controller)]=function.description %> --%>
-                  <g:if test="${! function.aided || authService.privileges.find { it.function.id == menuItem.controller }}">
-                    <li class="${controllerName == menuItem.controller ? 'active' : ''}">
+                  <% flash[(funcId)]=function.description %> --%>
+                  <g:if test="${! function.aided || authService.privileges.find { it.function.id == funcId }}">
+                    <li class="${controllerName == menuItem.controller && (menuItem.params?.func == params?.func) ? 'active' : ''}">
                       <g:link controller="${menuItem.controller}" params="${[group: menuGroup.group.encodeAsBase64()]+ (menuItem.params?:[:])}">
                         <i class="${menuItem.icon}"></i><span>${function.description?.split('-')[0]}</span>
                       </g:link>

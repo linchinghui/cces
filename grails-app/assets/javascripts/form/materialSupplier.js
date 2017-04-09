@@ -106,12 +106,9 @@ function materialSupplier(params) {
 					return getSupplierParameters($.fn.dataTable.defaults.ajax.data(params, settings));
 				}
 			},
-			language: {
-				info: (serverParams3.noEdit ? '' : '<span class="small pull-right text-danger">新增相同供應商＋廠牌的材料時，視為修改</span>')
+			infoCallback: function(settings, start, end, max, total, pre) {
+				return serverParams3.noEdit ? '' : '<span class="small pull-right text-danger">新增相同供應商＋廠牌的材料時，視為修改</span>';
 			},
-			// infoCallback: function(settings, start, end, max, total, pre) {
-			// 	return serverParams3.noEdit ? '' : '<span class="small pull-right text-danger">新增相同供應商＋廠牌的材料時，視為修改</span>';
-			// },
 			initComplete: /*serverParams3.embed ? null :*/ function(settings, data) {
 				initialized4DataTables(settings, data);
 			},

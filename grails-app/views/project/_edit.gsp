@@ -33,11 +33,12 @@
                             </g:if>
                             <fieldset class="form-group">
                                 <f:with bean="project">
+
                                     <g:if test="${type=='C'}">
-                                        <f:field property="code" label="專案代碼" widget-placeholder="英文字母(不含符號)" />
+                <div class="col-xs-6"><f:field property="code" label="專案代碼" widget-placeholder="英文字母(不含符號)" /></div>
                                     </g:if>
                                     <g:else>
-                                        <f:display property="code" label="專案代碼" />
+                <div class="col-xs-6"><f:display property="code" label="專案代碼" /></div>
                                     </g:else>
                                     <f:field property="description" label="專案名稱" />
                 <div class="col-xs-6"><f:field property="constructNo" label="機台型號" /></div>

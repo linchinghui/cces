@@ -26,54 +26,48 @@ class AssignmentController extends BaseController<Assignment> {
 	}
 
     private void resolveParameters(params) {
-        def compIds = params?.id?.split('\\|')
-
-        if (compIds?.size() >= 1) {
-            if (compIds[0] != 'null') {
-                if (params?.projectId == null) {
-					params['projectId'] = compIds[0]
+        // def compIds = params?.id?.split('\\|')
+		//
+        // if (compIds?.size() >= 1) {
+        //     if (compIds[0] != 'null') {
+        //         if (params?.projectId == null) {
+		// 			params['projectId'] = compIds[0]
+		// 		}
+        //     } else {
+        //         params.remove('id')
+        //     }
+		// 	if (compIds?.size() >= 2 && compIds[1] != 'null' && params?.employeeId == null) {
+        //         params['employeeId'] = compIds[1]
+        //     }
+        //     if (compIds?.size() >= 3 && compIds[2] != 'null' && params?.year == null) {
+        //         params['year'] = compIds[2]
+        //     }
+        //     if (compIds?.size() >= 4 && compIds[3] != 'null' && params?.month == null) {
+        //         params['month'] = compIds[3]
+        //     }
+        // }
+		params?.id?.split('\\|')?.eachWithIndex { fld, idx ->
+			if (fld != 'null') {
+				def fldName = idx == 0 ? 'projectId' : idx == 1 ? 'employeeId' : idx == 2 ? 'year' : 'month'; // == 3
+				if (params?."$fldName" == null) {
+					params[fldName] = fld
 				}
-            } else {
-                params.remove('id')
-            }
-			if (compIds?.size() >= 2 && compIds[1] != 'null' && params?.employeeId == null) {
-                params['employeeId'] = compIds[1]
-            }
-            if (compIds?.size() >= 3 && compIds[2] != 'null' && params?.year == null) {
-                params['year'] = compIds[2]
-            }
-            if (compIds?.size() >= 4 && compIds[3] != 'null' && params?.month == null) {
-                params['month'] = compIds[3]
-            }
-        }
+			} else {
+				params.remove('id') // to identify 'CREATE'
+			}
+		}
     }
 	/*
 	 * where condition
 	 */
 	private def createCriteria(params) {
 		request[KEY_CRITERIA] =  {
-			if (params?.projectId) {
-				// project { eq ('id', params.projectId) }
-				eq ('project.id', params.projectId) // no-join
-			}
-			if (params?.constructNo) {
-				// project { eq ('constructNo', params.constructNo) }
-				eq ('project.constructNo', params.constructNo) // no-join
-			}
-			if (params?.employeeId) {
-				// employee { eq('id', params.employeeId) }
-				eq ('employee.id', params.employeeId) // no-join
-			}
-			if (params?.'s:employee') {
-				// employee { ilike ('id', "%${params.'s:employee'}%") } // col =~ val
-				ilike ('employee.id', "%${params.'s:employee'}%") // no-join
-			}
-			if (params?.year) {
-				eq ('year', params.year as int)
-			}
-			if (params?.month) {
-				eq ('month', params.month as int)
-			}
+			if (params?.projectId)		{ eq ('project.id', params.projectId) }
+			if (params?.constructNo)	{ project { eq ('constructNo', params.constructNo) } } // table joined
+			// if (params?.'s:employee')	{ ilike ('employee.id', params.'s:employee') } // %...% included
+			if (params?.employeeId)		{ eq ('employee.id', params.employeeId) }
+			if (params?.year)			{ eq ('year', params.year as int) }
+			if (params?.month)			{ eq ('month', params.month as int) }
 		}
 	}
 
@@ -105,7 +99,7 @@ class AssignmentController extends BaseController<Assignment> {
     protected final List<Assignment> listAllResources(Map params) {
 		// if (params?.by != 'null' && params?.by != null) {
 		// } else {
-		def rtn = listAllAssignments(params)
+		listAllAssignments(params)
 		// }
     }
 
@@ -122,13 +116,6 @@ class AssignmentController extends BaseController<Assignment> {
 
         return Assignment.where(
 			request[KEY_CRITERIA]
-		// 	{
-		// 	if (params?.projectId)   { project.id          == params.projectId }
-		// 	if (params?.constructNo) { project.constructNo == params.constructNo }
-		// 	if (params?.'s:employee'){ employee.id         =~ params.'s:employee' }
-		// 	if (params?.employeeId)  { employee.id         == params.employeeId }
-		// 	if (params?.year)        { year                == (params.year as int) }
-		// 	if (params?.month)       { month               == (params.month as int) }
 		// 	if (params._method != 'PUT') {
 		// 		if (params?.d1) { d1 == params.d1 }
 		// 		if (params?.d2) { d2 == params.d2 }
@@ -162,8 +149,7 @@ class AssignmentController extends BaseController<Assignment> {
 		// 		if (params?.d30) { d30 == params.d30 }
 		// 		if (params?.d31) { d31 == params.d31 }
 		// 	}
-        // }
-		).list { // (params)
+		).list {
 			// list all:
 			// if (params?.max)	{ max(params.max) }
 			if (params?.offset)	{ offset(params.offset as int) }

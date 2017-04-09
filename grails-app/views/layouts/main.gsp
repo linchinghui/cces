@@ -10,12 +10,12 @@
 			<g:layoutBody />
 		</div>
 		<asset:javascript src="application"/>
-	</g:else>
-	<g:if test="${! selfStyle}">
+	</g:else><%--
+	<g:if test="${! selfStyle}">--%>
 		<g:if test="${deferredScript != null}">
 			<asset:javascript src="${deferredScript}"/>
-		</g:if>
-	</g:if>
+		</g:if><%--
+	</g:if>--%>
 	<asset:deferredScripts/>
 </g:if>
 <g:else>
@@ -44,9 +44,9 @@ thumbPath: '${grails.util.Holders.grailsApplication.config.cces.images.uriPrefix
 </g:if>
 };
 </g:javascript><%--
-		<g:if test="${modalPage}">--%>
-			<asset:javascript src="jquery-2.2.4.js"/><%--
-		</g:if>--%><%--
+	<g:if test="${modalPage}">--%>
+		<asset:javascript src="jquery-2.2.4.js"/><%--
+	</g:if>--%><%--
 <!--[if lt IE 9]>
 <asset:javascript src="iefix/html5shiv-3.7.3"/>
 <asset:javascript src="iefix/respond-1.4.2"/>
@@ -60,15 +60,15 @@ thumbPath: '${grails.util.Holders.grailsApplication.config.cces.images.uriPrefix
 					<g:render template="/layouts/main-sidebar" />
 				</g:if>
 			</g:if>
-			<g:layoutBody />
-			<g:if test="${! selfStyle}">
+			<g:layoutBody /><%--
+			<g:if test="${! selfStyle}">--%>
 				<g:if test="${! embedPage}">
 					<asset:javascript src="application"/>
 				</g:if>
 				<g:if test="${deferredScript != null}">
                 	<asset:javascript src="${deferredScript}"/>
-				</g:if>
-			</g:if>
+				</g:if><%--
+			</g:if>--%>
 		</div>
 		<asset:deferredScripts/><%--
 		<asset:javascript src="iefix/ie10-viewport"/>--%>
