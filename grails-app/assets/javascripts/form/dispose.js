@@ -121,7 +121,7 @@ function initializeSelectFields() {
 
 	}).done(function(promise) {
 		if (promise.rc == 1) {
-			assignConstNoDiv.addClass('has-error').html($('<label class="control-label"/>').html('(無法取得機台編號)'));
+			assignConstNoDiv.addClass('has-error').html($('<label class="control-label"/>').html('(無法取得機台型號)'));
 
 		} else {
 			createConstructNoCombo($(promise.data));

@@ -112,7 +112,7 @@ function loadProjectComboBoxes(defaultParams) {
 		});
 	}).done(function(promise) {
 		if (promise.rc == 1) {
-			machineListDiv.addClass('has-error').html($('<label class="control-label"/>').html('(無法取得機台編號)'));
+			machineListDiv.addClass('has-error').html($('<label class="control-label"/>').html('(無法取得機台型號)'));
 		} else {
 			createMachineCombo($(promise.data), defaultParams.constructNo);
 		}

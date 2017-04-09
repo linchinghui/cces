@@ -26,7 +26,7 @@
                 </div>
 				<div class="constNoContainer col-sm-3 col-xs-12">
                   <label for="constructNo" class="hidden-xs">機台:</label>
-                  <div class="assignConstNo form-control" data-placeholder="機台編號">
+                  <div class="assignConstNo form-control" data-placeholder="機台型號">
                     <span class="text-center"><span class="ajax-loader">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></span>
                   </div>
 			  	</div><%--
