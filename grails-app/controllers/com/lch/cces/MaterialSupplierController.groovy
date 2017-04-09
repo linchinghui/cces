@@ -12,24 +12,34 @@ class MaterialSupplierController extends BaseController<MaterialSupplier> {
     }
 
     private void resolveParameters(params) {
-        def compIds = params?.id?.split('\\|')
-
-        if (compIds?.size() >= 1) {
-            if (compIds[0] != 'null') {
-                if (params?.materialId == null) {
-                    params['materialId'] = compIds[0]
-                }
-            } else {
-                params.remove('id') // to identify 'CREATE'
-            }
-
-            if (compIds?.size() >= 2 && compIds[1] != 'null' && params?.supplierId == null) {
-                params['supplierId'] = compIds[1]
-            }
-            if (compIds?.size() >= 3 && compIds[2] != 'null' && params?.brand == null) {
-                params['brand'] = compIds[2]
-            }
-        }
+        // def compIds = params?.id?.split('\\|')
+		//
+        // if (compIds?.size() >= 1) {
+        //     if (compIds[0] != 'null') {
+        //         if (params?.materialId == null) {
+        //             params['materialId'] = compIds[0]
+        //         }
+        //     } else {
+        //         params.remove('id') // to identify 'CREATE'
+        //     }
+		//
+        //     if (compIds?.size() >= 2 && compIds[1] != 'null' && params?.supplierId == null) {
+        //         params['supplierId'] = compIds[1]
+        //     }
+        //     if (compIds?.size() >= 3 && compIds[2] != 'null' && params?.brand == null) {
+        //         params['brand'] = compIds[2]
+        //     }
+        // }
+		params?.id?.split('\\|')?.eachWithIndex { fld, idx ->
+			if (fld != 'null') {
+				def fldName = idx == 0 ? 'materialId' : idx == 1 ? 'supplierId' : 'brand'; // == 2
+				if (params?."$fldName" == null) {
+					params[fldName] = fld
+				}
+			} else {
+				params.remove('id') // to identify 'CREATE'
+			}
+		}
     }
 
     private List<MaterialSupplier> listAllSuppliers(Map params) {

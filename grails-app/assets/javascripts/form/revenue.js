@@ -38,7 +38,7 @@ function revenue(params) {
 					url: server.ctxPath + '/api/revenues.json'
 				},
 				infoCallback: function(settings, start, end, max, total, pre) {
-					return '<span class="small pull-right text-danger">(同一專案可新增多筆發票)</span>';
+					return '<span class="small pull-right text-danger">同一專案可新增多筆發票</span>';
 				},
 				initComplete: function(settings, data) {
 					initialized4DataTables(settings, data);
