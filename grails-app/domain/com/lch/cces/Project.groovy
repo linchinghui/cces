@@ -9,7 +9,7 @@ class Project {
 	String			id				// primary key, 一律小寫
 	String			code			// 專案代碼, alias of id
 	String			description		// 專案名稱
-	String			constructNo		// 機台編號 (註: 使用原序號欄位)
+	String			constructNo		// 機台型號 (註: 使用原序號欄位)
 	String			constructModel	// 機台類型
 	String			constructPlace	// 工程地點
 	String			projectKind		// 工作型態

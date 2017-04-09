@@ -3,9 +3,9 @@
 //= require projectComboBoxes
 //= require_self
 
-var serverParams = {};
-var workedDate = $('#workedDate');
 var spTaskDataList;
+var serverParams = {};
+var theWorkedDate = $('#theWorkedDate');
 
 function getLastParameters(params) {
 	var qryParams = {
@@ -14,8 +14,8 @@ function getLastParameters(params) {
 		constructNo: machineList.val(),
 		format: 'json'
 	};
-	if (workedDate.val()) {
-		qryParams['workedDate'] = workedDate.val(); //.replace(/\//g,'-')
+	if (theWorkedDate.val()) {
+		qryParams['workedDate'] = theWorkedDate.val(); //.replace(/\//g,'-')
 	}
 	if (params) {
 		$.extend(qryParams, params);
@@ -28,7 +28,7 @@ function getLastParameters(params) {
  ----------------*/
 function removeDataRequested(result) {
 	alertMessage(result);
-	if (result && result.status <=400) {
+	if (result && result.status <= 400) {
 		reloadDataTables(spTaskDataList);
 	}
 }
@@ -52,8 +52,12 @@ function addDataRequest(evt, dt, node, config) {
 }
 
 function prepareUrl(actionType) {
-	return function() {
-		return server.ctxPath + '/spTask/' + actionType + ('?' + $.param(getLastParameters()));
+	return function(cell) {
+		var rowData = spTaskDataList.row(cell).data();
+		var worker = (/null(\||)/.test(rowData.id)) ? {
+			employeeId: rowData.employee.replace(/\((.*)\).*/,'$1')
+		} : null;
+		return server.ctxPath + '/spTask/' + actionType + ('?' + $.param(getLastParameters(worker)));
 	}
 }
 
@@ -76,26 +80,29 @@ function createSpTaskTable() {
 			ajax: {
 				url: server.ctxPath + '/api/spTasks.json',
 				data: function(params, settings) {
-					settings.ajax.fake = !(projectList.val() || machineList.val() || false);
+					// settings.ajax.fake = !(projectList.val() || machineList.val() || false);
 					return getLastParameters($.fn.dataTable.defaults.ajax.data(params, settings));
-				},
-				onDone: function() {
-					if (!(projectList.val() || machineList.val() || false)) {
-						spTaskDataList.buttons().disable();
-					}
-				},
-				onReloadClick: function(event) {
-					return (projectList.val() || machineList.val());
-				}
-				// ,onReloadClicked: function() {
+				// },
+				// onDone: function() {
+				// 	// if (!(projectList.val() || machineList.val() || false)) {
+				// 	// 	spTaskDataList.buttons().disable();
+				// 	// }
+				// 	if (! (theWorkedDate.val() && (projectList.val() || machineList.val()))) {
+				// 		$('.dataTables_wrapper .btn-group:nth-child(2)').find('a.btn').prop('disabled', true).addClass('disabled');
+				// 	}
+				// },
+				// onReloadClick: function(event) {
+				// 	return (projectList.val() || machineList.val());
 				// }
+				// ,onReloadClicked: function() {
+				}
 			},
-			language: {
-				info: '<span class="small pull-right text-danger">新增相同人員時，視為修改</span>'
+			infoCallback: function(settings, start, end, max, total, pre) {
+				return '<span class="small pull-right text-right"><span class="text-danger">同時' +
+					'</span>輸入日期與專案(或機台)條件時<span class="hidden-xs">，</span>' +
+					'<br class="visible-xs">會<span class="text-danger">多</span>列示人員配置、派工資訊</span>' +
+					'<br><span class="small pull-right text-right text-danger">新增相同人員時，視為修改</span>';
 			},
-			// infoCallback: function(settings, start, end, max, total, pre) {
-			// 	return '<span class="small pull-right text-danger">新增相同人員時，視為修改</span>';
-			// },
 			initComplete: function(settings, data) {
 				initialized4DataTables(settings, data);
 			},
@@ -106,7 +113,7 @@ function createSpTaskTable() {
 				text: '新增',
 				action: addDataRequest
 			}],
-			columns: [ //0
+			columns: [
 				renderAlterationCellWithId4DataTables({
 					show: {
 						url: prepareUrl('show')
@@ -119,24 +126,32 @@ function createSpTaskTable() {
 						url: prepareUrl('delete'),
 						callback: removeDataRequested
 					}
-				}), { //1
+				}), {
+					data: 'project'
+				}, {
+					render: function (data, type, row, meta) {
+						return ((type == 'display' || type == 'filter') && theWorkedDate.val()) ?
+							theWorkedDate.val().replace(/Z$/,'') :
+							renderDate4DataTables.call().call(null, data, type, row, meta);
+					},
+					data: 'workedDate'
+				}, {
 					orderable: false,
 					data: 'constructPlace'
-				}, { //2
+				}, {
 					orderable: false,
 					data: 'equipment'
-				}, { //3
-					orderable: false,
+				}, {
 					data: 'employee'
-				}, { //4
+				/*}, {
 					render: function(data, type, row, meta) {
 						return (data && (type === 'display' || type === 'filter')) ?
 							(projectTypes.hasOwnProperty(data) ? projectTypes[data] : data + '(代碼未定義)') :
 							data;
 					},
 					orderable: false,
-					data: 'projectKind' // 'projectType'
-				}, { //5
+					data: 'projectKind' // 'projectType'*/
+				}, {
 					render: function(data, type, row, meta) {
 						return (data && (type === 'display' || type === 'filter')) ?
 							(constructTypes.hasOwnProperty(data) ? constructTypes[data] : data + '(代碼未定義)') :
@@ -144,7 +159,7 @@ function createSpTaskTable() {
 					},
 					orderable: false,
 					data: 'constructCode' // 'constructType'
-				}, { //6
+				}, {
 					render: function(data, type, row, meta) {
 						return ((type === 'display' || type === 'filter') && /null(\||)/.test(row.id)) ?
 							'<span class="text-danger text-bold">已派工,未登錄</span>' :
@@ -152,9 +167,25 @@ function createSpTaskTable() {
 					},
 					orderable: false,
 					data: 'note'
+				// }, {
+				// 	render: function(data, type, row, meta) {
+				// 		if (type === 'display' || type === 'filter') {
+				// 			var keys = row.id.split('|');
+				// 			if (keys[1] == 'null') {
+				// 				keys[1] = theWorkedDate.val().replace(/Z$/,'');
+				// 				// data = keys.join('|');
+				// 				row['altId'] = keys.join('|');
+				// 			}
+				// 		}
+				// 		return data;
+				// 	},
+				// 	visible: false,
+				// 	data: 'altId'
 				}
 			],
-			order: []
+			order: [
+				[1, 'asc']
+			]
 		})
 		.buttons()
 		.disable();
@@ -166,20 +197,17 @@ function initializeEvents() {
 		evt.state = getLastParameters();
 		delegate.trigger(evt);
 	}
-
 	projectList.on('change', function(evt) {
-		reloadDataTables(spTaskDataList);
 		fireCriterionChange(projectList);
+		reloadDataTables(spTaskDataList);
 	});
-
 	machineList.on('change', function(evt) {
-		reloadDataTables(spTaskDataList);
 		fireCriterionChange(machineList);
-	});
-
-	workedDate.on('update', function() {
 		reloadDataTables(spTaskDataList);
-		fireCriterionChange(workedDate);
+	});
+	theWorkedDate.on('update', function() {
+		fireCriterionChange(theWorkedDate);
+		reloadDataTables(spTaskDataList);
 	});
 }
 
@@ -188,9 +216,6 @@ function spTask(params) {
 
 	loadDynamicEnums();
 	loadProjectComboBoxes(serverParams);
-	// projectList = window.projectList;
-	// machineList = window.machineList;
-
 	initializeEvents();
 	createSpTaskTable();
 	handleTabs(getLastParameters, 'dispatchedDate');

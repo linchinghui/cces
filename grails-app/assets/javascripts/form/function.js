@@ -26,9 +26,6 @@ function ccesFunction(params) {
 				language: {
 					info: '<span class="small pull-right text-danger">作業名稱: { 選單名稱 } [ - { 作業標頭 } ]</span>'
 				},
-				// infoCallback: function(settings, start, end, max, total, pre) {
-				// 	return '<span class="small pull-right text-danger">作業名稱: { 選單名稱 } [ - { 作業標頭 } ]</span>';
-				// },
 				initComplete: function(settings, data) {
 					initialized4DataTables(settings, data);
 				},

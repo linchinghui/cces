@@ -8,7 +8,7 @@ class VehicleMilage implements Serializable, Comparable<VehicleMilage> {
 
 	Project				project			// 專案(一般,園區)
 	@BindingFormat("yyyy/MM/dd'Z'")
-	Date				dispatchedDate	// 施工日期(用車日期)
+	Date				dispatchedDate	// 施作日期(用車日期)
 	Vehicle				vehicle			// 車輛
 	Integer				km = 0			// 里程數(公里)
 

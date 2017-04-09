@@ -30,8 +30,9 @@
                               <input name='${_csrf?.parameterName}' type='hidden' value='${_csrf?.token}'/>
                             </g:if>
                             <fieldset class="form-group">
-                                <f:with bean="spTask">
-                                    <f:display property="project" label="專案" />
+                                <f:with bean="spTask"><%--
+				<div class="pull-left hidden-xs">--%><f:display property="project" label="專案"/><%--</div>
+				<div class="pull-right hidden-xs"><f:display property='project.constructNo' label="(原機台型號)"/></div>--%>
                                     <f:display property="workedDate" label="施作日期" wrapper="date" />
                                     <f:display property="constructPlace" label="工程地點" />
                                     <f:display property="equipment" label="機台型號" />

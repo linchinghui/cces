@@ -229,10 +229,14 @@ function createMonthlyTable() {
 			language: {
 				info: '<span class="small pull-right text-danger text-right">滑鼠停置在欄位內，會顯示專案代碼</span>'
 			},
+			// infoCallback: function(settings, start, end, max, total, pre) {
+			// 	return '<span class="small pull-right text-danger text-right">滑鼠停置在欄位內，會顯示專案代碼</span>';
+			// },
 			initComplete: function(settings, data) {
-				$('#list-monthly_wrapper .btn-group:last').addClass('pull-right').css('margin-right',0)
-					.find('a:not([class*="pull-right"])').attr('title', '上月')
-					.find('a[class*="pull-right"]').attr('title', '下月');
+				var btnGrp = $('#list-monthly_wrapper .btn-group:last');
+				btnGrp.addClass('pull-right').css('margin-right',0);
+				btnGrp.find('a:not([class*="pull-right"])').attr('title', '上月');
+				btnGrp.find('a[class*="pull-right"]').attr('title', '下月');
 
 				initialized4DataTables(settings, data);
 			},

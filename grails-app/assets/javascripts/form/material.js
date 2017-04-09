@@ -85,9 +85,6 @@ function material(params) {
 				language: {
 					info: '<span class="small pull-right text-danger">點選後, 可於下方檢視材料的供應設定</span>'
 				},
-				// infoCallback: function(settings, start, end, max, total, pre) {
-				// 	return '<span class="small pull-right text-danger">點選後, 可於下方檢視材料的供應設定</span>';
-				// },
 				initComplete: function(settings, data) {
 					initialized4DataTables(settings, data);
 					// detailSec.empty();

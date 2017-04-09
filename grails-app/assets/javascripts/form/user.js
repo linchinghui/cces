@@ -51,7 +51,7 @@ function ccesUser(params) {
 			return '<span>' + roleId + '&nbsp;:&nbsp;' + roleDesc + '</span>';
 		}).join(',&nbsp;&nbsp;');
 
-		return '<span class="pull-right small">帳號若與員工同, 姓名顯示以員工為主</span>' +
+		return '<span class="pull-right small">帳號若與員工編號相同, 姓名顯示以員工的為主</span>' +
 			'<br><span class="pull-right small text-danger visible-xs">' + rolesStr + '</span>';
 	}
 

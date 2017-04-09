@@ -31,9 +31,9 @@
   padding-left: 10px;
 }
 
-.input-group.date,
-.input-group.date.disabled {
-  min-width: 11em;
+.input-group.date > input,
+.input-group.date.disabled > input {
+  min-width: 11.25em;
 }
 
 .input-group.datetime,
