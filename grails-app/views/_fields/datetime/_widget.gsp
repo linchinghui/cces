@@ -1,12 +1,9 @@
 <g:set var="timeValue" value="${value ? new java.text.SimpleDateFormat('YYYY/MM/dd\'T\'HH:mm:ss\'Z\'').format(value.time) : null}"/>
-<div> <%--
-  <label for="${property}">${label}</label> --%>
-  <div class="col-xs-5 input-group date datetime ${property}">
+<div class="input-group date datetime ${property}">
     <input type="text" value="${timeValue}" class="form-control" placeholder="YYYY/MM/DD hh:mm:ss" ${required?'required="true"':''}/>
     <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-  </div>
-  <input type="hidden" id="${property}" name="${property}" value="${timeValue}"/>
 </div>
+<input type="hidden" id="${property}" name="${property}" value="${timeValue}"/>
 <asset:script type='text/javascript'>
 $(function() {
   $('.${property}').datetimepicker({
@@ -21,9 +18,9 @@ $(function() {
 	var ele = $('#${property}');
 	var data = !e.date ? '' : e.date.format('YYYY/MM/DDTHH:mm:ss')+'Z';
 	ele.val(data);
-	if (data) {
+	//if (data) {
 	  ele.trigger('update', [data]);
-	}
+	//}
   });
 });
 </asset:script>
